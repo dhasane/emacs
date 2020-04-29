@@ -4,17 +4,23 @@
  ("/home/daniel/.emacs.d/elpa/evil-20200417.1238/evil-autoloads.el" . 3767)
  ("/home/daniel/.emacs.d/elpa/evil-20200417.1238/"
   (dired-filename . "/home/daniel/.emacs.d/elpa/evil-20200417.1238/evil-commands.el"))
- ("/home/daniel/.emacs.d/elpa/evil-20200417.1238/evil-states.el" . 2558)
  ("/usr/share/emacs/26.3/etc/COPYING" . 30778)
  ("/home/daniel/.emacs.d/elpa/evil-20200417.1238/evil-common.el" . 113088)
  ("/home/daniel/daemons/bat_daemon/"
   (dired-filename . "/home/daniel/daemons/bat_daemon/bat_daemon.cpp"))
- ("/home/daniel/daemons/bat_daemon/bat_daemon.cpp" . 1041)
- ("/home/daniel/.emacs.d/elpa/evil-20200417.1238/evil-commands.el" . 158139)
  ("/home/daniel/.emacs.d/"
   (dired-filename . "/home/daniel/.emacs.d/.gitignore"))
- ("/home/daniel/.emacs.d/.gitignore" . 115)
- ("/home/daniel/.emacs.d/init.el" . 11443)
+ ("/home/daniel/.emacs.d/.gitignore" . 132)
+ ("/home/daniel/.emacs.d/elpa/evil-20200417.1238/evil-commands.el" . 158100)
+ ("/home/daniel/daemons/bat_daemon/bat_daemon.cpp" . 1197)
+ ("/home/daniel/dev/cinep/analisis-palabras/"
+  (dired-filename . "/home/daniel/dev/cinep/analisis-palabras/src"))
+ ("/home/daniel/dev/cinep/analisis-palabras/src/"
+  (dired-filename . "/home/daniel/dev/cinep/analisis-palabras/src/palabras.rb"))
+ ("/home/daniel/.emacs.d/init.el" . 8503)
+ ("/home/daniel/.emacs.d/elpa/evil-20200417.1238/evil-states.el" . 2256)
+ ("/home/daniel/dev/cinep/analisis-palabras/src/palabras.rb" . 980)
+ ("/home/daniel/dev/cinep/analisis-palabras/src/bosque.rb" . 1600)
  ("/home/daniel/.emacs.d/ido.last" . 2590)
  ("/home/daniel/.emacs.d/elpa/which-key-20200216.1350/which-key-autoloads.el" . 6045)
  ("/home/daniel/.emacs.d/elpa/dap-mode-20200427.1602/dap-mode-autoloads.el" . 7095)

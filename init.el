@@ -30,22 +30,6 @@
 ;; initial window and default window
 (setq inhibit-startup-screen t)
 
-(if (display-graphic-p)
-    (setq initial-frame-alist
-          '(
-            (tool-bar-lines . 0)
-            (width . 106)
-            (height . 60)
-            ))
-  (setq initial-frame-alist '( (tool-bar-lines . 0))))
-
-(setq default-frame-alist
-      '(
-        (tool-bar-lines . 0)
-        (background-color . "honeydew")
-        (width . 100)
-		(height . 50)))
-
 ;;; --------------------
 
 ;; UTF-8 as default encoding
@@ -56,23 +40,6 @@
 
 ;; for isearch-forward, make these equivalent: space newline tab hyphen underscore
 (setq search-whitespace-regexp "[-_ \t\n]+")
-
-; (defun xah-toggle-search-whitespace ()
-;   "Set `search-whitespace-regexp' to nil or includes hyphen lowline tab newline.
-; Explanation: When in isearch (M-x `isearch-forward'), space key can also stand for other chars such as hyphen lowline tab newline. It depend on a regex. It's convenient. But sometimes you want literal. This command makes it easy to toggle.
-;
-; Emacs Isearch Space Toggle
-; http://ergoemacs.org/emacs/emacs_isearch_space.html
-; Version 2019-02-22"
-;   (interactive)
-;   (if (string-equal search-whitespace-regexp nil)
-;       (progn
-;         (setq search-whitespace-regexp "[-_ \t\n]+")
-;         (message "Space set to hyphen lowline tab newline space"))
-;     (progn
-;       (setq search-whitespace-regexp nil)
-;       (message "Space set to literal."))))
-
 (setq make-backup-files nil)
 (setq backup-by-copying t)
 
@@ -127,8 +94,6 @@
 
 ;; (electric-pair-mode 1)
 
-(when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
 
 ;;; --------------------
 (progn
@@ -255,18 +220,6 @@
 
 ;;; --------------------
 
-;; load emacs 24's package system. Add MELPA repository.
-(defun melpa-load ()
-    (interactive)
-    (when (>= emacs-major-version 24)
-      (require 'package)
-      (add-to-list
-       'package-archives
-       ;; '("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
-       '("melpa" . "http://melpa.milkbox.net/packages/")
-       t))
-  )
-
 (package-initialize)
 
 (eval-after-load 'gnutls
@@ -274,8 +227,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
+(eval-when-compile (require 'use-package))
 (require 'bind-key)
 (setq use-package-always-ensure t)
 ;;; --------------------
@@ -341,20 +293,9 @@
 
 ;;; --------------------
 
-;;(defun xah-save-all-unsaved ()
-  ;;"Save all unsaved files. no ask.
-;;Version 2019-11-05"
-  ;;(interactive)
-  ;;(save-some-buffers t ))
-;;
-;;(add-hook 'focus-out-hook 'xah-save-all-unsaved)
-
-(load-theme 'gruvbox-dark-soft)
 
 ;; Set up package.el to work with MELPA
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (package-refresh-contents)
 
@@ -363,40 +304,7 @@
 ;; Enable Evil
 (require 'evil) (evil-mode 1)
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-hook 'after-init-hook #'global-flycheck-mode)
-
-(defun save-and-exit-evil ()
-  "Salir de modo de insert y guardar el archivo."
-  (interactive)
-  (funcall 'save-buffer )
-)
-
-(defhydra hydra-leader (:color blue :hints "leader")
-  ","
-  ( "rs" eval-buffer "reload" )
-  ( "l" helm-buffers-list "buffer list" )
-)
-
-(defun nmap (key function)
-  "Definir un mapping en modo normal evil. FUNCTION en KEY."
-  (define-key evil-motion-state-map (kbd key) function))
-
-(defun imap (key function)
-  "Definir un mapping en modo normal evil. FUNCTION en KEY."
-  (define-key evil-insert-state-map (kbd key) function))
-
-;; redefinir mappings de evil
-(with-eval-after-load 'evil-maps
-  ;;(define-key evil-motion-state-map (kbd "g t") 'elscreen-next )
-  ;;(define-key evil-motion-state-map (kbd "g b") 'elscreen-previous )
-  (nmap "C-s" 'evil-write )
-  (nmap "C-q" 'evil-quit )
-  (nmap "TAB" 'evil-window-map )
-  (nmap ","   #'hydra-leader/body)
-  (imap "C-s" 'evil-write )
-  (imap "C-v" 'evil-paste-before )
-)
 
 (setq scroll-margin 10
       scroll-conservatively 0
@@ -421,20 +329,6 @@
 ;;(elscreen-tab-set-position 'top) ; Show at the top.
 ;;(elscreen-tab-mode 1)  ; Disable `elscreen-tab'.
 
-(defhydra hydra-elscreen (:color red :idle 1.0)
-  "Elscreen management: "
-  ("c" elscreen-create "create" )
-  ("C" elscreen-clone "clone" )
-  ("q" elscreen-kill "quit" )
-  ("l" elscreen-next "left" )
-  ("h" elscreen-previous "right" )
-  ("s" elscreen-store "store" )
-  ("r" elscreen-restore "restore" )
-  ("g" elscreen-goto "goto" )
-  ("-" split-window-vertically "vertical" ) ; no se si lo prefiero como lo tengo en tmux o como en vim
-  ("+" split-window-horizontally "horizontal")
-)
-(global-set-key (kbd "C-SPC") 'hydra-elscreen/body)
 
 (toggle-scroll-bar -1)
 
@@ -465,4 +359,224 @@
   :config
   (which-key-mode))
 
+;; visual --------------------------------------------------
+
+(load-theme 'gruvbox-dark-soft)
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+(setq display-line-numbers-type 'relative)
+
+(if (display-graphic-p)
+    (setq initial-frame-alist
+          '(
+            (tool-bar-lines . 0)
+            (width . 106)
+            (height . 60)
+            ))
+  (setq initial-frame-alist '( (tool-bar-lines . 0))))
+
+(setq default-frame-alist
+      '(
+        (tool-bar-lines . 0)
+        (width . 100)
+		(height . 50)))
+
+
+;; functions -----------------------------------------------
+
+;; load emacs 24's package system. Add MELPA repository.
+(defun melpa-load ()
+  "Cargar melpa."
+  (interactive)
+  (when (>= emacs-major-version 24)
+    (require 'package)
+    (add-to-list
+     'package-archives
+     ;;'("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
+     '("melpa" . "http://melpa.milkbox.net/packages/")
+     '("melpa" . "https://melpa.org/packages/")
+     t))
+  )
+
+(defun save-and-exit-evil ()
+  "Salir de modo de insert y guardar el archivo."
+  (interactive)
+  (funcall 'save-buffer )
+)
+
+(defun reload-emacs-config ()
+  "Reload your init.el file without restarting Emacs."
+  (interactive)
+  (load-file "~/.emacs.d/init.el") )
+
+(defun open-emacs-config ()
+  "Open your init.el file."
+  (interactive)
+  (find-file "~/.emacs.d/init.el") )
+
+(defun nmap (key function)
+  "Definir un mapping en modo normal evil. FUNCTION en KEY."
+  (define-key evil-motion-state-map (kbd key) function))
+
+(defun imap (key function)
+  "Definir un mapping en modo normal evil. FUNCTION en KEY."
+  (define-key evil-insert-state-map (kbd key) function))
+
+(defun gbind (key function)
+  "Map FUNCTION to KEY."
+  (global-set-key (kbd key) function) )
+
+(defun toggle-terminal ()
+  "Toggle terminal in its own buffer."
+  (interactive)
+  (split-window-horizontally)
+  (eshell)
+  )
+
+;; hydras --------------------------------------------------
+
+(defhydra hydra-leader (:color blue :idle 1.0 :hints "leader")
+  " actuar como leader en vim "
+  ( "rs" reload-emacs-config "reload init" )
+  ( "re" open-emacs-config "edit init" )
+  ( "l" helm-buffers-list "buffer list" )
+  ( "." toggle-terminal "terminal" )
+)
+
+(defhydra hydra-elscreen (:color red :idle 1.0)
+  "Elscreen management: "
+  ("c" elscreen-create "create" )
+  ("C" elscreen-clone "clone" )
+  ("q" elscreen-kill "quit" )
+  ("l" elscreen-next "left" )
+  ("h" elscreen-previous "right" )
+  ("s" elscreen-store "store" )
+  ("r" elscreen-restore "restore" )
+  ("g" elscreen-goto "goto" )
+  ;;("-" split-window-vertically "vertical" ) ; no se si lo prefiero como lo tengo en tmux o como en vim
+  ;;("+" split-window-horizontally "horizontal")
+)
+
+;; keybinds ------------------------------------------------
+
+(gbind "C-SPC" 'hydra-elscreen/body)
+
+ ;;; esc quits
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+;; redefinir mappings de evil
+(with-eval-after-load 'evil-maps
+  ;;(define-key evil-motion-state-map (kbd "g t") 'elscreen-next )
+  ;;(define-key evil-motion-state-map (kbd "g b") 'elscreen-previous )
+  (nmap "C-s" 'evil-write )
+  (nmap "C-q" 'evil-quit )
+  (nmap "TAB" 'evil-window-map )
+  (nmap ","   #'hydra-leader/body)
+  (imap "C-s" 'evil-write )
+  ; (imap "C-s" 'evil-esc-mode )
+  ;(setq-default evil-escape-key-sequence "C-s")
+  ;(key-chord-define evil-insert-state-map "C-s" 'evil-normal-state)
+  (imap "C-v" 'evil-paste-before )
+)
+
 (provide 'init);;; init.el end here
+
+; " #########################
+; " mappings
+; " #########################
+; 
+; 
+; " secuencia de escape de la terminal de vim
+    ; tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
+; " para mover desde la terminal
+    ; tnoremap <C-h> <C-\><C-n><C-w>h
+    ; tnoremap <C-j> <C-\><C-n><C-w>j
+    ; tnoremap <C-k> <C-\><C-n><C-w>k
+    ; tnoremap <C-l> <C-\><C-n><C-w>l
+; 
+    ; " dejemos esto por el momento como prueba
+    ; inoremap <Leader><Leader> <esc>
+; 
+; " correr la macro en q, que aveces sin querer la sobreescribo
+    ; nnoremap <Leader><Space> @q
+; 
+; " mostrar las marcas
+    ; nnoremap '? :marks <cr>
+; 
+; " para solo mostrar las marcas dentro del archivo
+    ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
+; 
+; " abrir terminal
+    ; noremap <Leader>. <esc> :vsp <cr> :term <cr>
+    ; " noremap <Leader>. :call TermToggle(25) <cr>
+; 
+    ; " ver arbol de archivos
+    ; noremap <Leader>t :Lexplore <cr>
+; 
+; " porque quiero, puedo y no tengo miedo
+    ; nnoremap <Leader>c :call Compilar() <cr>
+; 
+; " para termdebug
+    ; " da el valor de la variable
+    ; nnoremap <RightMouse> :Evaluate<CR>
+    ; " pone un break
+    ; nnoremap <RightMouse> :Break<CR>
+; 
+; " compilar con make y mostrar salida
+    ; nnoremap <Leader><C-m> :copen <cr>
+    ; " nnoremap <Leader>m :lopen 5 <cr>
+; 
+; " muestra errores
+    ; nnoremap <Leader>m :botright lwindow 5<cr>
+; 
+; "mover entre buffers
+    ; noremap <Leader>j <esc>:bp<cr>
+    ; noremap <Leader>k <esc>:bn<cr>
+    ; " jetpack
+    ; " noremap <Leader>l :ls<CR>:b<space>
+    ; noremap <Leader>l :FZFBuffer <cr>
+    ; nnoremap <Leader>s :FZFLines <cr>
+; 
+        ; noremap <Leader>; :FZF <cr>
+; " cortes
+    ; " <tab>t oficialmente sirve para ir a la ventana superior izquierda, pero no se si lo use mucho
+    ; " me gusta mas la funcion que yo le tengo :D
+    ; noremap <tab>t <esc>:tabnew %<cr>
+; 
+; " final funciones con <Leader> -----------------------------------
+; 
+    ; inoremap <C-a> <esc>
+; " funciones generales de otros editores
+; " guardar
+    ; inoremap <C-s> <esc><esc>:w<cr>
+    ; vnoremap <C-s> <esc><esc>:w<cr>
+; " deshacer
+    ; inoremap <C-z> <esc> ui
+     ; noremap <C-z> u
+; " salir
+; 
+    ; vnoremap <tab> >gv
+    ; vnoremap <S-tab> <gv
+; 
+; " copiar y pegar
+    ; vnoremap <C-c> "*y :let @+=@* <cr>
+    ; nnoremap <C-c> "*yy:let @+=@*<cr>
+    ; inoremap <C-c> <esc>"*yy:let @+=@*<cr>a
+    ; "nnoremap <C-p> "+P
+; " pegar en insert
+; 
+; " mover entre splits
+    ; noremap <C-h> <C-w>h
+    ; noremap <C-j> <C-w>j
+    ; noremap <C-k> <C-w>k
+    ; noremap <C-l> <C-w>l
+; 
+    ; noremap j gj
+    ; noremap k gk
+    ; map gf :edit <cfile><cr>
