@@ -1,0 +1,468 @@
+
+;; -*- coding: utf-8; lexical-binding: t; -*-
+;; Emacs settings plain gnu emacs only
+;; 2019-11-06
+;; http://ergoemacs.org/emacs/emacs_init_index.html
+
+
+;;; code:
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
+ '(minibuffer-prompt-properties
+   (quote
+    (read-only t cursor-intangible t face minibuffer-prompt)))
+ '(package-selected-packages (quote (ccls magit gruvbox-theme fzf flycheck helm evil))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;;; --------------------
+;; initial window and default window
+(setq inhibit-startup-screen t)
+
+(if (display-graphic-p)
+    (setq initial-frame-alist
+          '(
+            (tool-bar-lines . 0)
+            (width . 106)
+            (height . 60)
+            ))
+  (setq initial-frame-alist '( (tool-bar-lines . 0))))
+
+(setq default-frame-alist
+      '(
+        (tool-bar-lines . 0)
+        (background-color . "honeydew")
+        (width . 100)
+		(height . 50)))
+
+;;; --------------------
+
+;; UTF-8 as default encoding
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8-unix)
+
+;;; --------------------
+
+;; for isearch-forward, make these equivalent: space newline tab hyphen underscore
+(setq search-whitespace-regexp "[-_ \t\n]+")
+
+; (defun xah-toggle-search-whitespace ()
+;   "Set `search-whitespace-regexp' to nil or includes hyphen lowline tab newline.
+; Explanation: When in isearch (M-x `isearch-forward'), space key can also stand for other chars such as hyphen lowline tab newline. It depend on a regex. It's convenient. But sometimes you want literal. This command makes it easy to toggle.
+;
+; Emacs Isearch Space Toggle
+; http://ergoemacs.org/emacs/emacs_isearch_space.html
+; Version 2019-02-22"
+;   (interactive)
+;   (if (string-equal search-whitespace-regexp nil)
+;       (progn
+;         (setq search-whitespace-regexp "[-_ \t\n]+")
+;         (message "Space set to hyphen lowline tab newline space"))
+;     (progn
+;       (setq search-whitespace-regexp nil)
+;       (message "Space set to literal."))))
+
+(setq make-backup-files nil)
+(setq backup-by-copying t)
+
+(setq create-lockfiles nil)
+
+(setq auto-save-default nil)
+
+(column-number-mode 1)
+
+(progn
+  ;; pointless to warn. There's always undo.
+  (put 'narrow-to-region 'disabled nil)
+  (put 'narrow-to-page 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (put 'erase-buffer 'disabled nil)
+  (put 'scroll-left 'disabled nil)
+  (put 'dired-find-alternate-file 'disabled nil)
+)
+
+;;; --------------------
+
+(progn
+  (require 'dired-x)
+  (setq dired-dwim-target t)
+  (when (string-equal system-type "gnu/linux") (setq dired-listing-switches "-al --time-style long-iso"))
+  (setq dired-recursive-copies 'always)
+  (setq dired-recursive-deletes 'always))
+
+;;; --------------------
+
+(setq save-interprogram-paste-before-kill t)
+;; 2015-07-04 bug of pasting in emacs.
+;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16737#17
+;; http://ergoemacs.org/misc/emacs_bug_cant_paste_2015.html
+;; (setq x-selection-timeout 300)
+
+(setq x-select-enable-clipboard-manager nil)
+
+;;; --------------------
+
+(require 'recentf)
+(recentf-mode 1)
+(desktop-save-mode 1)
+(blink-cursor-mode 0)
+(global-auto-revert-mode 1)
+
+(setq sentence-end-double-space nil )
+(setq set-mark-command-repeat-pop t)
+(setq mark-ring-max 5)
+(setq global-mark-ring-max 5)
+
+;; (electric-pair-mode 1)
+
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+
+;;; --------------------
+(progn
+  ;; set a default font
+  (cond
+   ((string-equal system-type "gnu/linux")
+    (when (member "DejaVu Sans Mono" (font-family-list)) (set-frame-font "DejaVu Sans Mono" t t))
+    ;; specify font for chinese characters using default chinese font on linux
+    (when (member "WenQuanYi Micro Hei" (font-family-list))
+      (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+    ;;
+    )
+   ((string-equal system-type "darwin") ; Mac
+    (when (member "Menlo" (font-family-list)) (set-frame-font "Menlo-14" t t))
+    ;;
+    )
+   ((string-equal system-type "windows-nt") ; Windows
+   nil))
+
+  ;; specify font for all unicode characters
+  (when (member "Symbola" (font-family-list))
+    (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+
+  ;; ;; specify font for all unicode characters
+  ;; (when (member "Apple Color Emoji" (font-family-list))
+  ;;   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+
+  ;;
+  )
+
+(progn
+  (setq enable-recursive-minibuffers t)
+
+  ;; Save minibuffer history
+  (savehist-mode 1)
+
+;; big minibuffer height, for ido to show choices vertically
+(setq max-mini-window-height 0.5)
+
+  ;; minibuffer, stop cursor going into prompt
+  (customize-set-variable
+   'minibuffer-prompt-properties
+   (quote (read-only t cursor-intangible t face minibuffer-prompt))))
+
+;;; --------------------
+
+;; remember cursor position
+(if (version< emacs-version "25.0")
+    (progn
+      (require 'saveplace)
+      (setq-default save-place t))
+  (save-place-mode 1))
+
+;;; --------------------
+;;; editing related
+
+;; make typing delete/overwrites selected text
+(delete-selection-mode 1)
+
+(setq shift-select-mode nil)
+
+;; set highlighting brackets
+(show-paren-mode 1)
+(setq show-paren-style 'parenthesis)
+
+(progn
+  ;; minibuffer enhanced completion
+  (require 'icomplete)
+  (icomplete-mode 1)
+  ;; show choices vertically
+  (setq icomplete-separator "\n")
+  (setq icomplete-hide-common-prefix nil)
+  (setq icomplete-in-buffer t)
+  (define-key icomplete-minibuffer-map (kbd "<right>") 'icomplete-forward-completions)
+  (define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions))
+
+(progn
+  ;; make buffer switch command do suggestions, also for find-file command
+  (require 'ido)
+  (ido-mode 1)
+
+  ;; show choices vertically
+  (if (version< emacs-version "25")
+      (progn
+        (make-local-variable 'ido-separator)
+        (setq ido-separator "\n"))
+    (progn
+      (make-local-variable 'ido-decorations)
+      (setf (nth 2 ido-decorations) "\n")))
+
+  ;; show any name that has the chars you typed
+  (setq ido-enable-flex-matching t)
+  ;; use current pane for newly opened file
+  (setq ido-default-file-method 'selected-window)
+  ;; use current pane for newly switched buffer
+  (setq ido-default-buffer-method 'selected-window)
+  ;; stop ido from suggesting when naming new file
+  (when (boundp 'ido-minor-mode-map-entry)
+    (define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil)))
+
+;;; --------------------
+;; indentation, tab
+
+(electric-indent-mode 0)
+
+(set-default 'tab-always-indent 'complete)
+
+;; no mixed tab space
+(setq-default indent-tabs-mode nil)
+ ; gnu emacs 23.1, 24.4.1 default is t
+
+;; 4 is more popular than 8.
+(setq-default tab-width 4)
+
+;;; --------------------
+
+(progn
+  ;; org-mode
+  ;; make “org-mode” syntax color code sections
+  (setq org-src-fontify-natively t)
+  (setq org-startup-folded nil)
+  (setq org-return-follows-link t)
+  (setq org-startup-truncated nil))
+
+;;; --------------------
+
+;; load emacs 24's package system. Add MELPA repository.
+(defun melpa-load ()
+    (interactive)
+    (when (>= emacs-major-version 24)
+      (require 'package)
+      (add-to-list
+       'package-archives
+       ;; '("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
+       '("melpa" . "http://melpa.milkbox.net/packages/")
+       t))
+  )
+
+(package-initialize)
+
+(eval-after-load 'gnutls
+  '(add-to-list 'gnutls-trustfiles "/etc/ssl/cert.pem"))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+(require 'bind-key)
+(setq use-package-always-ensure t)
+;;; --------------------
+
+(progn
+ ;; Make whitespace-mode with very basic background coloring for whitespaces.
+  ;; http://ergoemacs.org/emacs/whitespace-mode.html
+  (setq whitespace-style (quote (face spaces tabs newline space-mark tab-mark newline-mark )))
+
+  ;; Make whitespace-mode and whitespace-newline-mode use “¶” for end of line char and “▷” for tab.
+  (setq whitespace-display-mappings
+        ;; all numbers are unicode codepoint in decimal. e.g. (insert-char 182 1)
+        '(
+          (space-mark 32 [183] [46]) ; SPACE 32 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+          (newline-mark 10 [182 10]) ; LINE FEED,
+          (tab-mark 9 [9655 9] [92 9]) ; tab
+          )))
+
+;;; --------------------
+
+(setq hippie-expand-try-functions-list
+      '(
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        ;; try-expand-dabbrev-from-kill
+        try-complete-lisp-symbol-partially
+        try-complete-lisp-symbol
+        try-complete-file-name-partially
+        try-complete-file-name
+        ;; try-expand-all-abbrevs
+        ;; try-expand-list
+        ;; try-expand-line
+        ))
+
+;;; --------------------
+
+(setq use-dialog-box nil)
+
+;;; --------------------
+
+;; convenient
+(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'rs 'replace-string)
+
+(defalias 'lcd 'list-colors-display)
+(defalias 'ds 'desktop-save)
+(defalias 'dt 'desktop-save)
+(defalias 'dsm 'desktop-save-mode)
+
+(defalias 'elm 'emacs-lisp-mode)
+(defalias 'hm 'html-mode)
+(defalias 'jsm 'js-mode)
+(defalias 'fm 'fundamental-mode)
+(defalias 'ssm 'shell-script-mode)
+(defalias 'om 'org-mode)
+
+(when (fboundp 'magit-status)
+  (defalias 'ms 'magit-status))
+
+;; no want tpu-edt
+(defalias 'tpu-edt 'forward-char)
+(defalias 'tpu-edt-on 'forward-char)
+
+;;; --------------------
+
+;;(defun xah-save-all-unsaved ()
+  ;;"Save all unsaved files. no ask.
+;;Version 2019-11-05"
+  ;;(interactive)
+  ;;(save-some-buffers t ))
+;;
+;;(add-hook 'focus-out-hook 'xah-save-all-unsaved)
+
+(load-theme 'gruvbox-dark-soft)
+
+;; Set up package.el to work with MELPA
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(package-refresh-contents)
+
+;; Download Evil
+(unless (package-installed-p 'evil) (package-install 'evil))
+;; Enable Evil
+(require 'evil) (evil-mode 1)
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(defun save-and-exit-evil ()
+  "Salir de modo de insert y guardar el archivo."
+  (interactive)
+  (funcall 'save-buffer )
+)
+
+(defhydra hydra-leader (:color blue :hints "leader")
+  ","
+  ( "rs" eval-buffer "reload" )
+  ( "l" helm-buffers-list "buffer list" )
+)
+
+(defun nmap (key function)
+  "Definir un mapping en modo normal evil. FUNCTION en KEY."
+  (define-key evil-motion-state-map (kbd key) function))
+
+(defun imap (key function)
+  "Definir un mapping en modo normal evil. FUNCTION en KEY."
+  (define-key evil-insert-state-map (kbd key) function))
+
+;; redefinir mappings de evil
+(with-eval-after-load 'evil-maps
+  ;;(define-key evil-motion-state-map (kbd "g t") 'elscreen-next )
+  ;;(define-key evil-motion-state-map (kbd "g b") 'elscreen-previous )
+  (nmap "C-s" 'evil-write )
+  (nmap "C-q" 'evil-quit )
+  (nmap "TAB" 'evil-window-map )
+  (nmap ","   #'hydra-leader/body)
+  (imap "C-s" 'evil-write )
+  (imap "C-v" 'evil-paste-before )
+)
+
+(setq scroll-margin 10
+      scroll-conservatively 0
+      scroll-step 1
+      ;;scroll-up-aggressively 0.01
+      ;;scroll-down-aggressively 0.01
+      )
+(setq-default scroll-up-aggressively 0.01
+              scroll-down-aggressively 0.01)
+;;(add-to-list 'load-path "~/.emacs.d/repos/emacs-solargraph")
+;;(require 'solargraph)
+;;(define-key ruby-mode-map (kbd "M-i") 'solargraph:complete)
+
+(require 'elscreen)
+(require 'use-package)
+(require 'lsp-mode)
+(require 'hydra)
+
+(elscreen-start)
+;;(require 'elscreen-tab)
+;;(elscreen-tab-mode)  ; Enable `elscreen-tab'.
+;;(elscreen-tab-set-position 'top) ; Show at the top.
+;;(elscreen-tab-mode 1)  ; Disable `elscreen-tab'.
+
+(defhydra hydra-elscreen (:color red :idle 1.0)
+  "Elscreen management: "
+  ("c" elscreen-create "create" )
+  ("C" elscreen-clone "clone" )
+  ("q" elscreen-kill "quit" )
+  ("l" elscreen-next "left" )
+  ("h" elscreen-previous "right" )
+  ("s" elscreen-store "store" )
+  ("r" elscreen-restore "restore" )
+  ("g" elscreen-goto "goto" )
+  ("-" split-window-vertically "vertical" ) ; no se si lo prefiero como lo tengo en tmux o como en vim
+  ("+" split-window-horizontally "horizontal")
+)
+(global-set-key (kbd "C-SPC") 'hydra-elscreen/body)
+
+(toggle-scroll-bar -1)
+
+(setq visible-bell nil)
+
+(use-package lsp-mode
+  :hook (XXX-mode . lsp-deferred)
+  :commands (lsp lsp-deferred))
+
+;; optionally
+
+(lsp-ui-mode 1)
+(setq helm-buffers-fuzzy-matching t)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+;; if you are helm user
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+;; optional if you want which-key integration
+(use-package which-key
+  :config
+  (which-key-mode))
+
+(provide 'init);;; init.el end here

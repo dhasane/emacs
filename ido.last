@@ -1,0 +1,36 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/daniel/" . ".emacs.d/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/daniel/.emacs.d/"
+ "/home/daniel/daemons/bat_daemon/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "init.el"
+ "daemon.cpp"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/daniel/.emacs.d/auto-save-list/" (24231 41388 473470 698000) ".saves-2231-daniel-Lenovo-Y50-70~" "./" "../")
+
+ ("/home/daniel/.emacs.d/" (24231 43256 878967 460000) "./" "init.el~" "auto-save-list/" "../" "history" "init.el" "elpa/" "themes/")
+
+ ("/home/daniel/Android/" (24147 6389 289856 283000) "./" "Sdk/" "../")
+
+ ("/home/daniel/" (24231 42166 608489 936000) ".emacs~" ".fzf.zsh" ".pki/" ".dbus/" "Android/" ".local/" ".steampid" ".zshrc.pre-oh-my-zsh-2020-02-23_22-00-52" "vim_viejo" ".git-credentials" ".fonts/" ".pylint.d/" "Steam/" ".gradle/" "respuesta_facebook" ".ssh/" "repos/" ".fehbg" ".npm/" ".dwarffortress/" "./" ".scim/" ".tlauncher/" "texto/" "arte/" ".wget-hsts" ".tig_history" ".z" ".Xmodmap" ".xsession-errors" ".zcompdump" ".java/" "#.continuar#" ".pulse-cookie" "Desktop/" ".vscode/" ".steampath" ".zcompdump-daniel-Lenovo-Y50-70-5.4.2" ".android/" "Templates/" ".zsh_history" ".flutter" ".thunderbird/" "Public/" ".Xauthority" ".m2/" ".cache/" ".doom.emacs.d/" ".zshrc.pre-oh-my-zsh" ".cfg-add" ".doom.d/" "game_dev/" ".zoom/" ".lesshst" ".oh-my-zsh/" ".AndroidStudio3.5/" ".mozilla/" "Videos/" ".gitmodules" ".viminfo" ".AndroidStudio3.6/" "Screenshots/" ".fzf/" "daemons/" ".ICEauthority" "install.sh" ".rstudio-desktop/" ".sudo_as_admin_successful" ".wine/" ".mono/" ".Xresources" ".config/" "Screenshots.jpg" "inst/" ".thumbnails/" ".vim/" ".gitconfig" ".zshrc.zwc" ".flutter_tool_state" ".ideavimrc" "../" ".steam/" ".tmux.conf" "kitty" "acm/" "Descargas/" "uni/" ".cargo/" ".lsp4xml/" "compumovil/" "scripts/" "Documents/" ".gnupg/" ".swipl-dir-history/" "Games/" "README.md" ".python_history" "dev/" ".pub-cache/" ".zshrc" ".cfg/" ".kde/" ".vimrc" "Escritorio/" "Music/" ".tooling/" ".emulator_console_auth_token" ".fzf.bash" "AndroidStudioProjects/" ".solargraph/" ".emacs.d/" "#.emacs#" ".bashrc" "examples.desktop" ".bash_history" ".phet/" ".xinitrc" ".continuar" ".minecraft/" ".bash_logout" "snap/" ".profile" ".gem/" ".gnome/" "Pictures/" ".gimp-2.8/" "Downloads/")
+
+ ("/home/daniel/daemons/" (24223 45361 836151 378000) "ejemplo/" "bat_daemon/" "./" "test.sh" "bat_c/" "bin/" "../")
+
+ ("/home/daniel/daemons/bat_daemon/" (24223 45543 965741 165000) "./" "../" "daemon.cpp" "bat_daemon.cpp")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t
