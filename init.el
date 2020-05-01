@@ -15,14 +15,15 @@
  '(custom-safe-themes
    (quote
     ("939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
+ '(git-gutter:window-width 1)
  '(minibuffer-prompt-properties
    (quote
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (lsp-dart company-inf-ruby company-lsp
-              (evil elscreen use-package hydra bind-key)
-              name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (eyebrowse git-gutter lsp-dart company-lsp
+               (evil use-package hydra bind-key)
+               name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -173,9 +174,6 @@
 ;; -- ; ;; no want tpu-edt
 ;; -- ; (defalias 'tpu-edt 'forward-char)
 ;; -- ; (defalias 'tpu-edt-on 'forward-char)
-;; -- ;
-;; -- ;
-;; -- ;
 
 
 ;; start-up ------------------------------------------------
@@ -282,7 +280,6 @@
 
 (include ( list
            'evil
-           'elscreen
            'use-package
            'hydra
            'bind-key
@@ -302,8 +299,18 @@
 
 (setq helm-buffers-fuzzy-matching t)
 (add-hook 'java-mode-hook #'lsp)
-(elscreen-start)
 
+;; git ------------------------------------------------------
+
+; use ido to switch branches
+; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
+(setq magit-completing-read-function 'magit-ido-completing-read)
+;; open magit status in same window as current buffer
+(setq magit-status-buffer-switch-function 'switch-to-buffer)
+;; highlight word/letter changes in hunk diffs
+(setq magit-diff-refine-hunk t)
+
+(global-git-gutter-mode +1)
 
 ;; lsp -----------------------------------------------------
 (require 'lsp-mode)
@@ -320,18 +327,6 @@
          ;;(lsp-mode . lsp-enable-which-key-integration)
          )
   :commands lsp)
-
-;;
-;; (use-package lsp-mode
-  ;; :hook ((c++-mode . lsp-deferred))
-  ;; :commands (lsp lsp-deferred))
-;; (use-package lsp-mode
-  ;; :hook
-  ;; (java-mode . lsp-deferred)
-  ;; :commands (lsp lsp-deferred))
-;;
-;; (use-package lsp-mode
-  ;; :hook (ruby-mode . lsp-deferred)
   ;; :commands (lsp lsp-deferred))
 
 (push 'company-lsp company-backends)
@@ -395,6 +390,7 @@
         (tool-bar-lines . 0)
         (width . 100)
 		(height . 50)))
+
 ;; change mode-line color by evil state
 (lexical-let ((default-color (cons (face-background 'mode-line)
                                    (face-foreground 'mode-line))))
@@ -412,11 +408,14 @@
                 (set-face-background 'mode-line (car color))
                 (set-face-foreground 'mode-line (cdr color))))))
 
+;; this cotrols the state in which each mode will be opened in
 (loop for (mode . state)
       in '(
            (dired-mode . normal)
            (help-mode . normal)
            (magit-mode . emacs)
+           (package-menu-mode . normal)
+;           (emacs-lisp-mode . normal)
 
            (inferior-emacs-lisp-mode . emacs)
            (nrepl-mode . insert)
@@ -451,6 +450,71 @@
       (display-line-numbers-mode)))
 
 (global-display-line-numbers-mode)
+
+;; Keep track of selected window, so we can render the modeline differently
+;; (defvar cogent-line-selected-window (frame-selected-window))
+;; (defun cogent-line-set-selected-window (&rest _args)
+  ;; (when (not (minibuffer-window-active-p (frame-selected-window)))
+    ;; (setq cogent-line-selected-window (frame-selected-window))
+    ;; (force-mode-line-update)))
+;; (defun cogent-line-unset-selected-window ()
+  ;; (setq cogent-line-selected-window nil)
+  ;; (force-mode-line-update))
+;; (add-hook 'window-configuration-change-hook #'cogent-line-set-selected-window)
+;; (add-hook 'focus-in-hook #'cogent-line-set-selected-window)
+;; (add-hook 'focus-out-hook #'cogent-line-unset-selected-window)
+;; (advice-add 'handle-switch-frame :after #'cogent-line-set-selected-window)
+;; (advice-add 'select-window :after #'cogent-line-set-selected-window)
+;; (defun cogent-line-selected-window-active-p ()
+  ;; (eq cogent-line-selected-window (selected-window)))
+
+;; change status line information
+(setq-default mode-line-format
+              (list
+
+              ;'(:eval (propertize (if (eq 'emacs evil-state) "  " "  ")
+                                        ;'face (cogent/evil-state-face)))
+
+                                        ; mode-line-misc-info ; for eyebrowse
+               '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+
+               '(:eval (when-let (vc vc-mode)
+                         (list " "
+                               (propertize (substring vc 5)
+                                           ;; 'face 'font-lock-comment-face
+                                           )
+                               " "
+                               )))
+
+               '(:eval (list
+                        ;; the buffer name; the file name as a tool tip
+                        (propertize " %b" ; 'face 'font-lock-type-face
+                                    'help-echo (buffer-file-name))
+                        (when (buffer-modified-p)
+                          (propertize
+                           " "
+                           ;" + "
+                           ;; 'face (if (cogent-line-selected-window-active-p)
+                                     ;; 'cogent-line-modified-face
+                                   ;; 'cogent-line-modified-face-inactive)
+                           ))
+                        (when buffer-read-only
+                          (propertize
+                           " "
+                           ;; 'face (if (cogent-line-selected-window-active-p)
+                                     ;; 'cogent-line-read-only-face
+                                   ;; 'cogent-line-read-only-face-inactive)
+                           ) ) " "))
+
+               ;; spaces to align right
+               '(:eval (propertize
+                        " " 'display
+                        `((space :align-to (- (+ right right-fringe right-margin)
+                                              ,(+ 3 (string-width mode-name)))))))
+
+               ;; the current major mode
+               (propertize " %m " ;; 'face 'font-lock-string-face
+                           )))
 ;; functions -----------------------------------------------
 
 (defun save-all-buffers ()
@@ -517,11 +581,6 @@
   "Define mapping in evil insert mode.  FUNCTION in KEY."
   (define-key evil-insert-state-map (kbd key) function) )
 
-; (defun tmap (key function)
-;
-  ; ;(define-key
-; )
-
 (defun amap (key function)
   "Define mapping in evil normal/insert mode.  FUNCTION in KEY."
   (nmap key function)
@@ -540,7 +599,61 @@
   (eshell)
   )
 
+;; ; A function that behaves like Vim's ':tabe' commnad for creating a new tab and
+;; ; buffer (the name "[No Name]" is also taken from Vim).
+;; (defun vimlike-:tabe ()
+  ;; "Vimlike ':tabe' behavior for creating a new tab and buffer."
+  ;; (interactive)
+  ;; (let ((buffer (generate-new-buffer "[No Name]")))
+      ;; ; create new tab
+      ;; (elscreen-create)
+      ;; ; set window's buffer to the newly-created buffer
+      ;; (set-window-buffer (selected-window) buffer)
+      ;; ; set state to normal state
+      ;; (with-current-buffer buffer
+        ;; (evil-normal-state))
+    ;; )
+  ;; )
+;;
+;; (defun vimlike-quit ()
+  ;; "Vimlike ':q' behavior: close current window if there are split windows;
+;; otherwise, close current tab (elscreen)."
+  ;; (interactive)
+  ;; (let ((one-elscreen (elscreen-one-screen-p))
+        ;; (one-window (one-window-p))
+        ;; )
+    ;; (cond
+     ;; ; if current tab has split windows in it, close the current live window
+     ;; ((not one-window)
+      ;; (delete-window) ; delete the current window
+      ;; (balance-windows) ; balance remaining windows
+      ;; nil)
+     ;; ; if there are multiple elscreens (tabs), close the current elscreen
+     ;; ((not one-elscreen)
+      ;; (elscreen-kill)
+      ;; nil)
+     ;; ; if there is only one elscreen, just try to quit (calling elscreen-kill
+     ;; ; will not work, because elscreen-kill fails if there is only one
+     ;; ; elscreen)
+     ;; (one-elscreen
+      ;; (evil-quit)
+      ;; nil)
+     ;; )))
+
 ;; hydras --------------------------------------------------
+
+;; colores
+;; |----------+-----------+-----------------------+-----------------|
+;; | Body     | Head      | Executing NON-HEADS   | Executing HEADS |
+;; | Color    | Inherited |                       |                 |
+;; |          | Color     |                       |                 |
+;; |----------+-----------+-----------------------+-----------------|
+;; | amaranth | red       | Disallow and Continue | Continue        |
+;; | teal     | blue      | Disallow and Continue | Quit            |
+;; | pink     | red       | Allow and Continue    | Continue        |
+;; | red      | red       | Allow and Quit        | Continue        |
+;; | blue     | blue      | Allow and Quit        | Quit            |
+;; |----------+-----------+-----------------------+-----------------|
 
 (defhydra hydra-leader (:color blue :idle 1.0 :hints "leader")
   " actuar como leader en vim "
@@ -553,27 +666,27 @@
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) )
   ( "h" (helm-apropos) "help" )
   ( "t" (ido-dired) "file" )
+  ( "m" (magit) "magit" )
 )
 
-(defhydra hydra-elscreen (:color red :idle 1.0)
-  "Elscreen management: "
-  ("c" elscreen-create "create" )
-  ("C" elscreen-clone "clone" )
-  ("q" elscreen-kill "quit" )
-  ("l" elscreen-next "left" )
-  ("h" elscreen-previous "right" )
-  ("s" elscreen-store "store" )
-  ("r" elscreen-restore "restore" )
-  ("g" elscreen-goto "goto" )
+(eyebrowse-mode t)
+
+(defhydra hydra-tabs (:color blue :idle 1.0)
+  "Tab management: "
+  ("c" eyebrowse-create-window-config "create" )
+  ("q" eyebrowse-close-window-config "quit" )
+  ("l" eyebrowse-next-window-config "left" :color red)
+  ("h" eyebrowse-prev-window-config "right" :color red)
   ("-" split-window-vertically "vertical" )
   ("+" split-window-horizontally "horizontal")
 )
 
 ;; keybinds ------------------------------------------------
 
-(gbind "C-SPC" 'hydra-elscreen/body)
+(gbind "C-SPC" 'hydra-tabs/body)
 (gbind "C-S-s" 'save-all-buffers )
 (gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
+;; (gbind "ESC" 'keyboard-escape-quit )
 
  ;;; esc quits
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
@@ -587,18 +700,22 @@
 ; para redefinir comandos evil-ex
 ; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
-;(defun close-buffer-but-not-emacs ()
-;(interactive)
-;)
+(gbind "C-M-h" 'help-menu )
 
 ;; redefinir mappings de evil
 (with-eval-after-load 'evil-maps
-  ;;(define-key evil-motion-state-map (kbd "g t") 'elscreen-next )
-  ;;(define-key evil-motion-state-map (kbd "g b") 'elscreen-previous )
+  ;;( nmap "g t" 'tab-next )
+  ;;( nmap "g b" 'tab-previous )
+  ( nmap "C-l" 'evil-window-right )
+  ;; ( nmap "C-h" 'evil-window-left )
+  ( nmap "C-k" 'evil-window-up )
+  ( nmap "C-j" 'evil-window-down )
+
   ( nmap "C-s" 'evil-write )
   ( nmap "C-M-q" 'ido-kill-buffer ) ;'evil-quit )
   ( nmap "C-q" 'evil-quit )
-  ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
+  ;; ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
+  ( nmap "C-w q" 'vimlike-quit ) ; 'kill-this-buffer )
   ( nmap "TAB" 'evil-window-map )
   ( nmap ","   #'hydra-leader/body )
   ( imap "C-s" 'save-and-exit-evil )
@@ -619,12 +736,6 @@
 ;
 ; " para solo mostrar las marcas dentro del archivo
     ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
-;
-    ; " ver arbol de archivos
-    ; noremap <Leader>t :Lexplore <cr>
-;
-; " porque quiero, puedo y no tengo miedo
-    ; nnoremap <Leader>c :call Compilar() <cr>
 ;
 ; " muestra errores
     ; nnoremap <Leader>m :botright lwindow 5<cr>

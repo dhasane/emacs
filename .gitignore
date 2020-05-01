@@ -1,4 +1,15 @@
 ### Emacs ###
+
+history
+ido.last
+places
+recentf
+transient
+.cache/
+.lsp-session-*
+projectile-bookmarks.eld
+workspace
+
 # -*- mode: gitignore; -*-
 *~
 \#*\#
@@ -47,4 +58,3 @@ flycheck_*.el
 
 # network security
 /network-security.data
-
