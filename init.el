@@ -21,9 +21,9 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (eyebrowse git-gutter lsp-dart company-lsp
-               (evil use-package hydra bind-key)
-               name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (evil-org evil-magit eyebrowse git-gutter lsp-dart company-lsp
+              (evil use-package hydra bind-key)
+              name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -191,7 +191,6 @@
 
   ;; Save minibuffer history
   (savehist-mode 1)
-
 (require 'recentf)
 (recentf-mode 1)
 (desktop-save-mode 1)
@@ -304,6 +303,7 @@
 
 ; use ido to switch branches
 ; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
+(require 'evil-magit)
 (setq magit-completing-read-function 'magit-ido-completing-read)
 ;; open magit status in same window as current buffer
 (setq magit-status-buffer-switch-function 'switch-to-buffer)
@@ -311,6 +311,27 @@
 (setq magit-diff-refine-hunk t)
 
 (global-git-gutter-mode +1)
+
+
+;; org mode ------------------------------------------------
+
+(require 'org)
+(setq org-log-done t)
+
+
+(setq org-agenda-files (list "~/org/work.org"
+                             "~/org/school.org"
+                             "~/org/home.org"))
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 ;; lsp -----------------------------------------------------
 (require 'lsp-mode)
@@ -371,6 +392,9 @@
 
 (setq visible-bell nil)
 
+;; lo mas cercano a los tabs de vim que encontre
+(eyebrowse-mode t)
+
 (load-theme 'gruvbox-dark-soft)
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
@@ -413,7 +437,7 @@
       in '(
            (dired-mode . normal)
            (help-mode . normal)
-           (magit-mode . emacs)
+           (magit-mode . normal)
            (package-menu-mode . normal)
 ;           (emacs-lisp-mode . normal)
 
@@ -667,9 +691,8 @@
   ( "h" (helm-apropos) "help" )
   ( "t" (ido-dired) "file" )
   ( "m" (magit) "magit" )
+  ( "o" (hydra-org/body) "org" )
 )
-
-(eyebrowse-mode t)
 
 (defhydra hydra-tabs (:color blue :idle 1.0)
   "Tab management: "
@@ -681,9 +704,21 @@
   ("+" split-window-horizontally "horizontal")
 )
 
+(defhydra hydra-org (:color red :columns 3)
+  "Org Mode Movements"
+  ("a" org-agenda "agenda")
+  ("l" org-store-link "store link")
+  ("n" outline-next-visible-heading "next heading")
+  ("p" outline-previous-visible-heading "prev heading")
+  ("N" org-forward-heading-same-level "next heading at same level")
+  ("P" org-backward-heading-same-level "prev heading at same level")
+  ("u" outline-up-heading "up heading")
+  ("g" org-goto "goto" :exit t))
+
 ;; keybinds ------------------------------------------------
 
 (gbind "C-SPC" 'hydra-tabs/body)
+(gbind "C-S-h" 'help-command )
 (gbind "C-S-s" 'save-all-buffers )
 (gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
 ;; (gbind "ESC" 'keyboard-escape-quit )
@@ -707,7 +742,7 @@
   ;;( nmap "g t" 'tab-next )
   ;;( nmap "g b" 'tab-previous )
   ( nmap "C-l" 'evil-window-right )
-  ;; ( nmap "C-h" 'evil-window-left )
+  ( nmap "C-h" 'evil-window-left )
   ( nmap "C-k" 'evil-window-up )
   ( nmap "C-j" 'evil-window-down )
 
@@ -715,7 +750,7 @@
   ( nmap "C-M-q" 'ido-kill-buffer ) ;'evil-quit )
   ( nmap "C-q" 'evil-quit )
   ;; ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
-  ( nmap "C-w q" 'vimlike-quit ) ; 'kill-this-buffer )
+  ( nmap "C-w q" 'evil-quit ) ; 'kill-this-buffer )
   ( nmap "TAB" 'evil-window-map )
   ( nmap ","   #'hydra-leader/body )
   ( imap "C-s" 'save-and-exit-evil )
