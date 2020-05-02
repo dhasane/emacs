@@ -1,5 +1,22 @@
 
+;; EEEEEEEEEEEEEEEEEEEEEE                                                                                ;;
+;; E::::::::::::::::::::E                                                                                ;;
+;; E::::::::::::::::::::E                                                                                ;;
+;; EE::::::EEEEEEEEE::::E                                                                                ;;
+;;   E:::::E       EEEEEE   mmmmmmm    mmmmmmm     aaaaaaaaaaaaa      cccccccccccccccc    ssssssssss     ;;
+;;   E:::::E              mm:::::::m  m:::::::mm   a::::::::::::a   cc:::::::::::::::c  ss::::::::::s    ;;
+;;   E::::::EEEEEEEEEE   m::::::::::mm::::::::::m  aaaaaaaaa:::::a c:::::::::::::::::css:::::::::::::s   ;;
+;;   E:::::::::::::::E   m::::::::::::::::::::::m           a::::ac:::::::cccccc:::::cs::::::ssss:::::s  ;;
+;;   E:::::::::::::::E   m:::::mmm::::::mmm:::::m    aaaaaaa:::::ac::::::c     ccccccc s:::::s  ssssss   ;;
+;;   E::::::EEEEEEEEEE   m::::m   m::::m   m::::m  aa::::::::::::ac:::::c                s::::::s        ;;
+;;   E:::::E             m::::m   m::::m   m::::m a::::aaaa::::::ac:::::c                   s::::::s     ;;
+;;   E:::::E       EEEEEEm::::m   m::::m   m::::ma::::a    a:::::ac::::::c     cccccccssssss   s:::::s   ;;
+;; EE::::::EEEEEEEE:::::Em::::m   m::::m   m::::ma::::a    a:::::ac:::::::cccccc:::::cs:::::ssss::::::s  ;;
+;; E::::::::::::::::::::Em::::m   m::::m   m::::ma:::::aaaa::::::a c:::::::::::::::::cs::::::::::::::s   ;;
+;; E::::::::::::::::::::Em::::m   m::::m   m::::m a::::::::::aa:::a cc:::::::::::::::c s:::::::::::ss    ;;
+;; EEEEEEEEEEEEEEEEEEEEEEmmmmmm   mmmmmm   mmmmmm  aaaaaaaaaa  aaaa   cccccccccccccccc  sssssssssss      ;;
 
+;; doh
 
 ;;; code:
 
@@ -17,9 +34,9 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (evil-org evil-magit eyebrowse git-gutter lsp-dart company-lsp
-              (evil use-package hydra bind-key)
-              name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter lsp-dart company-lsp
+                     (evil use-package hydra bind-key)
+                     name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -64,8 +81,6 @@
 ;; -- ; (setq mark-ring-max 5)
 ;; -- ; (setq global-mark-ring-max 5)
 ;; -- ;
-;; -- ; ;; (electric-pair-mode 1)
-;; -- ;
 ;; -- ; ;;; --------------------
 ;; -- ; (progn
   ;; -- ; ;; set a default font
@@ -108,18 +123,6 @@
   ;; -- ; ;; http://ergoemacs.org/emacs/whitespace-mode.html
   ;; -- ; (setq whitespace-style (quote (face spaces tabs newline space-mark tab-mark newline-mark )))
 ;; -- ;
-  ;; -- ; ;; Make whitespace-mode and whitespace-newline-mode use “¶” for end of line char and “▷” for tab.
-  ;; -- ; (setq whitespace-display-mappings
-        ;; -- ; ;; all numbers are unicode codepoint in decimal. e.g. (insert-char 182 1)
-        ;; -- ; '(
-          ;; -- ; (space-mark 32 [183] [46]) ; SPACE 32 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
-          ;; -- ; (newline-mark 10 [182 10]) ; LINE FEED,
-          ;; -- ; (tab-mark 9 [9655 9] [92 9]) ; tab
-          ;; -- ; )))
-;; -- ;
-;; -- ; ;;; --------------------
-;; -- ;
-;; -- ;
 ;; -- ; ;; convenient
 ;; -- ; (defalias 'yes-or-no-p 'y-or-n-p)
 ;; -- ; (defalias 'rs 'replace-string)
@@ -142,7 +145,6 @@
 ;; -- ; ;; no want tpu-edt
 ;; -- ; (defalias 'tpu-edt 'forward-char)
 ;; -- ; (defalias 'tpu-edt-on 'forward-char)
-
 
 ;; start-up ------------------------------------------------
 (setq inhibit-startup-screen t)
@@ -216,6 +218,11 @@
 
 ;; indentation, tab
 (electric-indent-mode 0)
+
+;; set highlighting brackets
+(show-paren-mode 1)
+(electric-pair-mode 1)
+(setq show-paren-style 'parenthesis)
 (set-default 'tab-always-indent 'complete)
 
 (setq-default indent-tabs-mode nil
@@ -290,12 +297,15 @@
 (setq use-package-always-ensure t)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
-
 ;; Enable Evil
 (evil-mode 1)
+(evil-collection-init)
 ; (projectile-mode +1)
 ;;(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 ;;(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+;; (pdf-tools-install)
+(pdf-loader-install)
 
 (setq helm-buffers-fuzzy-matching t)
 (add-hook 'java-mode-hook #'lsp)
@@ -313,12 +323,10 @@
 
 (global-git-gutter-mode +1)
 
-
 ;; org mode ------------------------------------------------
 
 (require 'org)
 (setq org-log-done t)
-
 
 (setq org-agenda-files (list "~/org/work.org"
                              "~/org/school.org"
@@ -427,10 +435,6 @@
 
 ;; visual --------------------------------------------------
 (blink-cursor-mode 0)
-
-;; set highlighting brackets
-(show-paren-mode 1)
-(setq show-paren-style 'parenthesis)
 
 ;; hacer que el movimiento de la pantalla sea suave
 (setq scroll-margin 10
@@ -797,6 +801,7 @@
   ( nmap "C-q" 'evil-quit )
   ;; ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
   ( nmap "C-w q" 'evil-quit ) ; 'kill-this-buffer )
+  ( nmap "C-w t" 'eyebrowse-create-window-config )
   ( nmap "TAB" 'evil-window-map )
   ( nmap ","   #'hydra-leader/body )
   ( imap "C-s" 'save-and-exit-evil )
@@ -806,12 +811,6 @@
 
 (provide 'init);;; init.el end here
 
-; " para mover desde la terminal
-    ; tnoremap <C-h> <C-\><C-n><C-w>h
-    ; tnoremap <C-j> <C-\><C-n><C-w>j
-    ; tnoremap <C-k> <C-\><C-n><C-w>k
-    ; tnoremap <C-l> <C-\><C-n><C-w>l
-;
 ; " mostrar las marcas
     ; nnoremap '? :marks <cr>
 ;
