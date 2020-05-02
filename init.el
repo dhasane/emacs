@@ -1,8 +1,4 @@
 
-;; -*- coding: utf-8; lexical-binding: t; -*-
-;; Emacs settings plain gnu emacs only
-;; 2019-11-06
-;; http://ergoemacs.org/emacs/emacs_init_index.html
 
 
 ;;; code:
@@ -32,6 +28,7 @@
  )
 
 ;; todo esto fue copiado
+;; -- ; ;; http://ergoemacs.org/emacs/emacs_init_index.html
 ;; -- ; ;; for isearch-forward, make these equivalent: space newline tab hyphen underscore
 ;; -- ; (setq search-whitespace-regexp "[-_ \t\n]+")
 ;; -- ; (setq backup-by-copying t)
@@ -61,10 +58,6 @@
 ;; -- ; ;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16737#17
 ;; -- ; ;; http://ergoemacs.org/misc/emacs_bug_cant_paste_2015.html
 ;; -- ; ;; (setq x-selection-timeout 300)
-;; -- ;
-;; -- ; (setq x-select-enable-clipboard-manager nil)
-;; -- ;
-;; -- ; ;;; --------------------
 ;; -- ;
 ;; -- ; (setq sentence-end-double-space nil )
 ;; -- ; (setq set-mark-command-repeat-pop t)
@@ -100,12 +93,6 @@
   ;; -- ; ;;   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
   ;; -- ; )
 ;; -- ;
-;; -- ; ;;; --------------------
-;; -- ; ;;; editing related
-;; -- ;
-;; -- ; ;; make typing delete/overwrites selected text
-;; -- ; (delete-selection-mode 1)
-;; -- ;
 ;; -- ; (setq shift-select-mode nil)
 ;; -- ;
 ;; -- ; (progn
@@ -115,12 +102,6 @@
   ;; -- ; (setq org-startup-folded nil)
   ;; -- ; (setq org-return-follows-link t)
   ;; -- ; (setq org-startup-truncated nil))
-;; -- ;
-;; -- ; ;;; --------------------
-;; -- ;
-;; -- ; (eval-after-load 'gnutls
-  ;; -- ; '(add-to-list 'gnutls-trustfiles "/etc/ssl/cert.pem"))
-;; -- ; ;;; --------------------
 ;; -- ;
 ;; -- ; (progn
  ;; -- ; ;; Make whitespace-mode with very basic background coloring for whitespaces.
@@ -138,19 +119,6 @@
 ;; -- ;
 ;; -- ; ;;; --------------------
 ;; -- ;
-;; -- ; (setq hippie-expand-try-functions-list
-      ;; -- ; '(
-        ;; -- ; try-expand-dabbrev
-        ;; -- ; try-expand-dabbrev-all-buffers
-        ;; -- ; ;; try-expand-dabbrev-from-kill
-        ;; -- ; try-complete-lisp-symbol-partially
-        ;; -- ; try-complete-lisp-symbol
-        ;; -- ; try-complete-file-name-partially
-        ;; -- ; try-complete-file-name
-        ;; -- ; ;; try-expand-all-abbrevs
-        ;; -- ; ;; try-expand-list
-        ;; -- ; ;; try-expand-line
-        ;; -- ; ))
 ;; -- ;
 ;; -- ; ;; convenient
 ;; -- ; (defalias 'yes-or-no-p 'y-or-n-p)
@@ -258,11 +226,77 @@
 
 ;; eliminar espacios al final de una linea
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; para un modo en especifico
+;; para un modo en especifico (serviria para ignorar en markdown)
 ;; (add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
+;; TODO: mirar como relacionar esto a una 'caja' de recomendaciones
+(setq hippie-expand-try-functions-list
+      '(
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        ;; try-expand-dabbrev-from-kill
+        try-complete-lisp-symbol-partially
+        try-complete-lisp-symbol
+        try-complete-file-name-partially
+        try-complete-file-name
+        ;; try-expand-all-abbrevs
+        ;; try-expand-list
+        ;; try-expand-line
+        ))
+
 ;; plugins -------------------------------------------------
+
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+(package-install-selected-packages)
+
+;; ; list the packages you want
+;; (setq package-list '(
+                     ;; evil
+                     ;; evil-org
+                     ;; magit
+                     ;; evil-magit
+                     ;; eyebrowse
+                     ;; git-gutter
+                     ;; lsp-dart
+                     ;; company-lsp
+                     ;; evil
+                     ;; use-package
+                     ;; hydra
+                     ;; bind-key
+                     ;; lsp-java
+                     ;; ccls
+                     ;; gruvbox-theme
+                     ;; fzf
+                     ;; flycheck
+                     ;; helm
+                     ;; )
+      ;; )
+;;
+;; ; list the repositories containing them
+;; (setq
+ ;; package-archives
+ ;; '(
+   ;; ("melpa" . "https://melpa.org/packages/")
+   ;; ("elpa" . "http://tromey.com/elpa/")
+   ;; ("gnu" . "http://elpa.gnu.org/packages/")
+   ;; ("marmalade" . "http://marmalade-repo.org/packages/")
+   ;; )
+ ;; )
+;;
+;; ; activate all the packages (in particular autoloads)
+;; (package-initialize)
+;;
+;; ; fetch the list of packages available
+;; (unless package-archive-contents
+  ;; (package-refresh-contents))
+;;
+;; ; install the missing packages
+;; (dolist (package package-list)
+  ;; (unless (package-installed-p package)
+    ;; (package-install package)))
+
 
 (defun include (packages)
   "Check if PACKAGES are installed, if not, install them.  PACKAGES is a list."
@@ -282,7 +316,7 @@
            'use-package
            'hydra
            'bind-key
-           ;'projectile
+           'projectile
            ))
 (eval-when-compile (require 'use-package))
 (eval-when-compile (require 'cl))
@@ -332,6 +366,59 @@
               (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
+
+(setf evil-org-key-theme '(navigation insert textobjects additional))
+(setf org-special-ctrl-a/e t)
+(evil-org-agenda-set-keys)
+
+(add-hook 'org-mode-hook
+ (lambda ()
+   (evil-org-mode)
+
+   ;; Custom mappings
+   (evil-define-key 'normal evil-org-mode-map
+     (kbd "-") 'org-ctrl-c-minus
+     (kbd "|") 'org-table-goto-column
+     (kbd "M-o") (evil-org-define-eol-command org-insert-heading)
+     (kbd "M-t") (evil-org-define-eol-command org-insert-todo))
+
+   ;; Configure leader key
+   (evil-leader/set-key-for-mode 'org-mode
+     "." 'hydra-org-state/body
+     "t" 'org-todo
+     "T" 'org-show-todo-tree
+     "v" 'org-mark-element
+     "a" 'org-agenda
+     "c" 'org-archive-subtree
+     "l" 'evil-org-open-links
+     "C" 'org-resolve-clocks)
+
+   ;; Define a transient state for quick navigation
+   (defhydra hydra-org-state ()
+     ;; basic navigation
+     ("i" org-cycle)
+     ("I" org-shifttab)
+     ("h" org-up-element)
+     ("l" org-down-element)
+     ("j" org-forward-element)
+     ("k" org-backward-element)
+     ;; navigating links
+     ("n" org-next-link)
+     ("p" org-previous-link)
+     ("o" org-open-at-point)
+     ;; navigation blocks
+     ("N" org-next-block)
+     ("P" org-previous-block)
+     ;; updates
+     ("." org-ctrl-c-ctrl-c)
+     ("*" org-ctrl-c-star)
+     ("-" org-ctrl-c-minus)
+     ;; change todo state
+     ("H" org-shiftleft)
+     ("L" org-shiftright)
+     ("J" org-shiftdown)
+     ("K" org-shiftup)
+     ("t" org-todo))))
 
 ;; lsp -----------------------------------------------------
 (require 'lsp-mode)
@@ -544,7 +631,8 @@
 (defun save-all-buffers ()
   "Save all buffers."
   (interactive)
-  (mapc 'save-buffer (delq (current-buffer) (buffer-list) ) ) )
+  (mapc 'save-buffer (buffer-list) )
+  (message "se han guardado todos los buffers") )
 
 (defun kill-other-buffers ()
   "Kill all other buffers, except the current buffer and Emacs' 'system' buffers."
@@ -555,7 +643,9 @@
      (let ((name (buffer-name x) ) )
        (unless (eq ?\s (aref name 0))
          (kill-buffer x) ) ) )
-   (delq (current-buffer) (buffer-list) ) ) )
+   (delq (current-buffer) (buffer-list) ) )
+  (message "se han cerrado los demas buffers")
+  )
 
 (defun melpa-load-sources ()
   "LOAD melpa sources :v."
@@ -623,6 +713,7 @@
   (eshell)
   )
 
+; TODO estas funciones suenan interesantes
 ;; ; A function that behaves like Vim's ':tabe' commnad for creating a new tab and
 ;; ; buffer (the name "[No Name]" is also taken from Vim).
 ;; (defun vimlike-:tabe ()
@@ -702,6 +793,11 @@
   ("h" eyebrowse-prev-window-config "right" :color red)
   ("-" split-window-vertically "vertical" )
   ("+" split-window-horizontally "horizontal")
+  ("1" eyebrowse-switch-to-window-config-1)
+  ("2" eyebrowse-switch-to-window-config-2)
+  ("3" eyebrowse-switch-to-window-config-3)
+  ("4" eyebrowse-switch-to-window-config-4)
+  ("5" eyebrowse-switch-to-window-config-5)
 )
 
 (defhydra hydra-org (:color red :columns 3)
