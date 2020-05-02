@@ -246,78 +246,48 @@
 
 ;; plugins -------------------------------------------------
 
+(require 'package)
+(setq
+ package-archives
+ '(
+   ("melpa" . "https://melpa.org/packages/")
+   ("elpa" . "http://tromey.com/elpa/")
+   ("gnu" . "http://elpa.gnu.org/packages/")
+   ;; ("marmalade" . "http://marmalade-repo.org/packages/")
+   )
+ )
 (package-initialize)
+
+; fetch the list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
 (package-install-selected-packages)
 
-;; ; list the packages you want
-;; (setq package-list '(
-                     ;; evil
-                     ;; evil-org
-                     ;; magit
-                     ;; evil-magit
-                     ;; eyebrowse
-                     ;; git-gutter
-                     ;; lsp-dart
-                     ;; company-lsp
-                     ;; evil
-                     ;; use-package
-                     ;; hydra
-                     ;; bind-key
-                     ;; lsp-java
-                     ;; ccls
-                     ;; gruvbox-theme
-                     ;; fzf
-                     ;; flycheck
-                     ;; helm
-                     ;; )
-      ;; )
-;;
-;; ; list the repositories containing them
-;; (setq
- ;; package-archives
- ;; '(
-   ;; ("melpa" . "https://melpa.org/packages/")
-   ;; ("elpa" . "http://tromey.com/elpa/")
-   ;; ("gnu" . "http://elpa.gnu.org/packages/")
-   ;; ("marmalade" . "http://marmalade-repo.org/packages/")
-   ;; )
- ;; )
-;;
-;; ; activate all the packages (in particular autoloads)
-;; (package-initialize)
-;;
-;; ; fetch the list of packages available
-;; (unless package-archive-contents
-  ;; (package-refresh-contents))
-;;
 ;; ; install the missing packages
 ;; (dolist (package package-list)
   ;; (unless (package-installed-p package)
     ;; (package-install package)))
 
 
-(defun include (packages)
-  "Check if PACKAGES are installed, if not, install them.  PACKAGES is a list."
-  (mapc
-   (lambda (p)
-     (unless (package-installed-p p) (package-install p))
-     (require p)
-     )
-   packages)
-  )
+;; (defun include (packages)
+  ;; "Check if PACKAGES are installed, if not, install them.  PACKAGES is a list."
+  ;; (mapc
+   ;; (lambda (p)
+     ;; (unless (package-installed-p p) (package-install p))
+     ;; (require p)
+     ;; )
+   ;; packages)
+  ;; )
 
-(require 'package)
-(package-initialize)
+;; (package-initialize)
 
-(include ( list
-           'evil
-           'use-package
-           'hydra
-           'bind-key
-           'projectile
-           ))
+; (include ( list
+           ; 'evil
+           ; 'use-package
+           ; 'hydra
+           ; 'bind-key
+           ; 'projectile
+           ; ))
 (eval-when-compile (require 'use-package))
 (eval-when-compile (require 'cl))
 (setq use-package-always-ensure t)
