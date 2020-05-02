@@ -250,45 +250,42 @@
 (setq
  package-archives
  '(
-   ("melpa" . "https://melpa.org/packages/")
-   ("elpa" . "http://tromey.com/elpa/")
-   ("gnu" . "http://elpa.gnu.org/packages/")
-   ;; ("marmalade" . "http://marmalade-repo.org/packages/")
+   ("melpa"         . "https://melpa.org/packages/")
+   ("melpa-milkbox" . "http://melpa.milkbox.net/packages/")
+   ("melpa-stable"  . "http://stable.melpa.org/packages/")
+   ("elpa"          . "https://elpa.gnu.org/packages/")
+   ("gnu"           . "http://elpa.gnu.org/packages/")
+   )
+ package-archive-priorities
+ '(
+   ("melpa"         . 20)
+   ("melpa-milkbox" . 15)
+   ("melpa-stable"  . 10)
+   ("gnu"           . 5)
+   ("elpa"          . 0)
    )
  )
+
 (package-initialize)
+
+;; Bootstrap `use-package`
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
 
 ; fetch the list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
 (package-install-selected-packages)
 
-;; ; install the missing packages
-;; (dolist (package package-list)
-  ;; (unless (package-installed-p package)
-    ;; (package-install package)))
-
-
-;; (defun include (packages)
-  ;; "Check if PACKAGES are installed, if not, install them.  PACKAGES is a list."
-  ;; (mapc
-   ;; (lambda (p)
-     ;; (unless (package-installed-p p) (package-install p))
-     ;; (require p)
-     ;; )
-   ;; packages)
-  ;; )
-
-;; (package-initialize)
-
-; (include ( list
-           ; 'evil
-           ; 'use-package
-           ; 'hydra
-           ; 'bind-key
-           ; 'projectile
-           ; ))
 (eval-when-compile (require 'use-package))
+
+(require 'evil )
+(require 'hydra )
+(require 'bind-key )
+(require 'projectile )
+
 (eval-when-compile (require 'cl))
 (setq use-package-always-ensure t)
 
@@ -617,26 +614,9 @@
   (message "se han cerrado los demas buffers")
   )
 
-(defun melpa-load-sources ()
-  "LOAD melpa sources :v."
-  (interactive)
-
-  (when (>= emacs-major-version 24)
-    (require 'package)
-    (add-to-list
-     'package-archives
-     ;;'("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
-     '("melpa" . "https://melpa.org/packages/") t )
-    (add-to-list
-     'package-archives
-     '("melpa" . "http://melpa.milkbox.net/packages/") t )
-    )
-  )
-
 (defun melpa-refresh ()
   "Refresh melpa contents."
   (interactive)
-  (melpa-load-sources)
   (package-refresh-contents 'ASYNC)
   )
 
