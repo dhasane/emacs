@@ -221,6 +221,7 @@
 
 ;; set highlighting brackets
 (show-paren-mode 1)
+(setq show-paren-delay 0)
 (electric-pair-mode 1)
 (setq show-paren-style 'parenthesis)
 (set-default 'tab-always-indent 'complete)
@@ -275,6 +276,9 @@
 
 (package-initialize)
 
+;; esto fue necesario para que siquiera sirviera en windows
+(setq inhibit-compacting-font-caches t)
+
 ;; Bootstrap `use-package`
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -288,26 +292,53 @@
 
 (eval-when-compile (require 'use-package))
 
-(require 'evil )
+(use-package evil
+  :config
+  (evil-mode 1)
+  )
+
 (require 'hydra )
 (require 'bind-key )
-(require 'projectile )
+
+;; Projectile
+(use-package projectile
+  :ensure t
+  :init
+  (setq projectile-require-project-root nil)
+  :config
+  (projectile-mode 1))
 
 (eval-when-compile (require 'cl))
 (setq use-package-always-ensure t)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
-;; Enable Evil
-(evil-mode 1)
 (evil-collection-init)
-; (projectile-mode +1)
-;;(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-;;(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; (pdf-tools-install)
 (pdf-loader-install)
 
-(setq helm-buffers-fuzzy-matching t)
+;; Helm
+(use-package helm
+  :ensure t
+  :init
+  (setq helm-M-x-fuzzy-match t
+        helm-mode-fuzzy-match t
+        helm-recentf-fuzzy-match t
+        helm-locate-fuzzy-match t
+        helm-semantic-fuzzy-match t
+        helm-imenu-fuzzy-match t
+        helm-completion-in-region-fuzzy-match t
+        helm-candidate-number-list 150
+        helm-split-window-inside-p t
+        helm-move-to-line-cycle-in-source t
+        helm-echo-input-in-header-line t
+        helm-autoresize-max-height 0
+        helm-autoresize-min-height 20
+        helm-buffers-fuzzy-matching t
+        )
+  :config
+  (helm-mode 1))
+
 (add-hook 'java-mode-hook #'lsp)
 
 ;; git ------------------------------------------------------
@@ -434,6 +465,14 @@
   (which-key-mode))
 
 ;; visual --------------------------------------------------
+
+
+;; Fancy titlebar
+;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+;; (add-to-list 'default-frame-alist '(ns-appearance . dark))
+;; (setq ns-use-proxy-icon  nil)
+;; (setq frame-title-format nil)
+
 (blink-cursor-mode 0)
 
 ;; hacer que el movimiento de la pantalla sea suave
@@ -449,6 +488,7 @@
 (toggle-scroll-bar -1)
 
 (setq visible-bell nil)
+(setq ring-bell-function 'ignore)
 
 ;; lo mas cercano a los tabs de vim que encontre
 (eyebrowse-mode t)
