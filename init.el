@@ -27,16 +27,16 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
+    ("aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
  '(git-gutter:window-width 1)
  '(minibuffer-prompt-properties
    (quote
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter lsp-dart company-lsp
-                     (evil use-package hydra bind-key)
-                     name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter lsp-dart company-lsp
+             (evil use-package hydra bind-key)
+             name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -161,13 +161,13 @@
 
   ;; Save minibuffer history
   (savehist-mode 1)
-(require 'recentf)
-(recentf-mode 1)
-(desktop-save-mode 1)
-(global-auto-revert-mode 1)
+  (require 'recentf)
+  (recentf-mode 1)
+  (desktop-save-mode 1)
+  (global-auto-revert-mode 1)
 
-;; big minibuffer height, for ido to show choices vertically
-(setq max-mini-window-height 0.5)
+  ;; big minibuffer height, for ido to show choices vertically
+  ;; (setq max-mini-window-height 0.5)
 
   ;; minibuffer, stop cursor going into prompt
   (customize-set-variable
@@ -191,6 +191,8 @@
   (setq icomplete-in-buffer t)
   (define-key icomplete-minibuffer-map (kbd "<right>") 'icomplete-forward-completions)
   (define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions))
+
+(savehist-mode 1)
 
 (progn
   ;; make buffer switch command do suggestions, also for find-file command
@@ -293,8 +295,19 @@
 (eval-when-compile (require 'use-package))
 
 (use-package evil
+  :ensure t
+  :init
+  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
+  )
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init)
   )
 
 (require 'hydra )
@@ -317,29 +330,30 @@
 ;; (pdf-tools-install)
 (pdf-loader-install)
 
-;; Helm
-(use-package helm
-  :ensure t
-  :init
-  (setq helm-M-x-fuzzy-match t
-        helm-mode-fuzzy-match t
-        helm-recentf-fuzzy-match t
-        helm-locate-fuzzy-match t
-        helm-semantic-fuzzy-match t
-        helm-imenu-fuzzy-match t
-        helm-completion-in-region-fuzzy-match t
-        helm-candidate-number-list 150
-        helm-split-window-inside-p t
-        helm-move-to-line-cycle-in-source t
-        helm-echo-input-in-header-line t
-        helm-autoresize-max-height 0
-        helm-autoresize-min-height 20
-        helm-buffers-fuzzy-matching t
-        )
-  :config
-  (helm-mode 1))
+(setq x-wait-for-event-timeout nil)
 
-(add-hook 'java-mode-hook #'lsp)
+;; Helm
+;; (use-package helm
+  ;; :ensure t
+  ;; :init
+  ;; (setq helm-M-x-fuzzy-match t
+        ;; helm-mode-fuzzy-match t
+        ;; helm-recentf-fuzzy-match t
+        ;; helm-locate-fuzzy-match t
+        ;; helm-semantic-fuzzy-match t
+        ;; helm-imenu-fuzzy-match t
+        ;; helm-completion-in-region-fuzzy-match t
+        ;; helm-candidate-number-list 150
+        ;; helm-split-window-inside-p t
+        ;; helm-move-to-line-cycle-in-source t
+        ;; helm-echo-input-in-header-line t
+        ;; helm-autoresize-max-height 0
+        ;; helm-autoresize-min-height 20
+        ;; helm-buffers-fuzzy-matching t
+        ;; )
+  ;; :config
+  ;; (helm-mode 1))
+
 
 ;; git ------------------------------------------------------
 
@@ -359,9 +373,14 @@
 (require 'org)
 (setq org-log-done t)
 
-(setq org-agenda-files (list "~/org/work.org"
-                             "~/org/school.org"
-                             "~/org/home.org"))
+(setq org-agenda-files
+      '(
+        "~/org/work.org"
+        "~/org/school.org"
+        "~/org/home.org"
+        )
+      )
+
 (use-package evil-org
   :ensure t
   :after org
@@ -373,96 +392,214 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-(setf evil-org-key-theme '(navigation insert textobjects additional))
+(evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
+
+;; (setf evil-org-key-theme '(navigation insert textobjects additional))
 (setf org-special-ctrl-a/e t)
 (evil-org-agenda-set-keys)
 
 (add-hook 'org-mode-hook
- (lambda ()
-   (evil-org-mode)
+          (lambda ()
+            (evil-org-mode)
 
-   ;; Custom mappings
-   (evil-define-key 'normal evil-org-mode-map
-     (kbd "-") 'org-ctrl-c-minus
-     (kbd "|") 'org-table-goto-column
-     (kbd "M-o") (evil-org-define-eol-command org-insert-heading)
-     (kbd "M-t") (evil-org-define-eol-command org-insert-todo))
+            ;; Custom mappings
+            (evil-define-key 'normal evil-org-mode-map
+              (kbd "-") 'org-ctrl-c-minus
+              (kbd "|") 'org-table-goto-column
+              (kbd "M-o") (evil-org-define-eol-command org-insert-heading)
+              (kbd "M-t") (evil-org-define-eol-command org-insert-todo))
 
-   ;; Configure leader key
-   (evil-leader/set-key-for-mode 'org-mode
-     "." 'hydra-org-state/body
-     "t" 'org-todo
-     "T" 'org-show-todo-tree
-     "v" 'org-mark-element
-     "a" 'org-agenda
-     "c" 'org-archive-subtree
-     "l" 'evil-org-open-links
-     "C" 'org-resolve-clocks)
+            ;; Configure leader key
+            (evil-leader/set-key-for-mode 'org-mode
+                                          "." 'hydra-org-state/body
+                                          "t" 'org-todo
+                                          "T" 'org-show-todo-tree
+                                          "v" 'org-mark-element
+                                          "a" 'org-agenda
+                                          "c" 'org-archive-subtree
+                                          "l" 'evil-org-open-links
+                                          "C" 'org-resolve-clocks)
 
-   ;; Define a transient state for quick navigation
-   (defhydra hydra-org-state ()
-     ;; basic navigation
-     ("i" org-cycle)
-     ("I" org-shifttab)
-     ("h" org-up-element)
-     ("l" org-down-element)
-     ("j" org-forward-element)
-     ("k" org-backward-element)
-     ;; navigating links
-     ("n" org-next-link)
-     ("p" org-previous-link)
-     ("o" org-open-at-point)
-     ;; navigation blocks
-     ("N" org-next-block)
-     ("P" org-previous-block)
-     ;; updates
-     ("." org-ctrl-c-ctrl-c)
-     ("*" org-ctrl-c-star)
-     ("-" org-ctrl-c-minus)
-     ;; change todo state
-     ("H" org-shiftleft)
-     ("L" org-shiftright)
-     ("J" org-shiftdown)
-     ("K" org-shiftup)
-     ("t" org-todo))))
+            ;; Define a transient state for quick navigation
+            (defhydra hydra-org-state ()
+              ;; basic navigation
+              ("i" org-cycle)
+              ("I" org-shifttab)
+              ("h" org-up-element)
+              ("l" org-down-element)
+              ("j" org-forward-element)
+              ("k" org-backward-element)
+              ;; navigating links
+              ("n" org-next-link)
+              ("p" org-previous-link)
+              ("o" org-open-at-point)
+              ;; navigation blocks
+              ("N" org-next-block)
+              ("P" org-previous-block)
+              ;; updates
+              ("." org-ctrl-c-ctrl-c)
+              ("*" org-ctrl-c-star)
+              ("-" org-ctrl-c-minus)
+              ;; change todo state
+              ("H" org-shiftleft)
+              ("L" org-shiftright)
+              ("J" org-shiftdown)
+              ("K" org-shiftup)
+              ("t" org-todo))))
 
 ;; lsp -----------------------------------------------------
-(require 'lsp-mode)
-(require 'lsp-java)
-;; (require 'lsp-ruby)
-(require 'company-lsp)
-
 
 (use-package lsp-mode
+  :defer t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (ruby-mode . lsp)
          (java-mode . lsp)
          ;; if you want which-key integration
          ;;(lsp-mode . lsp-enable-which-key-integration)
          )
-  :commands lsp)
-  ;; :commands (lsp lsp-deferred))
+  :config
+  (with-eval-after-load 'lsp-mode
+    ;; :project/:workspace/:file
+    (setq lsp-diagnostics-modeline-scope :project)
+    (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode))
 
-(push 'company-lsp company-backends)
-(setq company-minimum-prefix-length 1
-      company-idle-delay 0.0) ;; default is 0.2
+  ;;:commands lsp
+  :commands (lsp lsp-deferred)
+  )
+(require 'lsp-java)
+;; (require 'lsp-ruby)
+
+
+(use-package ivy :ensure t
+  :diminish (ivy-mode . "")
+  :bind
+  (:map ivy-mode-map
+   ("C-'" . ivy-avy))
+  :config
+  (ivy-mode 1)
+  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+  (setq ivy-use-virtual-buffers t)
+  ;; number of result lines to display
+  (setq ivy-height 10)
+  ;; does not count candidates
+  (setq ivy-count-format "")
+  ;; no regexp by default
+  (setq ivy-initial-inputs-alist nil)
+  ;; configure regexp engine.
+  (setq ivy-re-builders-alist
+	;; allow input not in order
+        '((t   . ivy--regex-ignore-order))))
+
+;; quitar helm por el momento que quiero probar ivy
+;;    (use-package helm-company
+  ;;    :init
+  ;;    (progn
+    ;;    (defun my:code::helm-company-complete ()
+      ;;    (interactive)
+      ;;    (when (company-complete) (helm-company)))
+    ;;    (add-to-list 'completion-at-point-functions
+                 ;;    #'comint-dynamic-complete-filename))
+  ;;    ;;:bind (general-def
+         ;;    ;;:keymaps '(company-mode-map company-active-map)
+         ;;    ;;"TAB" #'my:code::helm-company-complete
+         ;;    ;;"<tab>" #'my:code::helm-company-complete)
+  ;;    )
+;;
+;;    (setq helm-split-window-inside-p t ;; open helm buffer inside current window, not occupy whole other window
+      ;;    helm-echo-input-in-header-line t) ;; input close to where I type
+;;
+;;    (defun spacemacs//helm-hide-minibuffer-maybe ()
+  ;;    "Hide minibuffer in Helm session if we use the header line as input field."
+  ;;    (when (with-helm-buffer helm-echo-input-in-header-line)
+    ;;    (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+      ;;    (overlay-put ov 'window (selected-window))
+      ;;    (overlay-put ov 'face
+                   ;;    (let ((bg-color (face-background 'default nil)))
+                     ;;    `(:background ,bg-color :foreground ,bg-color)))
+      ;;    (setq-local cursor-type nil))))
+;;
+;;    (add-hook 'helm-minibuffer-set-up-hook
+	  ;;    'spacemacs//helm-hide-minibuffer-maybe)
+;;
+;;    (setq helm-autoresize-max-height 0)
+;;    (setq helm-autoresize-min-height 20)
+;;    (helm-autoresize-mode 1)
+;;    ;; final de lo que estoy probando de helm
+
+
+(defun my-company-active-return ()
+  "Function to autocomplete a company recomendation, or act as enter, depending on mode."
+  (interactive)
+  (if (company-explicit-action-p)
+      (company-complete)
+    (call-interactively
+     (or (key-binding (this-command-keys))
+         (key-binding (kbd "RET")))
+     )))
+
+(use-package company
+  :defer t
+  :config
+  ;; (setq company-frontends nil)
+
+  ; No delay in showing suggestions.
+  (setq company-idle-delay 10)
+  ; Show suggestions after entering one character.
+  (setq company-minimum-prefix-length 1)
+  (setq company-selection-wrap-around t)
+
+  (eval-after-load 'company
+    '(progn
+       (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+       (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
+  (eval-after-load 'company
+    '(progn
+       (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+       (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
+
+  (defun my-company-visible-and-explicit-action-p ()
+    (and (company-tooltip-visible-p)
+         (company-explicit-action-p)))
+
+  (defun company-ac-setup ()
+    "Sets up `company-mode' to behave similarly to `auto-complete-mode'."
+    (setq company-require-match nil)
+    ;;(setq company-auto-complete #'my-company-visible-and-explicit-action-p)
+    (setq company-frontends '(company-echo-metadata-frontend
+                              company-pseudo-tooltip-unless-just-one-frontend-with-delay
+                              company-preview-frontend))
+    (define-key company-active-map [tab]
+      'company-select-next-if-tooltip-visible-or-complete-selection)
+    (define-key company-active-map (kbd "TAB")
+      'company-select-next-if-tooltip-visible-or-complete-selection))
+
+  (company-ac-setup)
+  (add-hook 'after-init-hook 'global-company-mode)
+
+  ;; para poder usar enter para autocompletar
+  (define-key company-active-map (kbd "<return>") #'my-company-active-return)
+  (define-key company-active-map (kbd "RET") #'my-company-active-return)
+  )
 
 (use-package lsp-ui :commands lsp-ui-mode)
 (lsp-ui-mode 1)
+(add-hook 'java-mode-hook #'lsp)
+(require 'company-lsp)
+(push 'company-lsp company-backends)
 
 ;; -- ; ;; if you are helm user
 ;; -- ; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; -- ; ;; if you are ivy user
-;; -- ; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-;; -- ; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 ;; optionally if you want to use debugger
 (use-package dap-mode)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 ;; optional if you want which-key integration
-(use-package which-key
-  :config
-  (which-key-mode))
+;; (use-package which-key
+  ;; :config
+  ;; (which-key-mode))
 
 ;; visual --------------------------------------------------
 
@@ -493,7 +630,9 @@
 ;; lo mas cercano a los tabs de vim que encontre
 (eyebrowse-mode t)
 
-(load-theme 'gruvbox-dark-soft)
+;; (load-theme 'gruvbox-dark-soft)
+(load-theme 'gruvbox-dark-medium)
+
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
 (setq display-line-numbers-type 'relative)
@@ -547,7 +686,7 @@
            (git-commit-mode . insert)
            (git-rebase-mode . emacs)
            (term-mode . emacs)
-           (helm-grep-mode . emacs)
+           ;;(helm-grep-mode . emacs)
            (grep-mode . emacs)
            (bc-menu-mode . emacs)
            (magit-branch-manager-mode . emacs)
@@ -573,70 +712,43 @@
 
 (global-display-line-numbers-mode)
 
-;; Keep track of selected window, so we can render the modeline differently
-;; (defvar cogent-line-selected-window (frame-selected-window))
-;; (defun cogent-line-set-selected-window (&rest _args)
-  ;; (when (not (minibuffer-window-active-p (frame-selected-window)))
-    ;; (setq cogent-line-selected-window (frame-selected-window))
-    ;; (force-mode-line-update)))
-;; (defun cogent-line-unset-selected-window ()
-  ;; (setq cogent-line-selected-window nil)
-  ;; (force-mode-line-update))
-;; (add-hook 'window-configuration-change-hook #'cogent-line-set-selected-window)
-;; (add-hook 'focus-in-hook #'cogent-line-set-selected-window)
-;; (add-hook 'focus-out-hook #'cogent-line-unset-selected-window)
-;; (advice-add 'handle-switch-frame :after #'cogent-line-set-selected-window)
-;; (advice-add 'select-window :after #'cogent-line-set-selected-window)
-;; (defun cogent-line-selected-window-active-p ()
-  ;; (eq cogent-line-selected-window (selected-window)))
-
-;; change status line information
-(setq-default mode-line-format
-              (list
-
-              ;'(:eval (propertize (if (eq 'emacs evil-state) "  " "  ")
-                                        ;'face (cogent/evil-state-face)))
-
-                                        ; mode-line-misc-info ; for eyebrowse
-               '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-
-               '(:eval (when-let (vc vc-mode)
-                         (list " "
-                               (propertize (substring vc 5)
-                                           ;; 'face 'font-lock-comment-face
-                                           )
-                               " "
-                               )))
-
-               '(:eval (list
-                        ;; the buffer name; the file name as a tool tip
-                        (propertize " %b" ; 'face 'font-lock-type-face
-                                    'help-echo (buffer-file-name))
-                        (when (buffer-modified-p)
-                          (propertize
-                           " "
-                           ;" + "
-                           ;; 'face (if (cogent-line-selected-window-active-p)
-                                     ;; 'cogent-line-modified-face
-                                   ;; 'cogent-line-modified-face-inactive)
-                           ))
-                        (when buffer-read-only
-                          (propertize
-                           " "
-                           ;; 'face (if (cogent-line-selected-window-active-p)
-                                     ;; 'cogent-line-read-only-face
-                                   ;; 'cogent-line-read-only-face-inactive)
-                           ) ) " "))
-
-               ;; spaces to align right
-               '(:eval (propertize
-                        " " 'display
-                        `((space :align-to (- (+ right right-fringe right-margin)
-                                              ,(+ 3 (string-width mode-name)))))))
-
-               ;; the current major mode
-               (propertize " %m " ;; 'face 'font-lock-string-face
-                           )))
+;; status line information
+(setq-default
+ mode-line-format
+ (list
+  ;; mode-line-misc-info ; for eyebrowse
+  '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+  '(:eval (when-let (vc vc-mode)
+            (list
+             " "
+             (propertize (substring vc 5) )
+             " "
+             ) ) )
+  '(:eval (list
+           ;; the buffer name; the file name as a tool tip
+           (propertize
+            " %b"
+            'help-echo (buffer-file-name))
+           (when (buffer-modified-p)
+             (propertize
+              " "
+              ) )
+           (when buffer-read-only
+             (propertize
+              " "
+              ) ) " " ) )
+  ;; spaces to align right
+  '(:eval (propertize
+           " " 'display
+           `(
+             (space :align-to (- (+ right right-fringe right-margin)
+                                 ,(+ 3 (string-width mode-name) ) )
+                    )
+              ) ) )
+  ;; the current major mode
+  (propertize " %m " )
+  )
+ )
 ;; functions -----------------------------------------------
 
 (defun save-all-buffers ()
@@ -652,7 +764,7 @@
   (mapc
    (lambda (x)
      (let ((name (buffer-name x) ) )
-       (unless (eq ?\s (aref name 0))
+       (unless (eq ?\s (aref name 0) )
          (kill-buffer x) ) ) )
    (delq (current-buffer) (buffer-list) ) )
   (message "se han cerrado los demas buffers")
@@ -661,15 +773,13 @@
 (defun melpa-refresh ()
   "Refresh melpa contents."
   (interactive)
-  (package-refresh-contents 'ASYNC)
-  )
+  (package-refresh-contents 'ASYNC) )
 
 (defun save-and-exit-evil ()
   "Salir de modo de insert y guardar el archivo."
   (interactive)
   (save-buffer)
-  (evil-force-normal-state)
-)
+  (evil-force-normal-state) )
 
 (defun reload-emacs-config ()
   "Reload your init.el file without restarting Emacs."
@@ -692,19 +802,30 @@
 (defun amap (key function)
   "Define mapping in evil normal/insert mode.  FUNCTION in KEY."
   (nmap key function)
-  (imap key function)
-)
+  (imap key function) )
 
 (defun gbind (key function)
   "Map FUNCTION to KEY."
   (global-set-key (kbd key) function) )
 
-; aun falta hacer para poder esconder la terminal :v
+(defun show-file-name ()
+  "Show the full path file name in the minibuffer."
+  (interactive)
+  (message (buffer-file-name)))
+
+; TODO: aun falta hacer para poder esconder la terminal :v
 (defun toggle-terminal ()
   "Toggle terminal in its own buffer."
   (interactive)
   (split-window-horizontally)
   (eshell)
+  (message
+   (buffer-file-name (current-buffer) ) )
+  ;; (if (eq "eshell" (buffer-file-name (current-buffer) ) )
+      ;; (kill-this-buffer)
+    ;; (split-window-horizontally)
+    ;; (eshell)
+    ;; )
   )
 
 ; TODO estas funciones suenan interesantes
@@ -773,11 +894,9 @@
   ( "j" evil-next-buffer "next" )
   ( "k" evil-next-buffer "next" )
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) )
-  ( "h" (helm-apropos) "help" )
-  ( "t" (ido-dired) "file" )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
-)
+  )
 
 (defhydra hydra-tabs (:color blue :idle 1.0)
   "Tab management: "
@@ -792,7 +911,9 @@
   ("3" eyebrowse-switch-to-window-config-3)
   ("4" eyebrowse-switch-to-window-config-4)
   ("5" eyebrowse-switch-to-window-config-5)
-)
+  ("6" eyebrowse-switch-to-window-config-6)
+  ("7" eyebrowse-switch-to-window-config-7)
+  )
 
 (defhydra hydra-org (:color red :columns 3)
   "Org Mode Movements"
@@ -803,11 +924,15 @@
   ("N" org-forward-heading-same-level "next heading at same level")
   ("P" org-backward-heading-same-level "prev heading at same level")
   ("u" outline-up-heading "up heading")
-  ("g" org-goto "goto" :exit t))
+  ("g" org-goto "goto" :exit t)
+
+)
 
 ;; keybinds ------------------------------------------------
 
-(gbind "C-SPC" 'hydra-tabs/body)
+
+(gbind "M-m" 'ido-dired)
+(gbind "C-SPC" 'hydra-tabs/body )
 (gbind "C-S-h" 'help-command )
 (gbind "C-S-s" 'save-all-buffers )
 (gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
@@ -847,10 +972,13 @@
   ( imap "C-s" 'save-and-exit-evil )
   ( imap "C-v" 'evil-paste-before )
   ( amap "C-z" 'undo-tree-undo )
+  ( imap "TAB" #'company-indent-or-complete-common)
+;  ( imap "RET" #'my-company-active-return)
 )
 
 (provide 'init);;; init.el end here
 
+;; ya solo falta buscar como organizar un para de bobadas :D
 ; " mostrar las marcas
     ; nnoremap '? :marks <cr>
 ;
@@ -864,29 +992,6 @@
     ; noremap <Leader>j <esc>:bp<cr>
     ; noremap <Leader>k <esc>:bn<cr>
     ; nnoremap <Leader>s :FZFLines <cr>
-;
-; " cortes
-    ; " <tab>t oficialmente sirve para ir a la ventana superior izquierda, pero no se si lo use mucho
-    ; " me gusta mas la funcion que yo le tengo :D
-    ; noremap <tab>t <esc>:tabnew %<cr>
-;
-; " final funciones con <Leader> -----------------------------------
-;
-    ; inoremap <C-a> <esc>
-; " funciones generales de otros editores
-; " guardar
-; " deshacer
-    ; inoremap <C-z> <esc> ui
-     ; noremap <C-z> u
-
-    ; vnoremap <tab> >gv
-    ; vnoremap <S-tab> <gv
-;
-; " mover entre splits
-    ; noremap <C-h> <C-w>h
-    ; noremap <C-j> <C-w>j
-    ; noremap <C-k> <C-w>k
-    ; noremap <C-l> <C-w>l
 ;
     ; noremap j gj
     ; noremap k gk
