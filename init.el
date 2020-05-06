@@ -194,29 +194,29 @@
 
 (savehist-mode 1)
 
-(progn
-  ;; make buffer switch command do suggestions, also for find-file command
-  (require 'ido)
-  (ido-mode 1)
-
-  ;; show choices vertically
-  (if (version< emacs-version "25")
-      (progn
-        (make-local-variable 'ido-separator)
-        (setq ido-separator "\n"))
-    (progn
-      (make-local-variable 'ido-decorations)
-      (setf (nth 2 ido-decorations) "\n")))
-
-  ;; show any name that has the chars you typed
-  (setq ido-enable-flex-matching t)
-  ;; use current pane for newly opened file
-  (setq ido-default-file-method 'selected-window)
-  ;; use current pane for newly switched buffer
-  (setq ido-default-buffer-method 'selected-window)
-  ;; stop ido from suggesting when naming new file
-  (when (boundp 'ido-minor-mode-map-entry)
-    (define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil)))
+;;(progn
+  ;;;; make buffer switch command do suggestions, also for find-file command
+  ;;(require 'ido)
+  ;;(ido-mode 1)
+;;
+  ;;;; show choices vertically
+  ;;(if (version< emacs-version "25")
+      ;;(progn
+        ;;(make-local-variable 'ido-separator)
+        ;;(setq ido-separator "\n"))
+    ;;(progn
+      ;;(make-local-variable 'ido-decorations)
+      ;;(setf (nth 2 ido-decorations) "\n")))
+;;
+  ;;;; show any name that has the chars you typed
+  ;;(setq ido-enable-flex-matching t)
+  ;;;; use current pane for newly opened file
+  ;;(setq ido-default-file-method 'selected-window)
+  ;;;; use current pane for newly switched buffer
+  ;;(setq ido-default-buffer-method 'selected-window)
+  ;;;; stop ido from suggesting when naming new file
+  ;;(when (boundp 'ido-minor-mode-map-entry)
+    ;;(define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil)))
 
 ;; indentation, tab
 (electric-indent-mode 0)
@@ -454,6 +454,7 @@
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (ruby-mode . lsp)
          (java-mode . lsp)
+         (python-mode . lsp)
          ;; if you want which-key integration
          ;;(lsp-mode . lsp-enable-which-key-integration)
          )
@@ -467,8 +468,6 @@
   :commands (lsp lsp-deferred)
   )
 (require 'lsp-java)
-;; (require 'lsp-ruby)
-
 
 (use-package ivy :ensure t
   :diminish (ivy-mode . "")
@@ -490,20 +489,6 @@
 	;; allow input not in order
         '((t   . ivy--regex-ignore-order))))
 
-;; quitar helm por el momento que quiero probar ivy
-;;    (use-package helm-company
-  ;;    :init
-  ;;    (progn
-    ;;    (defun my:code::helm-company-complete ()
-      ;;    (interactive)
-      ;;    (when (company-complete) (helm-company)))
-    ;;    (add-to-list 'completion-at-point-functions
-                 ;;    #'comint-dynamic-complete-filename))
-  ;;    ;;:bind (general-def
-         ;;    ;;:keymaps '(company-mode-map company-active-map)
-         ;;    ;;"TAB" #'my:code::helm-company-complete
-         ;;    ;;"<tab>" #'my:code::helm-company-complete)
-  ;;    )
 ;;
 ;;    (setq helm-split-window-inside-p t ;; open helm buffer inside current window, not occupy whole other window
       ;;    helm-echo-input-in-header-line t) ;; input close to where I type
@@ -587,9 +572,6 @@
 (require 'company-lsp)
 (push 'company-lsp company-backends)
 
-;; -- ; ;; if you are helm user
-;; -- ; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-;; -- ; ;; if you are ivy user
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
@@ -813,7 +795,7 @@
   (interactive)
   (message (buffer-file-name)))
 
-; TODO: aun falta hacer para poder esconder la terminal :v
+; TODO: aun falta hacer para poder esconder la terminal >:v
 (defun toggle-terminal ()
   "Toggle terminal in its own buffer."
   (interactive)
@@ -821,6 +803,12 @@
   (eshell)
   (message
    (buffer-file-name (current-buffer) ) )
+
+   ;;(if (eshell-mode)
+       ;;(message "kiubito")
+     ;;(evil-quit)
+     ;;)
+
   ;; (if (eq "eshell" (buffer-file-name (current-buffer) ) )
       ;; (kill-this-buffer)
     ;; (split-window-horizontally)
@@ -870,6 +858,15 @@
       ;; nil)
      ;; )))
 
+(defun close-except-last-window ()
+  "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
+  (interactive)
+  (if (one-window-p)
+      (eyebrowse-close-window-config)
+    (evil-quit)
+    )
+  )
+
 ;; hydras --------------------------------------------------
 
 ;; colores
@@ -889,18 +886,21 @@
   " actuar como leader en vim "
   ( "rs" reload-emacs-config "reload init" )
   ( "re" open-emacs-config "edit init" )
-  ( "l" helm-buffers-list "buffer list" )
+  ( "l" ivy-switch-buffer "buffer list" )
   ( "." toggle-terminal "terminal" )
-  ( "j" evil-next-buffer "next" )
-  ( "k" evil-next-buffer "next" )
+  ;; en cualquier caso no los he usado mucho, entonces probemos no tenerlos del todo, a ver si hacen falta
+  ;; ( "j" evil-previous-buffer "next" ) ;; este no sirve
+  ;; ( "k" evil-next-buffer "next" )
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
+  ( ";" #'counsel-locate "locate" )
   )
 
 (defhydra hydra-tabs (:color blue :idle 1.0)
   "Tab management: "
   ("c" eyebrowse-create-window-config "create" )
+  ("$" eyebrowse-rename-window-config "rename" )
   ("q" eyebrowse-close-window-config "quit" )
   ("l" eyebrowse-next-window-config "left" :color red)
   ("h" eyebrowse-prev-window-config "right" :color red)
@@ -913,8 +913,11 @@
   ("5" eyebrowse-switch-to-window-config-5)
   ("6" eyebrowse-switch-to-window-config-6)
   ("7" eyebrowse-switch-to-window-config-7)
+  ("8" eyebrowse-switch-to-window-config-8)
+  ("9" eyebrowse-switch-to-window-config-9)
   )
 
+;; TODO: cuadrar esto bien y aprender un poco, que por el momento solo he usado 'a'
 (defhydra hydra-org (:color red :columns 3)
   "Org Mode Movements"
   ("a" org-agenda "agenda")
@@ -925,18 +928,16 @@
   ("P" org-backward-heading-same-level "prev heading at same level")
   ("u" outline-up-heading "up heading")
   ("g" org-goto "goto" :exit t)
-
-)
+  )
 
 ;; keybinds ------------------------------------------------
 
-
-(gbind "M-m" 'ido-dired)
+(gbind "C-M-h" 'help-menu )
+(gbind "M-m" 'counsel-find-file )
 (gbind "C-SPC" 'hydra-tabs/body )
 (gbind "C-S-h" 'help-command )
 (gbind "C-S-s" 'save-all-buffers )
 (gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
-;; (gbind "ESC" 'keyboard-escape-quit )
 
  ;;; esc quits
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
@@ -950,8 +951,6 @@
 ; para redefinir comandos evil-ex
 ; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
-(gbind "C-M-h" 'help-menu )
-
 ;; redefinir mappings de evil
 (with-eval-after-load 'evil-maps
   ;;( nmap "g t" 'tab-next )
@@ -963,7 +962,7 @@
 
   ( nmap "C-s" 'evil-write )
   ( nmap "C-M-q" 'ido-kill-buffer ) ;'evil-quit )
-  ( nmap "C-q" 'evil-quit )
+  ( nmap "C-q" #'close-except-last-window )
   ;; ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
   ( nmap "C-w q" 'evil-quit ) ; 'kill-this-buffer )
   ( nmap "C-w t" 'eyebrowse-create-window-config )
@@ -973,7 +972,6 @@
   ( imap "C-v" 'evil-paste-before )
   ( amap "C-z" 'undo-tree-undo )
   ( imap "TAB" #'company-indent-or-complete-common)
-;  ( imap "RET" #'my-company-active-return)
 )
 
 (provide 'init);;; init.el end here
@@ -989,10 +987,6 @@
     ; nnoremap <Leader>m :botright lwindow 5<cr>
 ;
 ; "mover entre buffers
-    ; noremap <Leader>j <esc>:bp<cr>
-    ; noremap <Leader>k <esc>:bn<cr>
-    ; nnoremap <Leader>s :FZFLines <cr>
-;
     ; noremap j gj
     ; noremap k gk
     ; map gf :edit <cfile><cr>
