@@ -34,7 +34,7 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter lsp-dart company-lsp
+    (counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
              (evil use-package hydra bind-key)
              name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
@@ -359,14 +359,17 @@
 
 ; use ido to switch branches
 ; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
-(require 'evil-magit)
-(setq magit-completing-read-function 'magit-ido-completing-read)
-;; open magit status in same window as current buffer
-(setq magit-status-buffer-switch-function 'switch-to-buffer)
-;; highlight word/letter changes in hunk diffs
-(setq magit-diff-refine-hunk t)
+(use-package evil-magit
 
-(global-git-gutter-mode +1)
+  :config
+  (setq magit-completing-read-function 'magit-ido-completing-read)
+  ;; open magit status in same window as current buffer
+  (setq magit-status-buffer-switch-function 'switch-to-buffer)
+  ;; highlight word/letter changes in hunk diffs
+  (setq magit-diff-refine-hunk t)
+
+  (global-git-gutter-mode +1)
+  )
 
 ;; org mode ------------------------------------------------
 
@@ -467,13 +470,13 @@
   ;;:commands lsp
   :commands (lsp lsp-deferred)
   )
-(require 'lsp-java)
 
-(use-package ivy :ensure t
+(use-package ivy
+  :ensure t
   :diminish (ivy-mode . "")
   :bind
   (:map ivy-mode-map
-   ("C-'" . ivy-avy))
+        ("C-'" . ivy-avy))
   :config
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -488,29 +491,6 @@
   (setq ivy-re-builders-alist
 	;; allow input not in order
         '((t   . ivy--regex-ignore-order))))
-
-;;
-;;    (setq helm-split-window-inside-p t ;; open helm buffer inside current window, not occupy whole other window
-      ;;    helm-echo-input-in-header-line t) ;; input close to where I type
-;;
-;;    (defun spacemacs//helm-hide-minibuffer-maybe ()
-  ;;    "Hide minibuffer in Helm session if we use the header line as input field."
-  ;;    (when (with-helm-buffer helm-echo-input-in-header-line)
-    ;;    (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-      ;;    (overlay-put ov 'window (selected-window))
-      ;;    (overlay-put ov 'face
-                   ;;    (let ((bg-color (face-background 'default nil)))
-                     ;;    `(:background ,bg-color :foreground ,bg-color)))
-      ;;    (setq-local cursor-type nil))))
-;;
-;;    (add-hook 'helm-minibuffer-set-up-hook
-	  ;;    'spacemacs//helm-hide-minibuffer-maybe)
-;;
-;;    (setq helm-autoresize-max-height 0)
-;;    (setq helm-autoresize-min-height 20)
-;;    (helm-autoresize-mode 1)
-;;    ;; final de lo que estoy probando de helm
-
 
 (defun my-company-active-return ()
   "Function to autocomplete a company recomendation, or act as enter, depending on mode."
@@ -566,14 +546,32 @@
   (define-key company-active-map (kbd "RET") #'my-company-active-return)
   )
 
-(use-package lsp-ui :commands lsp-ui-mode)
-(lsp-ui-mode 1)
-(add-hook 'java-mode-hook #'lsp)
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+(use-package lsp-ui
+  :defer t
+  :commands lsp-ui-mode
+  :after lsp-mode
+  :config (lsp-ui-mode 1)
+  )
+(use-package lsp-java
+  :defer t
+  :after lsp-mode
+  :config (add-hook 'java-mode-hook #'lsp)
+  )
+(use-package company-lsp
+  :defer t
+  :after lsp-mode
+  :config (push 'company-lsp company-backends)
+  )
 
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-ivy
+  :defer t
+  :commands lsp-ivy-workspace-symbol
+  )
+
+(use-package lsp-treemacs
+  :defer t
+  :commands lsp-treemacs-errors-list
+  )
 
 ;; optionally if you want to use debugger
 (use-package dap-mode)
@@ -584,13 +582,6 @@
   ;; (which-key-mode))
 
 ;; visual --------------------------------------------------
-
-
-;; Fancy titlebar
-;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-;; (add-to-list 'default-frame-alist '(ns-appearance . dark))
-;; (setq ns-use-proxy-icon  nil)
-;; (setq frame-title-format nil)
 
 (blink-cursor-mode 0)
 
@@ -677,13 +668,15 @@
            )
       do (evil-set-initial-state mode state))
 
-(require 'display-line-numbers)
-(defcustom display-line-numbers-exempt-modes
-  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode help-mode magit-mode )
-  "Major modes on which to disable the linum mode, exempts them from global requirement."
-  :group 'display-line-numbers
-  :type 'list
-  :version "green")
+(use-package display-line-numbers
+  :config
+  (defcustom display-line-numbers-exempt-modes
+    '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode help-mode magit-mode )
+    "Major modes on which to disable the linum mode, exempts them from global requirement."
+    :group 'display-line-numbers
+    :type 'list
+    :version "green")
+)
 
 (defun display-line-numbers--turn-on ()
   "Turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'."
@@ -700,10 +693,13 @@
  (list
   ;; mode-line-misc-info ; for eyebrowse
   '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+  ;; (setcdr (assq 'vc-mode mode-line-format)
+  ;; '((:eval (replace-regexp-in-string "^ Git" " " vc-mode))))
   '(:eval (when-let (vc vc-mode)
             (list
              " "
-             (propertize (substring vc 5) )
+             ;;(propertize (substring vc 5) )
+             (replace-regexp-in-string "^ Git:" "" vc-mode)
              " "
              ) ) )
   '(:eval (list
