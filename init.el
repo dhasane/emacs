@@ -34,9 +34,9 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-             (evil use-package hydra bind-key)
-             name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+          (evil use-package hydra bind-key)
+          name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -44,107 +44,21 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; todo esto fue copiado
-;; -- ; ;; http://ergoemacs.org/emacs/emacs_init_index.html
-;; -- ; ;; for isearch-forward, make these equivalent: space newline tab hyphen underscore
-;; -- ; (setq search-whitespace-regexp "[-_ \t\n]+")
-;; -- ; (setq backup-by-copying t)
-;; -- ; (column-number-mode 1)
-;; -- ;
-;; -- ; (progn
-  ;; -- ; ;; pointless to warn. There's always undo.
-  ;; -- ; (put 'narrow-to-region 'disabled nil)
-  ;; -- ; (put 'narrow-to-page 'disabled nil)
-  ;; -- ; (put 'upcase-region 'disabled nil)
-  ;; -- ; (put 'downcase-region 'disabled nil)
-  ;; -- ; (put 'erase-buffer 'disabled nil)
-  ;; -- ; (put 'scroll-left 'disabled nil)
-  ;; -- ; (put 'dired-find-alternate-file 'disabled nil)
-;; -- ; )
-;; -- ; ;;; --------------------
-;; -- ; (progn
-  ;; -- ; (require 'dired-x)
-  ;; -- ; (setq dired-dwim-target t)
-  ;; -- ; (when (string-equal system-type "gnu/linux")
-;; -- ; (setq dired-listing-switches "-al --time-style long-iso"))
-  ;; -- ; (setq dired-recursive-copies 'always)
-  ;; -- ; (setq dired-recursive-deletes 'always))
-;; -- ; ;;; --------------------
-;; -- ; (setq save-interprogram-paste-before-kill t)
-;; -- ; ;; 2015-07-04 bug of pasting in emacs.
-;; -- ; ;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16737#17
-;; -- ; ;; http://ergoemacs.org/misc/emacs_bug_cant_paste_2015.html
-;; -- ; ;; (setq x-selection-timeout 300)
-;; -- ;
-;; -- ; (setq sentence-end-double-space nil )
-;; -- ; (setq set-mark-command-repeat-pop t)
-;; -- ; (setq mark-ring-max 5)
-;; -- ; (setq global-mark-ring-max 5)
-;; -- ;
-;; -- ; ;;; --------------------
-;; -- ; (progn
-  ;; -- ; ;; set a default font
-  ;; -- ; (cond
-   ;; -- ; ((string-equal system-type "gnu/linux")
-    ;; -- ; (when (member "DejaVu Sans Mono" (font-family-list)) (set-frame-font "DejaVu Sans Mono" t t))
-    ;; -- ; ;; specify font for chinese characters using default chinese font on linux
-    ;; -- ; (when (member "WenQuanYi Micro Hei" (font-family-list))
-      ;; -- ; (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-    ;; -- ; ;;
-    ;; -- ; )
-   ;; -- ; ((string-equal system-type "darwin") ; Mac
-    ;; -- ; (when (member "Menlo" (font-family-list)) (set-frame-font "Menlo-14" t t))
-    ;; -- ; ;;
-    ;; -- ; )
-   ;; -- ; ((string-equal system-type "windows-nt") ; Windows
-   ;; -- ; nil))
-;; -- ;
-  ;; -- ; ;; specify font for all unicode characters
-  ;; -- ; (when (member "Symbola" (font-family-list))
-    ;; -- ; (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-;; -- ;
-  ;; -- ; ;; ;; specify font for all unicode characters
-  ;; -- ; ;; (when (member "Apple Color Emoji" (font-family-list))
-  ;; -- ; ;;   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
-  ;; -- ; )
-;; -- ;
-;; -- ; (setq shift-select-mode nil)
-;; -- ;
-;; -- ; (progn
-  ;; -- ; ;; org-mode
-  ;; -- ; ;; make “org-mode” syntax color code sections
-  ;; -- ; (setq org-src-fontify-natively t)
-  ;; -- ; (setq org-startup-folded nil)
-  ;; -- ; (setq org-return-follows-link t)
-  ;; -- ; (setq org-startup-truncated nil))
-;; -- ;
-;; -- ; (progn
- ;; -- ; ;; Make whitespace-mode with very basic background coloring for whitespaces.
-  ;; -- ; ;; http://ergoemacs.org/emacs/whitespace-mode.html
-  ;; -- ; (setq whitespace-style (quote (face spaces tabs newline space-mark tab-mark newline-mark )))
-;; -- ;
-;; -- ; ;; convenient
-;; -- ; (defalias 'yes-or-no-p 'y-or-n-p)
-;; -- ; (defalias 'rs 'replace-string)
-;; -- ;
-;; -- ; (defalias 'lcd 'list-colors-display)
-;; -- ; (defalias 'ds 'desktop-save)
-;; -- ; (defalias 'dt 'desktop-save)
-;; -- ; (defalias 'dsm 'desktop-save-mode)
-;; -- ;
-;; -- ; (defalias 'elm 'emacs-lisp-mode)
-;; -- ; (defalias 'hm 'html-mode)
-;; -- ; (defalias 'jsm 'js-mode)
-;; -- ; (defalias 'fm 'fundamental-mode)
-;; -- ; (defalias 'ssm 'shell-script-mode)
-;; -- ; (defalias 'om 'org-mode)
-;; -- ;
-;; -- ; (when (fboundp 'magit-status)
-  ;; -- ; (defalias 'ms 'magit-status))
-;; -- ;
-;; -- ; ;; no want tpu-edt
-;; -- ; (defalias 'tpu-edt 'forward-char)
-;; -- ; (defalias 'tpu-edt-on 'forward-char)
+;; init ----------------------------------------------------
+
+;; medir el tiempo de inico
+;; Use a hook so the message doesn't get clobbered by other messages.
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
+;; Make startup faster by reducing the frequency of garbage
+;; collection.  The default is 800 kilobytes.  Measured in bytes.
+(setq gc-cons-threshold (* 50 1000 1000))
 
 ;; start-up ------------------------------------------------
 (setq inhibit-startup-screen t)
@@ -161,13 +75,11 @@
 
   ;; Save minibuffer history
   (savehist-mode 1)
-  (require 'recentf)
-  (recentf-mode 1)
   (desktop-save-mode 1)
   (global-auto-revert-mode 1)
 
   ;; big minibuffer height, for ido to show choices vertically
-  ;; (setq max-mini-window-height 0.5)
+  (setq max-mini-window-height 0.5)
 
   ;; minibuffer, stop cursor going into prompt
   (customize-set-variable
@@ -181,42 +93,9 @@
       (setq-default save-place t))
   (save-place-mode 1))
 
-(progn
-  ;; minibuffer enhanced completion
-  (require 'icomplete)
-  (icomplete-mode 1)
-  ;; show choices vertically
-  (setq icomplete-separator "\n")
-  (setq icomplete-hide-common-prefix nil)
-  (setq icomplete-in-buffer t)
-  (define-key icomplete-minibuffer-map (kbd "<right>") 'icomplete-forward-completions)
-  (define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions))
+;; TODO: encontrar algo para hacer que el minibuffer funcione de forma mas interesante
 
 (savehist-mode 1)
-
-;;(progn
-  ;;;; make buffer switch command do suggestions, also for find-file command
-  ;;(require 'ido)
-  ;;(ido-mode 1)
-;;
-  ;;;; show choices vertically
-  ;;(if (version< emacs-version "25")
-      ;;(progn
-        ;;(make-local-variable 'ido-separator)
-        ;;(setq ido-separator "\n"))
-    ;;(progn
-      ;;(make-local-variable 'ido-decorations)
-      ;;(setf (nth 2 ido-decorations) "\n")))
-;;
-  ;;;; show any name that has the chars you typed
-  ;;(setq ido-enable-flex-matching t)
-  ;;;; use current pane for newly opened file
-  ;;(setq ido-default-file-method 'selected-window)
-  ;;;; use current pane for newly switched buffer
-  ;;(setq ido-default-buffer-method 'selected-window)
-  ;;;; stop ido from suggesting when naming new file
-  ;;(when (boundp 'ido-minor-mode-map-entry)
-    ;;(define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil)))
 
 ;; indentation, tab
 (electric-indent-mode 0)
@@ -239,20 +118,7 @@
 ;; para un modo en especifico (serviria para ignorar en markdown)
 ;; (add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
-;; TODO: mirar como relacionar esto a una 'caja' de recomendaciones
-(setq hippie-expand-try-functions-list
-      '(
-        try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        ;; try-expand-dabbrev-from-kill
-        try-complete-lisp-symbol-partially
-        try-complete-lisp-symbol
-        try-complete-file-name-partially
-        try-complete-file-name
-        ;; try-expand-all-abbrevs
-        ;; try-expand-list
-        ;; try-expand-line
-        ))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; plugins -------------------------------------------------
 
@@ -294,6 +160,24 @@
 
 (eval-when-compile (require 'use-package))
 
+(use-package which-key
+
+  :config
+  (which-key-setup-side-window-right)
+  ;; (setq which-key-popup-type 'side-window)
+  ;; (setq which-key-popup-type 'frame)
+  ;; ;; max width of which-key frame: number of columns (an integer)
+  ;; (setq which-key-frame-max-width 60)
+  ;;
+  ;; ;; max height of which-key frame: number of lines (an integer)
+  ;; (setq which-key-frame-max-height 20)
+  )
+
+(use-package recentf
+  :config
+  (recentf-mode 1)
+  )
+
 (use-package evil
   :ensure t
   :init
@@ -310,8 +194,8 @@
   (evil-collection-init)
   )
 
-(require 'hydra )
-(require 'bind-key )
+(use-package hydra )
+(use-package bind-key )
 
 ;; Projectile
 (use-package projectile
@@ -319,48 +203,36 @@
   :init
   (setq projectile-require-project-root nil)
   :config
-  (projectile-mode 1))
+  (projectile-mode 1)
+  )
 
 (eval-when-compile (require 'cl))
 (setq use-package-always-ensure t)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
-(evil-collection-init)
 
 ;; (pdf-tools-install)
-(pdf-loader-install)
+; (pdf-loader-install)
 
 (setq x-wait-for-event-timeout nil)
 
-;; Helm
-;; (use-package helm
-  ;; :ensure t
-  ;; :init
-  ;; (setq helm-M-x-fuzzy-match t
-        ;; helm-mode-fuzzy-match t
-        ;; helm-recentf-fuzzy-match t
-        ;; helm-locate-fuzzy-match t
-        ;; helm-semantic-fuzzy-match t
-        ;; helm-imenu-fuzzy-match t
-        ;; helm-completion-in-region-fuzzy-match t
-        ;; helm-candidate-number-list 150
-        ;; helm-split-window-inside-p t
-        ;; helm-move-to-line-cycle-in-source t
-        ;; helm-echo-input-in-header-line t
-        ;; helm-autoresize-max-height 0
-        ;; helm-autoresize-min-height 20
-        ;; helm-buffers-fuzzy-matching t
-        ;; )
-  ;; :config
-  ;; (helm-mode 1))
+;; tramp ---------------------------------------------------
 
+(use-package tramp
+  :config
+  (setq tramp-default-method "ssh")
+  )
 
 ;; git ------------------------------------------------------
 
 ; use ido to switch branches
 ; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
-(use-package evil-magit
+(use-package magit
+  :ensure t
+  )
 
+(use-package evil-magit
+  :after magit
   :config
   (setq magit-completing-read-function 'magit-ido-completing-read)
   ;; open magit status in same window as current buffer
@@ -373,16 +245,20 @@
 
 ;; org mode ------------------------------------------------
 
-(require 'org)
-(setq org-log-done t)
+(use-package org
+  :ensure t
+  :defer t
+  :config
+  (setq org-log-done t)
 
-(setq org-agenda-files
-      '(
-        "~/org/work.org"
-        "~/org/school.org"
-        "~/org/home.org"
+  (setq org-agenda-files
+        '(
+          "~/org/work.org"
+          "~/org/school.org"
+          "~/org/home.org"
+          )
         )
-      )
+  )
 
 (use-package evil-org
   :ensure t
@@ -393,13 +269,14 @@
             (lambda ()
               (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+  ;; (evil-org-agenda-set-keys)
 
-(evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
+  (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
+  )
 
 ;; (setf evil-org-key-theme '(navigation insert textobjects additional))
 (setf org-special-ctrl-a/e t)
-(evil-org-agenda-set-keys)
+;; (evil-org-agenda-set-keys)
 
 (add-hook 'org-mode-hook
           (lambda ()
@@ -454,6 +331,7 @@
 
 (use-package lsp-mode
   :defer t
+  :ensure t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (ruby-mode . lsp)
          (java-mode . lsp)
@@ -466,6 +344,7 @@
     ;; :project/:workspace/:file
     (setq lsp-diagnostics-modeline-scope :project)
     (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode))
+  (lsp-diagnostics-modeline-mode t)
 
   ;;:commands lsp
   :commands (lsp lsp-deferred)
@@ -492,22 +371,24 @@
 	;; allow input not in order
         '((t   . ivy--regex-ignore-order))))
 
-(defun my-company-active-return ()
-  "Function to autocomplete a company recomendation, or act as enter, depending on mode."
-  (interactive)
-  (if (company-explicit-action-p)
-      (company-complete)
-    (call-interactively
-     (or (key-binding (this-command-keys))
-         (key-binding (kbd "RET")))
-     )))
+;; no se si esto siga siendo necesario :v
+;; (defun my-company-active-return ()
+  ;; "Function to autocomplete a company recomendation, or act as enter, depending on mode."
+  ;; (interactive)
+  ;; (if (company-explicit-action-p)
+      ;; (company-complete)
+    ;; (call-interactively
+     ;; (or (key-binding (this-command-keys))
+         ;; (key-binding (kbd "RET")))
+     ;; )))
 
 (use-package company
-  :defer t
+  :ensure t
+  :defer 5
   :config
   ;; (setq company-frontends nil)
 
-  ; No delay in showing suggestions.
+  ; Delay in showing suggestions.
   (setq company-idle-delay 10)
   ; Show suggestions after entering one character.
   (setq company-minimum-prefix-length 1)
@@ -542,33 +423,41 @@
   (add-hook 'after-init-hook 'global-company-mode)
 
   ;; para poder usar enter para autocompletar
-  (define-key company-active-map (kbd "<return>") #'my-company-active-return)
-  (define-key company-active-map (kbd "RET") #'my-company-active-return)
+  ;; (define-key company-active-map (kbd "<return>") #'my-company-active-return)
+  ;; (define-key company-active-map (kbd "RET") #'my-company-active-return)
+  (define-key company-active-map (kbd "<return>") #'company-complete-selection)
+  (define-key company-active-map (kbd "RET") #'company-complete-selection)
+  ;; (define-key company-active-map (kbd "C-SPC") #'company-complete-selection)
   )
 
 (use-package lsp-ui
-  :defer t
+  :ensure t
   :commands lsp-ui-mode
   :after lsp-mode
   :config (lsp-ui-mode 1)
   )
+
 (use-package lsp-java
+  :ensure t
   :defer t
   :after lsp-mode
   :config (add-hook 'java-mode-hook #'lsp)
   )
+
 (use-package company-lsp
-  :defer t
+  :ensure t
   :after lsp-mode
   :config (push 'company-lsp company-backends)
   )
 
 (use-package lsp-ivy
+  :ensure t
   :defer t
   :commands lsp-ivy-workspace-symbol
   )
 
 (use-package lsp-treemacs
+  :ensure t
   :defer t
   :commands lsp-treemacs-errors-list
   )
@@ -597,11 +486,16 @@
 
 (toggle-scroll-bar -1)
 
-(setq visible-bell nil)
-(setq ring-bell-function 'ignore)
+;; quitar todo tipo de 'alarma'
+(setq visible-bell nil
+      ring-bell-function 'ignore)
 
 ;; lo mas cercano a los tabs de vim que encontre
-(eyebrowse-mode t)
+(use-package eyebrowse
+  :ensure t
+  :config
+  (eyebrowse-mode t)
+  )
 
 ;; (load-theme 'gruvbox-dark-soft)
 (load-theme 'gruvbox-dark-medium)
@@ -643,6 +537,7 @@
                 (set-face-foreground 'mode-line (cdr color))))))
 
 ;; this cotrols the state in which each mode will be opened in
+;; normal/insert/emacs
 (loop for (mode . state)
       in '(
            (dired-mode . normal)
@@ -669,6 +564,7 @@
       do (evil-set-initial-state mode state))
 
 (use-package display-line-numbers
+  :ensure t
   :config
   (defcustom display-line-numbers-exempt-modes
     '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode help-mode magit-mode )
@@ -676,29 +572,27 @@
     :group 'display-line-numbers
     :type 'list
     :version "green")
-)
+  (defun display-line-numbers--turn-on ()
+    "Turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'."
+    (if (and
+         (not (member major-mode display-line-numbers-exempt-modes))
+         (not (minibufferp)))
+        (display-line-numbers-mode)))
+  (global-display-line-numbers-mode)
+  )
 
-(defun display-line-numbers--turn-on ()
-  "Turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'."
-  (if (and
-       (not (member major-mode display-line-numbers-exempt-modes))
-       (not (minibufferp)))
-      (display-line-numbers-mode)))
-
-(global-display-line-numbers-mode)
 
 ;; status line information
 (setq-default
  mode-line-format
  (list
-  ;; mode-line-misc-info ; for eyebrowse
-  '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+  mode-line-misc-info ; for eyebrowse
+  ;; '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
   ;; (setcdr (assq 'vc-mode mode-line-format)
   ;; '((:eval (replace-regexp-in-string "^ Git" " " vc-mode))))
   '(:eval (when-let (vc vc-mode)
             (list
              " "
-             ;;(propertize (substring vc 5) )
              (replace-regexp-in-string "^ Git:" "" vc-mode)
              " "
              ) ) )
@@ -727,6 +621,11 @@
   (propertize " %m " )
   )
  )
+
+;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+;; (set-window-parameter (selected-window) 'alpha '(85 . 50))
+;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+
 ;; functions -----------------------------------------------
 
 (defun save-all-buffers ()
@@ -769,6 +668,17 @@
   (interactive)
   (find-file "~/.emacs.d/init.el") )
 
+(defun prelude-google ()
+  "Googles a query or region if any."
+  (interactive)
+  (browse-url
+   (concat
+    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
+    (if mark-active
+        (buffer-substring (region-beginning) (region-end))
+      (read-string "Google: ")))))
+(global-set-key (kbd "C-c g") 'prelude-google)
+
 (defun nmap (key function)
   "Define mapping in evil normal mode.  FUNCTION in KEY."
   (define-key evil-motion-state-map (kbd key) function) )
@@ -778,7 +688,7 @@
   (define-key evil-insert-state-map (kbd key) function) )
 
 (defun amap (key function)
-  "Define mapping in evil normal/insert mode.  FUNCTION in KEY."
+  "Define mapping in evil normal and insert mode.  FUNCTION in KEY."
   (nmap key function)
   (imap key function) )
 
@@ -812,48 +722,6 @@
     ;; )
   )
 
-; TODO estas funciones suenan interesantes
-;; ; A function that behaves like Vim's ':tabe' commnad for creating a new tab and
-;; ; buffer (the name "[No Name]" is also taken from Vim).
-;; (defun vimlike-:tabe ()
-  ;; "Vimlike ':tabe' behavior for creating a new tab and buffer."
-  ;; (interactive)
-  ;; (let ((buffer (generate-new-buffer "[No Name]")))
-      ;; ; create new tab
-      ;; (elscreen-create)
-      ;; ; set window's buffer to the newly-created buffer
-      ;; (set-window-buffer (selected-window) buffer)
-      ;; ; set state to normal state
-      ;; (with-current-buffer buffer
-        ;; (evil-normal-state))
-    ;; )
-  ;; )
-;;
-;; (defun vimlike-quit ()
-  ;; "Vimlike ':q' behavior: close current window if there are split windows;
-;; otherwise, close current tab (elscreen)."
-  ;; (interactive)
-  ;; (let ((one-elscreen (elscreen-one-screen-p))
-        ;; (one-window (one-window-p))
-        ;; )
-    ;; (cond
-     ;; ; if current tab has split windows in it, close the current live window
-     ;; ((not one-window)
-      ;; (delete-window) ; delete the current window
-      ;; (balance-windows) ; balance remaining windows
-      ;; nil)
-     ;; ; if there are multiple elscreens (tabs), close the current elscreen
-     ;; ((not one-elscreen)
-      ;; (elscreen-kill)
-      ;; nil)
-     ;; ; if there is only one elscreen, just try to quit (calling elscreen-kill
-     ;; ; will not work, because elscreen-kill fails if there is only one
-     ;; ; elscreen)
-     ;; (one-elscreen
-      ;; (evil-quit)
-      ;; nil)
-     ;; )))
-
 (defun close-except-last-window ()
   "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
   (interactive)
@@ -862,6 +730,26 @@
     (evil-quit)
     )
   )
+
+ ;; Set transparency of emacs
+ (defun transparency (value)
+   "Sets the transparency of the frame window. 0=transparent/100=opaque"
+   (interactive "nTransparency Value 0 - 100 opaque:")
+   (set-frame-parameter (selected-frame) 'alpha value)
+   )
+
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter
+     nil 'alpha
+     (if (eql (cond ((numberp alpha) alpha)
+                    ((numberp (cdr alpha)) (cdr alpha))
+                    ;; Also handle undocumented (<active> <inactive>) form.
+                    ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+         '(85 . 50) '(100 . 100)))))
+(global-set-key (kbd "C-c t") 'toggle-transparency)
 
 ;; hydras --------------------------------------------------
 
@@ -884,6 +772,7 @@
   ( "re" open-emacs-config "edit init" )
   ( "l" ivy-switch-buffer "buffer list" )
   ( "." toggle-terminal "terminal" )
+  ( "e" counsel-flycheck "errores" )
   ;; en cualquier caso no los he usado mucho, entonces probemos no tenerlos del todo, a ver si hacen falta
   ;; ( "j" evil-previous-buffer "next" ) ;; este no sirve
   ;; ( "k" evil-next-buffer "next" )
@@ -891,10 +780,11 @@
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
   ( ";" #'counsel-locate "locate" )
+  ( "t" #'treemacs "tree" )
   )
 
 (defhydra hydra-tabs (:color blue :idle 1.0)
-  "Tab management: "
+  "Tab management"
   ("c" eyebrowse-create-window-config "create" )
   ("$" eyebrowse-rename-window-config "rename" )
   ("q" eyebrowse-close-window-config "quit" )
@@ -923,8 +813,16 @@
   ("N" org-forward-heading-same-level "next heading at same level")
   ("P" org-backward-heading-same-level "prev heading at same level")
   ("u" outline-up-heading "up heading")
-  ("g" org-goto "goto" :exit t)
+  ("g" org-goto "goto" :exit t) ;; y esto como que no sirve :v
   )
+
+;; la encontre de ejemplo y creo que podria ser util
+(defhydra hydra-zoom ()
+  "zoom"
+  ("+" text-scale-increase "in")
+  ("-" text-scale-decrease "out")
+  ("0" (text-scale-adjust 0) "reset")
+  ("q" nil "quit" :color blue))
 
 ;; keybinds ------------------------------------------------
 
@@ -946,6 +844,23 @@
 
 ; para redefinir comandos evil-ex
 ; (evil-ex-define-cmd "q" 'kill-this-buffer)
+;; Our Custom Variable
+
+;;(setq custom-tab-width 2)
+
+(defun disable-tabs () (setq indent-tabs-mode nil))
+(defun enable-tabs  ()
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  (setq indent-tabs-mode t)
+  (setq tab-width custom-tab-width))
+
+; " para solo mostrar las marcas dentro del archivo
+    ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
+;
+; "mover entre buffers
+    ; noremap j gj
+    ; noremap k gk
+    ; map gf :edit <cfile><cr>
 
 ;; redefinir mappings de evil
 (with-eval-after-load 'evil-maps
@@ -956,7 +871,6 @@
   ( nmap "C-k" 'evil-window-up )
   ( nmap "C-j" 'evil-window-down )
 
-  ( nmap "C-s" 'evil-write )
   ( nmap "C-M-q" 'ido-kill-buffer ) ;'evil-quit )
   ( nmap "C-q" #'close-except-last-window )
   ;; ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
@@ -965,24 +879,15 @@
   ( nmap "TAB" 'evil-window-map )
   ( nmap ","   #'hydra-leader/body )
   ( imap "C-s" 'save-and-exit-evil )
+  ( nmap "C-s" 'evil-write )
   ( imap "C-v" 'evil-paste-before )
   ( amap "C-z" 'undo-tree-undo )
   ( imap "TAB" #'company-indent-or-complete-common)
+
+  ;; ( nmap "\'\?" #'evil-show-marks) ; mostrar las marcas
 )
 
-(provide 'init);;; init.el end here
+;; Make gc pauses faster by decreasing the threshold.
+(setq gc-cons-threshold (* 2 1000 1000))
 
-;; ya solo falta buscar como organizar un para de bobadas :D
-; " mostrar las marcas
-    ; nnoremap '? :marks <cr>
-;
-; " para solo mostrar las marcas dentro del archivo
-    ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
-;
-; " muestra errores
-    ; nnoremap <Leader>m :botright lwindow 5<cr>
-;
-; "mover entre buffers
-    ; noremap j gj
-    ; noremap k gk
-    ; map gf :edit <cfile><cr>
+(provide 'init);;; init.el end here

@@ -12,3 +12,7 @@ ya tengo bastante hecho, pero a ver si encuentro algo interesante para agregar
 Ya que podria ser interesante la diferencia,
 [[http://ergoemacs.org/emacs/emacs_shell_vs_term_vs_ansi-term_vs_eshell.html][comparacion entre shell, term y eshell]]
 ademas que creo que me gustaria probar con eshell, para que puede funcionar independiente al SO
+
+use esto para que la autocompleticion funcione como me gusta, ya que antes al presionar enter se pasaba a linea nueva y no me gusta
+graciosamente la pregunta del link es para desactivarlo completamente, pero me dio la guia para saber cuales funciones eran
+[[https://emacs.stackexchange.com/questions/13286/how-can-i-stop-the-enter-key-from-triggering-a-completion-in-company-mode][enter para completar con company]]
