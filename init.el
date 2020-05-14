@@ -42,7 +42,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(evil-goggles-change-face ((t (:inherit diff-removed))))
+ '(evil-goggles-delete-face ((t (:inherit diff-removed))))
+ '(evil-goggles-paste-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+ '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+ '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
 
 ;; init ----------------------------------------------------
 
@@ -66,9 +72,12 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8-unix)
 
-(setq auto-save-default nil)
-(setq make-backup-files nil)
-(setq create-lockfiles nil)
+(tool-bar-mode -1)
+
+(setq auto-save-default nil
+      make-backup-files nil
+      create-lockfiles nil
+      )
 
 (progn
   (setq enable-recursive-minibuffers t)
@@ -98,13 +107,13 @@
 (savehist-mode 1)
 
 ;; indentation, tab
-(electric-indent-mode 0)
+(electric-indent-mode 1)
 
 ;; set highlighting brackets
 (show-paren-mode 1)
-(setq show-paren-delay 0)
 (electric-pair-mode 1)
-(setq show-paren-style 'parenthesis)
+(setq show-paren-delay 0
+      show-paren-style 'parenthesis)
 (set-default 'tab-always-indent 'complete)
 
 (setq-default indent-tabs-mode nil
@@ -144,6 +153,11 @@
 
 (package-initialize)
 
+; fetch the list of packages available
+(unless package-archive-contents
+  (package-refresh-contents))
+(package-install-selected-packages)
+
 ;; esto fue necesario para que siquiera sirviera en windows
 (setq inhibit-compacting-font-caches t)
 
@@ -151,19 +165,14 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(require 'use-package)
-
-; fetch the list of packages available
-(unless package-archive-contents
-  (package-refresh-contents))
-(package-install-selected-packages)
-
 (eval-when-compile (require 'use-package))
 
 (use-package which-key
-
   :config
   (which-key-setup-side-window-right)
+  (setq which-key-max-description-length 27)
+  (setq which-key-unicode-correction 3)
+  (setq which-key-show-prefix 'left)
   ;; (setq which-key-popup-type 'side-window)
   ;; (setq which-key-popup-type 'frame)
   ;; ;; max width of which-key frame: number of columns (an integer)
@@ -178,13 +187,99 @@
   (recentf-mode 1)
   )
 
+;;  (eval-after-load "evil"
+  ;;  ;; "This cotrols the state in which each mode will be opened in."
+  ;;  ;; "States: normal/insert/emacs."
+  ;;  (loop for (mode . state)
+        ;;  in '(
+             ;;  (dired-mode . normal)
+             ;;  (help-mode . normal)
+             ;;  (magit-mode . normal)
+             ;;  (package-menu-mode . normal)
+                                        ;;  ;           (emacs-lisp-mode . normal)
+;;
+             ;;  (inferior-emacs-lisp-mode . emacs)
+             ;;  (nrepl-mode . insert)
+             ;;  (pylookup-mode . emacs)
+             ;;  (comint-mode . normal)
+             ;;  (shell-mode . insert)
+             ;;  (git-commit-mode . insert)
+             ;;  (git-rebase-mode . emacs)
+             ;;  (term-mode . emacs)
+             ;;  ;;(helm-grep-mode . emacs)
+             ;;  (grep-mode . emacs)
+             ;;  (bc-menu-mode . emacs)
+             ;;  (magit-branch-manager-mode . emacs)
+             ;;  (rdictcc-buffer-mode . emacs)
+             ;;  (wdired-mode . normal)
+             ;;  )
+        ;;  do (evil-set-initial-state mode state))
+;;
+    ;;  )
+
 (use-package evil
   :ensure t
+  :defer .1
   :init
-  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
   (setq evil-want-keybinding nil)
+  ;;(setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-integration nil) ;; required by evil-collection
+  ;;(setq evil-search-module 'evil-search)
+  ;;(setq evil-ex-complete-emacs-commands nil)
+  ;;(setq evil-vsplit-window-right t) ;; like vim's 'splitright'
+  ;;(setq evil-split-window-below t) ;; like vim's 'splitbelow'
+  ;;(setq evil-shift-round nil)
+  ;; (setq evil-want-C-u-scroll t)
+
+  :bind
+  (:map
+   evil-normal-state-map
+  ;;("g t" . 'tab-next )
+  ;;("g b" . 'tab-previous )
+   ("Y"   . #'evil-yank-to-end-of-line )
+   ("C-s" . 'evil-write )
+   ("TAB" . 'evil-window-map )
+   ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
+   ("C-w t" . 'eyebrowse-create-window-config )
+   ("C-l" . 'evil-window-right )
+   ("C-h" . 'evil-window-left )
+   ("C-k" . 'evil-window-up )
+   ("C-j" . 'evil-window-down )
+   :map
+   evil-insert-state-map
+   ("C-s" . 'save-and-exit-evil )
+   ("C-v" . 'evil-paste-before )
+   ("TAB" . #'company-indent-or-complete-common) ;; esto probablemente lo deberia mover a company
+   )
+
   :config
   (evil-mode 1)
+
+  (defun evil-yank-to-end-of-line ()
+    (interactive)
+    (evil-yank (point) (line-end-position) )
+    )
+
+ ;;; esc quits
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-quit)
+  (define-key minibuffer-local-map [escape] 'keyboard-escape-quit)
+  (define-key minibuffer-local-ns-map [escape] 'keyboard-escape-quit)
+  (define-key minibuffer-local-completion-map [escape] 'keyboard-escape-quit )
+  (define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit )
+  (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
+  )
+
+;; visual hints while editing
+(use-package evil-goggles
+  :ensure t
+  :after evil
+  :config
+  (setq evil-goggles-duration 0.300) ;; default is 0.200
+  (evil-goggles-use-diff-faces)
+  (evil-goggles-mode)
+  (custom-set-faces
+   '(evil-goggles-yank-face ((t (:inherit 'isearch-fail)))))
   )
 
 (use-package evil-collection
@@ -194,8 +289,10 @@
   (evil-collection-init)
   )
 
-(use-package hydra )
-(use-package bind-key )
+(use-package hydra
+  )
+(use-package bind-key
+  )
 
 ;; Projectile
 (use-package projectile
@@ -229,10 +326,11 @@
 ; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
 (use-package magit
   :ensure t
+  :defer .1
   )
 
 (use-package evil-magit
-  :after magit
+  :after magit evil
   :config
   (setq magit-completing-read-function 'magit-ido-completing-read)
   ;; open magit status in same window as current buffer
@@ -247,7 +345,7 @@
 
 (use-package org
   :ensure t
-  :defer t
+  :defer .1
   :config
   (setq org-log-done t)
 
@@ -497,8 +595,8 @@
   (eyebrowse-mode t)
   )
 
-;; (load-theme 'gruvbox-dark-soft)
 (load-theme 'gruvbox-dark-medium)
+;; (load-theme 'gruvbox-dark-soft)
 
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
@@ -536,32 +634,6 @@
                 (set-face-background 'mode-line (car color))
                 (set-face-foreground 'mode-line (cdr color))))))
 
-;; this cotrols the state in which each mode will be opened in
-;; normal/insert/emacs
-(loop for (mode . state)
-      in '(
-           (dired-mode . normal)
-           (help-mode . normal)
-           (magit-mode . normal)
-           (package-menu-mode . normal)
-;           (emacs-lisp-mode . normal)
-
-           (inferior-emacs-lisp-mode . emacs)
-           (nrepl-mode . insert)
-           (pylookup-mode . emacs)
-           (comint-mode . normal)
-           (shell-mode . insert)
-           (git-commit-mode . insert)
-           (git-rebase-mode . emacs)
-           (term-mode . emacs)
-           ;;(helm-grep-mode . emacs)
-           (grep-mode . emacs)
-           (bc-menu-mode . emacs)
-           (magit-branch-manager-mode . emacs)
-           (rdictcc-buffer-mode . emacs)
-           (wdired-mode . normal)
-           )
-      do (evil-set-initial-state mode state))
 
 (use-package display-line-numbers
   :ensure t
@@ -580,7 +652,6 @@
         (display-line-numbers-mode)))
   (global-display-line-numbers-mode)
   )
-
 
 ;; status line information
 (setq-default
@@ -731,12 +802,12 @@
     )
   )
 
- ;; Set transparency of emacs
- (defun transparency (value)
-   "Sets the transparency of the frame window. 0=transparent/100=opaque"
-   (interactive "nTransparency Value 0 - 100 opaque:")
-   (set-frame-parameter (selected-frame) 'alpha value)
-   )
+;; Set transparency of emacs
+(defun transparency (value)
+  "Sets the transparency of the frame window. 0=transparent/100=opaque"
+  (interactive "nTransparency Value 0 - 100 opaque:")
+  (set-frame-parameter (selected-frame) 'alpha value)
+  )
 
 (defun toggle-transparency ()
   (interactive)
@@ -774,8 +845,8 @@
   ( "." toggle-terminal "terminal" )
   ( "e" counsel-flycheck "errores" )
   ;; en cualquier caso no los he usado mucho, entonces probemos no tenerlos del todo, a ver si hacen falta
-  ;; ( "j" evil-previous-buffer "next" ) ;; este no sirve
-  ;; ( "k" evil-next-buffer "next" )
+  ( "j" previous-buffer "next" ) ;; este no sirve
+  ( "k" next-buffer "next" )
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
@@ -833,14 +904,6 @@
 (gbind "C-S-s" 'save-all-buffers )
 (gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
 
- ;;; esc quits
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
-(define-key minibuffer-local-map [escape] 'keyboard-escape-quit)
-(define-key minibuffer-local-ns-map [escape] 'keyboard-escape-quit)
-(define-key minibuffer-local-completion-map [escape] 'keyboard-escape-quit )
-(define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit )
-(define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
 
 ; para redefinir comandos evil-ex
 ; (evil-ex-define-cmd "q" 'kill-this-buffer)
@@ -864,27 +927,12 @@
 
 ;; redefinir mappings de evil
 (with-eval-after-load 'evil-maps
-  ;;( nmap "g t" 'tab-next )
-  ;;( nmap "g b" 'tab-previous )
-  ( nmap "C-l" 'evil-window-right )
-  ( nmap "C-h" 'evil-window-left )
-  ( nmap "C-k" 'evil-window-up )
-  ( nmap "C-j" 'evil-window-down )
-
   ( nmap "C-M-q" 'ido-kill-buffer ) ;'evil-quit )
   ( nmap "C-q" #'close-except-last-window )
   ;; ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
-  ( nmap "C-w q" 'evil-quit ) ; 'kill-this-buffer )
-  ( nmap "C-w t" 'eyebrowse-create-window-config )
-  ( nmap "TAB" 'evil-window-map )
+  ;; ( nmap "C-w t" 'eyebrowse-create-window-config )
   ( nmap ","   #'hydra-leader/body )
-  ( imap "C-s" 'save-and-exit-evil )
-  ( nmap "C-s" 'evil-write )
-  ( imap "C-v" 'evil-paste-before )
   ( amap "C-z" 'undo-tree-undo )
-  ( imap "TAB" #'company-indent-or-complete-common)
-
-  ;; ( nmap "\'\?" #'evil-show-marks) ; mostrar las marcas
 )
 
 ;; Make gc pauses faster by decreasing the threshold.
