@@ -77,7 +77,7 @@
 (setq auto-save-default nil
       make-backup-files nil
       create-lockfiles nil
-      )
+     )
 
 (progn
   (setq enable-recursive-minibuffers t)
@@ -170,9 +170,10 @@
 (use-package which-key
   :config
   (which-key-setup-side-window-right)
-  (setq which-key-max-description-length 27)
+  ;; (setq which-key-max-description-length 27)
   (setq which-key-unicode-correction 3)
   (setq which-key-show-prefix 'left)
+  (setq which-key-side-window-max-width 0.33)
   ;; (setq which-key-popup-type 'side-window)
   ;; (setq which-key-popup-type 'frame)
   ;; ;; max width of which-key frame: number of columns (an integer)
@@ -224,41 +225,61 @@
   (setq evil-want-keybinding nil)
   ;;(setq evil-want-integration t) ;; This is optional since it's already set to t by default.
   (setq evil-want-integration nil) ;; required by evil-collection
-  ;;(setq evil-search-module 'evil-search)
-  ;;(setq evil-ex-complete-emacs-commands nil)
-  ;;(setq evil-vsplit-window-right t) ;; like vim's 'splitright'
-  ;;(setq evil-split-window-below t) ;; like vim's 'splitbelow'
+  (setq evil-search-module 'evil-search)
+  ;; (setq evil-ex-complete-emacs-commands nil)
+  (setq evil-vsplit-window-right t) ;; like vim's 'splitright'
+  (setq evil-split-window-below t) ;; like vim's 'splitbelow'
   ;;(setq evil-shift-round nil)
   ;; (setq evil-want-C-u-scroll t)
 
   :bind
   (:map
    evil-normal-state-map
+   ("j" . 'evil-next-visual-line)
+   ("k" . 'evil-previous-visual-line)
   ;;("g t" . 'tab-next )
   ;;("g b" . 'tab-previous )
    ("Y"   . #'evil-yank-to-end-of-line )
    ("C-s" . 'evil-write )
    ("TAB" . 'evil-window-map )
-   ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
-   ("C-w t" . 'eyebrowse-create-window-config )
+   ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
    ("C-l" . 'evil-window-right )
    ("C-h" . 'evil-window-left )
    ("C-k" . 'evil-window-up )
    ("C-j" . 'evil-window-down )
+   ("C-M-q" . 'ido-kill-buffer ) ;'evil-quit )
+   ("C-q" . #'close-except-last-window )
+   ("C-z" . 'undo-tree-undo )
+   (","   .  #'hydra-leader/body )
    :map
    evil-insert-state-map
-   ("C-s" . 'save-and-exit-evil )
+   ("C-s" . #'save-and-exit-evil )
    ("C-v" . 'evil-paste-before )
-   ("TAB" . #'company-indent-or-complete-common) ;; esto probablemente lo deberia mover a company
+   ("C-z" . 'undo-tree-undo )
    )
 
   :config
   (evil-mode 1)
 
+  (defun close-except-last-window ()
+    "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
+    (interactive)
+    (if (one-window-p)
+        (eyebrowse-close-window-config)
+      (evil-quit)
+      )
+    )
   (defun evil-yank-to-end-of-line ()
+    "Yanks content from point until end of line."
     (interactive)
     (evil-yank (point) (line-end-position) )
     )
+
+  (defun save-and-exit-evil ()
+    "Salir de modo de insert y guardar el archivo."
+    (interactive)
+    (save-buffer)
+    (evil-force-normal-state) )
 
  ;;; esc quits
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
@@ -275,7 +296,7 @@
   :ensure t
   :after evil
   :config
-  (setq evil-goggles-duration 0.300) ;; default is 0.200
+  (setq evil-goggles-duration 0.250) ;; default is 0.200
   (evil-goggles-use-diff-faces)
   (evil-goggles-mode)
   (custom-set-faces
@@ -297,10 +318,20 @@
 ;; Projectile
 (use-package projectile
   :ensure t
+  :bind
+  (
+   :map
+   projectile-mode-map
+   ("M-p" . 'projectile-command-map)
+   )
   :init
   (setq projectile-require-project-root nil)
   :config
-  (projectile-mode 1)
+  (projectile-mode +1)
+  ;; (setq projectile-project-search-path '("~/projects/" "~/work/"))
+  (setq projectile-project-search-path '("~/dev/"))
+  (setq projectile-sort-order 'recently-active)
+  (setq projectile-completion-system 'ivy)
   )
 
 (eval-when-compile (require 'cl))
@@ -320,7 +351,7 @@
   (setq tramp-default-method "ssh")
   )
 
-;; git ------------------------------------------------------
+;; magit ------------------------------------------------------
 
 ; use ido to switch branches
 ; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
@@ -469,6 +500,11 @@
 	;; allow input not in order
         '((t   . ivy--regex-ignore-order))))
 
+(use-package counsel
+  :ensure t
+
+  )
+
 ;; no se si esto siga siendo necesario :v
 ;; (defun my-company-active-return ()
   ;; "Function to autocomplete a company recomendation, or act as enter, depending on mode."
@@ -482,7 +518,24 @@
 
 (use-package company
   :ensure t
-  :defer 5
+  :after evil
+  :bind
+  (
+   :map
+   evil-insert-state-map
+   ("TAB" . #'company-indent-or-complete-common) ;; esto probablemente lo deberia mover a company
+
+   :map
+   company-active-map
+   ( "TAB" . 'company-complete-common-or-cycle)
+   ( "<tab>" . 'company-complete-common-or-cycle)
+
+   ( "S-TAB" . 'company-select-previous)
+   ( "<backtab>" . 'company-select-previous)
+
+   ( "<return>" . #'company-complete-selection)
+   ( "RET" . #'company-complete-selection)
+   )
   :config
   ;; (setq company-frontends nil)
 
@@ -492,14 +545,14 @@
   (setq company-minimum-prefix-length 1)
   (setq company-selection-wrap-around t)
 
-  (eval-after-load 'company
-    '(progn
-       (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-       (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
-  (eval-after-load 'company
-    '(progn
-       (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
-       (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
+  ;; (eval-after-load 'company
+    ;; '(progn
+       ;; (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+       ;; (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
+  ;; (eval-after-load 'company
+    ;; '(progn
+       ;; (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+       ;; (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
 
   (defun my-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
@@ -519,20 +572,26 @@
 
   (company-ac-setup)
   (add-hook 'after-init-hook 'global-company-mode)
-
-  ;; para poder usar enter para autocompletar
-  ;; (define-key company-active-map (kbd "<return>") #'my-company-active-return)
-  ;; (define-key company-active-map (kbd "RET") #'my-company-active-return)
-  (define-key company-active-map (kbd "<return>") #'company-complete-selection)
-  (define-key company-active-map (kbd "RET") #'company-complete-selection)
-  ;; (define-key company-active-map (kbd "C-SPC") #'company-complete-selection)
   )
 
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode
+  :bind
+  (:map
+   evil-normal-state-map
+   ("K" . 'lsp-ui-doc-show )
+   ;; lsp-ui-mode-map
+   ;; ("S-k" . #'lsp-ui-peek-find-definitions)
+   ;; ("" . #'lsp-ui-peek-find-references)
+   )
   :after lsp-mode
-  :config (lsp-ui-mode 1)
+  :config
+  (lsp-ui-mode 1)
+  (lsp-ui-doc-enable nil)
+  (lsp-ui-doc-mode -1)
+  ;; (lsp-ui-doc-hide 1)
+  ;; (lsp-ui-doc-enable -1)
   )
 
 (use-package lsp-java
@@ -591,6 +650,13 @@
 ;; lo mas cercano a los tabs de vim que encontre
 (use-package eyebrowse
   :ensure t
+  :after evil
+  :bind
+  (
+   :map
+   evil-normal-state-map
+   ("C-w t" . 'eyebrowse-create-window-config )
+   )
   :config
   (eyebrowse-mode t)
   )
@@ -685,9 +751,25 @@
            " " 'display
            `(
              (space :align-to (- (+ right right-fringe right-margin)
-                                 ,(+ 3 (string-width mode-name) ) )
+                                 ,(+
+                                   3
+                                   (string-width mode-name)
+                                   3
+                                   (string-width (projectile-project-name))
+                                   )
+                                 )
                     )
               ) ) )
+
+  ;; para mostrar el nombre del proyecto en el que se esta trabajando
+  '(:eval (list
+           ;; the buffer name; the file name as a tool tip
+           (propertize
+            ;;(projectile-project-name)
+            (format "[%s]" (projectile-project-name))
+            )
+           " " ) )
+
   ;; the current major mode
   (propertize " %m " )
   )
@@ -699,11 +781,22 @@
 
 ;; functions -----------------------------------------------
 
+(defun gbind (key function)
+  "Map FUNCTION to KEY."
+  (global-set-key (kbd key) function) )
+
+(gbind "C-S-k" 'evil-lookup)
+(gbind "C-M-h" 'help-menu )
+(gbind "M-m" 'counsel-find-file )
+(gbind "C-SPC" 'hydra-tabs/body )
+(gbind "C-S-h" 'help-command )
+
 (defun save-all-buffers ()
   "Save all buffers."
   (interactive)
   (mapc 'save-buffer (buffer-list) )
   (message "se han guardado todos los buffers") )
+(gbind "C-S-s" 'save-all-buffers )
 
 (defun kill-other-buffers ()
   "Kill all other buffers, except the current buffer and Emacs' 'system' buffers."
@@ -717,17 +810,12 @@
    (delq (current-buffer) (buffer-list) ) )
   (message "se han cerrado los demas buffers")
   )
+(gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
 
 (defun melpa-refresh ()
   "Refresh melpa contents."
   (interactive)
   (package-refresh-contents 'ASYNC) )
-
-(defun save-and-exit-evil ()
-  "Salir de modo de insert y guardar el archivo."
-  (interactive)
-  (save-buffer)
-  (evil-force-normal-state) )
 
 (defun reload-emacs-config ()
   "Reload your init.el file without restarting Emacs."
@@ -763,10 +851,6 @@
   (nmap key function)
   (imap key function) )
 
-(defun gbind (key function)
-  "Map FUNCTION to KEY."
-  (global-set-key (kbd key) function) )
-
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
   (interactive)
@@ -791,15 +875,6 @@
     ;; (split-window-horizontally)
     ;; (eshell)
     ;; )
-  )
-
-(defun close-except-last-window ()
-  "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
-  (interactive)
-  (if (one-window-p)
-      (eyebrowse-close-window-config)
-    (evil-quit)
-    )
   )
 
 ;; Set transparency of emacs
@@ -837,20 +912,30 @@
 ;; | blue     | blue      | Allow and Quit        | Quit            |
 ;; |----------+-----------+-----------------------+-----------------|
 
-(defhydra hydra-leader (:color blue :idle 1.0 :hints "leader")
-  " actuar como leader en vim "
+(defhydra hydra-leader (:color blue :idle 1.0 :hint nill)
+  "
+actuar como leader en vim :
+
+^Config^       |    ^Buffers^      |  ^Edit^
+^^^^^^^^-------------------------------------------------
+_rs_: reload   |   _l_: jet-pack   |   _m_: magit
+_re_: edit     |   _j_: previous   |   _o_: org
+^ ^            |   _k_: next       |   _e_: errores
+^ ^            |   _._: terminal   |   _SPC_: execute macro
+^ ^            |   _;_: projectile |   _t_: tree
+
+"
   ( "rs" reload-emacs-config "reload init" )
   ( "re" open-emacs-config "edit init" )
   ( "l" ivy-switch-buffer "buffer list" )
   ( "." toggle-terminal "terminal" )
   ( "e" counsel-flycheck "errores" )
-  ;; en cualquier caso no los he usado mucho, entonces probemos no tenerlos del todo, a ver si hacen falta
-  ( "j" previous-buffer "next" ) ;; este no sirve
+  ( "j" previous-buffer "next" )
   ( "k" next-buffer "next" )
-  ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) )
+  ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) "execute macro" )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
-  ( ";" #'counsel-locate "locate" )
+  ( ";" #'projectile-find-file "project file" )
   ( "t" #'treemacs "tree" )
   )
 
@@ -895,14 +980,7 @@
   ("0" (text-scale-adjust 0) "reset")
   ("q" nil "quit" :color blue))
 
-;; keybinds ------------------------------------------------
-
-(gbind "C-M-h" 'help-menu )
-(gbind "M-m" 'counsel-find-file )
-(gbind "C-SPC" 'hydra-tabs/body )
-(gbind "C-S-h" 'help-command )
-(gbind "C-S-s" 'save-all-buffers )
-(gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
+;; otros/mover ------------------------------------------------
 
 
 ; para redefinir comandos evil-ex
@@ -920,20 +998,13 @@
 ; " para solo mostrar las marcas dentro del archivo
     ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
 ;
-; "mover entre buffers
     ; noremap j gj
     ; noremap k gk
     ; map gf :edit <cfile><cr>
 
 ;; redefinir mappings de evil
-(with-eval-after-load 'evil-maps
-  ( nmap "C-M-q" 'ido-kill-buffer ) ;'evil-quit )
-  ( nmap "C-q" #'close-except-last-window )
-  ;; ( nmap "C-w q" 'delete-window ) ; 'kill-this-buffer )
-  ;; ( nmap "C-w t" 'eyebrowse-create-window-config )
-  ( nmap ","   #'hydra-leader/body )
-  ( amap "C-z" 'undo-tree-undo )
-)
+;; (with-eval-after-load 'evil-maps
+;; )
 
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
