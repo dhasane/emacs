@@ -34,9 +34,9 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-          (evil use-package hydra bind-key)
-          name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+              (evil use-package hydra bind-key)
+              name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -223,7 +223,7 @@
   :defer .1
   :init
   (setq evil-want-keybinding nil)
-  ;;(setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
   (setq evil-want-integration nil) ;; required by evil-collection
   (setq evil-search-module 'evil-search)
   ;; (setq evil-ex-complete-emacs-commands nil)
@@ -537,7 +537,35 @@
    ( "RET" . #'company-complete-selection)
    )
   :config
-  ;; (setq company-frontends nil)
+
+  ;; set default `company-backends'
+  (setq company-backends
+        '(
+          (
+           company-files          ; files & directory
+           company-keywords       ; keywords
+           company-capf
+           company-yasnippet
+           company-dabbrev-code
+           company-semantic-completions ;; no se que es esto, pero de prueba
+           )
+          (
+           company-abbrev company-dabbrev)
+          )
+        )
+
+  (dolist (hook '(js-mode-hook
+                  js2-mode-hook
+                  js3-mode-hook
+                  inferior-js-mode-hook
+                  ))
+    (add-hook hook
+              (lambda ()
+                (tern-mode t)
+                (add-to-list
+                 (make-local-variable 'company-backends)
+                 'company-tern)
+                )))
 
   ; Delay in showing suggestions.
   (setq company-idle-delay 10)
@@ -588,9 +616,9 @@
   :after lsp-mode
   :config
   (lsp-ui-mode 1)
-  (lsp-ui-doc-enable nil)
+  (lsp-ui-doc-enable -1)
   (lsp-ui-doc-mode -1)
-  ;; (lsp-ui-doc-hide 1)
+  (lsp-ui-doc-hide)
   ;; (lsp-ui-doc-enable -1)
   )
 
@@ -619,8 +647,27 @@
   :commands lsp-treemacs-errors-list
   )
 
+(use-package yasnippet
+  :ensure t
+  :defer .1
+  :config (yas-global-mode)
+  )
+
 ;; optionally if you want to use debugger
-(use-package dap-mode)
+(use-package dap-mode
+  :ensure t :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
+
+;; (require 'lsp-java-boot)
+
+;; to enable the lenses
+;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
+;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+
+;; (use-package dap-java :after (lsp-java))
+
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 ;; optional if you want which-key integration
 ;; (use-package which-key
