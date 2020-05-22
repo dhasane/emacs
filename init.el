@@ -27,7 +27,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
+    ("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
  '(git-gutter:window-width 1)
  '(minibuffer-prompt-properties
    (quote
@@ -220,16 +220,15 @@
 
 (use-package evil
   :ensure t
-  :defer .1
+  ;;:defer
   :init
-  (setq evil-want-keybinding nil)
   (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-  (setq evil-want-integration nil) ;; required by evil-collection
+  (setq evil-want-keybinding nil)
   (setq evil-search-module 'evil-search)
-  ;; (setq evil-ex-complete-emacs-commands nil)
   (setq evil-vsplit-window-right t) ;; like vim's 'splitright'
   (setq evil-split-window-below t) ;; like vim's 'splitbelow'
-  ;;(setq evil-shift-round nil)
+  ;; (setq evil-ex-complete-emacs-commands nil)
+  ;; (setq evil-shift-round nil)
   ;; (setq evil-want-C-u-scroll t)
 
   :bind
@@ -363,7 +362,7 @@
 (use-package evil-magit
   :after magit evil
   :config
-  (setq magit-completing-read-function 'magit-ido-completing-read)
+  ;; (setq magit-completing-read-function 'magit-ido-completing-read)
   ;; open magit status in same window as current buffer
   (setq magit-status-buffer-switch-function 'switch-to-buffer)
   ;; highlight word/letter changes in hunk diffs
@@ -380,13 +379,14 @@
   :config
   (setq org-log-done t)
 
-  (setq org-agenda-files
-        '(
-          "~/org/work.org"
-          "~/org/school.org"
-          "~/org/home.org"
-          )
-        )
+  (setq org-agenda-files '("~/org"))
+  ;; (setq org-agenda-files
+        ;; '(
+          ;; "~/org/work.org"
+          ;; "~/org/school.org"
+          ;; "~/org/home.org"
+          ;; )
+        ;; )
   )
 
 (use-package evil-org
@@ -398,7 +398,7 @@
             (lambda ()
               (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
-  ;; (evil-org-agenda-set-keys)
+  (evil-org-agenda-set-keys)
 
   (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
   )
@@ -523,7 +523,7 @@
   (
    :map
    evil-insert-state-map
-   ("TAB" . #'company-indent-or-complete-common) ;; esto probablemente lo deberia mover a company
+   ("TAB" . #'indent-or-complete)
 
    :map
    company-active-map
@@ -537,6 +537,19 @@
    ( "RET" . #'company-complete-selection)
    )
   :config
+
+  ;; (defun complete-or-indent ()
+    ;; (interactive)
+    ;; (if (company-manual-begin)
+        ;; (company-complete-common)
+      ;; (indent-according-to-mode)))
+
+  ;; me gusta mas el funcionamiento de esto que el de company-indent-or-complete-common
+  (defun indent-or-complete ()
+    (interactive)
+    (if (looking-at "\\_>")
+        (company-complete-common)
+      (indent-according-to-mode)))
 
   ;; set default `company-backends'
   (setq company-backends
@@ -615,11 +628,12 @@
    )
   :after lsp-mode
   :config
-  (lsp-ui-mode 1)
-  (lsp-ui-doc-enable -1)
-  (lsp-ui-doc-mode -1)
-  (lsp-ui-doc-hide)
-  ;; (lsp-ui-doc-enable -1)
+  ;; (lsp-ui-doc-mode nil)
+  ;; (lsp-ui-doc-hide)
+  ;; (remove-hook 'lsp-on-hover-hook 'lsp-ui-doc--on-hover)
+  :init
+  (lsp-ui-mode)
+  (setq lsp-ui-doc-enable nil)
   )
 
 (use-package lsp-java
@@ -709,6 +723,8 @@
   )
 
 (load-theme 'gruvbox-dark-medium)
+;; (load-theme
+ ;; 'gruvbox-light-medium)
 ;; (load-theme 'gruvbox-dark-soft)
 
 (when (version<= "26.0.50" emacs-version )
@@ -932,6 +948,7 @@
   )
 
 (defun toggle-transparency ()
+  "Toggle between frame transparency of 95 and 100."
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
     (set-frame-parameter
@@ -941,7 +958,7 @@
                     ;; Also handle undocumented (<active> <inactive>) form.
                     ((numberp (cadr alpha)) (cadr alpha)))
               100)
-         '(85 . 50) '(100 . 100)))))
+         '(95 . 50) '(100 . 100)))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
 ;; hydras --------------------------------------------------
@@ -963,18 +980,19 @@
   "
 actuar como leader en vim :
 
-^Config^       |    ^Buffers^      |  ^Edit^
+^Config^       |    ^Buffers^       |  ^Edit^
 ^^^^^^^^-------------------------------------------------
-_rs_: reload   |   _l_: jet-pack   |   _m_: magit
-_re_: edit     |   _j_: previous   |   _o_: org
-^ ^            |   _k_: next       |   _e_: errores
-^ ^            |   _._: terminal   |   _SPC_: execute macro
-^ ^            |   _;_: projectile |   _t_: tree
+_rs_: reload   |   _l_: jet-pack    |   _m_: magit
+_re_: edit     |   _j_: previous    |   _o_: org
+^ ^            |   _k_: next        |   _e_: errores
+^ ^            |   _._: terminal    |   _SPC_: execute macro
+^ ^            |   _b_: all buffers |   _t_: tree
 
 "
   ( "rs" reload-emacs-config "reload init" )
   ( "re" open-emacs-config "edit init" )
-  ( "l" ivy-switch-buffer "buffer list" )
+  ( "l" projectile-find-file "find file" )
+  ( "b" ivy-switch-buffer "buffer list" )
   ( "." toggle-terminal "terminal" )
   ( "e" counsel-flycheck "errores" )
   ( "j" previous-buffer "next" )
@@ -982,7 +1000,6 @@ _re_: edit     |   _j_: previous   |   _o_: org
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) "execute macro" )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
-  ( ";" #'projectile-find-file "project file" )
   ( "t" #'treemacs "tree" )
   )
 
@@ -1032,7 +1049,6 @@ _re_: edit     |   _j_: previous   |   _o_: org
 
 ; para redefinir comandos evil-ex
 ; (evil-ex-define-cmd "q" 'kill-this-buffer)
-;; Our Custom Variable
 
 ;;(setq custom-tab-width 2)
 
@@ -1045,8 +1061,6 @@ _re_: edit     |   _j_: previous   |   _o_: org
 ; " para solo mostrar las marcas dentro del archivo
     ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
 ;
-    ; noremap j gj
-    ; noremap k gk
     ; map gf :edit <cfile><cr>
 
 ;; redefinir mappings de evil
