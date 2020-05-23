@@ -536,6 +536,16 @@
    ( "<return>" . #'company-complete-selection)
    ( "RET" . #'company-complete-selection)
    )
+  :custom
+  ;;(company-begin-commands '(self-insert-command))
+  ;;(company-show-numbers t)
+  (company-tooltip-align-annotations 't)
+  ; Delay in showing suggestions.
+  ;(setq company-idle-delay 10)
+  ; Show suggestions after entering one character.
+  (company-minimum-prefix-length 1)
+  (company-selection-wrap-around t)
+  (global-company-mode t)
   :config
 
   ;; (defun complete-or-indent ()
@@ -548,7 +558,8 @@
   (defun indent-or-complete ()
     (interactive)
     (if (looking-at "\\_>")
-        (company-complete-common)
+        (company-complete-common-or-cycle)
+        ;;(company-complete-common)
       (indent-according-to-mode)))
 
   ;; set default `company-backends'
@@ -617,6 +628,7 @@
 
 (use-package lsp-ui
   :ensure t
+  :after lsp-mode
   :commands lsp-ui-mode
   :bind
   (:map
@@ -626,27 +638,41 @@
    ;; ("S-k" . #'lsp-ui-peek-find-definitions)
    ;; ("" . #'lsp-ui-peek-find-references)
    )
-  :after lsp-mode
   :config
   ;; (lsp-ui-doc-mode nil)
   ;; (lsp-ui-doc-hide)
   ;; (remove-hook 'lsp-on-hover-hook 'lsp-ui-doc--on-hover)
   :init
   (lsp-ui-mode)
-  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-doc-enable nil
+        ;;lsp-ui-flycheck-enable t
+        )
+  ;;(setq lsp-ui-sideline-enable nil
+        ;;lsp-ui-sideline-show-symbol nil
+        ;;lsp-ui-sideline-show-hover nil
+        ;;lsp-ui-sideline-show-code-actions nil
+        ;;lsp-ui-sideline-update-mode 'point)
   )
 
 (use-package lsp-java
   :ensure t
   :defer t
   :after lsp-mode
-  :config (add-hook 'java-mode-hook #'lsp)
+  :config
+  (add-hook 'java-mode-hook #'lsp)
+  ;;(add-hook 'java-mode-hook 'flycheck-mode)
+  (add-hook 'java-mode-hook 'company-mode)
   )
 
 (use-package company-lsp
   :ensure t
   :after lsp-mode
-  :config (push 'company-lsp company-backends)
+  :config
+  (push 'company-lsp company-backends)
+  (setq company-lsp-enable-snippet t
+        ;;company-lsp-cache-candidates t
+        company-lsp-async t
+        )
   )
 
 (use-package lsp-ivy
