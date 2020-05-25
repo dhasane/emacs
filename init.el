@@ -524,6 +524,7 @@
    :map
    evil-insert-state-map
    ("TAB" . #'indent-or-complete)
+   ;;("TAB" . #'company-indent-or-complete-common)
 
    :map
    company-active-map
@@ -561,6 +562,7 @@
         (company-complete-common-or-cycle)
         ;;(company-complete-common)
       (indent-according-to-mode)))
+  ;;TODO: esto no esta sirviendo para cuando se busca una funcion de un objeto
 
   ;; set default `company-backends'
   (setq company-backends
@@ -1013,6 +1015,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
 ^ ^            |   _k_: next        |   _e_: errores
 ^ ^            |   _._: terminal    |   _SPC_: execute macro
 ^ ^            |   _b_: all buffers |   _t_: tree
+^ ^            |   ^ ^              |   _rn_: rename
 
 "
   ( "rs" reload-emacs-config "reload init" )
@@ -1027,6 +1030,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
   ( "t" #'treemacs "tree" )
+  ( "rn" lsp-rename "rename")
   )
 
 (defhydra hydra-tabs (:color blue :idle 1.0)
