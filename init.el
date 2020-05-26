@@ -25,18 +25,22 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-minimum-prefix-length 1)
+ '(company-selection-wrap-around t)
+ '(company-tooltip-align-annotations t)
  '(custom-safe-themes
    (quote
     ("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
  '(git-gutter:window-width 1)
+ '(global-company-mode t)
  '(minibuffer-prompt-properties
    (quote
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-              (evil use-package hydra bind-key)
-              name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+               (evil use-package hydra bind-key)
+               name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -71,7 +75,37 @@
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8-unix)
+(set-face-attribute 'default
+                    nil :height 100)
+(progn
+  ;; set a default font
+  (cond
+   ((string-equal system-type "gnu/linux")
+    (when (member "DejaVu Sans Mono" (font-family-list))
+      (set-frame-font "DejaVu Sans Mono 12" t t)
+      )
 
+    ;; specify font for chinese characters using default chinese font on linux
+    (when (member "WenQuanYi Micro Hei" (font-family-list))
+      (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+    ;;
+    )
+   ((string-equal system-type "darwin") ; Mac
+    (when (member "Menlo" (font-family-list)) (set-frame-font "Menlo-14" t t))
+    ;;
+    )
+   ((string-equal system-type "windows-nt") ; Windows
+    nil))
+  ;; specify font for all unicode characters
+  (when (member "Symbola" (font-family-list))
+    (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+  ;; specify font for all unicode characters
+  (when (member "Apple Color Emoji" (font-family-list))
+    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+  )
+
+;; quitar las barras
+(menu-bar-mode -1) ;; TODO: me gustaria activarlo para org
 (tool-bar-mode -1)
 
 (setq auto-save-default nil
@@ -124,7 +158,7 @@
 
 ;; eliminar espacios al final de una linea
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; para un modo en especifico (serviria para ignorar en markdown)
+;; TODO: para un modo en especifico (serviria para ignorar en markdown)
 ;; (add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -168,6 +202,7 @@
 (eval-when-compile (require 'use-package))
 
 (use-package which-key
+  :ensure t
   :config
   (which-key-setup-side-window-right)
   ;; (setq which-key-max-description-length 27)
@@ -184,6 +219,7 @@
   )
 
 (use-package recentf
+  :ensure t
   :config
   (recentf-mode 1)
   )
@@ -502,6 +538,7 @@
 
 (use-package counsel
   :ensure t
+  :after ivy
 
   )
 
@@ -523,7 +560,9 @@
   (
    :map
    evil-insert-state-map
-   ("TAB" . #'indent-or-complete)
+   ;;("TAB" . #'indent-or-complete)
+   ("TAB" . #'tab-indent-or-complete)
+   ;;("TAB" . #'complete-or-indent)
    ;;("TAB" . #'company-indent-or-complete-common)
 
    :map
@@ -541,28 +580,32 @@
   ;;(company-begin-commands '(self-insert-command))
   ;;(company-show-numbers t)
   (company-tooltip-align-annotations 't)
-  ; Delay in showing suggestions.
-  ;(setq company-idle-delay 10)
-  ; Show suggestions after entering one character.
-  (company-minimum-prefix-length 1)
+  (company-minimum-prefix-length 1) ; Show suggestions after entering one character.
   (company-selection-wrap-around t)
+  (company-idle-delay 10) ; Delay in showing suggestions.
   (global-company-mode t)
   :config
 
-  ;; (defun complete-or-indent ()
-    ;; (interactive)
-    ;; (if (company-manual-begin)
-        ;; (company-complete-common)
-      ;; (indent-according-to-mode)))
-
-  ;; me gusta mas el funcionamiento de esto que el de company-indent-or-complete-common
-  (defun indent-or-complete ()
+  (defun check-expansion ()
+    (save-excursion
+      (if (looking-at "\\_>") t
+        (backward-char 1)
+        (if (looking-at "\\.") t
+          (backward-char 1)
+          (if (looking-at "->") t nil)))))
+  (defun do-yas-expand ()
+    (let ((yas/fallback-behavior 'return-nil))
+      (yas/expand)))
+  (defun tab-indent-or-complete ()
     (interactive)
-    (if (looking-at "\\_>")
-        (company-complete-common-or-cycle)
-        ;;(company-complete-common)
-      (indent-according-to-mode)))
-  ;;TODO: esto no esta sirviendo para cuando se busca una funcion de un objeto
+    (if (minibufferp)
+        (minibuffer-complete)
+      (if (or (not yas/minor-mode)
+              (null (do-yas-expand)))
+          (if (check-expansion)
+              (company-complete-common)
+            (indent-for-tab-command)))))
+
 
   ;; set default `company-backends'
   (setq company-backends
@@ -593,11 +636,6 @@
                  'company-tern)
                 )))
 
-  ; Delay in showing suggestions.
-  (setq company-idle-delay 10)
-  ; Show suggestions after entering one character.
-  (setq company-minimum-prefix-length 1)
-  (setq company-selection-wrap-around t)
 
   ;; (eval-after-load 'company
     ;; '(progn
@@ -873,7 +911,7 @@
 ;; functions -----------------------------------------------
 
 (defun gbind (key function)
-  "Map FUNCTION to KEY."
+  "Map FUNCTION to KEY globally."
   (global-set-key (kbd key) function) )
 
 (gbind "C-S-k" 'evil-lookup)
