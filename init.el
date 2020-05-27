@@ -212,6 +212,7 @@
   ;;
   ;; ;; max height of which-key frame: number of lines (an integer)
   ;; (setq which-key-frame-max-height 20)
+  (which-key-mode)
   )
 
 (use-package recentf
@@ -513,7 +514,7 @@
          (c++-mode . lsp)
          (rust-mode . lsp)
          ;; if you want which-key integration
-         ;;(lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . lsp-enable-which-key-integration)
          )
   :config
   (with-eval-after-load 'lsp-mode
@@ -522,6 +523,7 @@
     (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode))
   (lsp-diagnostics-modeline-mode t)
 
+  (add-hook 'lsp-mode-hook #'lsp-lens-mode)
   ;;:commands lsp
   :commands (lsp lsp-deferred)
   )
@@ -546,6 +548,7 @@
         ("C-'" . ivy-avy))
   :config
   (ivy-mode 1)
+  (setq enable-recursive-minibuffers t)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   (setq ivy-use-virtual-buffers t)
   ;; number of result lines to display
@@ -562,19 +565,7 @@
 (use-package counsel
   :ensure t
   :after ivy
-
   )
-
-;; no se si esto siga siendo necesario :v
-;; (defun my-company-active-return ()
-  ;; "Function to autocomplete a company recomendation, or act as enter, depending on mode."
-  ;; (interactive)
-  ;; (if (company-explicit-action-p)
-      ;; (company-complete)
-    ;; (call-interactively
-     ;; (or (key-binding (this-command-keys))
-         ;; (key-binding (kbd "RET")))
-     ;; )))
 
 (use-package company
   :ensure t
@@ -616,9 +607,11 @@
         (if (looking-at "\\.") t
           (backward-char 1)
           (if (looking-at "->") t nil)))))
+
   (defun do-yas-expand ()
     (let ((yas/fallback-behavior 'return-nil))
       (yas/expand)))
+
   (defun tab-indent-or-complete ()
     (interactive)
     (if (minibufferp)
@@ -627,8 +620,12 @@
               (null (do-yas-expand)))
           (if (check-expansion)
               (company-complete-common)
-            (indent-for-tab-command)))))
-
+            ;;(indent-for-tab-command) ;; indentar correctamente
+            (tab-to-tab-stop) ;; agregar tabs
+			)
+		)
+	  )
+	)
 
   ;; set default `company-backends'
   (setq company-backends
@@ -658,16 +655,6 @@
                  (make-local-variable 'company-backends)
                  'company-tern)
                 )))
-
-
-  ;; (eval-after-load 'company
-    ;; '(progn
-       ;; (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-       ;; (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
-  ;; (eval-after-load 'company
-    ;; '(progn
-       ;; (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
-       ;; (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
 
   (defun my-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
@@ -732,10 +719,12 @@
   :after lsp-mode
   :config
   (push 'company-lsp company-backends)
-  (setq company-lsp-enable-snippet t
-        ;;company-lsp-cache-candidates t
-        company-lsp-async t
-        )
+  (setq
+   company-lsp-enable-snippet t
+   company-transformers nil
+   company-lsp-async t
+   company-lsp-cache-candidates nil
+   )
   )
 
 (use-package lsp-ivy
@@ -763,19 +752,8 @@
   (dap-mode t)
   (dap-ui-mode t))
 
-;; (require 'lsp-java-boot)
-
-;; to enable the lenses
-;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
-;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
-
+;; TODO: mirar como funciona lo de dap-mode
 ;; (use-package dap-java :after (lsp-java))
-
-;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-;; optional if you want which-key integration
-;; (use-package which-key
-  ;; :config
-  ;; (which-key-mode))
 
 ;; visual --------------------------------------------------
 
@@ -942,6 +920,7 @@
 (gbind "M-m" 'counsel-find-file )
 (gbind "C-SPC" 'hydra-tabs/body )
 (gbind "C-S-h" 'help-command )
+(gbind "C-/" 'comment-dwim) ;; TODO: poner esto a funcionar
 
 (defun save-all-buffers ()
   "Save all buffers."
@@ -1077,12 +1056,14 @@ _re_: edit     |   _j_: previous    |   _o_: org
 ^ ^            |   _._: terminal    |   _SPC_: execute macro
 ^ ^            |   _b_: all buffers |   _t_: tree
 ^ ^            |   ^ ^              |   _rn_: rename
+^ ^            |   ^ ^              |   _s_: search text
 
 "
   ( "rs" reload-emacs-config "reload init" )
   ( "re" open-emacs-config "edit init" )
   ( "l" projectile-find-file "find file" )
   ( "b" ivy-switch-buffer "buffer list" )
+  ( "s" swiper "swiper" )
   ( "." toggle-terminal "terminal" )
   ( "e" counsel-flycheck "errores" )
   ( "j" previous-buffer "next" )
@@ -1137,7 +1118,6 @@ _re_: edit     |   _j_: previous    |   _o_: org
 
 ;; otros/mover ------------------------------------------------
 
-
 ; para redefinir comandos evil-ex
 ; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
@@ -1145,9 +1125,17 @@ _re_: edit     |   _j_: previous    |   _o_: org
 
 (defun disable-tabs () (setq indent-tabs-mode nil))
 (defun enable-tabs  ()
+  (interactive)
   (local-set-key (kbd "TAB") 'tab-to-tab-stop)
   (setq indent-tabs-mode t)
   (setq tab-width custom-tab-width))
+(enable-tabs)
+
+;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
+;;(setq indent-tabs-mode t)
+;;(setq tab-width custom-tab-width))
+
+
 
 ; " para solo mostrar las marcas dentro del archivo
     ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'

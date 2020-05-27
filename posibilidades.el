@@ -110,8 +110,6 @@
         ;; try-expand-line
         ))
 
-
-
 ;; Helm
 (use-package helm
   :ensure t
@@ -134,22 +132,18 @@
   :config
   (helm-mode 1))
 
-
-
-
-
-                                        ; TODO estas funciones suenan interesantes
-                                        ; A function that behaves like Vim's ':tabe' commnad for creating a new tab and
-                                        ; buffer (the name "[No Name]" is also taken from Vim).
+;; TODO estas funciones suenan interesantes
+;; A function that behaves like Vim's ':tabe' commnad for creating a new tab and
+;; buffer (the name "[No Name]" is also taken from Vim).
 (defun vimlike-:tabe ()
   "Vimlike ':tabe' behavior for creating a new tab and buffer."
   (interactive)
   (let ((buffer (generate-new-buffer "[No Name]")))
-                                        ; create new tab
+    ;; create new tab
     (elscreen-create)
-                                        ; set window's buffer to the newly-created buffer
+    ;; set window's buffer to the newly-created buffer
     (set-window-buffer (selected-window) buffer)
-                                        ; set state to normal state
+    ;; set state to normal state
     (with-current-buffer buffer
       (evil-normal-state))
     )
@@ -188,8 +182,40 @@ otherwise, close current tab (elscreen)."
 ;; me gusta mas el funcionamiento de esto que el de company-indent-or-complete-common
 (defun indent-or-complete ()
   (interactive)
-  (if (or (looking-at "\\_>") (looking-at ".") )
-      ;;(company-complete-common-or-cycle)
+  (if (or (looking-at "\\_>"))
       (company-complete-common)
     (indent-according-to-mode)))
-;;TODO: esto no esta sirviendo para cuando se busca una funcion de un objeto
+
+;; esto es para poner toda la ventana transparente, aunque ya lo tengo incorporado
+;; es para referencia de lo de abajo
+(set-frame-parameter (selected-frame) 'alpha '(85 85))
+(add-to-list 'default-frame-alist '(alpha 85 85))
+(set-face-attribute 'default nil :background "black"
+  :foreground "white" :font "Courier" :height 180)
+
+;; TODO: me gustaria poder poner solo un corte transparente en vez de toda la ventana
+(set-window-parameter (selected-window) 'alpha '(95 95))
+
+;; no se si esto siga siendo necesario :v
+(defun my-company-active-return ()
+  "Function to autocomplete a company recomendation, or act as enter, depending on mode."
+  (interactive)
+  (if (company-explicit-action-p)
+      (company-complete)
+    (call-interactively
+     (or (key-binding (this-command-keys))
+         (key-binding (kbd "RET")))
+     )))
+
+;; para hacer acciones despues de cargar algo
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+     (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+     (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
+
+
+;; finich jiji 
