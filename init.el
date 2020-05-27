@@ -25,6 +25,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-idle-delay 10)
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
  '(company-tooltip-align-annotations t)
@@ -38,7 +39,7 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+    (ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
                (evil use-package hydra bind-key)
                name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
@@ -155,11 +156,6 @@
 
 ;; que no pregunte cuando me quiero salir
 (setq use-dialog-box nil)
-
-;; eliminar espacios al final de una linea
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; TODO: para un modo en especifico (serviria para ignorar en markdown)
-;; (add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
@@ -379,6 +375,16 @@
 
 (setq x-wait-for-event-timeout nil)
 
+;; eliminar espacios al final de una linea
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(use-package ws-butler
+  :ensure t
+  :defer .1
+  :hook (
+         (prog-mode-hook . ws-butler-mode)
+         )
+  )
+
 ;; tramp ---------------------------------------------------
 
 (use-package tramp
@@ -395,6 +401,9 @@
   :defer .1
   )
 
+;; TODO: verificar el funcionamiento de esto, que hay varios binds que me gustaria cambiar,
+;; por ejemplo el de 'h', que sirve para mover a la izquierda, pero no tiene sentido siendo
+;; que 'l' no sirve para mover a la derecha
 (use-package evil-magit
   :after magit evil
   :config
@@ -501,6 +510,8 @@
          (ruby-mode . lsp)
          (java-mode . lsp)
          (python-mode . lsp)
+         (c++-mode . lsp)
+         (rust-mode . lsp)
          ;; if you want which-key integration
          ;;(lsp-mode . lsp-enable-which-key-integration)
          )
@@ -513,6 +524,18 @@
 
   ;;:commands lsp
   :commands (lsp lsp-deferred)
+  )
+
+;; TODO: agregar rust-analyzer
+
+(use-package ccls
+  :ensure t
+  :defer t
+  :after lsp-mode
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp)))
+  :config
+  (setq ccls-executable "/snap/bin/ccls")
   )
 
 (use-package ivy
