@@ -1,3 +1,4 @@
+;;; package --- summary:
 
 ;; EEEEEEEEEEEEEEEEEEEEEE                                                                                ;;
 ;; E::::::::::::::::::::E                                                                                ;;
@@ -16,7 +17,9 @@
 ;; E::::::::::::::::::::Em::::m   m::::m   m::::m a::::::::::aa:::a cc:::::::::::::::c s:::::::::::ss    ;;
 ;; EEEEEEEEEEEEEEEEEEEEEEmmmmmm   mmmmmm   mmmmmm  aaaaaaaaaa  aaaa   cccccccccccccccc  sssssssssss      ;;
 
-;; doh
+;;; Commentary:
+
+;; configuracion de Emacs asi como bien pro
 
 ;;; code:
 
@@ -39,9 +42,9 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-               (evil use-package hydra bind-key)
-               name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (company-box lsp-dart lsp-python-ms haskell-mode ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+                 (evil use-package hydra bind-key)
+                 name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -78,6 +81,8 @@
 (set-default-coding-systems 'utf-8-unix)
 (set-face-attribute 'default
                     nil :height 100)
+(setq backward-delete-char-untabify-method 'hungry)
+
 (progn
   ;; set a default font
   (cond
@@ -264,24 +269,27 @@
   ;; (setq evil-shift-round nil)
   ;; (setq evil-want-C-u-scroll t)
 
+  ;; para redefinir comandos evil-ex
+  ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
+
   :bind
   (:map
    evil-normal-state-map
-   ("j" . 'evil-next-visual-line)
-   ("k" . 'evil-previous-visual-line)
+   ("j" . evil-next-visual-line)
+   ("k" . evil-previous-visual-line)
   ;;("g t" . 'tab-next )
   ;;("g b" . 'tab-previous )
    ("Y"   . #'evil-yank-to-end-of-line )
-   ("C-s" . 'evil-write )
-   ("TAB" . 'evil-window-map )
+   ("C-s" . evil-write )
+   ("TAB" . evil-window-map )
    ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
-   ("C-l" . 'evil-window-right )
-   ("C-h" . 'evil-window-left )
-   ("C-k" . 'evil-window-up )
-   ("C-j" . 'evil-window-down )
-   ("C-M-q" . 'ido-kill-buffer ) ;'evil-quit )
+   ("C-l" . evil-window-right )
+   ("C-h" . evil-window-left )
+   ("C-k" . evil-window-up )
+   ("C-j" . evil-window-down )
+   ("C-M-q" . ido-kill-buffer ) ;'evil-quit )
    ("C-q" . #'close-except-last-window )
-   ("C-z" . 'undo-tree-undo )
+   ("C-z" . undo-tree-undo )
    (","   .  #'hydra-leader/body )
    :map
    evil-insert-state-map
@@ -508,12 +516,9 @@
   :defer t
   :ensure t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (ruby-mode . lsp)
-         (java-mode . lsp)
-         (python-mode . lsp)
-         (c++-mode . lsp)
-         (rust-mode . lsp)
-         ;; if you want which-key integration
+         (ruby-mode . lsp-deferred)
+         (rust-mode . lsp-deferred)
+
          (lsp-mode . lsp-enable-which-key-integration)
          )
   :config
@@ -534,10 +539,35 @@
   :ensure t
   :defer t
   :after lsp-mode
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp)))
+  :hook (
+         (c-mode c++-mode objc-mode cuda-mode) .
+         (lambda ()
+           (require 'ccls)
+           (lsp)))
   :config
   (setq ccls-executable "/snap/bin/ccls")
+  )
+
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp-deferred))))  ; or lsp-deferred
+
+;; https://github.com/emacs-lsp/lsp-dart
+(use-package lsp-dart
+  :ensure t
+  :hook (dart-mode . lsp-deferred))
+
+(use-package lsp-java
+  :ensure t
+  :defer t
+  :after lsp-mode
+  :config
+  (add-hook 'java-mode-hook #'lsp-deferred)
+  (add-hook 'java-mode-hook 'flycheck-mode)
+  (add-hook 'java-mode-hook 'company-mode)
   )
 
 (use-package ivy
@@ -609,14 +639,14 @@
           (if (looking-at "->") t nil)))))
 
   (defun do-yas-expand ()
-    (let ((yas/fallback-behavior 'return-nil))
-      (yas/expand)))
+    (let ((yas-fallback-behavior 'return-nil))
+      (yas-expand)))
 
   (defun tab-indent-or-complete ()
     (interactive)
     (if (minibufferp)
         (minibuffer-complete)
-      (if (or (not yas/minor-mode)
+      (if (or (not yas-minor-mode)
               (null (do-yas-expand)))
           (if (check-expansion)
               (company-complete-common)
@@ -673,12 +703,20 @@
       'company-select-next-if-tooltip-visible-or-complete-selection))
 
   (company-ac-setup)
-  (add-hook 'after-init-hook 'global-company-mode)
+
+  ;; para probar company-box
+  ;;(add-hook 'after-init-hook 'global-company-mode)
+  )
+
+(use-package company-box
+  :ensure t
+  :after company
+  :hook (company-mode . company-box-mode)
   )
 
 (use-package lsp-ui
   :ensure t
-  :after lsp-mode
+  :after lsp-mode evil
   :commands lsp-ui-mode
   :bind
   (:map
@@ -702,29 +740,6 @@
         ;;lsp-ui-sideline-show-hover nil
         ;;lsp-ui-sideline-show-code-actions nil
         ;;lsp-ui-sideline-update-mode 'point)
-  )
-
-(use-package lsp-java
-  :ensure t
-  :defer t
-  :after lsp-mode
-  :config
-  (add-hook 'java-mode-hook #'lsp)
-  ;;(add-hook 'java-mode-hook 'flycheck-mode)
-  (add-hook 'java-mode-hook 'company-mode)
-  )
-
-(use-package company-lsp
-  :ensure t
-  :after lsp-mode
-  :config
-  (push 'company-lsp company-backends)
-  (setq
-   company-lsp-enable-snippet t
-   company-transformers nil
-   company-lsp-async t
-   company-lsp-cache-candidates nil
-   )
   )
 
 (use-package lsp-ivy
@@ -920,7 +935,7 @@
 (gbind "M-m" 'counsel-find-file )
 (gbind "C-SPC" 'hydra-tabs/body )
 (gbind "C-S-h" 'help-command )
-(gbind "C-/" 'comment-dwim) ;; TODO: poner esto a funcionar
+(gbind "C-_" 'comment-dwim) ;; TODO: poner esto a funcionar
 
 (defun save-all-buffers ()
   "Save all buffers."
@@ -1010,7 +1025,7 @@
 
 ;; Set transparency of emacs
 (defun transparency (value)
-  "Sets the transparency of the frame window. 0=transparent/100=opaque"
+  "Set the transparency of the frame window to VALUE.  0=transparent/100=opaque."
   (interactive "nTransparency Value 0 - 100 opaque:")
   (set-frame-parameter (selected-frame) 'alpha value)
   )
@@ -1026,7 +1041,8 @@
                     ;; Also handle undocumented (<active> <inactive>) form.
                     ((numberp (cadr alpha)) (cadr alpha)))
               100)
-         '(95 . 50) '(100 . 100)))))
+		 ;; el segundo valor es para cuando no esta enfocado
+         '(95 . 95) '(100 . 100)))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
 ;; hydras --------------------------------------------------
@@ -1055,7 +1071,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
 ^ ^            |   _k_: next        |   _e_: errores
 ^ ^            |   _._: terminal    |   _SPC_: execute macro
 ^ ^            |   _b_: all buffers |   _t_: tree
-^ ^            |   ^ ^              |   _rn_: rename
+^ ^            |   _?_: marks       |   _rn_: rename
 ^ ^            |   ^ ^              |   _s_: search text
 
 "
@@ -1073,6 +1089,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "o" (hydra-org/body) "org" )
   ( "t" #'treemacs "tree" )
   ( "rn" lsp-rename "rename")
+  ( "?" evil-show-marks "marks")
   )
 
 (defhydra hydra-tabs (:color blue :idle 1.0)
@@ -1116,37 +1133,10 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ("0" (text-scale-adjust 0) "reset")
   ("q" nil "quit" :color blue))
 
-;; otros/mover ------------------------------------------------
-
-; para redefinir comandos evil-ex
-; (evil-ex-define-cmd "q" 'kill-this-buffer)
-
-;;(setq custom-tab-width 2)
-
-(defun disable-tabs () (setq indent-tabs-mode nil))
-(defun enable-tabs  ()
-  (interactive)
-  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
-  (setq indent-tabs-mode t)
-  (setq tab-width custom-tab-width))
-(enable-tabs)
-
-;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
-;;(setq indent-tabs-mode t)
-;;(setq tab-width custom-tab-width))
-
-
-
-; " para solo mostrar las marcas dentro del archivo
-    ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
-;
-    ; map gf :edit <cfile><cr>
-
-;; redefinir mappings de evil
-;; (with-eval-after-load 'evil-maps
-;; )
+;; final ------------------------------------------------------
 
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 
-(provide 'init);;; init.el end here
+(provide 'init)
+;;; init.el ends here
