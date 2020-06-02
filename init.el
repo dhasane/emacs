@@ -39,9 +39,9 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-               (evil use-package hydra bind-key)
-               name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (indent-guide ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+                  (evil use-package hydra bind-key)
+                  name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -537,7 +537,8 @@
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp)))
   :config
-  (setq ccls-executable "/snap/bin/ccls")
+  ;;(setq ccls-executable "/snap/bin/ccls")
+  (setq ccls-executable "/usr/bin/ccls")
   )
 
 (use-package ivy
@@ -787,6 +788,17 @@
    )
   :config
   (eyebrowse-mode t)
+  )
+
+(use-package indent-guide
+  :ensure t 
+  :defer .1
+  :hook (
+         (prog-mode-hook . indent-guide-mode)
+         )
+  :config
+  ;; (indent-guide-global-mode)
+  (setq indent-guide-recursive t)
   )
 
 (load-theme 'gruvbox-dark-medium)
@@ -1121,7 +1133,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
 ; para redefinir comandos evil-ex
 ; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
-;;(setq custom-tab-width 2)
+(setq custom-tab-width 2)
 
 (defun disable-tabs () (setq indent-tabs-mode nil))
 (defun enable-tabs  ()
