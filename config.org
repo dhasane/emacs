@@ -2,17 +2,24 @@
 Este archivo es para cualquier cosa interesante que encuentre en relacion al archivo
 de configuracion de emacs
 
+* DONE [[http://blog.huy.rocks/emacs-from-scratch.html#org5be8c19][emacs from scratch]]
+  CLOSED: [2020-06-01 lun 15:21]
+  acabo de encontrar este tutorial, que se ve como interesante para crear una
+  configuracion desde 0.
+  ya tengo bastante hecho, pero a ver si encuentro algo interesante para agregar
+  
+* DONE [[https://emacs.stackexchange.com/questions/13286/how-can-i-stop-the-enter-key-from-triggering-a-completion-in-company-mode][enter para completar con company]]
+  CLOSED: [2020-06-01 lun 15:21]
+  ademas que creo que me gustaria probar con eshell, para que puede funcionar independiente al SO
 
-
-acabo de encontrar este tutorial, que se ve como interesante para crear una
-configuracion desde 0.
-ya tengo bastante hecho, pero a ver si encuentro algo interesante para agregar
-[[http://blog.huy.rocks/emacs-from-scratch.html#org5be8c19][emacs from scratch]]
-
-Ya que podria ser interesante la diferencia,
-[[http://ergoemacs.org/emacs/emacs_shell_vs_term_vs_ansi-term_vs_eshell.html][comparacion entre shell, term y eshell]]
-ademas que creo que me gustaria probar con eshell, para que puede funcionar independiente al SO
-
-use esto para que la autocompleticion funcione como me gusta, ya que antes al presionar enter se pasaba a linea nueva y no me gusta
-graciosamente la pregunta del link es para desactivarlo completamente, pero me dio la guia para saber cuales funciones eran
-[[https://emacs.stackexchange.com/questions/13286/how-can-i-stop-the-enter-key-from-triggering-a-completion-in-company-mode][enter para completar con company]]
+  use esto para que la autocompleticion funcione como me gusta, ya que antes al presionar enter se pasaba a linea nueva y no me gusta
+  graciosamente la pregunta del link es para desactivarlo completamente, pero me dio la guia para saber cuales funciones eran
+  
+* TODO [[http://ergoemacs.org/emacs/emacs_shell_vs_term_vs_ansi-term_vs_eshell.html][comparacion entre shell, term y eshell]]
+  Ya que podria ser interesante la diferencia,
+  
+  y creo que me falta configurarlo bien, ya que aun no funciona exactamente como 
+  me gustaria
+  
+* TODO [[https://stackoverflow.com/questions/740836/compiling-c-programs-with-emacs-on-windows][poner para que se haga la compilacion que suena interesante]]
+  

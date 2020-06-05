@@ -42,9 +42,9 @@
     (read-only t cursor-intangible t face minibuffer-prompt)))
  '(package-selected-packages
    (quote
-    (company-box lsp-dart lsp-python-ms haskell-mode ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-                 (evil use-package hydra bind-key)
-                 name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+    (rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+               (evil use-package hydra bind-key)
+               name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -517,8 +517,6 @@
   :ensure t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (ruby-mode . lsp-deferred)
-         (rust-mode . lsp-deferred)
-
          (lsp-mode . lsp-enable-which-key-integration)
          )
   :config
@@ -533,7 +531,14 @@
   :commands (lsp lsp-deferred)
   )
 
-;; TODO: agregar rust-analyzer
+;; TODO: agregar rust-analyzer y poner esto a funcionar
+(use-package rust-mode
+  :ensure t
+  :hook (rust-mode . lsp-deferred)
+  :config
+  (setq lsp-rust-analyzer-cargo-watch-enable t)
+  (setq lsp-rust-server 'rust-analyzer)
+  )
 
 (use-package ccls
   :ensure t
@@ -637,7 +642,11 @@
         (backward-char 1)
         (if (looking-at "\\.") t
           (backward-char 1)
-          (if (looking-at "->") t nil)))))
+          (if (looking-at "->") t nil)
+          )
+        )
+      )
+    )
 
   (defun do-yas-expand ()
     (let ((yas-fallback-behavior 'return-nil))
@@ -658,6 +667,8 @@
 	  )
 	)
 
+  ;;(setq company-frontends (delq 'company-pseudo-tooltip-frontend company-frontends))
+
   ;; set default `company-backends'
   (setq company-backends
         '(
@@ -667,7 +678,6 @@
            company-capf
            company-yasnippet
            company-dabbrev-code
-           company-semantic-completions ;; no se que es esto, pero de prueba
            )
           (
            company-abbrev company-dabbrev)
@@ -687,24 +697,6 @@
                  'company-tern)
                 )))
 
-  (defun my-company-visible-and-explicit-action-p ()
-    (and (company-tooltip-visible-p)
-         (company-explicit-action-p)))
-
-  (defun company-ac-setup ()
-    "Sets up `company-mode' to behave similarly to `auto-complete-mode'."
-    (setq company-require-match nil)
-    ;;(setq company-auto-complete #'my-company-visible-and-explicit-action-p)
-    (setq company-frontends '(company-echo-metadata-frontend
-                              company-pseudo-tooltip-unless-just-one-frontend-with-delay
-                              company-preview-frontend))
-    (define-key company-active-map [tab]
-      'company-select-next-if-tooltip-visible-or-complete-selection)
-    (define-key company-active-map (kbd "TAB")
-      'company-select-next-if-tooltip-visible-or-complete-selection))
-
-  (company-ac-setup)
-
   ;; para probar company-box
   ;;(add-hook 'after-init-hook 'global-company-mode)
   )
@@ -713,6 +705,15 @@
   :ensure t
   :after company
   :hook (company-mode . company-box-mode)
+  :bind
+  (
+   ;;:map
+   ;;company-box-mode-map
+   ;;( "TAB" . 'company-box--next-line)
+   ;;( "<tab>" . 'company-box--prev-line)
+   )
+  :config
+  '(company-box-doc-delay 0.2)
   )
 
 (use-package lsp-ui
