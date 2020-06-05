@@ -218,4 +218,19 @@ otherwise, close current tab (elscreen)."
      (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
 
 
+
+(setq custom-tab-width 2)
+(defun disable-tabs () (setq indent-tabs-mode nil))
+(defun enable-tabs  ()
+  (interactive)
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  (setq indent-tabs-mode t)
+  (setq tab-width custom-tab-width))
+(enable-tabs)
+
+
+;; TODO: meter esto en alguna parte
+xref-find-definition-other-window
+
+
 ;; finich jiji 
