@@ -205,7 +205,7 @@
 (use-package which-key
   :ensure t
   :config
-  (which-key-setup-side-window-right)
+  (which-key-setup-side-window-right-bottom)
   ;; (setq which-key-max-description-length 27)
   (setq which-key-unicode-correction 3)
   (setq which-key-show-prefix 'left)
@@ -265,6 +265,7 @@
   (setq evil-search-module 'evil-search)
   (setq evil-vsplit-window-right t) ;; like vim's 'splitright'
   (setq evil-split-window-below t) ;; like vim's 'splitbelow'
+  (setq evil-move-beyond-eol t)
   ;; (setq evil-ex-complete-emacs-commands nil)
   ;; (setq evil-shift-round nil)
   ;; (setq evil-want-C-u-scroll t)
@@ -275,6 +276,7 @@
   :bind
   (:map
    evil-normal-state-map
+   ;("ESC" . evil-ex-nohighlight)
    ("j" . evil-next-visual-line)
    ("k" . evil-previous-visual-line)
   ;;("g t" . 'tab-next )
@@ -563,6 +565,7 @@
 ;; https://github.com/emacs-lsp/lsp-dart
 (use-package lsp-dart
   :ensure t
+  :defer t
   :hook (dart-mode . lsp-deferred))
 
 (use-package lsp-java
@@ -712,7 +715,11 @@
    ;;( "<tab>" . 'company-box--prev-line)
    )
   :config
-  '(company-box-doc-delay 0.2)
+  (setq company-box-doc-delay 0
+        company-box-doc-enable t
+        ;;company-box--max 10
+        )
+
   )
 
 (use-package lsp-ui
@@ -758,7 +765,8 @@
 (use-package yasnippet
   :ensure t
   :defer .1
-  :config (yas-global-mode)
+  :hook (prog-mode-hook-hook . yas-minor-mode)
+  ;;:config (yas-global-mode)
   )
 
 ;; optionally if you want to use debugger
@@ -1083,8 +1091,12 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "s" swiper "swiper" )
   ( "." toggle-terminal "terminal" )
   ( "e" counsel-flycheck "errores" )
-  ( "j" previous-buffer "next" )
-  ( "k" next-buffer "next" )
+
+  ;;( "j" previous-buffer "next" )
+  ;;( "k" next-buffer "next" )
+  ( "j" projectile-next-project-buffer "next" )
+  ( "k" projectile-previous-project-buffer "next" )
+
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) "execute macro" )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
