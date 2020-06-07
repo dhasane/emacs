@@ -550,9 +550,10 @@
          (c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()
            (require 'ccls)
-           (lsp)))
+           (lsp-deferred)))
   :config
-  (setq ccls-executable "/snap/bin/ccls")
+  ;;(setq ccls-executable "/snap/bin/ccls")
+  (setq ccls-executable "/usr/bin/ccls")
   )
 
 (use-package lsp-python-ms
@@ -811,6 +812,17 @@
    )
   :config
   (eyebrowse-mode t)
+  )
+
+(use-package indent-guide
+  :ensure t 
+  :defer .1
+  :hook (
+         (prog-mode-hook . indent-guide-mode)
+         )
+  :config
+  ;; (indent-guide-global-mode)
+  (setq indent-guide-recursive t)
   )
 
 (load-theme 'gruvbox-dark-medium)
@@ -1145,6 +1157,37 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ("-" text-scale-decrease "out")
   ("0" (text-scale-adjust 0) "reset")
   ("q" nil "quit" :color blue))
+
+;; otros/mover ------------------------------------------------
+
+; para redefinir comandos evil-ex
+; (evil-ex-define-cmd "q" 'kill-this-buffer)
+
+(setq custom-tab-width 2)
+
+(defun disable-tabs () (setq indent-tabs-mode nil))
+(defun enable-tabs  ()
+  (interactive)
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  (setq indent-tabs-mode t)
+  (setq tab-width custom-tab-width))
+(enable-tabs)
+
+;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
+;;(setq indent-tabs-mode t)
+;;(setq tab-width custom-tab-width))
+
+
+
+; " para solo mostrar las marcas dentro del archivo
+    ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
+;
+    ; map gf :edit <cfile><cr>
+
+;; redefinir mappings de evil
+;; (with-eval-after-load 'evil-maps
+;; )
+
 
 ;; final ------------------------------------------------------
 
