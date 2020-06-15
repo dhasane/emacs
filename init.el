@@ -33,18 +33,15 @@
  '(company-selection-wrap-around t)
  '(company-tooltip-align-annotations t)
  '(custom-safe-themes
-   (quote
-    ("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default)))
+	 '("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default))
  '(git-gutter:window-width 1)
  '(global-company-mode t)
- '(minibuffer-prompt-properties
-   (quote
-    (read-only t cursor-intangible t face minibuffer-prompt)))
+ '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
  '(package-selected-packages
-   (quote
-    (rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-               (evil use-package hydra bind-key)
-               name lsp-java ccls magit gruvbox-theme fzf flycheck helm evil))))
+	 '(inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+							(evil use-package hydra bind-key)
+							name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
+ '(tab-bar-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -70,6 +67,7 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
+(server-start)
 ;; Make startup faster by reducing the frequency of garbage
 ;; collection.  The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
@@ -256,6 +254,11 @@
 ;;
     ;;  )
 
+(use-package hydra
+  )
+(use-package bind-key
+  )
+
 (use-package evil
   :ensure t
   ;;:defer
@@ -307,9 +310,11 @@
     "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
     (interactive)
     (if (one-window-p)
-        (eyebrowse-close-window-config)
+        (close-tab-configuration)
+				; (message "hay un split")
       (evil-quit)
-      )
+			; (message "hay varios splits")
+			)
     )
   (defun evil-yank-to-end-of-line ()
     "Yanks content from point until end of line."
@@ -333,6 +338,104 @@
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
   )
 
+;; en caso que la version sea mayor a 27, usar los tabs ya que vienen incluidos, de lo contrario,
+;; usar eyebrowse (tiene cosas que se parecen mas a tmu, lo cual es genial, pero hay unos detalles
+;; que no me gustan tanto, como que este en el modeline)
+(if (version< "27.0" emacs-version )
+		(use-package tab-bar
+			:after evil
+			:bind
+			(:map
+			 evil-normal-state-map
+			 ("TAB t" . tab-bar-new-tab-to )
+			 ; ("TAB q" . tab-bar-close-tab )
+			 ("g b" . tab-bar-switch-to-prev-tab )
+			 )
+			:init
+
+			;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
+			;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
+			(setq tab-bar-close-button-show nil)
+			(setq tab-bar-show t) ;;1)
+			(setq tab-bar-tab-hints t)
+			:config
+			(defun set-name-if-in-project ()
+				(if (projectile-project-p)
+            (format "%s" (projectile-project-name))
+					(format "%s" (tab-bar-tab-name-current))
+					)
+				)
+			(setq tab-bar-tab-name-function 'set-name-if-in-project)
+			;; (setq tab-bar-tab-name-function 'tab-bar-tab-name-current)
+			;; (setq tab-bar-tab-name-function)
+
+			(defun close-tab-configuration ()
+				(interactive)
+				(tab-bar-close-tab)
+				)
+			(defhydra hydra-tabs (:color blue :idle 1.0)
+				"Tab management"
+				("c" tab-bar-new-tab-to "create" )
+				("$" eyebrowse-rename-window-config "rename" )
+				("q" tab-bar-close-tab "quit" )
+				("l" tab-bar-switch-to-next-tab "left" :color red)
+				("h" tab-bar-switch-to-prev-tab "right" :color red)
+				("-" split-window-vertically "vertical" )
+				("+" split-window-horizontally "horizontal")
+				;;("2" eyebrowse-switch-to-window-config-2 )
+				;;("3" eyebrowse-switch-to-window-config-3 )
+				;;("4" eyebrowse-switch-to-window-config-4 )
+				;;("5" eyebrowse-switch-to-window-config-5 )
+				;;("6" eyebrowse-switch-to-window-config-6 )
+				;;("7" eyebrowse-switch-to-window-config-7 )
+				;;("8" eyebrowse-switch-to-window-config-8 )
+				;;("9" eyebrowse-switch-to-window-config-9 )
+				)
+			(gbind "C-SPC" 'hydra-tabs/body )
+
+
+			)
+	;; lo mas cercano a los tabs de vim que encontre
+	(use-package eyebrowse
+		:ensure t
+		:after evil
+		:bind
+		(
+		 :map
+		 evil-normal-state-map
+		 ("TAB t" . 'eyebrowse-create-window-config )
+		 )
+		:config
+		(eyebrowse-mode t)
+		(defun close-tab-configuration ()
+			(interactive)
+			(eyebrowse-close-window-config)
+			)
+		(defhydra hydra-tabs (:color blue :idle 1.0)
+			"Tab management"
+			("c" eyebrowse-create-window-config "create" )
+			("$" eyebrowse-rename-window-config "rename" )
+			("q" eyebrowse-close-window-config "quit" )
+			("l" eyebrowse-next-window-config "left" :color red)
+			("h" eyebrowse-prev-window-config "right" :color red)
+			("-" split-window-vertically "vertical" )
+			("+" split-window-horizontally "horizontal")
+			("1" eyebrowse-switch-to-window-config-1)
+			("2" eyebrowse-switch-to-window-config-2)
+			("3" eyebrowse-switch-to-window-config-3)
+			("4" eyebrowse-switch-to-window-config-4)
+			("5" eyebrowse-switch-to-window-config-5)
+			("6" eyebrowse-switch-to-window-config-6)
+			("7" eyebrowse-switch-to-window-config-7)
+			("8" eyebrowse-switch-to-window-config-8)
+			("9" eyebrowse-switch-to-window-config-9)
+			)
+		(gbind "C-SPC" 'hydra-tabs/body )
+
+		)
+)
+
+
 ;; visual hints while editing
 (use-package evil-goggles
   :ensure t
@@ -350,11 +453,6 @@
   :ensure t
   :config
   (evil-collection-init)
-  )
-
-(use-package hydra
-  )
-(use-package bind-key
   )
 
 ;; Projectile
@@ -392,7 +490,7 @@
   :ensure t
   :defer .1
   :hook (
-         (prog-mode-hook . ws-butler-mode)
+         (prog-mode . ws-butler-mode)
          )
   )
 
@@ -447,7 +545,7 @@
 
 (use-package evil-org
   :ensure t
-  :after org
+  :after evil org
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
@@ -556,8 +654,24 @@
   (setq ccls-executable "/usr/bin/ccls")
   )
 
+(use-package inf-ruby
+	:ensure t
+	:bind
+	(:map ruby-mode
+	 ("C-M-x" . inf-ruby)
+	 )
+	;; :hook (ruby-mode . inf-ruby)
+
+	)
+;;(use-package solargraph
+	;;:ensure t
+	;;:config
+	;;(define-key ruby-mode-map (kbd "M-i") 'solargraph:complete)
+	;;)
+
 (use-package lsp-python-ms
   :ensure t
+  :after lsp-mode
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
@@ -567,6 +681,7 @@
 (use-package lsp-dart
   :ensure t
   :defer t
+  :after lsp-mode
   :hook (dart-mode . lsp-deferred))
 
 (use-package lsp-java
@@ -720,7 +835,6 @@
         company-box-doc-enable t
         ;;company-box--max 10
         )
-
   )
 
 (use-package lsp-ui
@@ -800,30 +914,18 @@
 (setq visible-bell nil
       ring-bell-function 'ignore)
 
-;; lo mas cercano a los tabs de vim que encontre
-(use-package eyebrowse
-  :ensure t
-  :after evil
-  :bind
-  (
-   :map
-   evil-normal-state-map
-   ("C-w t" . 'eyebrowse-create-window-config )
-   )
-  :config
-  (eyebrowse-mode t)
-  )
 
-(use-package indent-guide
-  :ensure t 
-  :defer .1
-  :hook (
-         (prog-mode-hook . indent-guide-mode)
-         )
-  :config
-  ;; (indent-guide-global-mode)
-  (setq indent-guide-recursive t)
-  )
+;; esto me parece que esta lento
+;;(use-package indent-guide
+  ;;:ensure t
+  ;;:defer .1
+  ;;:hook (
+         ;;(prog-mode-hook . indent-guide-mode)
+         ;;)
+  ;;:config
+  ;;;; (indent-guide-global-mode)
+  ;;(setq indent-guide-recursive t)
+  ;;)
 
 (load-theme 'gruvbox-dark-medium)
 ;; (load-theme
@@ -884,6 +986,10 @@
         (display-line-numbers-mode)))
   (global-display-line-numbers-mode)
   )
+
+;; TODO: mover todo a archivos individuales, ya que permite mejor organizacion
+;; (add-to-list 'load-path "~/.emacs.d/config")
+;; (load "mode-line.el")
 
 ;; status line information
 (setq-default
@@ -954,7 +1060,6 @@
 (gbind "C-S-k" 'evil-lookup)
 (gbind "C-M-h" 'help-menu )
 (gbind "M-m" 'counsel-find-file )
-(gbind "C-SPC" 'hydra-tabs/body )
 (gbind "C-S-h" 'help-command )
 (gbind "C-_" 'comment-dwim) ;; TODO: poner esto a funcionar
 
@@ -1098,8 +1203,15 @@ _re_: edit     |   _j_: previous    |   _o_: org
 "
   ( "rs" reload-emacs-config "reload init" )
   ( "re" open-emacs-config "edit init" )
-  ( "l" projectile-find-file "find file" )
-  ( "b" ivy-switch-buffer "buffer list" )
+  ( "l" (lambda () ;; evitar mostrar todos los archivos, en caso de estar fuera de un proyecto
+					(interactive)
+					(if (projectile-project-p)
+							(projectile-find-file)
+						(ivy-switch-buffer)
+						)
+					)  "jet pack" )
+
+	( "b" ivy-switch-buffer "buffer list" )
   ( "s" swiper "swiper" )
   ( "." toggle-terminal "terminal" )
   ( "e" counsel-flycheck "errores" )
@@ -1115,26 +1227,6 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "t" #'treemacs "tree" )
   ( "rn" lsp-rename "rename")
   ( "?" evil-show-marks "marks")
-  )
-
-(defhydra hydra-tabs (:color blue :idle 1.0)
-  "Tab management"
-  ("c" eyebrowse-create-window-config "create" )
-  ("$" eyebrowse-rename-window-config "rename" )
-  ("q" eyebrowse-close-window-config "quit" )
-  ("l" eyebrowse-next-window-config "left" :color red)
-  ("h" eyebrowse-prev-window-config "right" :color red)
-  ("-" split-window-vertically "vertical" )
-  ("+" split-window-horizontally "horizontal")
-  ("1" eyebrowse-switch-to-window-config-1)
-  ("2" eyebrowse-switch-to-window-config-2)
-  ("3" eyebrowse-switch-to-window-config-3)
-  ("4" eyebrowse-switch-to-window-config-4)
-  ("5" eyebrowse-switch-to-window-config-5)
-  ("6" eyebrowse-switch-to-window-config-6)
-  ("7" eyebrowse-switch-to-window-config-7)
-  ("8" eyebrowse-switch-to-window-config-8)
-  ("9" eyebrowse-switch-to-window-config-9)
   )
 
 ;; TODO: cuadrar esto bien y aprender un poco, que por el momento solo he usado 'a'
@@ -1176,13 +1268,6 @@ _re_: edit     |   _j_: previous    |   _o_: org
 ;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
 ;;(setq indent-tabs-mode t)
 ;;(setq tab-width custom-tab-width))
-
-
-
-; " para solo mostrar las marcas dentro del archivo
-    ; nnoremap <Leader>' :marks abcdefghijklmnopqrstuvwxyz<cr>:'
-;
-    ; map gf :edit <cfile><cr>
 
 ;; redefinir mappings de evil
 ;; (with-eval-after-load 'evil-maps
