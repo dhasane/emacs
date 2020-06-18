@@ -28,20 +28,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-idle-delay 10)
- '(company-minimum-prefix-length 1)
- '(company-selection-wrap-around t)
- '(company-tooltip-align-annotations t)
  '(custom-safe-themes
 	 '("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default))
  '(git-gutter:window-width 1)
- '(global-company-mode t)
  '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
  '(package-selected-packages
 	 '(inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java esup counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
 							(evil use-package hydra bind-key)
 							name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
- '(tab-bar-mode t))
+ '(tab-bar-mode t)
+ '(tab-bar-show 1)
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -287,6 +284,7 @@
    ("Y"   . #'evil-yank-to-end-of-line )
    ("C-s" . evil-write )
    ("TAB" . evil-window-map )
+   ("TAB q" . #'close-except-last-window )
    ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
    ("C-l" . evil-window-right )
    ("C-h" . evil-window-left )
@@ -356,7 +354,7 @@
 			;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
 			;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
 			(setq tab-bar-close-button-show nil)
-			(setq tab-bar-show t) ;;1)
+			(setq tab-bar-show 1)
 			(setq tab-bar-tab-hints t)
 			:config
 			(defun set-name-if-in-project ()
@@ -378,8 +376,8 @@
 				("c" tab-bar-new-tab-to "create" )
 				("$" eyebrowse-rename-window-config "rename" )
 				("q" tab-bar-close-tab "quit" )
-				("l" tab-bar-switch-to-next-tab "left" :color red)
-				("h" tab-bar-switch-to-prev-tab "right" :color red)
+				("l" tab-bar-switch-to-next-tab "left"); :color red)
+				("h" tab-bar-switch-to-prev-tab "right"); :color red)
 				("-" split-window-vertically "vertical" )
 				("+" split-window-horizontally "horizontal")
 				;;("2" eyebrowse-switch-to-window-config-2 )
@@ -416,8 +414,8 @@
 			("c" eyebrowse-create-window-config "create" )
 			("$" eyebrowse-rename-window-config "rename" )
 			("q" eyebrowse-close-window-config "quit" )
-			("l" eyebrowse-next-window-config "left" :color red)
-			("h" eyebrowse-prev-window-config "right" :color red)
+			("l" eyebrowse-next-window-config "left"); :color red)
+			("h" eyebrowse-prev-window-config "right"); :color red)
 			("-" split-window-vertically "vertical" )
 			("+" split-window-horizontally "horizontal")
 			("1" eyebrowse-switch-to-window-config-1)
@@ -509,6 +507,11 @@
   :ensure t
   :defer .1
   )
+
+(use-package git-gutter
+	:ensure t
+	:after magit
+	)
 
 ;; TODO: verificar el funcionamiento de esto, que hay varios binds que me gustaria cambiar,
 ;; por ejemplo el de 'h', que sirve para mover a la izquierda, pero no tiene sentido siendo
@@ -988,64 +991,8 @@
   )
 
 ;; TODO: mover todo a archivos individuales, ya que permite mejor organizacion
-;; (add-to-list 'load-path "~/.emacs.d/config")
-;; (load "mode-line.el")
-
-;; status line information
-(setq-default
- mode-line-format
- (list
-  mode-line-misc-info ; for eyebrowse
-  ;; '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-  ;; (setcdr (assq 'vc-mode mode-line-format)
-  ;; '((:eval (replace-regexp-in-string "^ Git" " " vc-mode))))
-  '(:eval (when-let (vc vc-mode)
-            (list
-             " "
-             (replace-regexp-in-string "^ Git:" "" vc-mode)
-             " "
-             ) ) )
-  '(:eval (list
-           ;; the buffer name; the file name as a tool tip
-           (propertize
-            " %b"
-            'help-echo (buffer-file-name))
-           (when (buffer-modified-p)
-             (propertize
-              " "
-              ) )
-           (when buffer-read-only
-             (propertize
-              " "
-              ) ) " " ) )
-  ;; spaces to align right
-  '(:eval (propertize
-           " " 'display
-           `(
-             (space :align-to (- (+ right right-fringe right-margin)
-                                 ,(+
-                                   3
-                                   (string-width mode-name)
-                                   3
-                                   (string-width (projectile-project-name))
-                                   )
-                                 )
-                    )
-              ) ) )
-
-  ;; para mostrar el nombre del proyecto en el que se esta trabajando
-  '(:eval (list
-           ;; the buffer name; the file name as a tool tip
-           (propertize
-            ;;(projectile-project-name)
-            (format "[%s]" (projectile-project-name))
-            )
-           " " ) )
-
-  ;; the current major mode
-  (propertize " %m " )
-  )
- )
+(add-to-list 'load-path "~/.emacs.d/modules")
+(load "mode-line.el")
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
 ;; (set-window-parameter (selected-window) 'alpha '(85 . 50))
@@ -1132,7 +1079,7 @@
 (defun toggle-terminal ()
   "Toggle terminal in its own buffer."
   (interactive)
-  (split-window-horizontally)
+  ;; (split-window-horizontally)
   (eshell)
   (message
    (buffer-file-name (current-buffer) ) )
