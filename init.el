@@ -69,14 +69,11 @@
 ;; collection.  The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
+(add-to-list 'load-path "~/.emacs.d/modules")
+
 ;; start-up ------------------------------------------------
-(setq inhibit-startup-screen t)
-;; UTF-8 as default encoding
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8-unix)
-(set-face-attribute 'default
-                    nil :height 100)
-(setq backward-delete-char-untabify-method 'hungry)
+
+(load "basic.el")
 
 (progn
   ;; set a default font
@@ -96,7 +93,11 @@
     ;;
     )
    ((string-equal system-type "windows-nt") ; Windows
-    nil))
+
+		;; esto fue necesario para que siquiera sirviera en windows
+		(setq inhibit-compacting-font-caches t)
+    nil
+		))
   ;; specify font for all unicode characters
   (when (member "Symbola" (font-family-list))
     (set-fontset-font t 'unicode "Symbola" nil 'prepend))
@@ -104,10 +105,6 @@
   (when (member "Apple Color Emoji" (font-family-list))
     (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
   )
-
-;; quitar las barras
-(menu-bar-mode -1) ;; TODO: me gustaria activarlo para org
-(tool-bar-mode -1)
 
 (setq auto-save-default nil
       make-backup-files nil
@@ -122,7 +119,6 @@
   (desktop-save-mode 1)
   (global-auto-revert-mode 1)
 
-  ;; big minibuffer height, for ido to show choices vertically
   (setq max-mini-window-height 0.5)
 
   ;; minibuffer, stop cursor going into prompt
@@ -130,36 +126,9 @@
    'minibuffer-prompt-properties
    (quote (read-only t cursor-intangible t face minibuffer-prompt))))
 
-;; remember cursor position
-(if (version< emacs-version "25.0")
-    (progn
-      (require 'saveplace)
-      (setq-default save-place t))
-  (save-place-mode 1))
-
 ;; TODO: encontrar algo para hacer que el minibuffer funcione de forma mas interesante
 
 (savehist-mode 1)
-
-;; indentation, tab
-(electric-indent-mode 1)
-
-;; set highlighting brackets
-(show-paren-mode 1)
-(electric-pair-mode 1)
-(setq show-paren-delay 0
-      show-paren-style 'parenthesis)
-(set-default 'tab-always-indent 'complete)
-
-(setq-default indent-tabs-mode nil
-              tab-width 4)
-
-;; que no pregunte cuando me quiero salir
-(setq use-dialog-box nil)
-
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-;; plugins -------------------------------------------------
 
 (require 'package)
 (setq
@@ -187,9 +156,6 @@
 (unless package-archive-contents
   (package-refresh-contents))
 (package-install-selected-packages)
-
-;; esto fue necesario para que siquiera sirviera en windows
-(setq inhibit-compacting-font-caches t)
 
 ;; Bootstrap `use-package`
 (unless (package-installed-p 'use-package)
@@ -276,6 +242,7 @@
   :bind
   (:map
    evil-normal-state-map
+	 ("C-S-k" . evil-lookup)
    ;("ESC" . evil-ex-nohighlight)
    ("j" . evil-next-visual-line)
    ("k" . evil-previous-visual-line)
@@ -336,103 +303,7 @@
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
   )
 
-;; en caso que la version sea mayor a 27, usar los tabs ya que vienen incluidos, de lo contrario,
-;; usar eyebrowse (tiene cosas que se parecen mas a tmu, lo cual es genial, pero hay unos detalles
-;; que no me gustan tanto, como que este en el modeline)
-(if (version< "27.0" emacs-version )
-		(use-package tab-bar
-			:after evil
-			:bind
-			(:map
-			 evil-normal-state-map
-			 ("TAB t" . tab-bar-new-tab-to )
-			 ; ("TAB q" . tab-bar-close-tab )
-			 ("g b" . tab-bar-switch-to-prev-tab )
-			 )
-			:init
-
-			;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
-			;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
-			(setq tab-bar-close-button-show nil)
-			(setq tab-bar-show 1)
-			(setq tab-bar-tab-hints t)
-			:config
-			(defun set-name-if-in-project ()
-				(if (projectile-project-p)
-            (format "%s" (projectile-project-name))
-					(format "%s" (tab-bar-tab-name-current))
-					)
-				)
-			(setq tab-bar-tab-name-function 'set-name-if-in-project)
-			;; (setq tab-bar-tab-name-function 'tab-bar-tab-name-current)
-			;; (setq tab-bar-tab-name-function)
-
-			(defun close-tab-configuration ()
-				(interactive)
-				(tab-bar-close-tab)
-				)
-			(defhydra hydra-tabs (:color blue :idle 1.0)
-				"Tab management"
-				("c" tab-bar-new-tab-to "create" )
-				("$" eyebrowse-rename-window-config "rename" )
-				("q" tab-bar-close-tab "quit" )
-				("l" tab-bar-switch-to-next-tab "left"); :color red)
-				("h" tab-bar-switch-to-prev-tab "right"); :color red)
-				("-" split-window-vertically "vertical" )
-				("+" split-window-horizontally "horizontal")
-				;;("2" eyebrowse-switch-to-window-config-2 )
-				;;("3" eyebrowse-switch-to-window-config-3 )
-				;;("4" eyebrowse-switch-to-window-config-4 )
-				;;("5" eyebrowse-switch-to-window-config-5 )
-				;;("6" eyebrowse-switch-to-window-config-6 )
-				;;("7" eyebrowse-switch-to-window-config-7 )
-				;;("8" eyebrowse-switch-to-window-config-8 )
-				;;("9" eyebrowse-switch-to-window-config-9 )
-				)
-			(gbind "C-SPC" 'hydra-tabs/body )
-
-
-			)
-	;; lo mas cercano a los tabs de vim que encontre
-	(use-package eyebrowse
-		:ensure t
-		:after evil
-		:bind
-		(
-		 :map
-		 evil-normal-state-map
-		 ("TAB t" . 'eyebrowse-create-window-config )
-		 )
-		:config
-		(eyebrowse-mode t)
-		(defun close-tab-configuration ()
-			(interactive)
-			(eyebrowse-close-window-config)
-			)
-		(defhydra hydra-tabs (:color blue :idle 1.0)
-			"Tab management"
-			("c" eyebrowse-create-window-config "create" )
-			("$" eyebrowse-rename-window-config "rename" )
-			("q" eyebrowse-close-window-config "quit" )
-			("l" eyebrowse-next-window-config "left"); :color red)
-			("h" eyebrowse-prev-window-config "right"); :color red)
-			("-" split-window-vertically "vertical" )
-			("+" split-window-horizontally "horizontal")
-			("1" eyebrowse-switch-to-window-config-1)
-			("2" eyebrowse-switch-to-window-config-2)
-			("3" eyebrowse-switch-to-window-config-3)
-			("4" eyebrowse-switch-to-window-config-4)
-			("5" eyebrowse-switch-to-window-config-5)
-			("6" eyebrowse-switch-to-window-config-6)
-			("7" eyebrowse-switch-to-window-config-7)
-			("8" eyebrowse-switch-to-window-config-8)
-			("9" eyebrowse-switch-to-window-config-9)
-			)
-		(gbind "C-SPC" 'hydra-tabs/body )
-
-		)
-)
-
+(load "tabs.el")
 
 ;; visual hints while editing
 (use-package evil-goggles
@@ -477,8 +348,8 @@
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; (pdf-tools-install)
-; (pdf-loader-install)
+(pdf-tools-install)
+(pdf-loader-install)
 
 (setq x-wait-for-event-timeout nil)
 
@@ -528,6 +399,7 @@
   (global-git-gutter-mode +1)
   )
 
+;; (load "org.el")
 ;; org mode ------------------------------------------------
 
 (use-package org
@@ -613,89 +485,7 @@
               ("K" org-shiftup)
               ("t" org-todo))))
 
-;; lsp -----------------------------------------------------
-
-(use-package lsp-mode
-  :defer t
-  :ensure t
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (ruby-mode . lsp-deferred)
-         (lsp-mode . lsp-enable-which-key-integration)
-         )
-  :config
-  (with-eval-after-load 'lsp-mode
-    ;; :project/:workspace/:file
-    (setq lsp-diagnostics-modeline-scope :project)
-    (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode))
-  (lsp-diagnostics-modeline-mode t)
-
-  (add-hook 'lsp-mode-hook #'lsp-lens-mode)
-  ;;:commands lsp
-  :commands (lsp lsp-deferred)
-  )
-
-;; TODO: agregar rust-analyzer y poner esto a funcionar
-(use-package rust-mode
-  :ensure t
-  :hook (rust-mode . lsp-deferred)
-  :config
-  (setq lsp-rust-analyzer-cargo-watch-enable t)
-  (setq lsp-rust-server 'rust-analyzer)
-  )
-
-(use-package ccls
-  :ensure t
-  :defer t
-  :after lsp-mode
-  :hook (
-         (c-mode c++-mode objc-mode cuda-mode) .
-         (lambda ()
-           (require 'ccls)
-           (lsp-deferred)))
-  :config
-  ;;(setq ccls-executable "/snap/bin/ccls")
-  (setq ccls-executable "/usr/bin/ccls")
-  )
-
-(use-package inf-ruby
-	:ensure t
-	:bind
-	(:map ruby-mode
-	 ("C-M-x" . inf-ruby)
-	 )
-	;; :hook (ruby-mode . inf-ruby)
-
-	)
-;;(use-package solargraph
-	;;:ensure t
-	;;:config
-	;;(define-key ruby-mode-map (kbd "M-i") 'solargraph:complete)
-	;;)
-
-(use-package lsp-python-ms
-  :ensure t
-  :after lsp-mode
-  :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-python-ms)
-                          (lsp-deferred))))  ; or lsp-deferred
-
-;; https://github.com/emacs-lsp/lsp-dart
-(use-package lsp-dart
-  :ensure t
-  :defer t
-  :after lsp-mode
-  :hook (dart-mode . lsp-deferred))
-
-(use-package lsp-java
-  :ensure t
-  :defer t
-  :after lsp-mode
-  :config
-  (add-hook 'java-mode-hook #'lsp-deferred)
-  (add-hook 'java-mode-hook 'flycheck-mode)
-  (add-hook 'java-mode-hook 'company-mode)
-  )
+(load "completion.el")
 
 (use-package ivy
   :ensure t
@@ -722,169 +512,7 @@
 (use-package counsel
   :ensure t
   :after ivy
-  )
-
-(use-package company
-  :ensure t
-  :after evil
-  :bind
-  (
-   :map
-   evil-insert-state-map
-   ;;("TAB" . #'indent-or-complete)
-   ("TAB" . #'tab-indent-or-complete)
-   ;;("TAB" . #'complete-or-indent)
-   ;;("TAB" . #'company-indent-or-complete-common)
-
-   :map
-   company-active-map
-   ( "TAB" . 'company-complete-common-or-cycle)
-   ( "<tab>" . 'company-complete-common-or-cycle)
-
-   ( "S-TAB" . 'company-select-previous)
-   ( "<backtab>" . 'company-select-previous)
-
-   ( "<return>" . #'company-complete-selection)
-   ( "RET" . #'company-complete-selection)
-   )
-  :custom
-  ;;(company-begin-commands '(self-insert-command))
-  ;;(company-show-numbers t)
-  (company-tooltip-align-annotations 't)
-  (company-minimum-prefix-length 1) ; Show suggestions after entering one character.
-  (company-selection-wrap-around t)
-  (company-idle-delay 10) ; Delay in showing suggestions.
-  (global-company-mode t)
-  :config
-
-  (defun check-expansion ()
-    (save-excursion
-      (if (looking-at "\\_>") t
-        (backward-char 1)
-        (if (looking-at "\\.") t
-          (backward-char 1)
-          (if (looking-at "->") t nil)
-          )
-        )
-      )
-    )
-
-  (defun do-yas-expand ()
-    (let ((yas-fallback-behavior 'return-nil))
-      (yas-expand)))
-
-  (defun tab-indent-or-complete ()
-    (interactive)
-    (if (minibufferp)
-        (minibuffer-complete)
-      (if (or (not yas-minor-mode)
-              (null (do-yas-expand)))
-          (if (check-expansion)
-              (company-complete-common)
-            ;;(indent-for-tab-command) ;; indentar correctamente
-            (tab-to-tab-stop) ;; agregar tabs
-			)
-		)
-	  )
-	)
-
-  ;;(setq company-frontends (delq 'company-pseudo-tooltip-frontend company-frontends))
-
-  ;; set default `company-backends'
-  (setq company-backends
-        '(
-          (
-           company-files          ; files & directory
-           company-keywords       ; keywords
-           company-capf
-           company-yasnippet
-           company-dabbrev-code
-           )
-          (
-           company-abbrev company-dabbrev)
-          )
-        )
-
-  (dolist (hook '(js-mode-hook
-                  js2-mode-hook
-                  js3-mode-hook
-                  inferior-js-mode-hook
-                  ))
-    (add-hook hook
-              (lambda ()
-                (tern-mode t)
-                (add-to-list
-                 (make-local-variable 'company-backends)
-                 'company-tern)
-                )))
-
-  ;; para probar company-box
-  ;;(add-hook 'after-init-hook 'global-company-mode)
-  )
-
-(use-package company-box
-  :ensure t
-  :after company
-  :hook (company-mode . company-box-mode)
-  :bind
-  (
-   ;;:map
-   ;;company-box-mode-map
-   ;;( "TAB" . 'company-box--next-line)
-   ;;( "<tab>" . 'company-box--prev-line)
-   )
-  :config
-  (setq company-box-doc-delay 0
-        company-box-doc-enable t
-        ;;company-box--max 10
-        )
-  )
-
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode evil
-  :commands lsp-ui-mode
-  :bind
-  (:map
-   evil-normal-state-map
-   ("K" . 'lsp-ui-doc-show )
-   ;; lsp-ui-mode-map
-   ;; ("S-k" . #'lsp-ui-peek-find-definitions)
-   ;; ("" . #'lsp-ui-peek-find-references)
-   )
-  :config
-  ;; (lsp-ui-doc-mode nil)
-  ;; (lsp-ui-doc-hide)
-  ;; (remove-hook 'lsp-on-hover-hook 'lsp-ui-doc--on-hover)
-  :init
-  (lsp-ui-mode)
-  (setq lsp-ui-doc-enable nil
-        ;;lsp-ui-flycheck-enable t
-        )
-  ;;(setq lsp-ui-sideline-enable nil
-        ;;lsp-ui-sideline-show-symbol nil
-        ;;lsp-ui-sideline-show-hover nil
-        ;;lsp-ui-sideline-show-code-actions nil
-        ;;lsp-ui-sideline-update-mode 'point)
-  )
-
-(use-package lsp-ivy
-  :ensure t
-  :defer t
-  :commands lsp-ivy-workspace-symbol
-  )
-
-(use-package lsp-treemacs
-  :ensure t
-  :defer t
-  :commands lsp-treemacs-errors-list
-  )
-
-(use-package yasnippet
-  :ensure t
-  :defer .1
-  :hook (prog-mode-hook-hook . yas-minor-mode)
-  ;;:config (yas-global-mode)
+	:bind ("M-m" . 'counsel-find-file)
   )
 
 ;; optionally if you want to use debugger
@@ -939,39 +567,6 @@
   (global-display-line-numbers-mode))
 (setq display-line-numbers-type 'relative)
 
-(if (display-graphic-p)
-    (setq initial-frame-alist
-          '(
-            (tool-bar-lines . 0)
-            (width . 106)
-            (height . 60)
-            ))
-  (setq initial-frame-alist '( (tool-bar-lines . 0))))
-
-(setq default-frame-alist
-      '(
-        (tool-bar-lines . 0)
-        (width . 100)
-		(height . 50)))
-
-;; change mode-line color by evil state
-(lexical-let ((default-color (cons (face-background 'mode-line)
-                                   (face-foreground 'mode-line))))
-  (add-hook 'post-command-hook
-            (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ((evil-insert-state-p) '("#73b3e7" . "#3e4249"))
-                                 ((evil-normal-state-p) '("#a1bf78" . "#3e4249"))
-                                 ((evil-replace-state-p)'("#d390e7" . "#3e4249"))
-                                 ((evil-visual-state-p) '("#e77171" . "#3e4249"))
-
-                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t default-color))))
-                (set-face-background 'mode-line (car color))
-                (set-face-foreground 'mode-line (cdr color))))))
-
-
 (use-package display-line-numbers
   :ensure t
   :config
@@ -991,7 +586,6 @@
   )
 
 ;; TODO: mover todo a archivos individuales, ya que permite mejor organizacion
-(add-to-list 'load-path "~/.emacs.d/modules")
 (load "mode-line.el")
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
@@ -1004,9 +598,7 @@
   "Map FUNCTION to KEY globally."
   (global-set-key (kbd key) function) )
 
-(gbind "C-S-k" 'evil-lookup)
 (gbind "C-M-h" 'help-menu )
-(gbind "M-m" 'counsel-find-file )
 (gbind "C-S-h" 'help-command )
 (gbind "C-_" 'comment-dwim) ;; TODO: poner esto a funcionar
 
