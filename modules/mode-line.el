@@ -1,4 +1,25 @@
 
+
+;;; code:
+
+(eval-when-compile (require 'cl))
+;; change mode-line color by evil state
+(lexical-let ((default-color (cons (face-background 'mode-line)
+                                   (face-foreground 'mode-line))))
+  (add-hook 'post-command-hook
+            (lambda ()
+              (let ((color (cond ((minibufferp) default-color)
+                                 ((evil-insert-state-p) '("#73b3e7" . "#3e4249"))
+                                 ((evil-normal-state-p) '("#a1bf78" . "#3e4249"))
+                                 ((evil-replace-state-p)'("#d390e7" . "#3e4249"))
+                                 ((evil-visual-state-p) '("#e77171" . "#3e4249"))
+
+                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                                 (t default-color))))
+                (set-face-background 'mode-line (car color))
+                (set-face-foreground 'mode-line (cdr color))))))
+
 ;; status line information
 (setq-default
  mode-line-format

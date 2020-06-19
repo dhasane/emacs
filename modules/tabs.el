@@ -1,4 +1,6 @@
 
+;;; code:
+
 ;; en caso que la version sea mayor a 27, usar los tabs ya que vienen incluidos, de lo contrario,
 ;; usar eyebrowse (tiene cosas que se parecen mas a tmu, lo cual es genial, pero hay unos detalles
 ;; que no me gustan tanto, como que este en el modeline)
@@ -34,7 +36,7 @@
         (interactive)
         (tab-bar-close-tab)
         )
-      (defhydra hydra-tabs (:color blue :idle 1.0)
+      (defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
         "Tab management"
         ("c" tab-bar-new-tab-to "create" )
         ("$" eyebrowse-rename-window-config "rename" )
@@ -52,11 +54,7 @@
         ;;("8" eyebrowse-switch-to-window-config-8 )
         ;;("9" eyebrowse-switch-to-window-config-9 )
         )
-      (gbind "C-SPC" 'hydra-tabs/body )
-
-
       )
-  ;; lo mas cercano a los tabs de vim que encontre
   (use-package eyebrowse
     :ensure t
     :after evil
@@ -72,7 +70,7 @@
       (interactive)
       (eyebrowse-close-window-config)
       )
-    (defhydra hydra-tabs (:color blue :idle 1.0)
+    (defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
       "Tab management"
       ("c" eyebrowse-create-window-config "create" )
       ("$" eyebrowse-rename-window-config "rename" )
@@ -91,7 +89,5 @@
       ("8" eyebrowse-switch-to-window-config-8)
       ("9" eyebrowse-switch-to-window-config-9)
       )
-    (gbind "C-SPC" 'hydra-tabs/body )
-
     )
   )

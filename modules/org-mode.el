@@ -1,6 +1,7 @@
 
 
 ;; org mode ------------------------------------------------
+;;; code:
 
 (use-package org
   :ensure t
@@ -83,4 +84,6 @@
               ("L" org-shiftright)
               ("J" org-shiftdown)
               ("K" org-shiftup)
-              ("t" org-todo))))
+              ("t" org-todo)))
+          )
+

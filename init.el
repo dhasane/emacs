@@ -64,71 +64,13 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-(server-start)
 ;; Make startup faster by reducing the frequency of garbage
 ;; collection.  The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
-(add-to-list 'load-path "~/.emacs.d/modules")
+;;; Inicio configuracion
 
-;; start-up ------------------------------------------------
-
-(load "basic.el")
-
-(progn
-  ;; set a default font
-  (cond
-   ((string-equal system-type "gnu/linux")
-    (when (member "DejaVu Sans Mono" (font-family-list))
-      (set-frame-font "DejaVu Sans Mono 12" t t)
-      )
-
-    ;; specify font for chinese characters using default chinese font on linux
-    (when (member "WenQuanYi Micro Hei" (font-family-list))
-      (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-    ;;
-    )
-   ((string-equal system-type "darwin") ; Mac
-    (when (member "Menlo" (font-family-list)) (set-frame-font "Menlo-14" t t))
-    ;;
-    )
-   ((string-equal system-type "windows-nt") ; Windows
-
-		;; esto fue necesario para que siquiera sirviera en windows
-		(setq inhibit-compacting-font-caches t)
-    nil
-		))
-  ;; specify font for all unicode characters
-  (when (member "Symbola" (font-family-list))
-    (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-  ;; specify font for all unicode characters
-  (when (member "Apple Color Emoji" (font-family-list))
-    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
-  )
-
-(setq auto-save-default nil
-      make-backup-files nil
-      create-lockfiles nil
-     )
-
-(progn
-  (setq enable-recursive-minibuffers t)
-
-  ;; Save minibuffer history
-  (savehist-mode 1)
-  (desktop-save-mode 1)
-  (global-auto-revert-mode 1)
-
-  (setq max-mini-window-height 0.5)
-
-  ;; minibuffer, stop cursor going into prompt
-  (customize-set-variable
-   'minibuffer-prompt-properties
-   (quote (read-only t cursor-intangible t face minibuffer-prompt))))
-
-;; TODO: encontrar algo para hacer que el minibuffer funcione de forma mas interesante
-
-(savehist-mode 1)
+(server-start)
 
 (require 'package)
 (setq
@@ -162,6 +104,63 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
+(setq use-package-always-ensure t)
+
+(defconst config-module-dir "~/.emacs.d/modules/"
+  "Directorio de modulos de configuracion.")
+
+;; utility function to auto-load my package configurations
+(defun load-config-module (filelist)
+  (dolist (file filelist)
+    (load (expand-file-name
+           (concat config-module-dir file)))
+    (message "Loaded config file:%s" file)
+    ))
+
+;; load my configuration files
+;; TODO: mover todo a archivos individuales, ya que permite mejor organizacion
+(load-config-module
+ '(
+   "basic"
+	 "minibuffer"
+   "completion"
+   "tabs"
+   "mode-line"
+   "org-mode"
+
+   ))
+
+;; fonts ------
+(progn
+  ;; set a default font
+  (cond
+   ((string-equal system-type "gnu/linux")
+    (when (member "DejaVu Sans Mono" (font-family-list))
+      (set-frame-font "DejaVu Sans Mono 12" t t)
+      )
+
+    ;; specify font for chinese characters using default chinese font on linux
+    (when (member "WenQuanYi Micro Hei" (font-family-list))
+      (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+    ;;
+    )
+   ((string-equal system-type "darwin") ; Mac
+    (when (member "Menlo" (font-family-list)) (set-frame-font "Menlo-14" t t))
+    ;;
+    )
+   ((string-equal system-type "windows-nt") ; Windows
+
+		;; esto fue necesario para que siquiera sirviera en windows
+		(setq inhibit-compacting-font-caches t)
+    nil
+		))
+  ;; specify font for all unicode characters
+  (when (member "Symbola" (font-family-list))
+    (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+  ;; specify font for all unicode characters
+  (when (member "Apple Color Emoji" (font-family-list))
+    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+  )
 
 (use-package which-key
   :ensure t
@@ -303,8 +302,6 @@
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
   )
 
-(load "tabs.el")
-
 ;; visual hints while editing
 (use-package evil-goggles
   :ensure t
@@ -343,10 +340,11 @@
   (setq projectile-completion-system 'ivy)
   )
 
-(eval-when-compile (require 'cl))
-(setq use-package-always-ensure t)
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package flycheck
+	:ensure t
+	:config
+	(add-hook 'after-init-hook #'global-flycheck-mode)
+	)
 
 (pdf-tools-install)
 (pdf-loader-install)
@@ -398,94 +396,6 @@
 
   (global-git-gutter-mode +1)
   )
-
-;; (load "org.el")
-;; org mode ------------------------------------------------
-
-(use-package org
-  :ensure t
-  :defer .1
-  :config
-  (setq org-log-done t)
-
-  (setq org-agenda-files '("~/org"))
-  ;; (setq org-agenda-files
-        ;; '(
-          ;; "~/org/work.org"
-          ;; "~/org/school.org"
-          ;; "~/org/home.org"
-          ;; )
-        ;; )
-  )
-
-(use-package evil-org
-  :ensure t
-  :after evil org
-  :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys)
-
-  (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
-  )
-
-;; (setf evil-org-key-theme '(navigation insert textobjects additional))
-(setf org-special-ctrl-a/e t)
-;; (evil-org-agenda-set-keys)
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (evil-org-mode)
-
-            ;; Custom mappings
-            (evil-define-key 'normal evil-org-mode-map
-              (kbd "-") 'org-ctrl-c-minus
-              (kbd "|") 'org-table-goto-column
-              (kbd "M-o") (evil-org-define-eol-command org-insert-heading)
-              (kbd "M-t") (evil-org-define-eol-command org-insert-todo))
-
-            ;; Configure leader key
-            (evil-leader/set-key-for-mode 'org-mode
-                                          "." 'hydra-org-state/body
-                                          "t" 'org-todo
-                                          "T" 'org-show-todo-tree
-                                          "v" 'org-mark-element
-                                          "a" 'org-agenda
-                                          "c" 'org-archive-subtree
-                                          "l" 'evil-org-open-links
-                                          "C" 'org-resolve-clocks)
-
-            ;; Define a transient state for quick navigation
-            (defhydra hydra-org-state ()
-              ;; basic navigation
-              ("i" org-cycle)
-              ("I" org-shifttab)
-              ("h" org-up-element)
-              ("l" org-down-element)
-              ("j" org-forward-element)
-              ("k" org-backward-element)
-              ;; navigating links
-              ("n" org-next-link)
-              ("p" org-previous-link)
-              ("o" org-open-at-point)
-              ;; navigation blocks
-              ("N" org-next-block)
-              ("P" org-previous-block)
-              ;; updates
-              ("." org-ctrl-c-ctrl-c)
-              ("*" org-ctrl-c-star)
-              ("-" org-ctrl-c-minus)
-              ;; change todo state
-              ("H" org-shiftleft)
-              ("L" org-shiftright)
-              ("J" org-shiftdown)
-              ("K" org-shiftup)
-              ("t" org-todo))))
-
-(load "completion.el")
 
 (use-package ivy
   :ensure t
@@ -584,9 +494,6 @@
         (display-line-numbers-mode)))
   (global-display-line-numbers-mode)
   )
-
-;; TODO: mover todo a archivos individuales, ya que permite mejor organizacion
-(load "mode-line.el")
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
 ;; (set-window-parameter (selected-window) 'alpha '(85 . 50))

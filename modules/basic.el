@@ -1,5 +1,6 @@
 
 
+;;; code:
 ;; quitar la pantalla inicial
 (setq inhibit-startup-screen t)
 ;; quitar las barras
@@ -36,3 +37,10 @@
 (setq use-dialog-box nil)
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(setq auto-save-default nil
+      make-backup-files nil
+      create-lockfiles nil
+     )
+
+(savehist-mode 1)
