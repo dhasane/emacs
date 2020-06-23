@@ -162,6 +162,9 @@
     (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
   )
 
+(use-package all-the-icons
+	)
+
 (use-package which-key
   :ensure t
   :config

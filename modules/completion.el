@@ -106,8 +106,8 @@
    ( "S-TAB" . 'company-select-previous)
    ( "<backtab>" . 'company-select-previous)
 
-   ( "<return>" . #'company-complete-selection)
-   ( "RET" . #'company-complete-selection)
+   ( "<return>" . 'company-complete-selection)
+   ( "RET" . 'company-complete-selection)
    )
   :custom
   ;;(company-begin-commands '(self-insert-command))
@@ -184,23 +184,23 @@
   ;;(add-hook 'after-init-hook 'global-company-mode)
   )
 
-(use-package company-box
-  :ensure t
-  :after company
-  :hook (company-mode . company-box-mode)
-  :bind
-  (
-   ;;:map
-   ;;company-box-mode-map
-   ;;( "TAB" . 'company-box--next-line)
-   ;;( "<tab>" . 'company-box--prev-line)
-   )
-  :config
-  (setq company-box-doc-delay 0
-        company-box-doc-enable t
-        ;;company-box--max 10
-        )
-  )
+;; (use-package company-box
+  ;; :ensure t
+  ;; :after company
+  ;; :hook (company-mode . company-box-mode)
+  ;; :bind
+  ;; (
+   ;; ;;:map
+   ;; ;;company-box-mode-map
+   ;; ;;( "TAB" . 'company-box--next-line)
+   ;; ;;( "<tab>" . 'company-box--prev-line)
+   ;; )
+  ;; :config
+  ;; (setq company-box-doc-delay 0
+        ;; company-box-doc-enable t
+        ;; ;;company-box--max 10
+        ;; )
+  ;; )
 
 (use-package lsp-ui
   :ensure t

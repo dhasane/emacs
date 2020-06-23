@@ -32,7 +32,7 @@
             (list
              " "
              (replace-regexp-in-string "^ Git:" "" vc-mode)
-             " "
+             " "
              ) ) )
   '(:eval (list
            ;; the buffer name; the file name as a tool tip
@@ -41,11 +41,12 @@
             'help-echo (buffer-file-name))
            (when (buffer-modified-p)
              (propertize
-              " "
+              ;;" "
+              " "
               ) )
            (when buffer-read-only
              (propertize
-              " "
+              " "
               ) ) " " ) )
   ;; spaces to align right
   '(:eval (propertize
