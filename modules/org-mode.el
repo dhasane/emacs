@@ -21,7 +21,7 @@
 
 (use-package evil-org
   :ensure t
-  :after org
+  :after org evil
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
@@ -87,3 +87,15 @@
               ("t" org-todo)))
           )
 
+;; TODO: cuadrar esto bien y aprender un poco, que por el momento solo he usado 'a'
+(defhydra hydra-org (:color red :columns 3)
+  "Org Mode Movements"
+  ("a" org-agenda "agenda")
+  ("l" org-store-link "store link")
+  ("n" outline-next-visible-heading "next heading")
+  ("p" outline-previous-visible-heading "prev heading")
+  ("N" org-forward-heading-same-level "next heading at same level")
+  ("P" org-backward-heading-same-level "prev heading at same level")
+  ("u" outline-up-heading "up heading")
+  ("g" org-goto "goto" :exit t) ;; y esto como que no sirve :v
+  )

@@ -1,9 +1,10 @@
 
 ;;; code:
 
-;; en caso que la version sea mayor a 27, usar los tabs ya que vienen incluidos, de lo contrario,
-;; usar eyebrowse (tiene cosas que se parecen mas a tmu, lo cual es genial, pero hay unos detalles
-;; que no me gustan tanto, como que este en el modeline)
+;; en caso que la version sea mayor a 27, usar los tabs ya que vienen
+;; incluidos, de lo contrario, usar eyebrowse (tiene cosas que se
+;; parecen mas a tmu, lo cual es genial, pero hay unos detalles que no
+;; me gustan tanto, como que este en el modeline)
 (if (version< "27.0" emacs-version )
     (use-package tab-bar
       :after evil
@@ -19,12 +20,11 @@
       ;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
       ;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
       (setq tab-bar-close-button-show nil)
-      (setq tab-bar-show 1)
       (setq tab-bar-tab-hints t)
       :config
       (defun set-name-if-in-project ()
         (if (projectile-project-p)
-            (format "%s" (projectile-project-name))
+            (format "%s/%s" (projectile-project-name) (tab-bar-tab-name-current))
           (format "%s" (tab-bar-tab-name-current))
           )
         )
@@ -45,6 +45,7 @@
         ("h" tab-bar-switch-to-prev-tab "right"); :color red)
         ("-" split-window-vertically "vertical" )
         ("+" split-window-horizontally "horizontal")
+        ("s" tab-switcher "switcher")
         ;;("2" eyebrowse-switch-to-window-config-2 )
         ;;("3" eyebrowse-switch-to-window-config-3 )
         ;;("4" eyebrowse-switch-to-window-config-4 )
@@ -54,6 +55,8 @@
         ;;("8" eyebrowse-switch-to-window-config-8 )
         ;;("9" eyebrowse-switch-to-window-config-9 )
         )
+      (setq tab-bar-show 1)
+      (tab-bar-mode)
       )
   (use-package eyebrowse
     :ensure t

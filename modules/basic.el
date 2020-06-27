@@ -9,9 +9,16 @@
 
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8-unix)
+(set-default-coding-systems 'utf-8)
 
 (setq backward-delete-char-untabify-method 'hungry)
+
+(desktop-save-mode 1)
+(global-auto-revert-mode 1) ;; modificar el bufer, si este ha cambiado
+
+;; mostrar los ultimos archivos modificados en menu-bar en files
+;; pero yo no uso lo barra :v
+;; (recentf-mode 1)
 
 ;; remember cursor position
 (if (version< emacs-version "25.0")
@@ -42,5 +49,25 @@
       make-backup-files nil
       create-lockfiles nil
      )
+
+(setq x-wait-for-event-timeout nil)
+
+(blink-cursor-mode 0)
+
+;; hacer que el movimiento de la pantalla sea suave
+(setq scroll-margin 10
+      scroll-conservatively 0
+      scroll-step 1
+      ;;scroll-up-aggressively 0.01
+      ;;scroll-down-aggressively 0.01
+      )
+(setq-default scroll-up-aggressively 0.01
+              scroll-down-aggressively 0.01)
+
+(toggle-scroll-bar -1)
+
+;; quitar todo tipo de 'alarma'
+(setq visible-bell nil
+      ring-bell-function 'ignore)
 
 (savehist-mode 1)
