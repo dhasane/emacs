@@ -6,11 +6,20 @@
   :ensure t
   :init
   (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-  (setq evil-want-keybinding nil)
-  (setq evil-search-module 'evil-search)
-  (setq evil-vsplit-window-right t) ;; like vim's 'splitright'
-  (setq evil-split-window-below t) ;; like vim's 'splitbelow'
-  (setq evil-move-beyond-eol t)
+  (setq
+	 evil-want-keybinding t ;; para collection debe ser nil
+   evil-search-module 'evil-search
+   evil-vsplit-window-right t ;; like vim's 'splitright'
+   evil-split-window-below t ;; like vim's 'splitbelow'
+   evil-move-beyond-eol t
+   evil-want-Y-yank-to-eol t
+	 evil-auto-indent t
+	 evil-move-cursor-back nil
+	 evil-symbol-word-search t
+	 evil-indent-convert-tabs t
+	 indent-tabs-mode	t
+	 )
+
   ;; (setq evil-ex-complete-emacs-commands nil)
   ;; (setq evil-shift-round nil)
   ;; (setq evil-want-C-u-scroll t)
@@ -27,7 +36,6 @@
    ("k" . evil-previous-visual-line)
   ;;("g t" . 'tab-next )
   ;;("g b" . 'tab-previous )
-   ("Y"   . #'evil-yank-to-end-of-line )
    ("C-s" . evil-write )
    ("TAB" . evil-window-map )
    ("TAB q" . #'close-except-last-window )
@@ -38,7 +46,7 @@
    ("C-j" . evil-window-down )
    ("C-M-q" . ido-kill-buffer ) ;'evil-quit )
    ("C-q" . #'close-except-last-window )
-   ("C-z" . undo-tree-undo )
+   ;;("C-z" . undo-tree-undo )
    (","   .  #'hydra-leader/body )
    :map
    evil-insert-state-map
@@ -97,12 +105,12 @@
    '(evil-goggles-yank-face ((t (:inherit 'isearch-fail)))))
   )
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init)
-  )
+;;(use-package evil-collection
+  ;;:after evil
+  ;;:ensure t
+  ;;:config
+  ;;(evil-collection-init)
+  ;;)
 
 ;;(eval-after-load "evil"
   ;;;; "This cotrols the state in which each mode will be opened in."

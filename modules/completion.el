@@ -44,6 +44,9 @@
   (setq ccls-executable "/usr/bin/ccls")
   )
 
+
+(setq ruby-indent-tabs-mode nil)
+
 ;; (use-package inf-ruby
 	;; :ensure t
 	;; :bind
@@ -83,8 +86,6 @@
   (add-hook 'java-mode-hook 'flycheck-mode)
   (add-hook 'java-mode-hook 'company-mode)
   )
-
-;; show
 
 (use-package company
   :ensure t
@@ -215,8 +216,8 @@
    ;; ("" . #'lsp-ui-peek-find-references)
    )
   :config
-  ;; (lsp-ui-doc-mode nil)
-  ;; (lsp-ui-doc-hide)
+  (lsp-ui-doc-mode nil)
+  (lsp-ui-doc-hide)
   ;; (remove-hook 'lsp-on-hover-hook 'lsp-ui-doc--on-hover)
   :init
   (lsp-ui-mode)

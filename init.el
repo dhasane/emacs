@@ -104,6 +104,12 @@
 (setq use-package-always-ensure t)
 (setq use-package-compute-statistics t)
 
+(use-package benchmark-init
+  :ensure t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
 (defconst config-module-dir "~/.emacs.d/modules/"
   "Directorio de modulos de configuracion.")
 
@@ -121,14 +127,14 @@
 ;; - evite que se propaguen errores
 ;; - tambien algo que podria ser interesante es que mida el tiempo que
 ;; toma cargar cada uno de los archivos
+;; - se podria poner algo para que haga byte-compile a ciertos
+;; archivos
 ;;(cl-defstruct config-file
   ;;name
   ;;load
   ;;)
 ;;(make-config-file :name "basic" :load 1)
 
-(use-package hydra)
-(use-package bind-key)
 (defun load-config ()
   "Cargar los archivos de configuracion."
   (interactive)
