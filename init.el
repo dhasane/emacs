@@ -138,6 +138,7 @@
      "funciones"
      "decoration"
      "tabs"
+		 "term"
      "git"
      "evil"
      "project"
