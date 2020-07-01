@@ -33,7 +33,7 @@
 (use-package ccls
   :ensure t
   :defer t
-  :after lsp-mode
+  :after lsp-mode company
   :hook (
          (c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()
@@ -44,6 +44,14 @@
   (setq ccls-executable "/usr/bin/ccls")
   )
 
+;;(require 'flycheck-kotlin)
+;;(add-hook 'kotlin-mode-hook 'flycheck-mode)
+;;(lsp-register-client
+ ;;(make-lsp-client
+	;;:new-connection (lsp-stdio-connection '("path to what you want to use"))
+	;;:major-modes '(kotlin-mode)
+	;;:priority -1
+	;;:server-id 'kotlin-ls))
 
 (setq ruby-indent-tabs-mode nil)
 
@@ -64,7 +72,7 @@
 
 (use-package lsp-python-ms
   :ensure t
-  :after lsp-mode
+  :after lsp-mode company
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
@@ -74,13 +82,13 @@
 (use-package lsp-dart
   :ensure t
   :defer t
-  :after lsp-mode
+  :after lsp-mode company
   :hook (dart-mode . lsp-deferred))
 
 (use-package lsp-java
   :ensure t
   :defer t
-  :after lsp-mode
+  :after lsp-mode company
   :config
   (add-hook 'java-mode-hook #'lsp-deferred)
   (add-hook 'java-mode-hook 'flycheck-mode)
@@ -94,10 +102,7 @@
   (
    :map
    evil-insert-state-map
-   ;;("TAB" . #'indent-or-complete)
    ("TAB" . #'tab-indent-or-complete)
-   ;;("TAB" . #'complete-or-indent)
-   ;;("TAB" . #'company-indent-or-complete-common)
 
    :map
    company-active-map
@@ -116,40 +121,52 @@
   (company-tooltip-align-annotations 't)
   (company-minimum-prefix-length 1) ; Show suggestions after entering one character.
   (company-selection-wrap-around t)
-  (company-idle-delay 10) ; Delay in showing suggestions.
+  (company-idle-delay nil) ; Delay in showing suggestions.
   (global-company-mode t)
+	(setq company-tooltip-margin 4)
   :config
 
+  ;;(defun check-expansion ()
+    ;;(save-excursion
+      ;;(if (looking-at "\\_>") t
+        ;;(backward-char 1)
+        ;;(if (looking-at "\\.") t
+          ;;(backward-char 1)
+          ;;(if (looking-at "->") t nil)
+          ;;)
+        ;;)
+      ;;)
+    ;;)
+
+	;; completar siempre que no sea espacio
   (defun check-expansion ()
     (save-excursion
-      (if (looking-at "\\_>") t
-        (backward-char 1)
-        (if (looking-at "\\.") t
-          (backward-char 1)
-          (if (looking-at "->") t nil)
-          )
-        )
-      )
+			(backward-char 1)
+      (if (looking-at "[\n \t]")
+					nil
+				t
+				)
+			)
     )
 
   (defun do-yas-expand ()
     (let ((yas-fallback-behavior 'return-nil))
       (yas-expand)))
 
-  (defun tab-indent-or-complete ()
-    (interactive)
-    (if (minibufferp)
-        (minibuffer-complete)
-      (if (or (not yas-minor-mode)
-              (null (do-yas-expand)))
-          (if (check-expansion)
-              (company-complete-common)
-            ;;(indent-for-tab-command) ;; indentar correctamente
-            (tab-to-tab-stop) ;; agregar tabs
+	(defun tab-indent-or-complete ()
+		(interactive)
+		(if (minibufferp)
+				(minibuffer-complete)
+			(if (or (not yas-minor-mode)
+							(null (do-yas-expand)))
+					(if (check-expansion)
+							(company-complete-common)
+						;;(indent-for-tab-command) ;; indentar correctamente
+						(tab-to-tab-stop) ;; agregar tabs
+						)
+				)
 			)
 		)
-	  )
-	)
 
   ;;(setq company-frontends (delq 'company-pseudo-tooltip-frontend company-frontends))
 
@@ -162,9 +179,9 @@
            company-capf
            company-yasnippet
            company-dabbrev-code
-           )
-          (
-           company-abbrev company-dabbrev)
+					 company-dabbrev
+           company-abbrev
+					 )
           )
         )
 
@@ -181,9 +198,35 @@
                  'company-tern)
                 )))
 
+	(setq company-frontends
+				(delq 'company-pseudo-tooltip-frontend company-frontends)
+				)
+
+	(company-tng-configure-default)
   ;; para probar company-box
   ;;(add-hook 'after-init-hook 'global-company-mode)
   )
+
+;;(use-package readline-complete
+	;;:ensure t
+	;;)
+
+(use-package company-quickhelp
+	:ensure t
+	:after company
+	:init
+	(company-quickhelp--enable)
+	;;(company-quickhelp-mode)
+	)
+
+(use-package robe
+	:ensure t
+	:after company
+	:hook (ruby-mode . robe-mode)
+	:config
+	(eval-after-load 'company
+  '(push 'company-robe company-backends))
+	)
 
 ;; (use-package company-box
   ;; :ensure t
@@ -218,24 +261,18 @@
   :config
   (lsp-ui-doc-mode nil)
   (lsp-ui-doc-hide)
-  ;; (remove-hook 'lsp-on-hover-hook 'lsp-ui-doc--on-hover)
   :init
   (lsp-ui-mode)
   (setq lsp-ui-doc-enable nil
-        ;;lsp-ui-flycheck-enable t
+				lsp-ui-doc-delay nil
         )
-  ;;(setq lsp-ui-sideline-enable nil
-        ;;lsp-ui-sideline-show-symbol nil
-        ;;lsp-ui-sideline-show-hover nil
-        ;;lsp-ui-sideline-show-code-actions nil
-        ;;lsp-ui-sideline-update-mode 'point)
   )
 
-(use-package lsp-ivy
-  :ensure t
-  :defer t
-  :commands lsp-ivy-workspace-symbol
-  )
+;;(use-package lsp-ivy
+  ;;:ensure t
+  ;;:defer t
+  ;;:commands lsp-ivy-workspace-symbol
+  ;;)
 
 (use-package lsp-treemacs
   :ensure t

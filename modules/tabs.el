@@ -22,6 +22,8 @@
       (setq tab-bar-close-button-show nil)
       (setq tab-bar-tab-hints t)
       :config
+      ;; esto tal vez lo podria usar para cambiar tab-bar
+      ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
       (defun set-name-if-in-project ()
         (if (projectile-project-p)
             (format "%s/%s" (projectile-project-name) (tab-bar-tab-name-current))

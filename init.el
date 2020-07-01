@@ -29,13 +29,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default))
+	 '("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default))
  '(git-gutter:window-width 1)
  '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
  '(package-selected-packages
-   '(inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-              (evil use-package hydra bind-key)
-              name lsp-java ccls magit gruvbox-theme fzf flycheck evil)))
+	 '(robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+					(evil use-package hydra bind-key)
+					name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
+ '(setq 1 t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -144,6 +145,7 @@
      "funciones"
      "decoration"
      "tabs"
+     "term"
      "git"
      "evil"
      "project"

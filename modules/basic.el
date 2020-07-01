@@ -35,7 +35,8 @@
 (electric-pair-mode 1)
 (setq show-paren-delay 0
       show-paren-style 'parenthesis)
-(set-default 'tab-always-indent 'complete)
+
+(setq-default tab-always-indent 'complete)
 
 (setq-default indent-tabs-mode nil
               tab-width 4)
