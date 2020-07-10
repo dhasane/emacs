@@ -1,3 +1,4 @@
+
 ;;; package --- summary:
 
 ;; EEEEEEEEEEEEEEEEEEEEEE                                                                                ;;
@@ -28,15 +29,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-idle-delay nil)
+ '(company-minimum-prefix-length 1)
+ '(company-selection-wrap-around t)
+ '(company-tooltip-align-annotations t)
  '(custom-safe-themes
-	 '("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default))
+   '("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default))
  '(git-gutter:window-width 1)
+ '(global-company-mode t)
  '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
  '(package-selected-packages
-	 '(robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-					(evil use-package hydra bind-key)
-					name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
- '(setq 1 t))
+   '(kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+                   (evil use-package hydra bind-key)
+                   name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
+ '(setq 1 t)
+ '(tab-bar-show 1))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -103,6 +110,7 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 (setq use-package-always-ensure t)
+;; (setq use-package-always-defer t)
 (setq use-package-compute-statistics t)
 
 (use-package benchmark-init
@@ -160,6 +168,8 @@
    )
   )
 (load-config)
+(evil-mode)		;; ya que por alguna razon no estaba funcionando de solo llamarlo en evil.el
+                                        ; esto hace que me den mas ganas de hacer el loader :v
 
 (use-package which-key
   :ensure t
@@ -183,6 +193,11 @@
 (pdf-tools-install)
 (pdf-loader-install)
 
+;; para simplificar
+(defun gbind (key function)
+  "Map FUNCTION to KEY globally."
+  (global-set-key (kbd key) function) )
+
 (gbind "C-M-h" 'help-menu )
 (gbind "C-S-h" 'help-command )
 (gbind "C-_" 'comment-dwim) ;; TODO: poner esto a funcionar
@@ -190,7 +205,10 @@
 (gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
 (gbind "C-c g" 'prelude-google)
 (gbind "C-c t" 'toggle-transparency)
+(gbind "C-x b" 'ivy-switch-buffer )
 
+
+;; the hydra to rule them all buahaha
 (defhydra hydra-leader (:color blue :idle 1.0 :hint nil)
   "
 actuar como leader en vim :
@@ -201,7 +219,6 @@ _rs_: reload   |   _l_: jet-pack    |   _m_: magit
 _re_: edit     |   _j_: previous    |   _o_: org
 ^ ^            |   _k_: next        |   _e_: errores
 ^ ^            |   _._: terminal    |   _SPC_: execute macro
-^ ^            |   _b_: all buffers |   _t_: tree
 ^ ^            |   _?_: marks       |   _rn_: rename
 ^ ^            |   ^ ^              |   _s_: search text
 
@@ -217,9 +234,9 @@ _re_: edit     |   _j_: previous    |   _o_: org
             (ivy-switch-buffer)
             )
           )  "jet pack" )
-  ( "b" ivy-switch-buffer "buffer list" )
   ( "s" swiper "swiper" )
-  ( "." toggle-terminal "terminal" )
+  ;;( "." toggle-terminal "terminal" )
+  ( "." eshell-new "terminal" )
   ( "e" counsel-flycheck "errores" )
 
   ;;( "j" previous-buffer "next" )
@@ -230,24 +247,23 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) "execute macro" )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
-  ( "t" #'treemacs "tree" )
   ( "rn" lsp-rename "rename")
   ( "?" evil-show-marks "marks")
   )
 
 ;; otros/mover ------------------------------------------------
 
-(setq custom-tab-width 2)
-
-(defun disable-tabs ()
-  (interactive)
-  (setq indent-tabs-mode nil))
-(defun enable-tabs  ()
-  (interactive)
-  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
-  (setq indent-tabs-mode t)
-  (setq tab-width custom-tab-width))
-(enable-tabs)
+;;(setq custom-tab-width 2)
+;;
+;;(defun disable-tabs ()
+  ;;(interactive)
+  ;;(setq indent-tabs-mode nil))
+;;(defun enable-tabs  ()
+  ;;(interactive)
+  ;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  ;;(setq indent-tabs-mode t)
+  ;;(setq tab-width custom-tab-width))
+;;(enable-tabs)
 
 ;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
 ;;(setq indent-tabs-mode t)

@@ -1,7 +1,22 @@
 
 ;;; Code:
 
-(load-theme 'gruvbox-dark-medium)
+;;(load-theme 'gruvbox-dark-medium)
+;;(use-package ample-theme
+  ;;;; https://github.com/jordonbiondo/ample-theme
+  ;;:init (progn
+          ;;(load-theme 'ample t t)
+          ;;;;(load-theme 'ample-flat t t)
+          ;;;;(load-theme 'ample-light t t)
+          ;;(enable-theme 'ample)
+               ;;)
+  ;;:defer t
+  ;;:ensure t)
+(use-package kaolin-themes
+  ;; https://github.com/ogdenwebb/emacs-kaolin-themes
+  :config
+  (load-theme 'kaolin-ocean t)
+  (kaolin-treemacs-theme))
 ;; (load-theme
  ;; 'gruvbox-light-medium)
 ;; (load-theme 'gruvbox-dark-soft)
@@ -12,8 +27,8 @@
   (cond
    ((string-equal system-type "gnu/linux")
     (when (member "DejaVu Sans Mono" (font-family-list))
-      ;;(set-frame-font "DejaVu Sans Mono 12" t t)
-      (set-frame-font "Fira Code 12" t t)
+      (set-frame-font "DejaVu Sans Mono 12" t t)
+      ;;(set-frame-font "Fira Code 12" t t)
       )
 
     ;; specify font for chinese characters using default chinese font on linux
@@ -45,8 +60,26 @@
 
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
-(setq display-line-numbers-type 'relative)
 
+(setq display-line-numbers-type 'relative)
+(setq-default display-line-numbers 'visual
+              display-line-numbers-widen t
+              ;; this is the default
+              display-line-numbers-current-absolute t)
+
+(defun noct:relative ()
+  (setq-local display-line-numbers 'visual))
+
+(defun noct:absolute ()
+  (setq-local display-line-numbers t))
+
+;;(add-hook 'evil-insert-state-entry-hook #'noct:absolute)
+;;(add-hook 'evil-insert-state-exit-hook #'noct:relative)
+
+;; example of customizing colors
+;;(custom-set-faces '(line-number-current-line ((t :weight bold
+                                                 ;;:foreground "goldenrod"
+                                                 ;;:background "slate gray"))))
 (use-package display-line-numbers
   :ensure t
   :config

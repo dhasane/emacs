@@ -2,6 +2,9 @@
 Este archivo es para cualquier cosa interesante que encuentre en relacion al archivo
 de configuracion de emacs
 
+
+[[https://linuxhint.com/vim_vs_emacs/][buena comparacion entre vim y emacs]]
+
 * DONE [[http://blog.huy.rocks/emacs-from-scratch.html#org5be8c19][emacs from scratch]]
   CLOSED: [2020-06-01 lun 15:21]
   acabo de encontrar este tutorial, que se ve como interesante para crear una
@@ -23,3 +26,53 @@ de configuracion de emacs
   
 * TODO [[https://stackoverflow.com/questions/740836/compiling-c-programs-with-emacs-on-windows][poner para que se haga la compilacion que suena interesante]]
   
+* TODO rust analizer
+  [[https://www.reddit.com/r/rust/comments/ai881s/guide_to_the_rustanalyzer/]]
+  
+* TODO Eshell
+  https://github.com/manateelazycat/aweshell
+  https://www.emacswiki.org/emacs/EshellCompletion
+  https://www.emacswiki.org/emacs/EshellFunctions
+  https://www.emacswiki.org/emacs/EshellMultipleEshellBuffers
+  
+* TODO suena interesante 
+  https://akrl.sdf.org/gccemacs.html
+  https://hub.docker.com/r/andreacorallo/emacs-nativecomp
+
+* TODO cosas que podrian ser cheveres
+  https://github.com/mpwang/perfect-margin
+  https://elpa.gnu.org/packages/minimap.html
+  https://with-emacs.com/posts/ui-hacks/keep-scrollin-scrollin-scrollin/
+
+  https://github.com/tumashu/ivy-posframe
+  https://github.com/emacs-lsp/lsp-ivy/
+
+  https://gist.github.com/msoeken/4b2e3ee07b7252f8cb99#file-toggle-term-el
+  
+  https://www.mortens.dev/blog/emacs-and-the-language-server-protocol/
+
+  https://github.com/magnars/multiple-cursors.el
+  
+  https://github.com/cofi/evil-numbers
+  https://github.com/roman/evil-paredit
+  https://www.emacswiki.org/emacs/BufferMenuPlus
+  
+  https://lispcookbook.github.io/cl-cookbook/emacs-ide.html
+  
+* TODO para ruby
+  https://github.com/dgutov/robe
+
+* TODO para ruby-on-rails
+  https://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html
+
+
+  
+* TODO para armar un paquete de elisp
+  https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
+  http://ergoemacs.org/emacs/elisp_printing.html
+  https://www.gnu.org/software/emacs/manual/html_node/elisp/Speed-of-Byte_002dCode.html#Speed-of-Byte_002dCode
+  https://www.gnu.org/software/emacs/manual/html_node/elisp/Compilation-Functions.html#Compilation-Functions
+
+
+* TODO interesante para noobs
+  https://seagle0128.github.io/.emacs.d/

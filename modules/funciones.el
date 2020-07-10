@@ -2,10 +2,6 @@
 ;; functions -----------------------------------------------
 ;;; Code:
 
-(defun gbind (key function)
-  "Map FUNCTION to KEY globally."
-  (global-set-key (kbd key) function) )
-
 (defun save-all-buffers ()
   "Save all buffers."
   (interactive)
@@ -97,3 +93,10 @@
               100)
 		 ;; el segundo valor es para cuando no esta enfocado
          '(95 . 95) '(100 . 100)))))
+
+(defun is-file-remote ()
+  (interactive)
+  (if (file-remote-p default-directory)
+      (message "archivo remoto")
+    (message "archivo local"))
+  )

@@ -35,7 +35,7 @@
   :defer t
   :after lsp-mode company
   :hook (
-         (c-mode c++-mode objc-mode cuda-mode) .
+         (c-mode c++-mode objc-mode cuda-mode cc-mode c++//l) .
          (lambda ()
            (require 'ccls)
            (lsp-deferred)))
@@ -43,6 +43,24 @@
   ;;(setq ccls-executable "/snap/bin/ccls")
   (setq ccls-executable "/usr/bin/ccls")
   )
+
+(use-package irony
+	:ensure t
+    :hook ((c-mode c++-mode objc-mode cuda-mode cc-mode c++//l) .
+         (lambda ()
+           (irony-mode)))
+	:hook (irony-mode . irony-cdb-autosetup-compile-options)
+    :config
+    (unless (irony--find-server-executable)
+      (call-interactively #'irony-install-server))
+    )
+
+(use-package company-irony
+	:ensure t
+	:after irony company
+	:config
+	(add-to-list 'company-backends 'company-irony)
+	)
 
 ;;(require 'flycheck-kotlin)
 ;;(add-hook 'kotlin-mode-hook 'flycheck-mode)
@@ -78,6 +96,14 @@
                           (require 'lsp-python-ms)
                           (lsp-deferred))))  ; or lsp-deferred
 
+(use-package elpy
+  :ensure t
+  :hook (python-mode . elpy-enable)
+  ;;(elpy-enable)
+  )
+
+(setq python-shell-interpreter "python3")
+
 ;; https://github.com/emacs-lsp/lsp-dart
 (use-package lsp-dart
   :ensure t
@@ -87,13 +113,18 @@
 
 (use-package lsp-java
   :ensure t
-  :defer t
   :after lsp-mode company
   :config
   (add-hook 'java-mode-hook #'lsp-deferred)
   (add-hook 'java-mode-hook 'flycheck-mode)
   (add-hook 'java-mode-hook 'company-mode)
   )
+
+(use-package flycheck
+    :ensure t
+    :config
+    (add-hook 'after-init-hook #'global-flycheck-mode)
+    )
 
 (use-package company
   :ensure t
@@ -215,8 +246,7 @@
 	:ensure t
 	:after company
 	:init
-	(company-quickhelp--enable)
-	;;(company-quickhelp-mode)
+	(company-quickhelp-mode)
 	)
 
 (use-package robe

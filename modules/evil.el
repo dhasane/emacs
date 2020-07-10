@@ -4,20 +4,21 @@
 ;;; Code:
 (use-package evil
   :ensure t
+  :demand t
   :init
   (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
   (setq
 	 evil-want-keybinding t ;; para collection debe ser nil
-   evil-search-module 'evil-search
-   evil-vsplit-window-right t ;; like vim's 'splitright'
-   evil-split-window-below t ;; like vim's 'splitbelow'
-   evil-move-beyond-eol t
-   evil-want-Y-yank-to-eol t
+     evil-search-module 'evil-search
+     evil-vsplit-window-right t ;; like vim's 'splitright'
+     evil-split-window-below t ;; like vim's 'splitbelow'
+     evil-move-beyond-eol t
+     evil-want-Y-yank-to-eol t
 	 evil-auto-indent t
 	 evil-move-cursor-back nil
 	 evil-symbol-word-search t
 	 evil-indent-convert-tabs t
-	 indent-tabs-mode	t
+	 indent-tabs-mode t
 	 )
 
   ;; (setq evil-ex-complete-emacs-commands nil)
@@ -30,7 +31,7 @@
   :bind
   (:map
    evil-normal-state-map
-	 ("C-S-k" . evil-lookup)
+   ("C-S-k" . evil-lookup)
    ;("ESC" . evil-ex-nohighlight)
    ("j" . evil-next-visual-line)
    ("k" . evil-previous-visual-line)
@@ -89,8 +90,6 @@
   (define-key minibuffer-local-completion-map [escape] 'keyboard-escape-quit )
   (define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit )
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
-
-  (evil-mode 1)
   )
 
 ;; visual hints while editing

@@ -19,6 +19,7 @@
 
       ;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
       ;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
+      (setq tab-bar-show 1)
       (setq tab-bar-close-button-show nil)
       (setq tab-bar-tab-hints t)
       :config
@@ -58,7 +59,7 @@
         ;;("9" eyebrowse-switch-to-window-config-9 )
         )
       (setq tab-bar-show 1)
-      (tab-bar-mode)
+      (setq-default tab-bar-show 1)
       )
   (use-package eyebrowse
     :ensure t
