@@ -25,6 +25,7 @@
   :config
   (midnight-delay-set 'midnight-delay "5:30am")
   (setq clean-buffer-list-delay-general 3)
+  (setq clean-buffer-list-delay-special (* 2 3600)) ;; cada 2 horas
   ;; adicionales para cerrar
   (setq clean-buffer-list-kill-buffer-names
         (nconc clean-buffer-list-kill-buffer-names
@@ -42,6 +43,12 @@
                  "*mail*"
                  "*w3m*"
                  "*w3m-cache*")))
+  (setq clean-buffer-list-kill-regexps
+        (nconc clean-buffer-list-kill-regexps
+               '(
+                 "\\`\\*Customize .*\\*\\'"
+                 "\\`\\*\\(Wo\\)?Man .*\\*\\'"
+                 )))
   )
 
 ;; eliminar espacios al final de una linea

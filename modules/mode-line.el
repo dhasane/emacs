@@ -27,7 +27,7 @@
   ;; '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
   ;; (setcdr (assq 'vc-mode mode-line-format)
   ;; '((:eval (replace-regexp-in-string "^ Git" " " vc-mode))))
-  '(:eval (when (vc-mode)
+  '(:eval (when-let (vc vc-mode)
             (list
              " "
              (replace-regexp-in-string "^ Git:" "" vc-mode)
