@@ -26,17 +26,18 @@
               (add-to-list 'eshell-visual-commands "apt")
               )
             )
-  :bind
-  (:map
-   eshell-mode-map
-   ("C-d" . (lambda ()
-			  (interactive)
-			  (throw 'eshell-terminal t) )
-	)
-   )
+  ;;:bind
+  ;;(:map
+   ;;eshell-mode-map
+   ;;("C-d" . (lambda ()
+			  ;;(interactive)
+			  ;;(throw 'eshell-terminal t) )
+	;;)
+   ;;)
   :config
 
-  (setq eshell-buffer-name (concat "*eshell*") (default-directory) )
+  ;;(setq eshell-buffer-name (concat "*eshell*") (default-directory) )
+
   ;;(use-package eshell-git-prompt
     ;;:ensure t
     ;;:config
