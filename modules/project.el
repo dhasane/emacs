@@ -93,3 +93,8 @@
         (display-buffer (current-buffer))
         (sit-for 30))))
   )
+
+(use-package origami
+  :config
+  (global-origami-mode)
+  )

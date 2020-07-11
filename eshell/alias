@@ -1,7 +1,8 @@
-alias rf rm -rf $*
-alias v find-file $1
-alias word grep -rnw . -e $1
-alias flutter '~/inst/flutter/bin/flutter $1'
-alias ff find-file $1
-alias d dired $1
+alias pip pip3 $*
 alias py python3 $1
+alias d dired $1
+alias ff find-file $1
+alias flutter '~/inst/flutter/bin/flutter $1'
+alias word grep -rnw . -e $1
+alias v find-file $1
+alias rf rm -rf $*

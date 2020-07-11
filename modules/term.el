@@ -36,7 +36,7 @@
    )
   :config
 
-  (setq eshell-buffer-name (concat "*eshell*") (default-directory) )
+  ;;(setq eshell-buffer-name (concat "*eshell*") (default-directory) )
   ;;(use-package eshell-git-prompt
     ;;:ensure t
     ;;:config
@@ -82,10 +82,9 @@
 (use-package eshell-z
   :config
   (add-hook 'eshell-mode-hook
-            (defun my-eshell-mode-hook ()
+            (lambda ()
               (require 'eshell-z)))
   )
-
 
 ;; https://www.eigenbahn.com/2020/05/13/emacs-comint-buffer-auto-close
 ;;(require 'dash)

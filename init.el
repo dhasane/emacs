@@ -39,9 +39,10 @@
  '(global-company-mode t)
  '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
  '(package-selected-packages
-   '(kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-                   (evil use-package hydra bind-key)
-                   name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
+   '(origami kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+             (evil use-package hydra bind-key)
+             name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
+ '(semantic-mode t)
  '(setq 1 t)
  '(tab-bar-show 1))
 (custom-set-faces

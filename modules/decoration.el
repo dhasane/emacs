@@ -1,7 +1,7 @@
 
 ;;; Code:
 
-;;(load-theme 'gruvbox-dark-medium)
+(load-theme 'gruvbox-dark-medium)
 ;;(use-package ample-theme
   ;;;; https://github.com/jordonbiondo/ample-theme
   ;;:init (progn
@@ -12,11 +12,11 @@
                ;;)
   ;;:defer t
   ;;:ensure t)
-(use-package kaolin-themes
-  ;; https://github.com/ogdenwebb/emacs-kaolin-themes
-  :config
-  (load-theme 'kaolin-ocean t)
-  (kaolin-treemacs-theme))
+;;(use-package kaolin-themes
+  ;;;; https://github.com/ogdenwebb/emacs-kaolin-themes
+  ;;:config
+  ;;(load-theme 'kaolin-temple t)
+  ;;(kaolin-treemacs-theme))
 ;; (load-theme
  ;; 'gruvbox-light-medium)
 ;; (load-theme 'gruvbox-dark-soft)
