@@ -30,6 +30,9 @@
   (setq lsp-rust-server 'rust-analyzer)
   )
 
+
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
 (use-package ccls
   :ensure t
   :defer t

@@ -2,6 +2,9 @@
 
 ;; Todo lo relacionado a vim
 ;;; Code:
+
+(require 'cl-lib)
+
 (use-package evil
   :ensure t
   :demand t
@@ -59,21 +62,34 @@
   :config
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
+  (cl-loop for (mode . state) in
+		'(
+		  (inferior-emacs-lisp-mode . emacs)
+		  (nrepl-mode . insert)
+		  (dashboard-mode . insert)
+		  (pylookup-mode . normal)
+		  (comint-mode . normal)
+		  (shell-mode . insert)
+		  (git-commit-mode . insert)
+		  (term-mode . emacs)
+		  (help-mode . normal)
+		  (grep-mode . normal)
+		  (bc-menu-mode . emacs)
+		  (rdictcc-buffer-mode . emacs)
+		  (dired-mode . normal)
+		  (wdired-mode . normal)
+		  )
+		do (evil-set-initial-state mode state))
 
   (defun close-except-last-window ()
-    "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
-    (interactive)
-    (if (one-window-p)
-        (close-tab-configuration)
+	"Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
+	(interactive)
+	(if (one-window-p)
+		(close-tab-configuration)
                                         ; (message "hay un split")
       (evil-quit)
                                         ; (message "hay varios splits")
       )
-    )
-  (defun evil-yank-to-end-of-line ()
-    "Yanks content from point until end of line."
-    (interactive)
-    (evil-yank (point) (line-end-position) )
     )
 
   (defun save-and-exit-evil ()

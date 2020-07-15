@@ -39,9 +39,9 @@
  '(global-company-mode t)
  '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
  '(package-selected-packages
-   '(origami kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-             (evil use-package hydra bind-key)
-             name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
+   '(c++ vterm origami kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+         (evil use-package hydra bind-key)
+         name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
  '(semantic-mode t)
  '(setq 1 t)
  '(tab-bar-show 1))
@@ -76,7 +76,9 @@
 
 ;;; Inicio configuracion
 
-(server-start)
+;;(server-start)
+(load "server")
+(unless (server-running-p) (server-start))
 
 (require 'package)
 (setq
@@ -170,7 +172,9 @@
   )
 (load-config)
 (evil-mode)		;; ya que por alguna razon no estaba funcionando de solo llamarlo en evil.el
-                                        ; esto hace que me den mas ganas de hacer el loader :v
+(ivy-mode 1)
+;; esto hace que me den mas ganas de hacer el loader :v
+;; y que se pueda elegir los comandos para activar desde aca
 
 (use-package which-key
   :ensure t
@@ -281,3 +285,4 @@ _re_: edit     |   _j_: previous    |   _o_: org
 
 (provide 'init)
 ;;; init.el ends here
+(put 'narrow-to-region 'disabled nil)

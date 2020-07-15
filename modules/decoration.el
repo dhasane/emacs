@@ -1,7 +1,31 @@
 
 ;;; Code:
 
+(use-package dashboard
+  :ensure t
+  :init
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  ;; (dashboard-modify-heading-icons '((recents . "file-text")
+                                  ;; (bookmarks . "book")))
+  (setq dashboard-set-navigator t)
+  (setq show-week-agenda-p t)
+  (setq dashboard-center-content t)
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (setq dashboard-items
+        '(
+          (recents  . 5)
+          (bookmarks . 5)
+          (projects . 5)
+          (agenda . 5)
+          (registers . 5)
+          )
+        )
+  :config
+  (dashboard-setup-startup-hook))
+
 (load-theme 'gruvbox-dark-medium)
+
 ;;(use-package ample-theme
   ;;;; https://github.com/jordonbiondo/ample-theme
   ;;:init (progn

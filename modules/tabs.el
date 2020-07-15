@@ -69,6 +69,8 @@
      :map
      evil-normal-state-map
      ("TAB t" . 'eyebrowse-create-window-config )
+     ("g t" . eyebrowse-next-window-config )
+     ("g b" . eyebrowse-prev-window-config )
      )
     :config
     (eyebrowse-mode t)

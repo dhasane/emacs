@@ -7,19 +7,6 @@
 ;;(defun always-use-fancy-splash-screens-p () 1)
   ;;(defalias 'use-fancy-splash-screens-p 'always-use-fancy-splash-screens-p)
 
-(use-package dashboard
-  :ensure t
-  :init
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  ;; (dashboard-modify-heading-icons '((recents . "file-text")
-                                  ;; (bookmarks . "book")))
-  (setq dashboard-set-navigator t)
-  (setq show-week-agenda-p t)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-  :config
-  (dashboard-setup-startup-hook))
-
 ;; quitar las barras
 (menu-bar-mode -1) ;; TODO: me gustaria activarlo para org
 (tool-bar-mode -1)
@@ -51,6 +38,7 @@
 ;; set highlighting brackets
 (show-paren-mode 1)
 (electric-pair-mode 1)
+
 (setq show-paren-delay 0
       show-paren-style 'parenthesis)
 ;;
