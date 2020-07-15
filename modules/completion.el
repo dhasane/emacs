@@ -44,7 +44,8 @@
            (lsp-deferred)))
   :config
   ;;(setq ccls-executable "/snap/bin/ccls")
-  (setq ccls-executable "/usr/bin/ccls")
+  ;; (setq ccls-executable "/usr/bin/ccls")
+  (setq ccls-executable "~/.nix-profile/bin/ccls")
   )
 
 (use-package irony
@@ -76,15 +77,26 @@
 
 (setq ruby-indent-tabs-mode nil)
 
-;; (use-package inf-ruby
-	;; :ensure t
-	;; :bind
-	;; (:map ruby-mode
-	 ;; ("C-M-x" . inf-ruby)
-	 ;; )
-	;; ;; :hook (ruby-mode . inf-ruby)
-;;
-	;; )
+(use-package inf-ruby
+  :ensure t
+  :bind
+  (:map
+   ruby-mode-map
+   ("C-c C-c" . inf-ruby)
+   ("C-M-x" . ruby-send-block)
+   )
+  :hook
+  (ruby-mode . 'inf-ruby-keys)
+  ;;:config
+
+  ;(define-key ruby-mode-map [S-f7] 'ruby-compilation-this-buffer)
+  ;;(eval-after-load 'ruby-mode
+  ;;'(add-hook 'ruby-mode-hook 'inf-ruby-keys))
+
+  ;; (define-key ruby-mode-map (kbd "C-c C-c") 'inf-ruby)
+  ;; :hook (ruby-mode . inf-ruby)
+
+  )
 ;;(use-package solargraph
 	;;:ensure t
 	;;:config
@@ -213,8 +225,8 @@
            company-capf
            company-yasnippet
            company-dabbrev-code
-					 company-dabbrev
-           company-abbrev
+           company-dabbrev
+           ;;company-abbrev
 					 )
           )
         )

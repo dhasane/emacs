@@ -5,6 +5,15 @@ de configuracion de emacs
 
 [[https://linuxhint.com/vim_vs_emacs/][buena comparacion entre vim y emacs]]
 
+https://www.emacswiki.org/emacs/TabsAreEvil
+https://github.com/magit/transient
+https://ericjmritz.wordpress.com/2015/10/14/some-personal-hydras-for-gnu-emacs/
+https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
+https://www.masteringemacs.org/article/mastering-key-bindings-emacs
+http://tuhdo.github.io/c-ide.html#sec-2
+https://github.com/manateelazycat/emacs-application-framework
+
+
 * DONE [[http://blog.huy.rocks/emacs-from-scratch.html#org5be8c19][emacs from scratch]]
   CLOSED: [2020-06-01 lun 15:21]
   acabo de encontrar este tutorial, que se ve como interesante para crear una
@@ -28,7 +37,8 @@ de configuracion de emacs
   
 * TODO rust analizer
   [[https://www.reddit.com/r/rust/comments/ai881s/guide_to_the_rustanalyzer/]]
-  
+
+
 * TODO Eshell
   https://github.com/manateelazycat/aweshell
   https://www.emacswiki.org/emacs/EshellCompletion
@@ -61,10 +71,25 @@ de configuracion de emacs
   
 * TODO para ruby
   https://github.com/dgutov/robe
+  https://emacs.stackexchange.com/questions/32907/emacs-robe-mode-for-ruby-why-does-it-need-to-start-the-server
+  https://github.com/dgutov/robe
+  https://www.emacswiki.org/emacs/init-ruby.el
+  https://crypt.codemancers.com/posts/2013-09-26-setting-up-emacs-as-development-environment-on-osx/
+  https://github.com/purcell/emacs.d/blob/master/lisp/init-ruby.el
+  https://www.reddit.com/r/emacs/comments/9xhqtz/ruby_development/
+  https://github.com/nonsequitur/inf-ruby
+  https://github.com/castwide/solargraph
+  https://emacs-lsp.github.io/lsp-mode/page/lsp-solargraph/
+  https://github.com/guskovd/emacs-solargraph
+  https://stackoverflow.com/questions/1282501/running-irb-in-emacs-via-run-ruby-echos-everything-i-type
+  https://stackoverflow.com/questions/5742237/run-ruby-from-emacs-buffer
+  https://stackoverflow.com/questions/20729873/recommendation-for-emacs-ruby-setup
+
+* TODO para python
+  https://stackoverflow.com/questions/3734880/getting-pdb-in-emacs-to-use-python-process-from-current-virtualenv
 
 * TODO para ruby-on-rails
   https://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html
-
 
   
 * TODO para armar un paquete de elisp
