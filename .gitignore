@@ -6,6 +6,7 @@ places
 recentf
 transient
 semanticdb
+elpy
 url
 .extension
 .dap-breakpoints

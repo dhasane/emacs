@@ -125,11 +125,11 @@
 (defconst config-module-dir "~/.emacs.d/modules/"
   "Directorio de modulos de configuracion.")
 
-(defun load-config-module (filelist)
+(defun load-config-module (config-directory filelist)
   "Cargar un archivo de configuracion a partir del FILELIST."
   (dolist (file filelist)
     (load (expand-file-name
-           (concat config-module-dir file)))
+           (concat config-directory file)))
     (message "Loaded config file:%s" file)
     ))
 
@@ -151,6 +151,7 @@
   "Cargar los archivos de configuracion."
   (interactive)
   (load-config-module
+   config-module-dir
    '(
      "basic"
      "funciones"
