@@ -8,6 +8,22 @@
 	;;:load-path "~/.emacs.d/elisp/aweshell"
 	;;)
 
+(use-package keychain-environment
+  :hook (tramp-mode . keychain-refresh-environment)
+  )
+
+(defun check-gitconfig-create ()
+  (interactive)
+  (shell-command
+   "[ ! -f ~/.gitconfig ] && echo '
+[user]
+	email = danihas@live.com
+	name = dhasane
+' > ~/.gitconfig"
+   ;;(magit-status)
+   )
+  )
+
 (defun eshell-new()
   "Open a new instance of eshell."
   (interactive)

@@ -66,6 +66,7 @@
 		'(
 		  (inferior-emacs-lisp-mode . emacs)
 		  (nrepl-mode . insert)
+          (debugger-mode . normal)
 		  (dashboard-mode . insert)
 		  (pylookup-mode . normal)
 		  (comint-mode . normal)
