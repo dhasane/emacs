@@ -69,6 +69,7 @@
           (debugger-mode . normal)
 		  (dashboard-mode . insert)
 		  (pylookup-mode . normal)
+          (inferior-python-mode . normal)
 		  (comint-mode . normal)
 		  (shell-mode . insert)
 		  (git-commit-mode . insert)

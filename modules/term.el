@@ -43,14 +43,15 @@
               )
             )
   ;;:bind
-  ;;(:map
-   ;;eshell-mode-map
-   ;;("C-d" . (lambda ()
-			  ;;(interactive)
-			  ;;(throw 'eshell-terminal t) )
-	;;)
+  ;;(
+   ;;;;eshell-mode-map
+   ;;;;("C-d" . (lambda ()
+			  ;;;;(interactive)
+			  ;;;;(throw 'eshell-terminal t) )
+	;;;;)
    ;;)
   :config
+
   '(eshell-cannot-leave-input-list
 	'(beginning-of-line-text
 	  beginning-of-line

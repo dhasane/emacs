@@ -44,7 +44,7 @@
   (
    :map
    evil-insert-state-map
-   ("TAB" . #'tab-indent-or-complete)
+   ("TAB" . #'dh/complete-in-context)
 
    :map
    company-active-map
@@ -68,12 +68,37 @@
   ;;(setq company-tooltip-margin 4)
   :config
 
-  ;;(setq company-global-modes '(not eshell-mode))
-
   ;; disable company completion of *all* remote filenames, whether
   ;; connected or not
   (defun company-files--connected-p (file)
     (not (file-remote-p file)))
+
+  (defcustom just-complete-modes
+    '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode )
+    "Modes in which to just complete instead of indent or complete."
+    :type 'list
+    )
+
+  (defun dh/complete-in-context ()
+    (interactive)
+    (if (member major-mode just-complete-modes )
+        (company-complete-common-or-cycle)
+      (tab-indent-or-complete)
+      )
+    )
+
+  (defun company-eshell-setup ()
+    (when (boundp 'company-backends)
+      (make-local-variable 'company-backends)
+      ;; remove
+      (setq company-backends nil)
+      ;; add
+      (add-to-list 'company-backends 'company-files)
+      (add-to-list 'company-backends 'company-keywords)
+      (add-to-list 'company-backends 'company-capf)
+      ))
+
+  (add-hook 'eshell-mode-hook 'company-eshell-setup)
 
   ;;(defun check-expansion ()
     ;;(save-excursion
@@ -90,12 +115,12 @@
 	;; completar siempre que no sea espacio
   (defun check-expansion ()
     (save-excursion
-			(backward-char 1)
+      (backward-char 1)
       (if (looking-at "[\n \t]")
-					nil
-				t
-				)
-			)
+          nil
+        t
+        )
+      )
     )
 
   (defun do-yas-expand ()
@@ -128,9 +153,9 @@
            company-capf
            company-yasnippet
            company-dabbrev-code
-           company-dabbrev
+           ;;company-dabbrev
            ;;company-abbrev
-					 )
+           )
           )
         )
 
@@ -250,3 +275,11 @@
    "rust"
    )
  )
+
+
+(use-package polymode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+  (setq polymode-prefix-key (kbd "C-c n"))
+  (define-hostmode poly-python-hostmode :mode 'python-mode)
+  )
