@@ -93,10 +93,11 @@
       ;; remove
       (setq company-backends nil)
       ;; add
-      (add-to-list 'company-backends 'company-files)
+      ;; (add-to-list 'company-backends 'company-files)
       (add-to-list 'company-backends 'company-keywords)
       (add-to-list 'company-backends 'company-capf)
-      ))
+      )
+    )
 
   (add-hook 'eshell-mode-hook 'company-eshell-setup)
 

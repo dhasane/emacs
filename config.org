@@ -27,7 +27,8 @@ https://github.com/manateelazycat/emacs-application-framework
   use esto para que la autocompleticion funcione como me gusta, ya que antes al presionar enter se pasaba a linea nueva y no me gusta
   graciosamente la pregunta del link es para desactivarlo completamente, pero me dio la guia para saber cuales funciones eran
   
-* TODO [[http://ergoemacs.org/emacs/emacs_shell_vs_term_vs_ansi-term_vs_eshell.html][comparacion entre shell, term y eshell]]
+* DONE [[http://ergoemacs.org/emacs/emacs_shell_vs_term_vs_ansi-term_vs_eshell.html][comparacion entre shell, term y eshell]]
+  CLOSED: [2020-07-22 Wed 01:31]
   Ya que podria ser interesante la diferencia,
   
   y creo que me falta configurarlo bien, ya que aun no funciona exactamente como 

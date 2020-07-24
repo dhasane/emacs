@@ -20,6 +20,15 @@
                 (set-face-background 'mode-line (car color))
                 (set-face-foreground 'mode-line (cdr color))))))
 
+
+(defun get-project-name-except-if-remote ()
+  (interactive)
+  (if (file-remote-p default-directory)
+      ""
+    (projectile-project-name)
+    )
+  )
+
 ;; status line information
 (setq-default mode-line-format
  (list
@@ -54,14 +63,14 @@
                          3
                          (string-width mode-name)
                          3
-                         (string-width (projectile-project-name))
+                         (string-width (get-project-name-except-if-remote))
                          )
                        )
                     ) ) ) )
 
   ;; para mostrar el nombre del proyecto en el que se esta trabajando
   '(:eval (propertize
-           (format "[%s] " (projectile-project-name) ) ) )
+           (format "[%s] " (get-project-name-except-if-remote) ) ) )
 
   ;; the current major mode
   (propertize " %m " )
