@@ -21,15 +21,6 @@
   :commands (lsp lsp-deferred)
   )
 
-;;(require 'flycheck-kotlin)
-;;(add-hook 'kotlin-mode-hook 'flycheck-mode)
-;;(lsp-register-client
- ;;(make-lsp-client
-	;;:new-connection (lsp-stdio-connection '("path to what you want to use"))
-	;;:major-modes '(kotlin-mode)
-	;;:priority -1
-	;;:server-id 'kotlin-ls))
-
 (use-package flycheck
     :ensure t
     :config
