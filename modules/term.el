@@ -31,15 +31,23 @@
 
 (use-package eshell
   :init
+
   (add-hook 'eshell-mode-hook
             (lambda ()
-              (add-to-list 'eshell-visual-commands "ssh")
-              (add-to-list 'eshell-visual-commands "tail")
-              (add-to-list 'eshell-visual-commands "top")
-              (add-to-list 'eshell-visual-commands "less")
-              (add-to-list 'eshell-visual-commands "vim")
-              (add-to-list 'eshell-visual-commands "pacman")
-              (add-to-list 'eshell-visual-commands "apt")
+              (mapc (lambda (vc)
+                      (add-to-list 'eshell-visual-commands vc))
+                    '(
+                      "ssh"
+                      "htop"
+                      "tail"
+                      "top"
+                      "less"
+                      "vim"
+                      "pacman"
+                      "apt"
+                      "irb"
+                      )
+                    )
               )
             )
   ;;:bind

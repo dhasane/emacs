@@ -19,7 +19,15 @@
 (set-default-coding-systems 'utf-8)
 
 (setq backward-delete-char-untabify-method 'hungry)
+(setq large-file-warning-threshold nil) ;; Don’t warn me about opening large files
+(setq x-select-enable-clipboard t) ;; Enable copy/past-ing from clipboard
+(setq system-uses-terminfo nil) ;; Fix weird color escape sequences
+(prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
+(fset 'yes-or-no-p 'y-or-n-p) ;; Answer with y and n instead of yes and no
+(setq confirm-kill-emacs 'yes-or-no-p) ;; Ask for confirmation before closing emacs
 (global-auto-revert-mode 1) ;; modificar el bufer, si este ha cambiado
+
+
 ;;
 ;;;; mostrar los ultimos archivos modificados en menu-bar en files
 ;;;; pero yo no uso lo barra :v

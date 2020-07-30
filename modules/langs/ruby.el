@@ -7,6 +7,12 @@
 
 (setq ruby-indent-tabs-mode nil)
 
+;; When folding, take these delimiters into consideration
+(add-to-list 'hs-special-modes-alist
+             '(ruby-mode
+               "\\(class\\|def\\|do\\|if\\)" "\\(end\\)" "#"
+               (lambda (arg) (ruby-end-of-block)) nil))
+
 (use-package inf-ruby
   :ensure t
   :bind

@@ -29,6 +29,9 @@
     )
   )
 
+(use-package nyan-mode
+  )
+
 ;; status line information
 (setq-default mode-line-format
  (list
@@ -54,6 +57,7 @@
            (when buffer-read-only " " )
            " "
            ) )
+  '(:eval (list (nyan-create)))
   '(:eval (propertize
            " " 'display
            `(

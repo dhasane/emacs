@@ -262,7 +262,7 @@
 ;; TODO: mirar como funciona lo de dap-mode
 ;; (use-package dap-java :after (lsp-java))
 
-(defconst config-lang-dir "~/.emacs.d/modules/langs/"
+(defconst config-lang-dir (expand-file-name "modules/langs/" user-emacs-directory)
   "Directorio de modulos de configuracion.")
 
 (load-config-module

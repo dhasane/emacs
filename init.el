@@ -1,22 +1,22 @@
 
 ;;; package --- summary:
 
-;; EEEEEEEEEEEEEEEEEEEEEE                                                                                ;;
-;; E::::::::::::::::::::E                                                                                ;;
-;; E::::::::::::::::::::E                                                                                ;;
-;; EE::::::EEEEEEEEE::::E                                                                                ;;
-;;   E:::::E       EEEEEE   mmmmmmm    mmmmmmm     aaaaaaaaaaaaa      cccccccccccccccc    ssssssssss     ;;
-;;   E:::::E              mm:::::::m  m:::::::mm   a::::::::::::a   cc:::::::::::::::c  ss::::::::::s    ;;
-;;   E::::::EEEEEEEEEE   m::::::::::mm::::::::::m  aaaaaaaaa:::::a c:::::::::::::::::css:::::::::::::s   ;;
-;;   E:::::::::::::::E   m::::::::::::::::::::::m           a::::ac:::::::cccccc:::::cs::::::ssss:::::s  ;;
-;;   E:::::::::::::::E   m:::::mmm::::::mmm:::::m    aaaaaaa:::::ac::::::c     ccccccc s:::::s  ssssss   ;;
-;;   E::::::EEEEEEEEEE   m::::m   m::::m   m::::m  aa::::::::::::ac:::::c                s::::::s        ;;
-;;   E:::::E             m::::m   m::::m   m::::m a::::aaaa::::::ac:::::c                   s::::::s     ;;
-;;   E:::::E       EEEEEEm::::m   m::::m   m::::ma::::a    a:::::ac::::::c     cccccccssssss   s:::::s   ;;
-;; EE::::::EEEEEEEE:::::Em::::m   m::::m   m::::ma::::a    a:::::ac:::::::cccccc:::::cs:::::ssss::::::s  ;;
-;; E::::::::::::::::::::Em::::m   m::::m   m::::ma:::::aaaa::::::a c:::::::::::::::::cs::::::::::::::s   ;;
-;; E::::::::::::::::::::Em::::m   m::::m   m::::m a::::::::::aa:::a cc:::::::::::::::c s:::::::::::ss    ;;
-;; EEEEEEEEEEEEEEEEEEEEEEmmmmmm   mmmmmm   mmmmmm  aaaaaaaaaa  aaaa   cccccccccccccccc  sssssssssss      ;;
+;; EEEEEEEEEEEEEEEEEEEEEE                                                                               ;;
+;; E::::::::::::::::::::E                                                                               ;;
+;; E::::::::::::::::::::E                                                                               ;;
+;; EE::::::EEEEEEEEE::::E                                                                               ;;
+;;   E:::::E       EEEEEE   mmmmmmm    mmmmmmm     aaaaaaaaaaaaa      cccccccccccccccc    ssssssssss    ;;
+;;   E:::::E              mm:::::::m  m:::::::mm   a::::::::::::a   cc:::::::::::::::c  ss::::::::::s   ;;
+;;   E::::::EEEEEEEEEE   m::::::::::mm::::::::::m  aaaaaaaaa:::::a c:::::::::::::::::css:::::::::::::s  ;;
+;;   E:::::::::::::::E   m::::::::::::::::::::::m           a::::ac:::::::cccccc:::::cs::::::ssss:::::s ;;
+;;   E:::::::::::::::E   m:::::mmm::::::mmm:::::m    aaaaaaa:::::ac::::::c     ccccccc s:::::s  ssssss  ;;
+;;   E::::::EEEEEEEEEE   m::::m   m::::m   m::::m  aa::::::::::::ac:::::c                s::::::s       ;;
+;;   E:::::E             m::::m   m::::m   m::::m a::::aaaa::::::ac:::::c                   s::::::s    ;;
+;;   E:::::E       EEEEEEm::::m   m::::m   m::::ma::::a    a:::::ac::::::c     cccccccssssss   s:::::s  ;;
+;; EE::::::EEEEEEEE:::::Em::::m   m::::m   m::::ma::::a    a:::::ac:::::::cccccc:::::cs:::::ssss::::::s ;;
+;; E::::::::::::::::::::Em::::m   m::::m   m::::ma:::::aaaa::::::a c:::::::::::::::::cs::::::::::::::s  ;;
+;; E::::::::::::::::::::Em::::m   m::::m   m::::m a::::::::::aa:::a cc:::::::::::::::c s:::::::::::ss   ;;
+;; EEEEEEEEEEEEEEEEEEEEEEmmmmmm   mmmmmm   mmmmmm  aaaaaaaaaa  aaaa   cccccccccccccccc  sssssssssss     ;;
 
 ;;; Commentary:
 
@@ -39,9 +39,9 @@
  '(global-company-mode t)
  '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
  '(package-selected-packages
-   '(polymode vterm-toggle keychain-environment c++ vterm origami kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-              (evil use-package hydra bind-key)
-              name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
+   '(eil-goggles evil-surround nyan-mode web-mode rainbow-delimiters polymode vterm-toggle keychain-environment c++ vterm origami kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
+                 (evil use-package hydra bind-key)
+                 name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
  '(semantic-mode t)
  '(setq 1 t)
  '(tab-bar-show 1))
@@ -122,7 +122,7 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
-(defconst config-module-dir "~/.emacs.d/modules/"
+(defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
   "Directorio de modulos de configuracion.")
 
 (defun load-config-module (config-directory filelist)

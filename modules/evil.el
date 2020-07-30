@@ -110,6 +110,12 @@
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
   )
 
+(use-package evil-surround
+  :ensure t
+  :after evil
+  :config
+  (global-evil-surround-mode 1))
+
 ;; visual hints while editing
 (use-package evil-goggles
   :ensure t

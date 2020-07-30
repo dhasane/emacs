@@ -22,6 +22,18 @@
           )
         )
   :config
+  (setq dashboard-footer-messages
+        '(
+          "Free as free speech, free as free Beer"
+          "Richard Stallman is proud of you"
+          "Happy coding!"
+          "I showed you my source code, pls respond"
+          "Yeeeee boiii"
+          "Gotta go fast"
+          "Stonks"
+          )
+        )
+
   (dashboard-setup-startup-hook))
 
 (load-theme 'gruvbox-dark-medium)
@@ -82,8 +94,10 @@
   :defer .1
   )
 
-(when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode)
+  )
+
 
 (setq display-line-numbers-type 'relative)
 (setq-default display-line-numbers 'visual
@@ -113,13 +127,18 @@
     :group 'display-line-numbers
     :type 'list
     :version "green")
+
   (defun display-line-numbers--turn-on ()
     "Turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'."
     (if (and
          (not (member major-mode display-line-numbers-exempt-modes))
          (not (minibufferp)))
         (display-line-numbers-mode)))
-  (global-display-line-numbers-mode)
+
+  ;; (global-display-line-numbers-mode)
+  ;;(when (version<= "26.0.50" emacs-version )
+    ;;(global-display-line-numbers-mode))
+  :hook (prog-mode . display-line-numbers)
   )
 
 ;; esto me parece que esta lento
