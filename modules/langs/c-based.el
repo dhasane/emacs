@@ -3,7 +3,7 @@
 (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
 (use-package ccls
   :ensure t
-  :after company
+  :after (company)
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp-deferred)))
   :config
@@ -14,7 +14,7 @@
   ;; alternatively, (setq ccls-sem-highlight-method 'overlay)
 
   ;; For rainbow semantic highlighting
-  ;;(ccls-use-default-rainbow-sem-highlight)
+  (ccls-use-default-rainbow-sem-highlight)
 
   (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
                                         ; Use lsp-goto-implementation or lsp-ui-peek-find-implementation (textDocument/implementation) for derived types/functions
@@ -111,7 +111,7 @@
 ;;
 ;; (use-package company-irony
 	;; :ensure t
-	;; :after irony company
+	;; :after (irony company)
 	;; :config
 	;; (add-to-list 'company-backends 'company-irony)
 	;; )

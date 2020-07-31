@@ -11,7 +11,9 @@
 
 (use-package git-gutter
   :ensure t
-  :after magit
+  :demand t
+  :custom
+  (git-gutter:window-width 1)
   )
 
 ;; TODO: verificar el funcionamiento de esto, que hay varios binds que
@@ -19,7 +21,7 @@
 ;; la izquierda, pero no tiene sentido siendo que 'l' no sirve para
 ;; mover a la derecha
 (use-package evil-magit
-  :after magit evil
+  :after (magit evil)
   :config
   ;; (setq magit-completing-read-function 'magit-ido-completing-read)
   ;; open magit status in same window as current buffer

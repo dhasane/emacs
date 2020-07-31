@@ -2,11 +2,13 @@
 ;;; Code:
 (use-package ivy
   :ensure t
-  :diminish (ivy-mode . "")
+  ;; :diminish (ivy-mode . "")
+  :demand t
   :bind
   (:map ivy-mode-map
         ("C-'" . ivy-avy))
   :config
+  (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   (setq ivy-use-virtual-buffers t)
   ;; number of result lines to display
@@ -22,6 +24,6 @@
 
 (use-package counsel
   :ensure t
-  :after ivy
+  :after (ivy)
 	:bind ("M-m" . 'counsel-find-file)
   )

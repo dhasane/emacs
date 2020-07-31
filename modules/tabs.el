@@ -12,9 +12,11 @@
       (:map
        evil-normal-state-map
        ("TAB t" . tab-bar-new-tab-to )
-                                        ; ("TAB q" . tab-bar-close-tab )
+       ;; ("TAB q" . tab-bar-close-tab )
        ("g b" . tab-bar-switch-to-prev-tab )
        )
+      :custom
+      (tab-bar-show 1)
       :init
 
       ;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))

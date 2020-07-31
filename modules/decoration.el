@@ -96,38 +96,42 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode)
+  :demand t
   )
 
+(use-package rainbow-mode
+  :hook (css-mode . rainbow-mode)
+  )
 
-(setq display-line-numbers-type 'relative)
-(setq-default display-line-numbers 'visual
-              display-line-numbers-widen t
-              ;; this is the default
-              display-line-numbers-current-absolute t)
-
-(defun noct:relative ()
-  (setq-local display-line-numbers 'visual))
-
-(defun noct:absolute ()
-  (setq-local display-line-numbers t))
-
-;;(add-hook 'evil-insert-state-entry-hook #'noct:absolute)
-;;(add-hook 'evil-insert-state-exit-hook #'noct:relative)
-
-;; example of customizing colors
-;;(custom-set-faces '(line-number-current-line ((t :weight bold
-                                                 ;;:foreground "goldenrod"
-                                                 ;;:background "slate gray"))))
 (use-package display-line-numbers
-  :ensure t
+  :disabled
   :config
+  (setq display-line-numbers-type 'relative)
+  ;;(setq-default
+  (setq
+   display-line-numbers 'visual
+   display-line-numbers-widen t
+   ;; this is the default
+   display-line-numbers-current-absolute t)
+  (add-hook 'evil-insert-state-entry-hook (lambda ()
+                                            (setq-local display-line-numbers 'visual)
+
+                                            ))
+  (add-hook 'evil-insert-state-exit-hook (lambda ()
+                                           (setq-local display-line-numbers t)
+                                           ))
+
+  ;; example of customizing colors
+  ;;(custom-set-faces '(line-number-current-line ((t :weight bold
+  ;;:foreground "goldenrod"
+  ;;:background "slate gray"))))
+
   (defcustom display-line-numbers-exempt-modes
     '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode help-mode magit-mode )
     "Major modes on which to disable the linum mode, exempts them from global requirement."
     :group 'display-line-numbers
     :type 'list
     :version "green")
-
   (defun display-line-numbers--turn-on ()
     "Turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'."
     (if (and
@@ -138,7 +142,7 @@
   ;; (global-display-line-numbers-mode)
   ;;(when (version<= "26.0.50" emacs-version )
     ;;(global-display-line-numbers-mode))
-  :hook (prog-mode . display-line-numbers)
+  ;; :hook (prog-mode . display-line-numbers)
   )
 
 ;; esto me parece que esta lento

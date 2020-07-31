@@ -4,6 +4,7 @@ history
 ido.last
 places
 recentf
+custom.el
 transient
 bookmarks
 semanticdb

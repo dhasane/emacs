@@ -29,7 +29,7 @@
 
 (use-package company
   :ensure t
-  :after evil
+  :after (evil)
   ;;:hook (prog-mode . company-mode)
   :bind
   (
@@ -55,7 +55,7 @@
   (company-minimum-prefix-length 1) ; Show suggestions after entering one character.
   (company-selection-wrap-around t)
   (company-idle-delay nil) ; Delay in showing suggestions.
-  ;;(global-company-mode t)
+  (global-company-mode t)
   ;;(setq company-tooltip-margin 4)
   :config
 
@@ -179,14 +179,14 @@
 
 (use-package company-quickhelp
 	:ensure t
-	:after company
+	:after (company)
 	:init
 	(company-quickhelp-mode)
 	)
 
 ;; (use-package company-box
   ;; :ensure t
-  ;; :after company
+  ;; :after (company)
   ;; :hook (company-mode . company-box-mode)
   ;; :bind
   ;; (
@@ -204,7 +204,7 @@
 
 (use-package lsp-ui
   :ensure t
-  :after lsp-mode evil
+  :after (lsp-mode evil)
   :commands lsp-ui-mode
   :bind
   (:map
@@ -246,7 +246,7 @@
 ;; optionally if you want to use debugger
 (use-package dap-mode
   :ensure t
-  :after lsp-mode
+  :after (lsp-mode)
   :config
   (dap-mode t)
   (dap-ui-mode t))
@@ -265,9 +265,13 @@
    "python"
    "ruby"
    "rust"
+   "markdown.el"
+   "web.el"
+   "dart.el"
+   "lua.el"
+   "yaml.el"
    )
  )
-
 
 (use-package polymode
   :config

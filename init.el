@@ -24,42 +24,6 @@
 
 ;;; code:
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-idle-delay nil)
- '(company-minimum-prefix-length 1)
- '(company-selection-wrap-around t)
- '(company-tooltip-align-annotations t)
- '(custom-safe-themes
-   '("e1d09f1b2afc2fed6feb1d672be5ec6ae61f84e058cb757689edb669be926896" "aded61687237d1dff6325edb492bde536f40b048eab7246c61d5c6643c696b7f" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "939ea070fb0141cd035608b2baabc4bd50d8ecc86af8528df9d41f4d83664c6a" default))
- '(git-gutter:window-width 1)
- '(global-company-mode t)
- '(minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
- '(package-selected-packages
-   '(eil-goggles evil-surround nyan-mode web-mode rainbow-delimiters polymode vterm-toggle keychain-environment c++ vterm origami kaolin-themes dashboard company-irony irony elpy aweshell robe readline-complete company-quickhelp flycheck-kotlin kotlin-mode eshell-z inf-ruby solargraph rust-mode company-box lsp-dart lsp-python-ms ws-butler which-key dap-java counsel ivy evil-collection pdf-tools evil-org evil-magit eyebrowse git-gutter company-lsp
-                 (evil use-package hydra bind-key)
-                 name lsp-java ccls magit gruvbox-theme fzf flycheck evil))
- '(semantic-mode t)
- '(setq 1 t)
- '(tab-bar-show 1))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-goggles-change-face ((t (:inherit diff-removed))))
- '(evil-goggles-delete-face ((t (:inherit diff-removed))))
- '(evil-goggles-paste-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
- '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
- '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
-
-;; init ----------------------------------------------------
-
 ;; medir el tiempo de inico
 ;; Use a hook so the message doesn't get clobbered by other messages.
 (add-hook 'emacs-startup-hook
@@ -74,11 +38,16 @@
 ;; collection.  The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
+;;; init ----------------------------------------------------
 ;;; Inicio configuracion
 
-;;(server-start)
 (load "server")
 (unless (server-running-p) (server-start))
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(unless (file-exists-p custom-file)
+  (write-region "" nil custom-file))
+(load custom-file)
 
 (require 'package)
 (setq
@@ -172,10 +141,6 @@
    )
   )
 (load-config)
-(evil-mode)		;; ya que por alguna razon no estaba funcionando de solo llamarlo en evil.el
-(ivy-mode 1)
-;; esto hace que me den mas ganas de hacer el loader :v
-;; y que se pueda elegir los comandos para activar desde aca
 
 (use-package which-key
   :ensure t
@@ -256,28 +221,6 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "rn" lsp-rename "rename")
   ( "?" evil-show-marks "marks")
   )
-
-;; otros/mover ------------------------------------------------
-
-;;(setq custom-tab-width 2)
-;;
-;;(defun disable-tabs ()
-  ;;(interactive)
-  ;;(setq indent-tabs-mode nil))
-;;(defun enable-tabs  ()
-  ;;(interactive)
-  ;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
-  ;;(setq indent-tabs-mode t)
-  ;;(setq tab-width custom-tab-width))
-;;(enable-tabs)
-
-;;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
-;;(setq indent-tabs-mode t)
-;;(setq tab-width custom-tab-width))
-
-;; redefinir mappings de evil
-;; (with-eval-after-load 'evil-maps
-;; )
 
 ;; final ------------------------------------------------------
 

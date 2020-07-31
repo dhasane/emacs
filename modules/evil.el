@@ -59,9 +59,15 @@
    ("C-z" . 'undo-tree-undo )
    )
 
+  ;; :functions
+
+  ;; :custom
   :config
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
+
+  (evil-mode 1)
+
   (cl-loop for (mode . state) in
 		'(
 		  (inferior-emacs-lisp-mode . emacs)
@@ -80,8 +86,11 @@
 		  (rdictcc-buffer-mode . emacs)
 		  (dired-mode . normal)
 		  (wdired-mode . normal)
-		  )
-		do (evil-set-initial-state mode state))
+          (nrepl-mode . normal)
+          (package-menu-mode . normal)
+          (Custom-mode . normal)
+          )
+        do (evil-set-initial-state mode state))
 
   (defun close-except-last-window ()
 	"Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
@@ -112,20 +121,28 @@
 
 (use-package evil-surround
   :ensure t
-  :after evil
+  :after (evil)
   :config
   (global-evil-surround-mode 1))
 
 ;; visual hints while editing
 (use-package evil-goggles
   :ensure t
-  :after evil
+  :after (evil)
+  :functions evil-googles-use-diff-faces
   :config
   (setq evil-goggles-duration 0.250) ;; default is 0.200
   (evil-goggles-use-diff-faces)
   (evil-goggles-mode)
-  (custom-set-faces
-   '(evil-goggles-yank-face ((t (:inherit 'isearch-fail)))))
+  :custom-face
+  (evil-goggles-change-face ((t (:inherit diff-removed))))
+  (evil-goggles-delete-face ((t (:inherit diff-removed))))
+  (evil-goggles-paste-face ((t (:inherit diff-added))))
+  (evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+  (evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+  (evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+  ;; (evil-goggles-yank-face ((t (:inherit diff-changed))))
+  (evil-goggles-yank-face ((t (:inherit 'isearch-fail))))
   )
 
 ;;(use-package evil-collection
@@ -135,32 +152,3 @@
   ;;(evil-collection-init)
   ;;)
 
-;;(eval-after-load "evil"
-  ;;;; "This cotrols the state in which each mode will be opened in."
-  ;;;; "States: normal/insert/emacs."
-  ;;(loop for (mode . state)
-        ;;in '(
-             ;;(dired-mode . normal)
-             ;;(help-mode . normal)
-             ;;(magit-mode . normal)
-             ;;(package-menu-mode . normal)
-                                        ;;;           (emacs-lisp-mode . normal)
-;;
-             ;;(inferior-emacs-lisp-mode . emacs)
-             ;;(nrepl-mode . insert)
-             ;;(pylookup-mode . emacs)
-             ;;(comint-mode . normal)
-             ;;(shell-mode . insert)
-             ;;(git-commit-mode . insert)
-             ;;(git-rebase-mode . emacs)
-             ;;(term-mode . emacs)
-             ;;;;(helm-grep-mode . emacs)
-             ;;(grep-mode . emacs)
-             ;;(bc-menu-mode . emacs)
-             ;;(magit-branch-manager-mode . emacs)
-             ;;(rdictcc-buffer-mode . emacs)
-             ;;(wdired-mode . normal)
-             ;;)
-        ;;do (evil-set-initial-state mode state))
-;;
-  ;;)

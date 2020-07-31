@@ -8,21 +8,24 @@
 (setq ruby-indent-tabs-mode nil)
 
 ;; When folding, take these delimiters into consideration
-(add-to-list 'hs-special-modes-alist
-             '(ruby-mode
-               "\\(class\\|def\\|do\\|if\\)" "\\(end\\)" "#"
-               (lambda (arg) (ruby-end-of-block)) nil))
+;; (add-to-list 'hs-special-modes-alist
+;;              '(ruby-mode
+;;                "\\(class\\|def\\|do\\|if\\)" "\\(end\\)" "#"
+;;                (lambda (arg) (ruby-end-of-block)) nil))
+
+(use-package ruby-mode
+  )
 
 (use-package inf-ruby
+  ;; :disabled
   :ensure t
+  :after ruby-mode
   :bind
   (:map
    ruby-mode-map
-   ("C-c C-c" . inf-ruby)
    ("C-M-x" . ruby-send-block)
    )
-  :hook
-  (ruby-mode . 'inf-ruby-keys)
+  :hook (ruby-mode . 'inf-ruby-keys)
   ;;:config
 
   ;(define-key ruby-mode-map [S-f7] 'ruby-compilation-this-buffer)
@@ -34,10 +37,16 @@
 
   )
 
+(use-package ruby-electric
+  :hook (
+         ( ruby-mode . (lambda () (ruby-electric-mode t)))
+         )
+  )
+
 (use-package robe
 	:ensure t
-	:after company
+	:after (company ruby-mode)
 	:hook (ruby-mode . robe-mode)
 	:config
-    '(push 'company-robe company-backends)
+    (push 'company-robe company-backends)
     )

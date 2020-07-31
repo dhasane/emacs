@@ -251,4 +251,26 @@ xref-find-definition-other-window
       'company-select-next-if-tooltip-visible-or-complete-selection))
 
   (company-ac-setup)
+
+
+
+;; otros/mover ------------------------------------------------
+
+(setq custom-tab-width 2)
+
+(defun disable-tabs ()
+  (interactive)
+  (setq indent-tabs-mode nil))
+(defun enable-tabs  ()
+  (interactive)
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  (setq indent-tabs-mode t)
+  (setq tab-width custom-tab-width))
+(enable-tabs)
+                                        ;(local-set-key (kbd "TAB") 'tab-to-tab-stop)
+(setq indent-tabs-mode t)
+(setq tab-width custom-tab-width))
+                                        ; redefinir mappings de evil
+(with-eval-after-load 'evil-maps
+  )
 ;; finich jiji
