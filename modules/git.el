@@ -6,6 +6,7 @@
 ; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
 (use-package magit
   :ensure t
+  :demand t
   :defer .1
   )
 
@@ -14,6 +15,8 @@
   :demand t
   :custom
   (git-gutter:window-width 1)
+  :config
+  (git-gutter)
   )
 
 ;; TODO: verificar el funcionamiento de esto, que hay varios binds que
@@ -22,6 +25,7 @@
 ;; mover a la derecha
 (use-package evil-magit
   :after (magit evil)
+  :demand t
   :config
   ;; (setq magit-completing-read-function 'magit-ido-completing-read)
   ;; open magit status in same window as current buffer

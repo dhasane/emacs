@@ -27,7 +27,7 @@
 (setq confirm-kill-emacs 'yes-or-no-p) ;; Ask for confirmation before closing emacs
 (global-auto-revert-mode 1) ;; modificar el bufer, si este ha cambiado
 
-
+(setq lexical-binding t)
 ;;
 ;;;; mostrar los ultimos archivos modificados en menu-bar en files
 ;;;; pero yo no uso lo barra :v
@@ -88,3 +88,16 @@
       ring-bell-function 'ignore)
 
 (savehist-mode 1)
+
+(defun my-find-file-check-make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (> (buffer-size) (* 1024 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)
+    (linum-mode -1)
+    (font-lock-mode -1)
+    )
+  )
+
+(add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)

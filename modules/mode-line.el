@@ -2,23 +2,29 @@
 
 ;;; code:
 
-(eval-when-compile (require 'cl-lib))
-;; change mode-line color by evil state
-(lexical-let ((default-color (cons (face-background 'mode-line)
-                                   (face-foreground 'mode-line))))
-  (add-hook 'post-command-hook
-            (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ((evil-insert-state-p) '("#73b3e7" . "#3e4249"))
-                                 ((evil-normal-state-p) '("#a1bf78" . "#3e4249"))
-                                 ((evil-replace-state-p)'("#d390e7" . "#3e4249"))
-                                 ((evil-visual-state-p) '("#e77171" . "#3e4249"))
+;; (eval-when-compile (require 'cl-lib))
 
-                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t default-color))))
-                (set-face-background 'mode-line (car color))
-                (set-face-foreground 'mode-line (cdr color))))))
+;; change mode-line color by evil state
+;; (let (default-color (cons (face-background 'mode-line)
+                          ;; (face-foreground 'mode-line)))
+(add-hook 'post-command-hook
+          (lambda ()
+            (let ((color (cond ;; ((minibufferp) default-color)
+                          ((evil-insert-state-p) '("#73b3e7" . "#3e4249"))
+                          ((evil-normal-state-p) '("#a1bf78" . "#3e4249"))
+                          ((evil-replace-state-p)'("#d390e7" . "#3e4249"))
+                          ((evil-visual-state-p) '("#e77171" . "#3e4249"))
+
+                          ;; "#209070"
+                          ((evil-motion-state-p) '("#501099" . "#3e4249"))
+
+                          ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                          ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                          ;; (t default-color)
+                          )))
+              (set-face-background 'mode-line (car color))
+              (set-face-foreground 'mode-line (cdr color)))))
+  ;; )
 
 
 (defun get-project-name-except-if-remote ()
@@ -30,6 +36,7 @@
   )
 
 (use-package nyan-mode
+  :demand t
   )
 
 ;; status line information

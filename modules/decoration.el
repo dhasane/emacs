@@ -3,6 +3,7 @@
 
 (use-package dashboard
   :ensure t
+  :demand t
   :init
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
@@ -14,10 +15,10 @@
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (setq dashboard-items
         '(
-          (recents  . 5)
+          (recents   . 5)
+          (projects  . 5)
+          (agenda    . 5)
           (bookmarks . 5)
-          (projects . 5)
-          (agenda . 5)
           (registers . 5)
           )
         )
@@ -36,7 +37,11 @@
 
   (dashboard-setup-startup-hook))
 
-(load-theme 'gruvbox-dark-medium)
+(use-package gruvbox-theme
+  :demand t
+  :config
+  (load-theme 'gruvbox-dark-medium)
+  )
 
 ;;(use-package ample-theme
   ;;;; https://github.com/jordonbiondo/ample-theme

@@ -82,8 +82,9 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 (setq use-package-always-ensure t)
-;; (setq use-package-always-defer t)
-(setq use-package-compute-statistics t)
+(setq use-package-always-defer t)
+(setq use-package-compute-statistics nil) ;; t para verificar tiempos de carga
+(use-package use-package-ensure-system-package)
 
 (use-package benchmark-init
   :ensure t
@@ -144,6 +145,7 @@
 
 (use-package which-key
   :ensure t
+  :demand t
   :defer .1
   :config
   (which-key-setup-side-window-right-bottom)

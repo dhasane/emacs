@@ -47,6 +47,8 @@
 
    ( "<return>" . 'company-complete-selection)
    ( "RET" . 'company-complete-selection)
+
+   ;; ( "ESC" . company-abort)
    )
   :custom
   ;;(company-begin-commands '(self-insert-command))
@@ -220,7 +222,7 @@
   :init
   (lsp-ui-mode)
   (setq lsp-ui-doc-enable nil
-				lsp-ui-doc-delay nil
+        lsp-ui-doc-delay nil
         )
   )
 

@@ -7,25 +7,36 @@
 
 (setq ruby-indent-tabs-mode nil)
 
-;; When folding, take these delimiters into consideration
-;; (add-to-list 'hs-special-modes-alist
-;;              '(ruby-mode
-;;                "\\(class\\|def\\|do\\|if\\)" "\\(end\\)" "#"
-;;                (lambda (arg) (ruby-end-of-block)) nil))
-
 (use-package ruby-mode
-  )
+  ;; :bind
+  ;; (:map
+   ;; ruby-mode-map
+   ;; ("C-M-x" . ruby-send-block)
+   ;; ("C-c C-c" . inf-ruby)
+   ;; )
+  :ensure-system-package
+  ((ruby-lint   . "sudo gem install ruby-lint")
+   ;; (ripper-tags . "gem install ripper-tags")
+   (pry         . "sudo gem install pry")))
+
+;; (use-package rubocop
+;;   :ensure-system-package
+;;   ((rubocop     . "sudo gem install rubocop"))
+;;   )
+
+;; (use-package solargraph
+;;
+;;   :ensure-system-package
+;;   (
+;;    (solargraph . "gem install solargraph")
+;;    ((expand-file-name "elisp/emacs-solargraph" user-emacs-directory)
+;;     . "git clone https://github.com/guskovd/emacs-solargraph")
+;;    )
+;;   )
 
 (use-package inf-ruby
-  ;; :disabled
-  :ensure t
-  :after ruby-mode
-  :bind
-  (:map
-   ruby-mode-map
-   ("C-M-x" . ruby-send-block)
-   )
-  :hook (ruby-mode . 'inf-ruby-keys)
+  ;; :after ruby-mode
+  ;; :hook (ruby-mode . 'inf-ruby-keys)
   ;;:config
 
   ;(define-key ruby-mode-map [S-f7] 'ruby-compilation-this-buffer)
@@ -38,15 +49,14 @@
   )
 
 (use-package ruby-electric
-  :hook (
-         ( ruby-mode . (lambda () (ruby-electric-mode t)))
-         )
+  :hook (( ruby-mode . (lambda () (ruby-electric-mode t))))
   )
 
 (use-package robe
-	:ensure t
-	:after (company ruby-mode)
-	:hook (ruby-mode . robe-mode)
-	:config
-    (push 'company-robe company-backends)
-    )
+  :disabled
+  :ensure t
+  :after (company ruby-mode)
+  :hook (ruby-mode . robe-mode)
+  :config
+  (push 'company-robe company-backends)
+  )

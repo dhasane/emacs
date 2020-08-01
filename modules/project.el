@@ -105,3 +105,13 @@
   :config
   (global-origami-mode)
   )
+
+(global-set-key (kbd "<f5>")
+                (lambda ()
+                  (interactive)
+                  (setq-local compilation-read-command nil)
+                  (call-interactively 'compile)))
+
+(setq gdb-many-windows t ;; use gdb-many-windows by default
+      gdb-show-main t    ;; Non-nil means display source file containing the main routine at startup
+ )
