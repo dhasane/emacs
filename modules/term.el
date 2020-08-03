@@ -2,12 +2,6 @@
 
 ;;; Code:
 
-
-;;(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
-;;(use-package aweshell
-	;;:load-path "~/.emacs.d/elisp/aweshell"
-	;;)
-
 (use-package keychain-environment
   :hook (tramp-mode . keychain-refresh-environment)
   )
@@ -50,15 +44,13 @@
                     )
               )
             )
-  ;;:bind
-  ;;(
-   ;;;;eshell-mode-map
-   ;;;;("C-d" . (lambda ()
-			  ;;;;(interactive)
-			  ;;;;(throw 'eshell-terminal t) )
-	;;;;)
-   ;;)
   :config
+
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal eshell-mode-map (kbd "] ]") 'eshell-next-prompt)
+    (evil-define-key 'normal eshell-mode-map (kbd "[ [") 'eshell-previous-prompt)
+    ;; (evil-define-key 'normal eshell-mode-map (kbd "C-d") 'eshell/exit) ;; ni idea
+    )
 
   '(eshell-cannot-leave-input-list
 	'(beginning-of-line-text
@@ -107,26 +99,6 @@
 	  evil-backward-char
 	  left-char
 	  ))
-
-  '(eshell-rebind-keys-alist
-	'(([(control 97)]
-	   . eshell-bol)
-	  ([home]
-	   . eshell-bol)
-	  ([(control 100)]
-	   . eshell-delchar-or-maybe-eof)
-	  ([backspace]
-	   . eshell-delete-backward-char)
-	  ([delete]
-	   . eshell-delete-backward-char)
-	  ([(control 119)]
-	   . backward-kill-word)
-	  ([(control 117)]
-	   . eshell-kill-input))
-	;;((kbd "C-d")
-	;;. eshell-bad-command-tolerance))
-	)
-
 
   (setq eshell-kill-on-exit t)
   ;;(setq eshell-buffer-name (concat "*eshell*") (default-directory) )

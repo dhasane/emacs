@@ -80,6 +80,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
 (eval-when-compile (require 'use-package))
 (setq use-package-always-ensure t)
 (setq use-package-always-defer t)
@@ -98,10 +99,23 @@
 (defun load-config-module (config-directory filelist)
   "Cargar un archivo de configuracion a partir del FILELIST."
   (dolist (file filelist)
+    ;; (let config-file (expand-file-name
+    ;;                   (concat config-directory file)))
+    ;; (file-newer-than-file-p config-file "aug-20")
     (load (expand-file-name
            (concat config-directory file)))
-    (message "Loaded config file:%s" file)
+    ;; (message "Loaded config file:%s" file)
     ))
+
+(defun load-config-module-all (config-directory)
+  "Carga todos los archivos encontrados en config-directory."
+  (load-config-module config-directory
+                      (directory-files
+                       config-directory
+                       nil
+                       "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" ;; ignorar '.' y '..'
+                       ))
+    )
 
 ;; TODO: podria ser interesante hacer un paquete que cargue los
 ;; modulos, similar a use-package, pero mas simple

@@ -8,12 +8,24 @@
 (setq ruby-indent-tabs-mode nil)
 
 (use-package ruby-mode
-  ;; :bind
-  ;; (:map
-   ;; ruby-mode-map
-   ;; ("C-M-x" . ruby-send-block)
-   ;; ("C-c C-c" . inf-ruby)
-   ;; )
+  :bind
+  (:map
+   ruby-mode-map
+   ("C-M-x" . ruby-send-block)
+   ("C-c C-c" . inf-ruby)
+   )
+  ;; (with-eval-after-load 'evil
+  ;;   ;; (evil-define-key 'normal ruby-mode--mode-map (kbd "] ]") 'eshell-next-prompt)
+  ;;   ;; (evil-define-key 'normal eshell-mode-map (kbd "[ [") 'eshell-previous-prompt)
+  ;;   ;; (evil-define-key 'normal eshell-mode-map (kbd "C-d") 'eshell/exit) ;; ni idea
+  ;;   )
+
+  ;; (general-define-key
+  ;;  :states 'normal
+  ;;  :keymaps 'ruby-mode-map
+  ;;  ;; or xref equivalent
+  ;;  "g d" 'elisp-slime-nav-describe-elisp-thing-at-point)
+
   :ensure-system-package
   ((ruby-lint   . "sudo gem install ruby-lint")
    ;; (ripper-tags . "gem install ripper-tags")
@@ -53,7 +65,6 @@
   )
 
 (use-package robe
-  :disabled
   :ensure t
   :after (company ruby-mode)
   :hook (ruby-mode . robe-mode)

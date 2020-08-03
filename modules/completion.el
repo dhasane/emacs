@@ -258,22 +258,8 @@
 (defconst config-lang-dir (expand-file-name "modules/langs/" user-emacs-directory)
   "Directorio de modulos de configuracion.")
 
-(load-config-module
- config-lang-dir
- '(
-   "c-based"
-   "dart"
-   "java"
-   "python"
-   "ruby"
-   "rust"
-   "markdown.el"
-   "web.el"
-   "dart.el"
-   "lua.el"
-   "yaml.el"
-   )
- )
+;; cargar la configuracion de todos los lenguajes
+(load-config-module-all config-lang-dir)
 
 (use-package polymode
   :config

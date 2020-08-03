@@ -2,16 +2,30 @@
 Este archivo es para cualquier cosa interesante que encuentre en relacion al archivo
 de configuracion de emacs
 
+* recomendaciones para noobs
+  [[https://linuxhint.com/vim_vs_emacs/][buena comparacion entre vim y emacs]]
+  evil: cosas de vim
+  magit: git para emacs, es bastante genial
+  use-package: muy buena forma de organizar paquetes
+  lsp-mode: para analizar codigo, aunque suelen necesitar que se instale el servidor
+  evil-magit: teclas vim para magit
+  company: recomendacion de texto
+  company-quickhelp: mostrar la documentacion de lo que se esta mostrando
+  rainbow-delimiters: cambiar el color de los ([{}]) dependiendo de la profundidad de este 
+  which-key: mostrar las posibles teclas dependiendo de los comandos que haya
+  ivy: busquedas fuzzy
+  counsel: extension ivy
+  flycheck: mostrar errores en codigo
+  nyan-mode: nyan-mode
 
-[[https://linuxhint.com/vim_vs_emacs/][buena comparacion entre vim y emacs]]
-
-https://www.emacswiki.org/emacs/TabsAreEvil
-https://github.com/magit/transient
-https://ericjmritz.wordpress.com/2015/10/14/some-personal-hydras-for-gnu-emacs/
-https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
-https://www.masteringemacs.org/article/mastering-key-bindings-emacs
-http://tuhdo.github.io/c-ide.html#sec-2
-https://github.com/manateelazycat/emacs-application-framework
+* otros
+  https://www.emacswiki.org/emacs/TabsAreEvil
+  https://github.com/magit/transient
+  https://ericjmritz.wordpress.com/2015/10/14/some-personal-hydras-for-gnu-emacs/
+  https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
+  https://www.masteringemacs.org/article/mastering-key-bindings-emacs
+  http://tuhdo.github.io/c-ide.html#sec-2
+  https://github.com/manateelazycat/emacs-application-framework
 
 
 * DONE [[http://blog.huy.rocks/emacs-from-scratch.html#org5be8c19][emacs from scratch]]

@@ -115,3 +115,14 @@
 (setq gdb-many-windows t ;; use gdb-many-windows by default
       gdb-show-main t    ;; Non-nil means display source file containing the main routine at startup
  )
+
+(use-package undo-tree
+  :config
+  (setq undo-tree-show-minibuffer-help t
+        undo-tree-auto-save-history t
+        )
+  (global-undo-tree-mode)
+  )
+
+(use-package general
+  )
