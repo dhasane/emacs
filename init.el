@@ -104,33 +104,47 @@
 
 (defun load-config-module (config-directory filelist)
   "Cargar un archivo de configuracion a partir del FILELIST."
-  (dolist (file filelist)
-    ;; (let config-file (expand-file-name
-    ;;                   (concat config-directory file)))
-    ;; (file-newer-than-file-p config-file "aug-20")
-    (load (expand-file-name
-           (concat config-directory file)))
-    ;; (message "Loaded config file:%s" file)
-    ))
+  (if config-compile (byte-recompile-directory config-directory 0))
+  (dolist (file filelist) (load (concat config-directory file))))
 
+;; (defun load-config-module-all (compile config-directory)
+;;   "Carga todos los archivos encontrados en config-directory."
+;;   (if compile (byte-recompile-directory config-directory 0))
+;;  ;;  (dolist (file (file-expand-wildcards (concat config-directory "/*.el")))
+;;  ;;    (let ((comp-file (concat file "c")))
+;;  ;;      (if (file-exists-p comp-file)
+;;  ;;          (load comp-file)
+;;  ;;        (load file)))
+;;   (load-config-module compile
+;;                       config-directory
+;;                       (directory-files
+;;                        config-directory
+;;                        nil
+;;                        ;; "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" ;; ignorar '.' y '..'
+;;                        "\\.el$"
+;;                        )))
+
+;; originalmente sacado de https://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
 (defun load-config-module-all (config-directory)
-  "Carga todos los archivos encontrados en config-directory."
-  (load-config-module config-directory
-                      (directory-files
-                       config-directory
-                       nil
-                       "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" ;; ignorar '.' y '..'
-                       ))
-    )
+  "`load' all elisp libraries in directory DIR which are not already loaded."
+  (if config-compile (byte-recompile-directory config-directory 0))
+  ;; (let ((libraries-loaded (mapcar #'file-name-sans-extension
+  ;;                                 (delq nil (mapcar #'car load-history)))))
+  (let ((libraries-loaded '() ))
+    ;; (dolist (a libraries-loaded)
+    ;;     (message (concat "------ " a))
+    ;;   )
+	(dolist (file (directory-files config-directory t ".+\\.elc?$"))
+	  (let ((library (file-name-sans-extension file)))
+		(unless (member library libraries-loaded)
+		  (load library)
+		  (message library)
+		  (push library libraries-loaded))))
+	)
+  )
 
 ;; TODO: podria ser interesante hacer un paquete que cargue los
 ;; modulos, similar a use-package, pero mas simple
-;; - cargue un archivo
-;; - evite que se propaguen errores
-;; - tambien algo que podria ser interesante es que mida el tiempo que
-;; toma cargar cada uno de los archivos
-;; - se podria poner algo para que haga byte-compile a ciertos
-;; archivos
 ;;(cl-defstruct config-file
   ;;name
   ;;load
