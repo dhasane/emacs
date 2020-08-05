@@ -255,12 +255,6 @@
 ;; TODO: mirar como funciona lo de dap-mode
 ;; (use-package dap-java :after (lsp-java))
 
-(defconst config-lang-dir (expand-file-name "modules/langs/" user-emacs-directory)
-  "Directorio de modulos de configuracion.")
-
-;; cargar la configuracion de todos los lenguajes
-(load-config-module-all config-lang-dir)
-
 (use-package polymode
   :config
   (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))

@@ -274,3 +274,22 @@ xref-find-definition-other-window
 (with-eval-after-load 'evil-maps
   )
 ;; finich jiji
+
+    ;; (let ((conf-file (expand-file-name
+    ;;                  (concat config-directory file)) ))
+      ;; (when (equal compile t)
+      ;;                        ;; (file-newer-than-file-p config-file (concat conf-file "c"))
+      ;;   (message "comp")
+      ;;   (byte-compile-file conf-file)
+      ;;      )
+      ;; (when (equal compile t)
+      ;;
+      ;; 	(if (not (file-exists-p conf-file))
+      ;; 	    (byte-compile-file conf-file)
+      ;; 	  (when (file-newer-than-file-p (concat conf-file ".el") (concat conf-file ".elc"))
+      ;; 	      (byte-compile-file conf-file)
+      ;; 	    )
+      ;; 	  )
+      ;;   )
+
+    ;; (message "Loaded config file:%s" file)

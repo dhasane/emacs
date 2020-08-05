@@ -3,20 +3,12 @@
 ;;; Code:
 
 (use-package keychain-environment
-  :hook (tramp-mode . keychain-refresh-environment)
+  ;; :hook (tramp-mode . keychain-refresh-environment)
+  :config
+  (add-hook 'tramp-mode-hook 'keychain-refresh-environment)
+
   )
 
-(defun check-gitconfig-create ()
-  (interactive)
-  (shell-command
-   "[ ! -f ~/.gitconfig ] && echo '
-[user]
-	email = danihas@live.com
-	name = dhasane
-' > ~/.gitconfig"
-   ;;(magit-status)
-   )
-  )
 
 (defun eshell-new()
   "Open a new instance of eshell."
@@ -24,6 +16,16 @@
   (eshell 'N))
 
 (use-package eshell
+  :defines
+  (
+   eshell
+   eshell-visual-commands
+   eshell-mode-map
+   )
+  :functions
+  (
+   eshell-kill-on-exit
+   )
   :init
 
   (add-hook 'eshell-mode-hook
@@ -45,6 +47,19 @@
               )
             )
   :config
+
+
+  (defun check-gitconfig-create ()
+    (interactive)
+    (shell-command
+     "[ ! -f ~/.gitconfig ] && echo '
+[user]
+    email = danihas@live.com
+    name = dhasane
+' > ~/.gitconfig"
+     ;;(magit-status)
+     )
+    )
 
   (with-eval-after-load 'evil
     (evil-define-key 'normal eshell-mode-map (kbd "] ]") 'eshell-next-prompt)
@@ -185,3 +200,14 @@
     ;;(my-async-funcall #'add-my-kill-on-exit-sentinel (current-buffer))))
 ;;
 ;;(add-hook 'comint-mode-hook #'kill-on-exit-comint-hook)
+
+(use-package comint
+  :config
+  (comint-buffer-maximum-size 20000 "Increase comint buffer size.")
+  (comint-prompt-read-only t "Make the prompt read only.")
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal eshell-mode-map (kbd "] ]") 'comint-next-prompt)
+    (evil-define-key 'normal eshell-mode-map (kbd "[ [") 'comint-previous-prompt)
+    ;; (evil-define-key 'normal eshell-mode-map (kbd "C-d") 'eshell/exit) ;; ni idea
+    )
+  )

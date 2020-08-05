@@ -96,6 +96,12 @@
 (defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
   "Directorio de modulos de configuracion.")
 
+(defconst config-lang-dir (expand-file-name "modules/langs/" user-emacs-directory)
+  "Directorio de modulos de configuracion para lenguajes.")
+
+(defconst config-compile t
+  "Compilar archivos de configuracion.")
+
 (defun load-config-module (config-directory filelist)
   "Cargar un archivo de configuracion a partir del FILELIST."
   (dolist (file filelist)
@@ -138,6 +144,7 @@
    config-module-dir
    '(
      "basic"
+     "general"
      "funciones"
      "decoration"
      "tabs"
@@ -154,6 +161,9 @@
      )
    ;; "fira-code"
    )
+
+  ;; cargar la configuracion de todos los lenguajes
+  (load-config-module-all config-lang-dir)
   )
 (load-config)
 
