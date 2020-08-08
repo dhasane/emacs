@@ -187,8 +187,11 @@
   (which-key-mode)
   )
 
-(pdf-tools-install)
-(pdf-loader-install)
+(use-package pdf-tools
+  :config
+  (pdf-tools-install)
+  (pdf-loader-install)
+  )
 
 ;; para simplificar
 (defun gbind (key function)
