@@ -3,12 +3,14 @@
 ;; eliminar espacios al final de una linea
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (use-package ws-butler
+  :demand t
   :ensure t
   :defer .1
   :hook ((prog-mode . ws-butler-mode))
   )
 
 (use-package midnight
+  :demand t
   :config
   (midnight-delay-set 'midnight-delay "5:30am")
   (setq clean-buffer-list-delay-general 3)
@@ -40,6 +42,7 @@
 
 
 (use-package origami
+  :demand t
   :config
   (global-origami-mode)
   )
@@ -67,6 +70,7 @@
   :config
   (setq tramp-default-method "ssh")
   (setq tramp-terminal-type "tramp")
+  (setq tramp-verbose 6) ;; ver si tramp se alentiza por algo
   ;;(setq tramp-chunksize 500)
   )
 

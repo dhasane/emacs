@@ -44,6 +44,12 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
+(setq file-name-handler-alist nil)
+
+;; carpeta especifica para cada una de las versiones
+;; en caso de haber diferencias mayores
+;; (format "~/.emacs.d/elpa-%d" emacs-major-version)
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
@@ -54,15 +60,13 @@
  package-archives
  '(
    ("melpa"         . "https://melpa.org/packages/")
-   ("melpa-milkbox" . "http://melpa.milkbox.net/packages/")
    ("melpa-stable"  . "http://stable.melpa.org/packages/")
    ("elpa"          . "https://elpa.gnu.org/packages/")
    ("gnu"           . "http://elpa.gnu.org/packages/")
    )
  package-archive-priorities
  '(
-   ("melpa"         . 20)
-   ("melpa-milkbox" . 15)
+   ("melpa"         . 15)
    ("melpa-stable"  . 10)
    ("gnu"           . 5)
    ("elpa"          . 0)
@@ -99,13 +103,15 @@
 (defconst config-lang-dir (expand-file-name "modules/langs/" user-emacs-directory)
   "Directorio de modulos de configuracion para lenguajes.")
 
-(defconst config-compile t
+(defconst config-compile nil
   "Compilar archivos de configuracion.")
 
 (defun load-config-module (config-directory filelist)
   "Cargar un archivo de configuracion a partir del FILELIST."
   (if config-compile (byte-recompile-directory config-directory 0))
   (dolist (file filelist) (load (concat config-directory file))))
+
+;; (mapc 'load-file (file-expand-wildcards "~/elisp/*.el"))
 
 ;; (defun load-config-module-all (compile config-directory)
 ;;   "Carga todos los archivos encontrados en config-directory."
@@ -180,6 +186,8 @@
   (load-config-module-all config-lang-dir)
   )
 (load-config)
+
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (use-package which-key
   :ensure t

@@ -1,3 +1,5 @@
+alias gis git status
+alias open xdg-open $1
 alias clera clear
 alias mk make $*
 alias pip pip3 $*

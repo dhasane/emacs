@@ -53,6 +53,18 @@
    ;;("C-z" . undo-tree-undo )
    (","   .  #'hydra-leader/body )
    :map
+   evil-motion-state-map
+   ("j" . evil-next-visual-line)
+   ("k" . evil-previous-visual-line)
+   ("TAB" . evil-window-map )
+   ("TAB q" . #'close-except-last-window )
+   ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
+   ("C-l" . evil-window-right )
+   ("C-h" . evil-window-left )
+   ("C-k" . evil-window-up )
+   ("C-j" . evil-window-down )
+   (","   .  #'hydra-leader/body )
+   :map
    evil-insert-state-map
    ("C-s" . #'save-and-exit-evil )
    ("C-v" . 'evil-paste-before )
@@ -70,25 +82,31 @@
 
   (cl-loop for (mode . state) in
 		'(
-		  (inferior-emacs-lisp-mode . emacs)
-		  (nrepl-mode . insert)
-          (debugger-mode . normal)
+		  ;; insert
+		  (shell-mode . insert)
 		  (dashboard-mode . insert)
+		  (git-commit-mode . insert)
+		  (nrepl-mode . insert)
+
+		  ;; normal
+          (debugger-mode . normal)
 		  (pylookup-mode . normal)
           (inferior-python-mode . normal)
 		  (comint-mode . normal)
-		  (shell-mode . insert)
-		  (git-commit-mode . insert)
-		  (term-mode . emacs)
-		  (help-mode . normal)
-		  (grep-mode . normal)
-		  (bc-menu-mode . emacs)
-		  (rdictcc-buffer-mode . emacs)
 		  (dired-mode . normal)
 		  (wdired-mode . normal)
           (nrepl-mode . normal)
-          (package-menu-mode . normal)
-          (Custom-mode . normal)
+
+		  ;; motion
+		  (inferior-emacs-lisp-mode . motion)
+          (package-menu-mode . motion)
+		  (term-mode . motion)
+		  (help-mode . motion)
+		  (grep-mode . motion)
+          (special-mode . motion)
+		  (bc-menu-mode . motion)
+		  (rdictcc-buffer-mode . emacs)
+          (Custom-mode . motion)
           )
         do (evil-set-initial-state mode state))
 
