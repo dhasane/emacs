@@ -26,6 +26,9 @@ de configuracion de emacs
   https://www.masteringemacs.org/article/mastering-key-bindings-emacs
   http://tuhdo.github.io/c-ide.html#sec-2
   https://github.com/manateelazycat/emacs-application-framework
+  
+* mejorar use-package
+  https://jwiegley.github.io/use-package/keywords/
 
 * hooks 
   https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Hooks.html

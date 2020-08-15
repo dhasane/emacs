@@ -98,6 +98,7 @@
           (nrepl-mode . normal)
 
 		  ;; motion
+          (debugger-mode . motion)
 		  (inferior-emacs-lisp-mode . motion)
           (package-menu-mode . motion)
 		  (term-mode . motion)
@@ -136,6 +137,17 @@
   (define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit )
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
   )
+
+(use-package evil-leader
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+	"e" 'find-file
+	"b" 'switch-to-buffer
+	"k" 'kill-buffer)
+  )
+
 
 (use-package evil-surround
   :ensure t

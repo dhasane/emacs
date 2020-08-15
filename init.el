@@ -88,7 +88,7 @@
 (eval-when-compile (require 'use-package))
 (setq use-package-always-ensure t)
 (setq use-package-always-defer t)
-(setq use-package-compute-statistics nil) ;; t para verificar tiempos de carga
+(setq use-package-compute-statistics t) ;; t para verificar tiempos de carga
 (use-package use-package-ensure-system-package)
 
 (use-package benchmark-init
@@ -130,6 +130,9 @@
 ;;                        "\\.el$"
 ;;                        )))
 
+;; algo que podria servir para ampliar:
+;; - https://www.emacswiki.org/emacs/LoadPath
+;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/File-Name-Components.html
 ;; originalmente sacado de https://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
 (defun load-config-module-all (config-directory)
   "`load' all elisp libraries in directory DIR which are not already loaded."
@@ -144,10 +147,8 @@
 	  (let ((library (file-name-sans-extension file)))
 		(unless (member library libraries-loaded)
 		  (load library)
-		  (message library)
-		  (push library libraries-loaded))))
-	)
-  )
+		  ;;(message library)
+		  (push library libraries-loaded))))))
 
 ;; TODO: podria ser interesante hacer un paquete que cargue los
 ;; modulos, similar a use-package, pero mas simple
@@ -250,7 +251,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
           (interactive)
           (if (projectile-project-p)
               (projectile-find-file)
-            (ivy-switch-buffer)
+            (ivy-switch-buffer) ;; TODO: tal vez seria mejor mostrar los archivos en el folder actual
             )
           )  "jet pack" )
   ( "s" swiper "swiper" )
@@ -263,7 +264,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "j" projectile-next-project-buffer "next" )
   ( "k" projectile-previous-project-buffer "next" )
 
-  ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) "execute macro" )
+  ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) "execute macro" )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
   ( "rn" lsp-rename "rename")
@@ -272,9 +273,10 @@ _re_: edit     |   _j_: previous    |   _o_: org
 
 ;; final ------------------------------------------------------
 
+(put 'narrow-to-region 'disabled nil)
+
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 
 (provide 'init)
 ;;; init.el ends here
-(put 'narrow-to-region 'disabled nil)

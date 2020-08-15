@@ -56,6 +56,7 @@
   )
 
 (use-package general
+  :demand t
   )
 
 (use-package auto-async-byte-compile

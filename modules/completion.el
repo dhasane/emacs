@@ -238,6 +238,12 @@
   :commands lsp-treemacs-errors-list
   )
 
+(use-package poly-org
+  :hook (org-mode . poly-org-mode)
+  ;; :config
+  ;; (add-to-list 'auto-mode-alist '("\\.org" . poly-org))
+  )
+
 (use-package yasnippet
   :ensure t
   :defer .1
