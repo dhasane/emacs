@@ -44,6 +44,12 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
+(setq file-name-handler-alist nil)
+
+;; carpeta especifica para cada una de las versiones
+;; en caso de haber diferencias mayores
+;; (format "~/.emacs.d/elpa-%d" emacs-major-version)
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
@@ -54,15 +60,13 @@
  package-archives
  '(
    ("melpa"         . "https://melpa.org/packages/")
-   ("melpa-milkbox" . "http://melpa.milkbox.net/packages/")
    ("melpa-stable"  . "http://stable.melpa.org/packages/")
    ("elpa"          . "https://elpa.gnu.org/packages/")
    ("gnu"           . "http://elpa.gnu.org/packages/")
    )
  package-archive-priorities
  '(
-   ("melpa"         . 20)
-   ("melpa-milkbox" . 15)
+   ("melpa"         . 15)
    ("melpa-stable"  . 10)
    ("gnu"           . 5)
    ("elpa"          . 0)
@@ -84,7 +88,7 @@
 (eval-when-compile (require 'use-package))
 (setq use-package-always-ensure t)
 (setq use-package-always-defer t)
-(setq use-package-compute-statistics nil) ;; t para verificar tiempos de carga
+(setq use-package-compute-statistics t) ;; t para verificar tiempos de carga
 (use-package use-package-ensure-system-package)
 
 (use-package benchmark-init
@@ -99,38 +103,55 @@
 (defconst config-lang-dir (expand-file-name "modules/langs/" user-emacs-directory)
   "Directorio de modulos de configuracion para lenguajes.")
 
-(defconst config-compile t
+(defconst config-compile nil
   "Compilar archivos de configuracion.")
 
 (defun load-config-module (config-directory filelist)
   "Cargar un archivo de configuracion a partir del FILELIST."
-  (dolist (file filelist)
-    ;; (let config-file (expand-file-name
-    ;;                   (concat config-directory file)))
-    ;; (file-newer-than-file-p config-file "aug-20")
-    (load (expand-file-name
-           (concat config-directory file)))
-    ;; (message "Loaded config file:%s" file)
-    ))
+  (if config-compile (byte-recompile-directory config-directory 0))
+  (dolist (file filelist) (load (concat config-directory file))))
 
+;; (mapc 'load-file (file-expand-wildcards "~/elisp/*.el"))
+
+;; (defun load-config-module-all (compile config-directory)
+;;   "Carga todos los archivos encontrados en config-directory."
+;;   (if compile (byte-recompile-directory config-directory 0))
+;;  ;;  (dolist (file (file-expand-wildcards (concat config-directory "/*.el")))
+;;  ;;    (let ((comp-file (concat file "c")))
+;;  ;;      (if (file-exists-p comp-file)
+;;  ;;          (load comp-file)
+;;  ;;        (load file)))
+;;   (load-config-module compile
+;;                       config-directory
+;;                       (directory-files
+;;                        config-directory
+;;                        nil
+;;                        ;; "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" ;; ignorar '.' y '..'
+;;                        "\\.el$"
+;;                        )))
+
+;; algo que podria servir para ampliar:
+;; - https://www.emacswiki.org/emacs/LoadPath
+;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/File-Name-Components.html
+;; originalmente sacado de https://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
 (defun load-config-module-all (config-directory)
-  "Carga todos los archivos encontrados en config-directory."
-  (load-config-module config-directory
-                      (directory-files
-                       config-directory
-                       nil
-                       "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" ;; ignorar '.' y '..'
-                       ))
-    )
+  "`load' all elisp libraries in directory DIR which are not already loaded."
+  (if config-compile (byte-recompile-directory config-directory 0))
+  ;; (let ((libraries-loaded (mapcar #'file-name-sans-extension
+  ;;                                 (delq nil (mapcar #'car load-history)))))
+  (let ((libraries-loaded '() ))
+    ;; (dolist (a libraries-loaded)
+    ;;     (message (concat "------ " a))
+    ;;   )
+	(dolist (file (directory-files config-directory t ".+\\.elc?$"))
+	  (let ((library (file-name-sans-extension file)))
+		(unless (member library libraries-loaded)
+		  (load library)
+		  ;;(message library)
+		  (push library libraries-loaded))))))
 
 ;; TODO: podria ser interesante hacer un paquete que cargue los
 ;; modulos, similar a use-package, pero mas simple
-;; - cargue un archivo
-;; - evite que se propaguen errores
-;; - tambien algo que podria ser interesante es que mida el tiempo que
-;; toma cargar cada uno de los archivos
-;; - se podria poner algo para que haga byte-compile a ciertos
-;; archivos
 ;;(cl-defstruct config-file
   ;;name
   ;;load
@@ -166,6 +187,8 @@
   (load-config-module-all config-lang-dir)
   )
 (load-config)
+
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (use-package which-key
   :ensure t
@@ -231,7 +254,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
           (interactive)
           (if (projectile-project-p)
               (projectile-find-file)
-            (ivy-switch-buffer)
+            (ivy-switch-buffer) ;; TODO: tal vez seria mejor mostrar los archivos en el folder actual
             )
           )  "jet pack" )
   ( "s" swiper "swiper" )
@@ -244,7 +267,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "j" projectile-next-project-buffer "next" )
   ( "k" projectile-previous-project-buffer "next" )
 
-  ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t) ) "execute macro" )
+  ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) "execute macro" )
   ( "m" (magit) "magit" )
   ( "o" (hydra-org/body) "org" )
   ( "rn" lsp-rename "rename")
@@ -253,9 +276,10 @@ _re_: edit     |   _j_: previous    |   _o_: org
 
 ;; final ------------------------------------------------------
 
+(put 'narrow-to-region 'disabled nil)
+
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 
 (provide 'init)
 ;;; init.el ends here
-(put 'narrow-to-region 'disabled nil)

@@ -6,7 +6,66 @@
 (use-package org
   :ensure t
   :defer .1
+  :after general
+  :general
+  (:keymap 'org-mode-map
+           "C-c c" (lambda ()
+                     (interactive)(org-insert-structure-template "src"))
+   )
+  :hook(
+		(org-mode .
+
+		 (lambda ()
+		   (progn
+			 (make-local-variable 'line-spacing)
+			 (make-local-variable 'left-margin-width)
+			 (make-local-variable 'right-margin-width)
+			 (setq line-spacing 0
+				   left-margin-width 2
+				   right-margin-width 2
+
+				   )
+			 ;; (set-window-buffer nil (current-buffer))
+			 )))
+        (org-mode-hook . visual-line-mode)
+
+		)
   :config
+
+  ;; (add-to-list 'org-structure-template-alist
+             ;; '("s" "#+NAME: ?\n#+BEGIN_SRC \n\n#+END_SRC"))
+
+
+
+  (custom-theme-set-faces
+   'user
+   '(org-block ((t (:inherit fixed-pitch))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-document-info ((t (:foreground "dark orange"))))
+   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+   '(org-link ((t (:foreground "royal blue" :underline t))))
+   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-property-value ((t (:inherit fixed-pitch))) t)
+   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+
+  (setq org-startup-indented t
+        org-src-tab-acts-natively t
+		;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+		org-ellipsis "  " ;; folding symbol
+		org-pretty-entities t
+		org-hide-emphasis-markers t
+		;; show actually italicized text instead of /italicized text/
+		org-agenda-block-separator ""
+		org-fontify-whole-heading-line t
+		org-fontify-done-headline t
+		org-fontify-quote-and-verse-blocks t
+		)
+
+
   (setq org-log-done t)
 
   (setq org-agenda-files '("~/org"))
@@ -17,16 +76,32 @@
           ;; "~/org/home.org"
           ;; )
         ;; )
+
+  (font-lock-add-keywords
+   'org-mode
+   '(("^ +\\([-*]\\) "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  ;; :custom-face
+  ;; (org-level-8 ((t (,@headline ,@variable-tuple))))
+  ;; (org-level-7 ((t (,@headline ,@variable-tuple))))
+  ;; (org-level-6 ((t (,@headline ,@variable-tuple))))
+  ;; (org-level-5 ((t (,@headline ,@variable-tuple))))
+  ;; (org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+  ;; (org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+  ;; (org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+  ;; (org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+  ;; (org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))
   )
 
 (use-package evil-org
   :ensure t
-  :after org evil
+  :after (org evil)
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
+			(lambda ()
+			  (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 
@@ -36,6 +111,21 @@
 ;; (setf evil-org-key-theme '(navigation insert textobjects additional))
 (setf org-special-ctrl-a/e t)
 ;; (evil-org-agenda-set-keys)
+
+;; (use-package org-bullets
+;;   ;; :after (org-mode)
+;;   ;; :hook ((org-mode . (lambda () (org-bullets-mode 1))))
+;;   :hook org-mode
+;;   :config
+;;   (org-bullets-mode)
+;;   )
+(use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
+
+;; (use-package org-bullets
+;;   :ensure t
+;;   :commands org-bullets-mode
+;;   :hook (org-mode . org-bullets-mode))
 
 (add-hook 'org-mode-hook
           (lambda ()

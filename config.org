@@ -26,7 +26,12 @@ de configuracion de emacs
   https://www.masteringemacs.org/article/mastering-key-bindings-emacs
   http://tuhdo.github.io/c-ide.html#sec-2
   https://github.com/manateelazycat/emacs-application-framework
+  
+* mejorar use-package
+  https://jwiegley.github.io/use-package/keywords/
 
+* hooks 
+  https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Hooks.html
 
 * DONE [[http://blog.huy.rocks/emacs-from-scratch.html#org5be8c19][emacs from scratch]]
   CLOSED: [2020-06-01 lun 15:21]
@@ -107,12 +112,32 @@ de configuracion de emacs
   https://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html
 
   
+* TODO scss mode 
+  https://github.com/antonj/scss-mode/
+
+* TODO javascript
+  https://www.emacswiki.org/emacs/FlymakeJavaScript
+
+* TODO polymode 
+  https://polymode.github.io/defining-polymodes/
+  https://polymode.github.io/installation/
+  
 * TODO para armar un paquete de elisp
   https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
   http://ergoemacs.org/emacs/elisp_printing.html
   https://www.gnu.org/software/emacs/manual/html_node/elisp/Speed-of-Byte_002dCode.html#Speed-of-Byte_002dCode
   https://www.gnu.org/software/emacs/manual/html_node/elisp/Compilation-Functions.html#Compilation-Functions
+  https://www.gnu.org/software/emacs/manual/html_mono/eieio.html
+  https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
 
+  
+* TODO Comint 
+  https://masteringemacs.org/article/comint-writing-command-interpreter
+
+* C++
+  https://oremacs.com/2017/03/28/emacs-cpp-ide/
 
 * TODO interesante para noobs
   https://seagle0128.github.io/.emacs.d/
+
+  

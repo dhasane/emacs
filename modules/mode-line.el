@@ -16,7 +16,7 @@
                           ((evil-visual-state-p) '("#e77171" . "#3e4249"))
 
                           ;; "#209070"
-                          ((evil-motion-state-p) '("#501099" . "#3e4249"))
+                          ((evil-motion-state-p) '("#501099" . "#ffffff"))
 
                           ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
                           ((buffer-modified-p)   '("#006fa0" . "#ffffff"))

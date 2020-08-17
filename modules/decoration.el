@@ -105,6 +105,8 @@
   )
 
 (use-package rainbow-mode
+  :demand t
+  ;; :config
   :hook (css-mode . rainbow-mode)
   )
 
