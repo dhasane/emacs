@@ -29,12 +29,12 @@
 (defun reload-emacs-config ()
   "Reload your init.el file without restarting Emacs."
   (interactive)
-  (load-file "~/.emacs.d/init.el") )
+  (load-file (concat user-emacs-directory "init.el")))
 
 (defun open-emacs-config ()
   "Open your init.el file."
   (interactive)
-  (find-file "~/.emacs.d/init.el") )
+  (find-file (concat user-emacs-directory "init.el")))
 
 (defun prelude-google ()
   "Googles a query or region if any."

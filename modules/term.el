@@ -201,13 +201,13 @@
 ;;
 ;;(add-hook 'comint-mode-hook #'kill-on-exit-comint-hook)
 
-(use-package comint
-  :config
-  (comint-buffer-maximum-size 20000 "Increase comint buffer size.")
-  (comint-prompt-read-only t "Make the prompt read only.")
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal eshell-mode-map (kbd "] ]") 'comint-next-prompt)
-    (evil-define-key 'normal eshell-mode-map (kbd "[ [") 'comint-previous-prompt)
-    ;; (evil-define-key 'normal eshell-mode-map (kbd "C-d") 'eshell/exit) ;; ni idea
-    )
-  )
+;; (use-package comint
+;;   :config
+;;   (comint-buffer-maximum-size 20000 "Increase comint buffer size.")
+;;   (comint-prompt-read-only t "Make the prompt read only.")
+;;   (with-eval-after-load 'evil
+;;     (evil-define-key 'normal eshell-mode-map (kbd "] ]") 'comint-next-prompt)
+;;     (evil-define-key 'normal eshell-mode-map (kbd "[ [") 'comint-previous-prompt)
+;;     ;; (evil-define-key 'normal eshell-mode-map (kbd "C-d") 'eshell/exit) ;; ni idea
+;;     )
+;;   )
