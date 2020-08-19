@@ -139,6 +139,7 @@
   )
 
 (use-package evil-leader
+  :demand t
   :config
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")

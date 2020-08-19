@@ -2,43 +2,6 @@
 Este archivo es para cualquier cosa interesante que encuentre en relacion al archivo
 de configuracion de emacs
 
-* recomendaciones para noobs
-  [[https://linuxhint.com/vim_vs_emacs/][buena comparacion entre vim y emacs]]
-  evil: cosas de vim
-  magit: git para emacs, es bastante genial
-  use-package: muy buena forma de organizar paquetes
-  lsp-mode: para analizar codigo, aunque suelen necesitar que se instale el servidor
-  evil-magit: teclas vim para magit
-  company: recomendacion de texto
-  company-quickhelp: mostrar la documentacion de lo que se esta mostrando
-  rainbow-delimiters: cambiar el color de los ([{}]) dependiendo de la profundidad de este 
-  which-key: mostrar las posibles teclas dependiendo de los comandos que haya
-  ivy: busquedas fuzzy
-  counsel: extension ivy
-  flycheck: mostrar errores en codigo
-  nyan-mode: nyan-mode
-
-* otros
-  https://www.emacswiki.org/emacs/TabsAreEvil
-  https://github.com/magit/transient
-  https://ericjmritz.wordpress.com/2015/10/14/some-personal-hydras-for-gnu-emacs/
-  https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
-  https://www.masteringemacs.org/article/mastering-key-bindings-emacs
-  http://tuhdo.github.io/c-ide.html#sec-2
-  https://github.com/manateelazycat/emacs-application-framework
-  
-* mejorar use-package
-  https://jwiegley.github.io/use-package/keywords/
-
-* hooks 
-  https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Hooks.html
-
-* DONE [[http://blog.huy.rocks/emacs-from-scratch.html#org5be8c19][emacs from scratch]]
-  CLOSED: [2020-06-01 lun 15:21]
-  acabo de encontrar este tutorial, que se ve como interesante para crear una
-  configuracion desde 0.
-  ya tengo bastante hecho, pero a ver si encuentro algo interesante para agregar
-  
 * DONE [[https://emacs.stackexchange.com/questions/13286/how-can-i-stop-the-enter-key-from-triggering-a-completion-in-company-mode][enter para completar con company]]
   CLOSED: [2020-06-01 lun 15:21]
   ademas que creo que me gustaria probar con eshell, para que puede funcionar independiente al SO
@@ -53,23 +16,73 @@ de configuracion de emacs
   y creo que me falta configurarlo bien, ya que aun no funciona exactamente como 
   me gustaria
   
-* TODO [[https://stackoverflow.com/questions/740836/compiling-c-programs-with-emacs-on-windows][poner para que se haga la compilacion que suena interesante]]
-  
-* TODO rust analizer
-  [[https://www.reddit.com/r/rust/comments/ai881s/guide_to_the_rustanalyzer/]]
 
-
-* TODO Eshell
-  https://github.com/manateelazycat/aweshell
-  https://www.emacswiki.org/emacs/EshellCompletion
-  https://www.emacswiki.org/emacs/EshellFunctions
-  https://www.emacswiki.org/emacs/EshellMultipleEshellBuffers
   
-* TODO suena interesante 
+
+* interesante
+** recomendaciones para noobs
+  [[https://linuxhint.com/vim_vs_emacs/][buena comparacion entre vim y emacs]]
+  [[https://seagle0128.github.io/.emacs.d/][centaur emacs]]
+  evil: cosas de vim
+  magit: git para emacs, es bastante genial
+  use-package: muy buena forma de organizar paquetes
+  lsp-mode: para analizar codigo, aunque suelen necesitar que se instale el servidor
+  evil-magit: teclas vim para magit
+  company: recomendacion de texto
+  company-quickhelp: mostrar la documentacion de lo que se esta mostrando
+  rainbow-delimiters: cambiar el color de los ([{}]) dependiendo de la profundidad de este 
+  which-key: mostrar las posibles teclas dependiendo de los comandos que haya
+  ivy: busquedas fuzzy
+  counsel: extension ivy
+  flycheck: mostrar errores en codigo
+  nyan-mode: nyan-mode
+
+** hooks 
+  https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Hooks.html
+** para armar un paquete de elisp
+https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
+http://ergoemacs.org/emacs/elisp_printing.html
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Speed-of-Byte_002dCode.html#Speed-of-Byte_002dCode
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Compilation-Functions.html#Compilation-Functions
+https://www.gnu.org/software/emacs/manual/html_mono/eieio.html
+https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
+
+*** cargar archivos compilados
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Dynamic-Loading.html
+
+** gdb 
+https://sourceware.org/gdb/onlinedocs/gdb/Emacs.html
+* mejorar
+** minibuffer 
+https://www.emacswiki.org/emacs/MinibufferHistory
+** tramp 
+https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
+** use-package
+  https://jwiegley.github.io/use-package/keywords/
+
+** elpy 
+https://elpy.readthedocs.io/en/latest/concepts.html#virtual-envs
+** eshell
+https://www.emacswiki.org/emacs/EshellPrompt
+https://github.com/stanhe/pop-eshell
+https://www.emacswiki.org/emacs/EshellCompletion
+** ruby 
+https://github.com/dgutov/robe
+** c++
+https://tuhdo.github.io/c-ide.html
+
+* revisar 
+https://github.com/nex3/perspective-el
+* hacer eventualmente
+** yasnippet 
+https://www.emacswiki.org/emacs/Yasnippet
+** suena interesante 
   https://akrl.sdf.org/gccemacs.html
   https://hub.docker.com/r/andreacorallo/emacs-nativecomp
 
-* TODO cosas que podrian ser cheveres
+** compilacion
+[[https://stackoverflow.com/questions/740836/compiling-c-programs-with-emacs-on-windows][poner para que se haga la compilacion que suena interesante]]
+** cosas que podrian ser cheveres
   https://github.com/mpwang/perfect-margin
   https://elpa.gnu.org/packages/minimap.html
   https://with-emacs.com/posts/ui-hacks/keep-scrollin-scrollin-scrollin/
@@ -89,55 +102,75 @@ de configuracion de emacs
   
   https://lispcookbook.github.io/cl-cookbook/emacs-ide.html
   
-* TODO para ruby
-  https://github.com/dgutov/robe
-  https://emacs.stackexchange.com/questions/32907/emacs-robe-mode-for-ruby-why-does-it-need-to-start-the-server
-  https://github.com/dgutov/robe
-  https://www.emacswiki.org/emacs/init-ruby.el
-  https://crypt.codemancers.com/posts/2013-09-26-setting-up-emacs-as-development-environment-on-osx/
-  https://github.com/purcell/emacs.d/blob/master/lisp/init-ruby.el
-  https://www.reddit.com/r/emacs/comments/9xhqtz/ruby_development/
-  https://github.com/nonsequitur/inf-ruby
-  https://github.com/castwide/solargraph
-  https://emacs-lsp.github.io/lsp-mode/page/lsp-solargraph/
-  https://github.com/guskovd/emacs-solargraph
-  https://stackoverflow.com/questions/1282501/running-irb-in-emacs-via-run-ruby-echos-everything-i-type
-  https://stackoverflow.com/questions/5742237/run-ruby-from-emacs-buffer
-  https://stackoverflow.com/questions/20729873/recommendation-for-emacs-ruby-setup
+** para ruby
+https://github.com/dgutov/robe
+https://emacs.stackexchange.com/questions/32907/emacs-robe-mode-for-ruby-why-does-it-need-to-start-the-server
+https://github.com/dgutov/robe
+https://www.emacswiki.org/emacs/init-ruby.el
+https://crypt.codemancers.com/posts/2013-09-26-setting-up-emacs-as-development-environment-on-osx/
+https://github.com/purcell/emacs.d/blob/master/lisp/init-ruby.el
+https://www.reddit.com/r/emacs/comments/9xhqtz/ruby_development/
+https://github.com/nonsequitur/inf-ruby
+https://github.com/castwide/solargraph
+https://emacs-lsp.github.io/lsp-mode/page/lsp-solargraph/
+https://github.com/guskovd/emacs-solargraph
+https://stackoverflow.com/questions/1282501/running-irb-in-emacs-via-run-ruby-echos-everything-i-type
+https://stackoverflow.com/questions/5742237/run-ruby-from-emacs-buffer
+https://stackoverflow.com/questions/20729873/recommendation-for-emacs-ruby-setup
+** rust analizer
+  [[https://www.reddit.com/r/rust/comments/ai881s/guide_to_the_rustanalyzer/]]
 
-* TODO para python
+** otros
+  https://www.emacswiki.org/emacs/TabsAreEvil
+  https://github.com/magit/transient
+  https://ericjmritz.wordpress.com/2015/10/14/some-personal-hydras-for-gnu-emacs/
+  https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
+  https://www.masteringemacs.org/article/mastering-key-bindings-emacs
+  http://tuhdo.github.io/c-ide.html#sec-2
+  https://github.com/manateelazycat/emacs-application-framework
+** tal vez crear nuevo esqueletos para skeleton-mode
+https://www.emacswiki.org/emacs/SkeletonMode#XhtmlSkeleton
+** hercules - hydras automaticas
+https://gitlab.com/jjzmajic/hercules.el
+* revisar modos
+** Eshell
+https://github.com/manateelazycat/aweshell
+https://www.emacswiki.org/emacs/EshellCompletion
+https://www.emacswiki.org/emacs/EshellFunctions
+https://www.emacswiki.org/emacs/EshellMultipleEshellBuffers
+https://www.emacswiki.org/emacs/EshellAlias
+
+** C++
+  https://oremacs.com/2017/03/28/emacs-cpp-ide/
+
+** para python
   https://stackoverflow.com/questions/3734880/getting-pdb-in-emacs-to-use-python-process-from-current-virtualenv
 
-* TODO para ruby-on-rails
+** para ruby-on-rails
   https://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html
-
   
-* TODO scss mode 
+** scss mode 
   https://github.com/antonj/scss-mode/
 
-* TODO javascript
+** javascript
   https://www.emacswiki.org/emacs/FlymakeJavaScript
 
-* TODO polymode 
+** polymode 
   https://polymode.github.io/defining-polymodes/
   https://polymode.github.io/installation/
   
-* TODO para armar un paquete de elisp
-  https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
-  http://ergoemacs.org/emacs/elisp_printing.html
-  https://www.gnu.org/software/emacs/manual/html_node/elisp/Speed-of-Byte_002dCode.html#Speed-of-Byte_002dCode
-  https://www.gnu.org/software/emacs/manual/html_node/elisp/Compilation-Functions.html#Compilation-Functions
-  https://www.gnu.org/software/emacs/manual/html_mono/eieio.html
-  https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
-
-  
-* TODO Comint 
+** Comint 
   https://masteringemacs.org/article/comint-writing-command-interpreter
+** emmet-mode -> para web
+https://github.com/smihica/emmet-mode
 
-* C++
-  https://oremacs.com/2017/03/28/emacs-cpp-ide/
+* indentacion
+https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned
+https://www.emacswiki.org/emacs/IndentingLisp
 
-* TODO interesante para noobs
-  https://seagle0128.github.io/.emacs.d/
+https://www.emacswiki.org/emacs/SmartTabs#Retab
+https://www.emacswiki.org/emacs/IndentingC
 
-  
+http://ergoemacs.org/emacs/emacs_tabs_space_indentation_setup.html
+
+https://stackoverflow.com/questions/2249955/emacs-shift-tab-to-left-shift-the-block

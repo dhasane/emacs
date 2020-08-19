@@ -28,6 +28,7 @@
     )
 
 (use-package company
+  :demand t
   :ensure t
   :after (evil)
   ;;:hook (prog-mode . company-mode)
