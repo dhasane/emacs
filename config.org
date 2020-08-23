@@ -97,6 +97,8 @@ https://github.com/MaskRay/ccls/wiki/Customization
 https://www.emacswiki.org/emacs/Icicles
 ** terminal
 https://www.reddit.com/r/emacs/comments/88yzp4/better_way_to_run_terminals_in_emacs/
+** flycheck
+https://www.flycheck.org/en/latest/community/extensions.html#language-support
 * revisar 
 https://github.com/nex3/perspective-el
 https://github.com/hlissner/evil-snipe

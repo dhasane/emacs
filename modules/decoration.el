@@ -5,6 +5,13 @@
   :ensure t
   :demand t
   :init
+  ;; (setq dashboard-startup-banner 'logo)
+  ;; Value can be
+  ;; 'official which displays the official emacs logo
+  ;; 'logo which displays an alternative emacs logo
+  ;; 1, 2 or 3 which displays one of the text banners
+  ;; "path/to/your/image.png" which displays whatever image you would prefer
+
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   ;; (dashboard-modify-heading-icons '((recents . "file-text")

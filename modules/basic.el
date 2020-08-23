@@ -28,11 +28,10 @@
 (global-auto-revert-mode 1) ;; modificar el bufer, si este ha cambiado
 
 (setq lexical-binding t)
-;;
-;;;; mostrar los ultimos archivos modificados en menu-bar en files
-;;;; pero yo no uso lo barra :v
-;;;; (recentf-mode 1)
-;;
+
+;; mostrar los ultimos archivos modificados
+(recentf-mode 1)
+
 ;; remember cursor position
 (if (version< emacs-version "25.0")
     (progn
