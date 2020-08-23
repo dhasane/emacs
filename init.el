@@ -190,38 +190,11 @@
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-(use-package which-key
-  :ensure t
-  :demand t
-  :defer .1
-  :config
-  (which-key-setup-side-window-right-bottom)
-  ;; (setq which-key-max-description-length 27)
-  (setq which-key-unicode-correction 3)
-  (setq which-key-show-prefix 'left)
-  (setq which-key-side-window-max-width 0.33)
-  ;; (setq which-key-popup-type 'side-window)
-  ;; (setq which-key-popup-type 'frame)
-  ;; ;; max width of which-key frame: number of columns (an integer)
-  ;; (setq which-key-frame-max-width 60)
-  ;;
-  ;; ;; max height of which-key frame: number of lines (an integer)
-  ;; (setq which-key-frame-max-height 20)
-  (which-key-mode)
-  )
-
-(use-package pdf-tools
-  :config
-  (pdf-tools-install)
-  (pdf-loader-install)
-  )
-
 ;; para simplificar
 (defun gbind (key function)
   "Map FUNCTION to KEY globally."
   (global-set-key (kbd key) function) )
 
-(gbind "C-M-h" 'help-menu )
 (gbind "C-S-h" 'help-command )
 (gbind "C-_" 'comment-dwim) ;; TODO: poner esto a funcionar
 (gbind "C-S-s" 'save-all-buffers )

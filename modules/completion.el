@@ -172,6 +172,7 @@
 				)
 
 	(company-tng-configure-default)
+    (add-hook 'after-init-hook 'global-company-mode)
   ;; para probar company-box
   ;;(add-hook 'after-init-hook 'global-company-mode)
   )

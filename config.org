@@ -19,7 +19,19 @@ de configuracion de emacs
 
   
 
+* compilacion de cosas interesantes
+https://github.com/emacs-tw/awesome-emacs
+
+* themes para probar 
+https://www.reddit.com/r/unixporn/comments/947y8t/ocemacs_a_doom_theme_generator/
+https://terminal.sexy/#FxcXsqGRICAgvz80cH0iv3opYnqSdVB7dXl4sqGRQEBA_2xfuMpLx6VRlbnerX-on6WQ6NDD
+https://gitlab.com/valtrok/doom-theme-generator
+https://github.com/MetroWind/flucui-theme
+
 * interesante
+** compilar nativo
+https://masteringemacs.org/article/speed-up-emacs-libjansson-native-elisp-compilation
+http://ergoemacs.org/emacs/building_emacs_from_git_repository.html
 ** recomendaciones para noobs
   [[https://linuxhint.com/vim_vs_emacs/][buena comparacion entre vim y emacs]]
   [[https://seagle0128.github.io/.emacs.d/][centaur emacs]]
@@ -42,10 +54,17 @@ de configuracion de emacs
 ** para armar un paquete de elisp
 https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
 http://ergoemacs.org/emacs/elisp_printing.html
+https://www.emacswiki.org/emacs/DynamicBindingVsLexicalBinding
 https://www.gnu.org/software/emacs/manual/html_node/elisp/Speed-of-Byte_002dCode.html#Speed-of-Byte_002dCode
 https://www.gnu.org/software/emacs/manual/html_node/elisp/Compilation-Functions.html#Compilation-Functions
 https://www.gnu.org/software/emacs/manual/html_mono/eieio.html
 https://www.gnu.org/software/emacs/manual/html_node/cl/Structures.html
+https://www.masteringemacs.org/article/comint-writing-command-interpreter
+https://www.emacswiki.org/emacs/ComintMode
+https://www.gnu.org/software/emacs/manual/html_node/elisp/File-Attributes.html
+https://www.emacswiki.org/emacs/ListModification
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Dynamic-Loading.html#Dynamic-Loading
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Dynamic-Loading.html
 
 *** cargar archivos compilados
 https://www.gnu.org/software/emacs/manual/html_node/elisp/Dynamic-Loading.html
@@ -53,10 +72,12 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Dynamic-Loading.html
 ** gdb 
 https://sourceware.org/gdb/onlinedocs/gdb/Emacs.html
 * mejorar
+https://elpa.gnu.org/packages/bug-hunter.html
 ** minibuffer 
 https://www.emacswiki.org/emacs/MinibufferHistory
 ** tramp 
 https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
+https://www.emacswiki.org/emacs/TrampMode
 ** use-package
   https://jwiegley.github.io/use-package/keywords/
 
@@ -70,10 +91,23 @@ https://www.emacswiki.org/emacs/EshellCompletion
 https://github.com/dgutov/robe
 ** c++
 https://tuhdo.github.io/c-ide.html
-
+https://github.com/MaskRay/ccls/wiki/lsp-mode
+https://github.com/MaskRay/ccls/wiki/Customization
+** completion
+https://www.emacswiki.org/emacs/Icicles
+** terminal
+https://www.reddit.com/r/emacs/comments/88yzp4/better_way_to_run_terminals_in_emacs/
 * revisar 
 https://github.com/nex3/perspective-el
+https://github.com/hlissner/evil-snipe
+https://github.com/emacsorphanage/god-mode
+https://github.com/manateelazycat/nox
+https://github.com/tumashu/ivy-posframe
+https://github.com/emacs-lsp/lsp-ivy/
+https://github.com/killdash9/better-shell
 * hacer eventualmente
+** multiple-cursors
+https://github.com/magnars/multiple-cursors.el
 ** yasnippet 
 https://www.emacswiki.org/emacs/Yasnippet
 ** suena interesante 
@@ -132,6 +166,9 @@ https://stackoverflow.com/questions/20729873/recommendation-for-emacs-ruby-setup
 https://www.emacswiki.org/emacs/SkeletonMode#XhtmlSkeleton
 ** hercules - hydras automaticas
 https://gitlab.com/jjzmajic/hercules.el
+** general.el
+suena como una forma interesante de manejar todos los keybinds, pero me da pereza revisar
+https://github.com/noctuid/general.el#use-package-keywords
 * revisar modos
 ** Eshell
 https://github.com/manateelazycat/aweshell
@@ -174,3 +211,9 @@ https://www.emacswiki.org/emacs/IndentingC
 http://ergoemacs.org/emacs/emacs_tabs_space_indentation_setup.html
 
 https://stackoverflow.com/questions/2249955/emacs-shift-tab-to-left-shift-the-block
+
+https://www.emacswiki.org/emacs/NoTabs
+* gracioso probar
+
+https://github.com/stardiviner/emacs-rainbow-fart
+http://ergoemacs.org/emacs/emacs_in_tron.html
