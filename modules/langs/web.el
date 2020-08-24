@@ -27,6 +27,8 @@
 
 (use-package js2-mode
   :mode "\\.js\\'"
+  ;; en teoria esto es mejor como minor-mode desde emacs 27, pero como que me funciona mejor como principal
+  ;; :hook ((js-mode . js2-minor-mode))
   )
 
 ;; https://github.com/magnars/js2-refactor.el
@@ -81,3 +83,6 @@
 
 (use-package rjsx-mode
   :defer t)
+
+(use-package tern
+  )

@@ -16,7 +16,7 @@
                                 inf-ruby-buffer)))
       (ruby-send-buffer-and-go)
     (inf-ruby)
-      ))
+    ))
 
 (use-package enh-ruby-mode
   :bind

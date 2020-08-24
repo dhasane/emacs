@@ -27,7 +27,6 @@
    eshell-kill-on-exit
    )
   :init
-
   (add-hook 'eshell-mode-hook
             (lambda ()
               (mapc (lambda (vc)

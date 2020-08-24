@@ -97,16 +97,18 @@
 		  (wdired-mode . normal)
           (nrepl-mode . normal)
 
+		  ;; emacs
+		  (term-mode . emacs)
+		  (rdictcc-buffer-mode . emacs)
+
 		  ;; motion
           (debugger-mode . motion)
 		  (inferior-emacs-lisp-mode . motion)
           (package-menu-mode . motion)
-		  (term-mode . motion)
 		  (help-mode . motion)
 		  (grep-mode . motion)
           (special-mode . motion)
 		  (bc-menu-mode . motion)
-		  (rdictcc-buffer-mode . emacs)
           (Custom-mode . motion)
           )
         do (evil-set-initial-state mode state))
