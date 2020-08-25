@@ -100,93 +100,56 @@
 (defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
   "Directorio de modulos de configuracion.")
 
-(defconst config-lang-dir (expand-file-name "modules/langs/" user-emacs-directory)
+(defconst config-lang-dir (expand-file-name "langs/" user-emacs-directory)
   "Directorio de modulos de configuracion para lenguajes.")
 
-(defconst config-compile nil
-  "Compilar archivos de configuracion.")
+(defun simple-comp-load-folder (config-dir &optional comp archivos-ignorar)
+  "Busca los archivos en CONFIG-DIR con terminacion el o elc
+(dependiendo de COMP), ignorando en estos la lista ARCHIVOS-IGNORAR y
+los carga."
+  (if comp (byte-recompile-directory config-dir 0))
+  (let ((files-ignore
+         (mapcar (lambda (f)
+                   (concat config-dir f (if comp ".elc" ".el")))
+                 archivos-ignorar)))
 
-(defun load-config-module (config-directory filelist)
-  "Cargar un archivo de configuracion a partir del FILELIST."
-  (if config-compile (byte-recompile-directory config-directory 0))
-  (dolist (file filelist) (load (concat config-directory file))))
+    (dolist (ign files-ignore)
+      (message (concat "ignorando: " ign))
+      )
 
-;; (mapc 'load-file (file-expand-wildcards "~/elisp/*.el"))
-
-;; (defun load-config-module-all (compile config-directory)
-;;   "Carga todos los archivos encontrados en config-directory."
-;;   (if compile (byte-recompile-directory config-directory 0))
-;;  ;;  (dolist (file (file-expand-wildcards (concat config-directory "/*.el")))
-;;  ;;    (let ((comp-file (concat file "c")))
-;;  ;;      (if (file-exists-p comp-file)
-;;  ;;          (load comp-file)
-;;  ;;        (load file)))
-;;   (load-config-module compile
-;;                       config-directory
-;;                       (directory-files
-;;                        config-directory
-;;                        nil
-;;                        ;; "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" ;; ignorar '.' y '..'
-;;                        "\\.el$"
-;;                        )))
-
-;; algo que podria servir para ampliar:
-;; - https://www.emacswiki.org/emacs/LoadPath
-;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/File-Name-Components.html
-;; originalmente sacado de https://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
-(defun load-config-module-all (config-directory)
-  "`load' all elisp libraries in directory DIR which are not already loaded."
-  (if config-compile (byte-recompile-directory config-directory 0))
-  ;; (let ((libraries-loaded (mapcar #'file-name-sans-extension
-  ;;                                 (delq nil (mapcar #'car load-history)))))
-  (let ((libraries-loaded '() ))
-    ;; (dolist (a libraries-loaded)
-    ;;     (message (concat "------ " a))
-    ;;   )
-	(dolist (file (directory-files config-directory t ".+\\.elc?$"))
-	  (let ((library (file-name-sans-extension file)))
-		(unless (member library libraries-loaded)
-		  (load library)
-		  ;;(message library)
-		  (push library libraries-loaded))))))
-
-;; TODO: podria ser interesante hacer un paquete que cargue los
-;; modulos, similar a use-package, pero mas simple
-;;(cl-defstruct config-file
-  ;;name
-  ;;load
-  ;;)
-;;(load-config-file :name "basic" :load 1)
-
-(defun load-config ()
-  "Cargar los archivos de configuracion."
-  (interactive)
-  (load-config-module
-   config-module-dir
-   '(
-     "basic"
-     "general"
-     "funciones"
-     "decoration"
-     "tabs"
-     "term"
-     "git"
-     "evil"
-     "project"
-     "completion"
-     "ivy"
-     "mode-line"
-     "org-mode"
-     "minibuffer"
-     "hydras"
-     )
-   ;; "fira-code"
-   )
-
-  ;; cargar la configuracion de todos los lenguajes
-  (load-config-module-all config-lang-dir)
+    (dolist (file (directory-files config-dir t (if comp ".elc$" ".el$")))
+      (unless (member file files-ignore)
+        ;; (message file)
+        (load file)
+        )
+      )
+    )
   )
-(load-config)
+
+(defun auto-comp-init ()
+  "Auto compilar el archivo INIT."
+  ;; esta dando errores al comenzar desde el archivo compilado
+  (defun comp(file)
+    (message "compilando") ;; compilar
+    (byte-compile-file file)
+    )
+  (let ((init (concat user-emacs-directory "init.el"))
+        (compinit (concat user-emacs-directory "init.elc"))
+        )
+    (if (not (file-exists-p compinit))
+        (comp init)
+      (if (file-newer-than-file-p init compinit)
+          (comp init)
+        (message "all is gud") ;; al is gud
+        )
+      )
+    )
+  )
+;; (auto-comp-init)
+
+;; load config
+(simple-comp-load-folder config-module-dir t '("fira-code"))
+(simple-comp-load-folder config-lang-dir t)
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 

@@ -8,7 +8,6 @@
          (lambda () (require 'ccls) (lsp-deferred)))
   :config
   (setq ccls-code-lens-position 'end)
-  (setq lsp-prefer-flymake nil)
   (setq ccls-executable "~/.nix-profile/bin/ccls")
   (setq ccls-sem-highlight-method 'font-lock)
   ;; alternatively, (setq ccls-sem-highlight-method 'overlay)

@@ -273,7 +273,6 @@ xref-find-definition-other-window
                                         ; redefinir mappings de evil
 (with-eval-after-load 'evil-maps
   )
-;; finich jiji
 
     ;; (let ((conf-file (expand-file-name
     ;;                  (concat config-directory file)) ))
@@ -293,3 +292,102 @@ xref-find-definition-other-window
       ;;   )
 
     ;; (message "Loaded config file:%s" file)
+
+
+;; Para cargar archivos externos como parte de la configuracion
+
+;; (defun load-config-module-all (compile config-directory)
+;;   "Carga todos los archivos encontrados uno por uno en config-directory."
+;;   (if compile (byte-recompile-directory config-directory 0))
+;;  ;;  (dolist (file (file-expand-wildcards (concat config-directory "/*.el")))
+;;  ;;    (let ((comp-file (concat file "c")))
+;;  ;;      (if (file-exists-p comp-file)
+;;  ;;          (load comp-file)
+;;  ;;        (load file)))
+;;   (load-config-module compile
+;;                       config-directory
+;;                       (directory-files
+;;                        config-directory
+;;                        nil
+;;                        ;; "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" ;; ignorar '.' y '..'
+;;                        "\\.el$"
+;;                        )))
+
+(defun load-comp-config-module-folder (config-directory &optional config-comp archivos-ignorar)
+  (if config-comp (byte-recompile-directory config-directory 0))
+  (let ((libraries-loaded '() )
+        (libraries-ignore (mapcar (lambda (f) (concat config-directory f)) archivos-ignorar))
+        )
+    (dolist (ign libraries-ignore)
+      (push ign libraries-loaded)
+      (message (concat "ignorado :  " ign )))
+    (dolist (file (directory-files config-directory t ".+\\.elc$"))
+      (let ((library (file-name-sans-extension file)))
+        (unless (member library libraries-loaded)
+          ;;(load library)
+          (message library)
+          (push library libraries-loaded)
+          )))))
+
+;; algo que podria servir para ampliar:
+;; - https://www.emacswiki.org/emacs/LoadPath
+;; - https://www.gnu.org/software/emacs/manual/html_node/elisp/File-Name-Components.html
+;; originalmente sacado de https://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
+(defun load-config-module-all (config-directory &optional config-compile)
+  "`load' all elisp libraries in directory DIR which are not already loaded."
+  (if config-compile (byte-recompile-directory config-directory 0))
+  ;; (let ((libraries-loaded (mapcar #'file-name-sans-extension
+  ;;                                 (delq nil (mapcar #'car load-history)))))
+  (let ((libraries-loaded '() ))
+    ;; (dolist (a libraries-loaded)
+    ;;     (message (concat "------ " a))
+    ;;   )
+	(dolist (file (directory-files config-directory t ".+\\.elc?$"))
+	  (let ((library (file-name-sans-extension file)))
+		(unless (member library libraries-loaded)
+		  (load library)
+		  ;;(message library)
+		  (push library libraries-loaded))))))
+
+;; TODO: podria ser interesante hacer un paquete que cargue los
+;; modulos, similar a use-package, pero mas simple
+;;(cl-defstruct config-file
+  ;;name
+  ;;load
+  ;;)
+;;(load-config-file :name "basic" :load 1)
+
+(defun load-config ()
+  "Cargar los archivos de configuracion."
+  (interactive)
+  (load-config-module
+   config-module-dir
+   '(
+     "basic"
+     "general"
+     "funciones"
+     "decoration"
+     "tabs"
+     "term"
+     "git"
+     "evil"
+     "project"
+     "completion"
+     "ivy"
+     "mode-line"
+     "org-mode"
+     "minibuffer"
+     "hydras"
+     )
+   ;; "fira-code"
+   )
+
+  ;; cargar la configuracion de todos los lenguajes
+  (load-config-module-all config-lang-dir)
+  )
+
+
+(defun load-config-module (config-directory filelist &optional config-compile)
+  "Cargar un archivo de configuracion a partir del FILELIST."
+  (if config-compile (byte-recompile-directory config-directory 0))
+  (dolist (file filelist) (load (concat config-directory file))))
