@@ -22,10 +22,12 @@
   )
 
 (use-package flycheck
-    :ensure t
-    :config
-    (add-hook 'after-init-hook #'global-flycheck-mode)
-    )
+  :demand t
+  :after (evil)
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  )
 
 (use-package company
   :demand t
@@ -240,12 +242,6 @@
   :commands lsp-treemacs-errors-list
   )
 
-(use-package poly-org
-  :hook (org-mode . poly-org-mode)
-  ;; :config
-  ;; (add-to-list 'auto-mode-alist '("\\.org" . poly-org))
-  )
-
 (use-package yasnippet
   :ensure t
   :defer .1
@@ -268,4 +264,11 @@
   (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
   (setq polymode-prefix-key (kbd "C-c n"))
   (define-hostmode poly-python-hostmode :mode 'python-mode)
+  )
+
+(use-package poly-org
+  :after (polymode org)
+  :hook (org-mode . poly-org-mode)
+  ;; :config
+  ;; (add-to-list 'auto-mode-alist '("\\.org" . poly-org))
   )

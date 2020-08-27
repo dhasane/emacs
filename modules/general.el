@@ -81,10 +81,6 @@
   (global-undo-tree-mode)
   )
 
-(use-package general
-  :demand t
-  )
-
 (use-package auto-async-byte-compile
   :config
   (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)

@@ -90,18 +90,13 @@
 (setq use-package-always-defer t)
 (setq use-package-compute-statistics t) ;; t para verificar tiempos de carga
 (use-package use-package-ensure-system-package)
+(use-package general :demand t)
 
 (use-package benchmark-init
   :ensure t
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
-
-(defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
-  "Directorio de modulos de configuracion.")
-
-(defconst config-lang-dir (expand-file-name "langs/" user-emacs-directory)
-  "Directorio de modulos de configuracion para lenguajes.")
 
 (defun simple-comp-load-folder (config-dir &optional comp archivos-ignorar)
   "Busca los archivos en CONFIG-DIR con terminacion el o elc
@@ -146,6 +141,12 @@ los carga."
     )
   )
 ;; (auto-comp-init)
+
+(defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
+  "Directorio de modulos de configuracion.")
+
+(defconst config-lang-dir (expand-file-name "langs/" user-emacs-directory)
+  "Directorio de modulos de configuracion para lenguajes.")
 
 ;; load config
 (simple-comp-load-folder config-module-dir t '("fira-code"))

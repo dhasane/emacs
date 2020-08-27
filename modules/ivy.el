@@ -6,7 +6,10 @@
   :demand t
   :bind
   (:map ivy-mode-map
-        ("C-'" . ivy-avy))
+        ("C-'" . ivy-avy)
+        ("<C-up>" . 'previous-history-element)
+        ("<C-down>" . 'next-history-element)
+        )
   :config
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
