@@ -6,24 +6,22 @@
   :defer t
   :ensure t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (ruby-mode . lsp-deferred)
+         (prog-mode . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . lsp-lens-mode)
          )
   :config
-  (with-eval-after-load 'lsp-mode
-    ;; :project/:workspace/:file
-    (setq lsp-diagnostics-modeline-scope :project)
-    (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode))
+  ;; :project/:workspace/:file
+  (setq lsp-diagnostics-modeline-scope :project)
+  (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode)
   (lsp-diagnostics-modeline-mode t)
 
-  (add-hook 'lsp-mode-hook #'lsp-lens-mode)
-  ;;:commands lsp
+  ;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
   :commands (lsp lsp-deferred)
   )
 
 (use-package flycheck
   :demand t
-  :after (evil)
   :ensure t
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode)

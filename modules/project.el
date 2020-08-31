@@ -32,7 +32,14 @@
  )
 
 (use-package skeletor
-
+  :after (projectile)
+  :demand t
+  :bind
+  (
+   :map
+   projectile-mode-map
+   ("M-p n" . 'skeletor-create-project)
+   )
   :config
   (setq skeletor-project-directory "~/dev")
   )

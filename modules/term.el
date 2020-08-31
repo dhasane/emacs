@@ -78,23 +78,58 @@
               )
     )
 
+  (defun with-face (str &rest face-plist)
+    (propertize str 'face face-plist))
 
-  ;; (setq eshell-prompt-function
-  ;;       (lambda ()
-  ;;         (concat
-  ;;          (propertize "\n")
-  ;;          (propertize "┌─[" 'face `(:foreground "green"))
-  ;;          (propertize (user-login-name) 'face `(:foreground "red"))
-  ;;          (propertize "@" 'face `(:foreground "orange"))
-  ;;          (propertize (system-name) 'face `(:foreground "blue"))
-  ;;          ;; (propertize "]──[" 'face `(:foreground "green"))
-  ;;          ;; (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
-  ;;          (propertize "::" 'face `(:foreground "orange"))
-  ;;          (propertize (concat (eshell/pwd)) 'face `(:foreground "green"))
-  ;;          (propertize "\n")
-  ;;          (propertize "└─" 'face `(:foreground "green"))
-  ;;          (propertize (if (= (user-uid) 0) "# " "> ") )
-  ;;          )))
+  ;; (propertize "┌─[" 'face `(:foreground "green"))
+  ;; (propertize (user-login-name) 'face `(:foreground "red"))
+  ;; (propertize "]──[" 'face `(:foreground "green"))
+  ;; (propertize "└─" 'face `(:foreground "green"))
+
+  (defun dahas-eshell-prompt ()
+    (let (
+          (header-bg "#453060")
+          (grin "#b8bb26") ;; minibuffer-prompt
+          (blu "#83a598") ;; magit-hash
+          )
+      (concat
+       "\n"
+       (with-face user-login-name
+                  :weight 'bold
+                  :foreground grin
+                  :background header-bg)
+       (with-face "@"
+                  :foreground "orange"
+                  :background header-bg)
+       (with-face (system-name)
+                  :weight 'bold
+                  :foreground blu
+                  :background header-bg)
+       (with-face "::"
+                  :weight 'bold
+                  :foreground "orange"
+                  :background header-bg)
+       (with-face (concat (eshell/pwd) " ")
+                  :foreground grin
+                  :background header-bg)
+       (with-face (or
+                   (ignore-errors
+                     (format "(%s)"
+                             (vc-responsible-backend
+                              default-directory)))
+                   "")
+                  :background header-bg)
+       "\n"
+       (if (= (user-uid) 0)
+           (with-face " #" :foreground "red")
+         " $")
+       " "
+       )))
+
+  (setq eshell-prompt-function 'dahas-eshell-prompt
+        eshell-highlight-prompt t
+        comint-prompt-read-only t)
+
 
   ;; (mapcar (lambda (val)
   ;;           (push val 'eshell-cannot-leave-input-list))
@@ -115,8 +150,7 @@
 	"Clear the eshell buffer."
 	(let ((inhibit-read-only t))
 	  (erase-buffer)
-	  (eshell-send-input)))
-  ;;(eshell)
+      ))
   )
 
 (use-package eshell-z
@@ -154,3 +188,17 @@
           (lambda ()
             (local-set-key (kbd "C-<f7>") 'comint-jump-to-input-ring)
             ))
+
+;; proced (top)
+;; (defun proced-settings ()
+;;   (proced-toggle-auto-update))
+;;
+;; (add-hook 'proced-mode-hook 'proced-settings)
+
+(defun shell-command-on-buffer ()
+  "Asks for a command and executes it in inferior shell with current buffer
+as input."
+  (interactive)
+  (shell-command-on-region
+   (point-min) (point-max)
+   (read-shell-command "Shell command on buffer: ")))
