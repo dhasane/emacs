@@ -27,15 +27,13 @@
 				   )
 			 ;; (set-window-buffer nil (current-buffer))
 			 )))
-        (org-mode-hook . visual-line-mode)
+        (org-mode . visual-line-mode)
 
 		)
   :config
 
   ;; (add-to-list 'org-structure-template-alist
              ;; '("s" "#+NAME: ?\n#+BEGIN_SRC \n\n#+END_SRC"))
-
-
 
   (custom-theme-set-faces
    'user
@@ -69,13 +67,6 @@
   (setq org-log-done t)
 
   (setq org-agenda-files '("~/org"))
-  ;; (setq org-agenda-files
-        ;; '(
-          ;; "~/org/work.org"
-          ;; "~/org/school.org"
-          ;; "~/org/home.org"
-          ;; )
-        ;; )
 
   (font-lock-add-keywords
    'org-mode
@@ -112,20 +103,9 @@
 (setf org-special-ctrl-a/e t)
 ;; (evil-org-agenda-set-keys)
 
-;; (use-package org-bullets
-;;   ;; :after (org-mode)
-;;   ;; :hook ((org-mode . (lambda () (org-bullets-mode 1))))
-;;   :hook org-mode
-;;   :config
-;;   (org-bullets-mode)
-;;   )
 (use-package org-bullets
-    :hook (org-mode . org-bullets-mode))
-
-;; (use-package org-bullets
-;;   :ensure t
-;;   :commands org-bullets-mode
-;;   :hook (org-mode . org-bullets-mode))
+  ;; :commands org-bullets-mode
+  :hook (org-mode . org-bullets-mode))
 
 (add-hook 'org-mode-hook
           (lambda ()

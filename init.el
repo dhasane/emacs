@@ -98,21 +98,21 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
-(defun simple-comp-load-folder (config-dir &optional comp archivos-ignorar)
+(cl-defun simple-comp-load-folder (config-dir &key compile ignorar)
   "Busca los archivos en CONFIG-DIR con terminacion el o elc
-(dependiendo de COMP), ignorando en estos la lista ARCHIVOS-IGNORAR y
+(dependiendo de COMPILE), ignorando en estos la lista IGNORAR y
 los carga."
-  (if comp (byte-recompile-directory config-dir 0))
+  (if compile (byte-recompile-directory config-dir 0))
   (let ((files-ignore
          (mapcar (lambda (f)
-                   (concat config-dir f (if comp ".elc" ".el")))
-                 archivos-ignorar)))
+                   (concat config-dir f (if compile ".elc" ".el")))
+                 ignorar)))
 
     (dolist (ign files-ignore)
       (message (concat "ignorando: " ign))
       )
 
-    (dolist (file (directory-files config-dir t (if comp ".elc$" ".el$")))
+    (dolist (file (directory-files config-dir t (if compile ".elc$" ".el$")))
       (unless (member file files-ignore)
         ;; (message file)
         (load file)
@@ -149,8 +149,11 @@ los carga."
   "Directorio de modulos de configuracion para lenguajes.")
 
 ;; load config
-(simple-comp-load-folder config-module-dir t '("fira-code"))
-(simple-comp-load-folder config-lang-dir t)
+(simple-comp-load-folder config-module-dir
+                         :compile t
+                         :ignorar '("fira-code"))
+(simple-comp-load-folder config-lang-dir
+						 :compile t)
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 

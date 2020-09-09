@@ -40,51 +40,54 @@
   )
 
 ;; status line information
-(setq-default mode-line-format
- (list
-  mode-line-misc-info ; for eyebrowse
-  ;; '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-  ;; (setcdr (assq 'vc-mode mode-line-format)
-  ;; '((:eval (replace-regexp-in-string "^ Git" " " vc-mode))))
-  '(:eval (when-let (vc vc-mode)
-            (list
-             " "
-             (replace-regexp-in-string "^ Git:" "" vc-mode)
-             " "
-             ) ) )
-  '(:eval (list
-           " "
+(defun dahas-modeline ()
+  (setq-default mode-line-format
+                (list
+                 mode-line-misc-info ; for eyebrowse
+                 ;; '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+                 ;; (setcdr (assq 'vc-mode mode-line-format)
+                 ;; '((:eval (replace-regexp-in-string "^ Git" " " vc-mode))))
+                 '(:eval (when-let (vc vc-mode)
+                           (list
+                            " "
+                            (replace-regexp-in-string "^ Git:" "" vc-mode)
+                            " "
+                            ) ) )
+                 '(:eval (list
+                          " "
                                         ; en caso de ser archivo remoto
-           (when (file-remote-p default-directory) ":")
+                          (when (file-remote-p default-directory) ":")
                                         ; nombre del archivo
-           (propertize "%b" 'help-echo (buffer-file-name) )
+                          (propertize "%b" 'help-echo (buffer-file-name) )
                                         ; archivo modificado
-           (when (buffer-modified-p) " " );;" "
+                          (when (buffer-modified-p) " " );;" "
                                         ; read only
-           (when buffer-read-only " " )
-           " "
-           ) )
-  '(:eval (list (nyan-create)))
-  '(:eval (propertize
-           " " 'display
-           `(
-             (space :align-to
-                    (- (+ right right-fringe right-margin)
-                       ,(+
-                         3
-                         (string-width mode-name)
-                         3
-                         (string-width (get-project-name-except-if-remote))
-                         )
-                       )
-                    ) ) ) )
+                          (when buffer-read-only " " )
+                          " "
+                          ) )
+                 '(:eval (list (nyan-create)))
+                 '(:eval (propertize
+                          " " 'display
+                          `(
+                            (space :align-to
+                                   (- (+ right right-fringe right-margin)
+                                      ,(+
+                                        3
+                                        (string-width mode-name)
+                                        3
+                                        (string-width (get-project-name-except-if-remote))
+                                        )
+                                      )
+                                   ) ) ) )
 
-  ;; para mostrar el nombre del proyecto en el que se esta trabajando
-  '(:eval (propertize
-           (format "[%s] " (get-project-name-except-if-remote) ) ) )
+                 ;; para mostrar el nombre del proyecto en el que se esta trabajando
+                 '(:eval (propertize
+                          (format "[%s] " (get-project-name-except-if-remote) ) ) )
 
-  ;; the current major mode
-  (propertize " %m " )
+                 ;; the current major mode
+                 (propertize " %m " )
+                 )
+                )
   )
- )
 
+(dahas-modeline)

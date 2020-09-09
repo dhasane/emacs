@@ -19,19 +19,13 @@
     ))
 
 (use-package enh-ruby-mode
-  :bind
-  (:map
-   enh-ruby-mode-map
-   ("C-M-x" . ruby-send-block)
-   ;; ("C-c C-c" . inf-ruby)
-   ("C-c C-c" . #'ruby-send-buffer-or-create-inf-ruby-buffer)
+  :general
+  (
+   :keymaps '(ruby-mode-map enh-ruby-mode-map)
+            ;; :states '(normal insert)
+            "C-M-x" 'ruby-send-block
+            "C-c C-c" 'ruby-send-buffer-or-create-inf-ruby-buffer
    )
-
-  ;; (general-define-key
-  ;;  :states 'normal
-  ;;  :keymaps 'ruby-mode-map
-  ;;  ;; or xref equivalent
-  ;;  "g d" ')
 
   ;; :ensure-system-package
   ;; ((ruby-lint   . "gem install ruby-lint")
@@ -42,7 +36,7 @@
   :init
   (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
   (add-to-list 'auto-mode-alist
-             '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+               '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
   :config
   (add-hook 'enh-ruby-mode-hook 'robe-mode)
   (add-hook 'enh-ruby-mode-hook 'yard-mode)
@@ -78,7 +72,8 @@
   )
 
 (use-package ruby-electric
-  :hook (( ruby-mode . (lambda () (ruby-electric-mode t))))
+  :hook (( ruby-mode . ruby-electric-mode )
+         )
   )
 
 (use-package robe
