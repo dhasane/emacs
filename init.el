@@ -170,6 +170,16 @@ los carga."
 (gbind "C-c t" 'toggle-transparency)
 (gbind "C-x b" 'ivy-switch-buffer )
 
+(general-define-key
+ :prefix "<SPC>"
+ :states 'normal
+ ;; :keymaps 'comint-mode-map
+ "e" 'find-file
+ "b" 'switch-to-buffer
+ "k" 'kill-buffer
+ "w" 'evil-window-map
+ "t" 'hydra-tabs/body
+ )
 
 ;; the hydra to rule them all buahaha
 (defhydra hydra-leader (:color blue :idle 1.0 :hint nil)

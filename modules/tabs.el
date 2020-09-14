@@ -15,6 +15,10 @@
        ;; ("TAB q" . tab-bar-close-tab )
        ("g b" . tab-bar-switch-to-prev-tab )
        )
+      :custom-face
+      (tab-bar              ((t (:background "#282828" :foreground "#fdf4c2"))))
+      (tab-bar-tab          ((t (:background "#282828" :foreground "#fdf4c2"))))
+      (tab-bar-tab-inactive ((t (:background "#504945" :foreground "#fdf4c2"))))
       :custom
       (tab-bar-show 1)
       :init
@@ -24,14 +28,17 @@
       (setq tab-bar-show 1)
       (setq tab-bar-close-button-show nil)
       (setq tab-bar-tab-hints t)
+      (setq tab-bar-tab-name-truncated-max 1)
       :config
       ;; esto tal vez lo podria usar para cambiar tab-bar
       ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
       (defun set-name-if-in-project ()
-        (if (projectile-project-p)
-            (format "%s/%s" (projectile-project-name) (tab-bar-tab-name-current))
-          (format "%s" (tab-bar-tab-name-current))
-          )
+        (format "%s"
+         (if (projectile-project-p)
+             (format "[%s] - %s" (projectile-project-name) (tab-bar-tab-name-current))
+           (tab-bar-tab-name-current)
+           )
+         )
         )
       (setq tab-bar-tab-name-function 'set-name-if-in-project)
       ;; (setq tab-bar-tab-name-function 'tab-bar-tab-name-current)
@@ -44,7 +51,6 @@
       (defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
         "Tab management"
         ("c" tab-bar-new-tab-to "create" )
-        ("$" eyebrowse-rename-window-config "rename" )
         ("q" tab-bar-close-tab "quit" )
         ("l" tab-bar-switch-to-next-tab "left"); :color red)
         ("h" tab-bar-switch-to-prev-tab "right"); :color red)

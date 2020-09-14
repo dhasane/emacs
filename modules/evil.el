@@ -143,14 +143,15 @@
 (use-package evil-leader
   :demand t
   :config
-  (global-evil-leader-mode)
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-	"e" 'find-file
-	"b" 'switch-to-buffer
-	"k" 'kill-buffer
-    "w" 'evil-window-map
-    )
+  ;; (global-evil-leader-mode)
+  ;; (evil-leader/set-leader "<SPC>")
+  ;; (evil-leader/set-key
+  ;;   "e" 'find-file
+  ;;   "b" 'switch-to-buffer
+  ;;   "k" 'kill-buffer
+  ;;   "w" 'evil-window-map
+  ;;   "t" 'hydra-tabs/body
+  ;;   )
   )
 
 
