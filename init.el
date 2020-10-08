@@ -86,8 +86,8 @@
   (package-install 'use-package))
 
 (eval-when-compile (require 'use-package))
-(setq use-package-always-ensure t)
-(setq use-package-always-defer t)
+(setq use-package-always-ensure t) ;; siempre instalar lo que no se tenga
+(setq use-package-always-defer t) ;; siempre diferir el inicio de paquetes
 (setq use-package-compute-statistics t) ;; t para verificar tiempos de carga
 (use-package use-package-ensure-system-package)
 (use-package general :demand t)
@@ -179,6 +179,7 @@ los carga."
  "k" 'kill-buffer
  "w" 'evil-window-map
  "t" 'hydra-tabs/body
+ "s" 'evil-write
  )
 
 ;; the hydra to rule them all buahaha

@@ -2,8 +2,6 @@
 
 ;;; code:
 
-;; (eval-when-compile (require 'cl-lib))
-
 ;; change mode-line color by evil state
 ;; (let (default-color (cons (face-background 'mode-line)
                           ;; (face-foreground 'mode-line)))
@@ -45,8 +43,6 @@
                 (list
                  mode-line-misc-info ; for eyebrowse
                  ;; '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-                 ;; (setcdr (assq 'vc-mode mode-line-format)
-                 ;; '((:eval (replace-regexp-in-string "^ Git" " " vc-mode))))
                  '(:eval (when-let (vc vc-mode)
                            (list
                             " "

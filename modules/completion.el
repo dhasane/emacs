@@ -1,20 +1,48 @@
 
 ;; lsp -----------------------------------------------------
 ;;; code:
+(defcustom lsp-ignore-modes
+  '(
+    emacs-lisp
+    typescript-mode
+    )
+  "Modes to prevent Emacs from loading lsp-mode."
+  :type 'list
+  )
+
+(defun lsp-enable-mode ()
+  "Activar lsp solo si no es un modo a ignorar."
+  (unless (member major-mode lsp-ignore-modes)
+    (progn
+      (lsp-deferred)
+      (message "lsp activado")
+      )
+    (message "lsp no activado")
+    )
+  )
 
 (use-package lsp-mode
-  :defer t
   :ensure t
+  :demand t
+  ;; :init
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (prog-mode . lsp-deferred)
-         (lsp-mode . lsp-enable-which-key-integration)
-         (lsp-mode . lsp-lens-mode)
+         (prog-mode . #'lsp-enable-mode)
+         (lsp-mode  . lsp-enable-which-key-integration)
+         (lsp-mode  . lsp-lens-mode)
          )
+  ;; :general
+  ;; (
+  ;;  :keymap 'prog-mode
+  ;;  :states 'normal
+  ;;  ;; "K" #'lsp-ui-peek-find-definitions
+  ;;  )
   :config
   ;; :project/:workspace/:file
   (setq lsp-diagnostics-modeline-scope :project)
+  (setq lsp-ui-peek-enable t
+		lsp-enable-semantic-highlighting t
+		lsp-diagnostics-modeline-mode t)
   (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode)
-  (lsp-diagnostics-modeline-mode t)
 
   ;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
   :commands (lsp lsp-deferred)
@@ -28,6 +56,7 @@
   )
 
 (use-package company
+  ;; :disabled
   :demand t
   :ensure t
   :after (evil)
@@ -36,7 +65,9 @@
   (
    :map
    evil-insert-state-map
-   ("TAB" . #'dh/complete-in-context)
+   ;; ("TAB" . #'dh/complete-in-context)
+   ("TAB" . 'tab-indent-or-complete)
+   ;; ("TAB" . 'company-complete-common-or-cycle)
 
    :map
    company-active-map
@@ -54,7 +85,7 @@
   :custom
   ;;(company-begin-commands '(self-insert-command))
   ;;(company-show-numbers t)
-  (company-tooltip-align-annotations 't)
+  (company-tooltip-align-annotations t)
   (company-minimum-prefix-length 1) ; Show suggestions after entering one character.
   (company-selection-wrap-around t)
   (company-idle-delay nil) ; Delay in showing suggestions.
@@ -83,6 +114,8 @@
 
   (defun company-eshell-setup ()
     (when (boundp 'company-backends)
+      ;; (make-local-variable 'company-idle-delay)
+      ;; (company-idle-delay 0) ; Delay in showing suggestions.
       (make-local-variable 'company-backends)
       ;; remove
       (setq company-backends nil)
@@ -122,20 +155,20 @@
     (let ((yas-fallback-behavior 'return-nil))
       (yas-expand)))
 
-	(defun tab-indent-or-complete ()
-		(interactive)
-		(if (minibufferp)
-				(minibuffer-complete)
-			(if (or (not yas-minor-mode)
-							(null (do-yas-expand)))
-					(if (check-expansion)
-							(company-complete-common)
-						;;(indent-for-tab-command) ;; indentar correctamente
-						(tab-to-tab-stop) ;; agregar tabs
-						)
-				)
-			)
-		)
+  (defun tab-indent-or-complete ()
+    (interactive)
+    (if (minibufferp)
+        (minibuffer-complete)
+      (if (or (not yas-minor-mode)
+              (null (do-yas-expand)))
+          (if (check-expansion)
+              (company-complete-common)
+            ;;(indent-for-tab-command) ;; indentar correctamente
+            (tab-to-tab-stop) ;; agregar tabs
+            )
+        )
+      )
+    )
 
   ;;(setq company-frontends (delq 'company-pseudo-tooltip-frontend company-frontends))
 
@@ -182,11 +215,11 @@
 	;;)
 
 (use-package company-quickhelp
-	:ensure t
-	:after (company)
-	:init
-	(company-quickhelp-mode)
-	)
+  :ensure t
+  :after (company)
+  :init
+  (company-quickhelp-mode)
+  )
 
 ;; (use-package company-box
   ;; :ensure t
@@ -210,14 +243,16 @@
   :ensure t
   :after (lsp-mode evil)
   :commands lsp-ui-mode
-  :bind
-  (:map
-   evil-normal-state-map
-   ("K" . 'lsp-ui-doc-show )
+  :general
+  (
+   :keymap 'prog-mode
+   :states 'normal
+   ;; "K" #'lsp-ui-peek-find-definitions
+   "K" #'lsp-ui-doc-show
+   )
    ;; lsp-ui-mode-map
    ;; ("S-k" . #'lsp-ui-peek-find-definitions)
    ;; ("" . #'lsp-ui-peek-find-references)
-   )
   :config
   (lsp-ui-doc-mode nil)
   (lsp-ui-doc-hide)
@@ -250,23 +285,19 @@
 ;; optionally if you want to use debugger
 (use-package dap-mode
   :ensure t
-  :after (lsp-mode)
+  :after lsp-mode
   :config
   (dap-mode t)
+  (dap-auto-configure-mode)
   (dap-ui-mode t))
 ;; TODO: mirar como funciona lo de dap-mode
 ;; (use-package dap-java :after (lsp-java))
 
 (use-package polymode
+  :disabled
+  :mode ("\\.md\\'" "\\.org\\'" )
   :config
-  (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
-  (setq polymode-prefix-key (kbd "C-c n"))
-  (define-hostmode poly-python-hostmode :mode 'python-mode)
-  )
-
-(use-package poly-org
-  :after (polymode org)
-  :hook (org-mode . poly-org-mode)
-  ;; :config
-  ;; (add-to-list 'auto-mode-alist '("\\.org" . poly-org))
+  ;; (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+  ;; (setq polymode-prefix-key (kbd "C-c n"))
+  ;; (define-hostmode poly-python-hostmode :mode 'python-mode)
   )

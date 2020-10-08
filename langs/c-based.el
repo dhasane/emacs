@@ -114,3 +114,17 @@
 	;; :config
 	;; (add-to-list 'company-backends 'company-irony)
 	;; )
+
+(use-package csharp-mode
+  )
+
+(use-package omnisharp
+  :hook (csharp-mode . omnisharp-mode)
+  :config
+  (eval-after-load "company"
+    '(add-to-list 'company-backends 'company-omnisharp))
+  (omnisharp-start-omnisharp-server)
+
+  (shell-command
+   "export DOTNET_CLI_TELEMETRY_OPTOUT=1")
+  )

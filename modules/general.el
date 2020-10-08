@@ -1,5 +1,10 @@
 
 
+;;; Code:
+
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
 (use-package which-key
   :ensure t
   :demand t
@@ -66,6 +71,14 @@
                  )))
   )
 
+(use-package highlight-indentation
+  :config
+  ;; (set-face-background 'highlight-indentation-face "lightgray")
+  ;; (set-face-background 'highlight-indentation-current-column-face "#c334b3")
+  )
+
+;; (use-package rainbow-blocks
+  ;; )
 
 (use-package origami
   :demand t

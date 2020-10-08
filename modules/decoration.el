@@ -1,6 +1,9 @@
 
 ;;; Code:
 
+(setq-default indicate-empty-lines t)
+;; (setq indicate-buffer-boundaries t)
+
 (use-package dashboard
   :ensure t
   :demand t
@@ -113,12 +116,28 @@
 
 (use-package rainbow-mode
   :demand t
-  ;; :config
-  :hook (css-mode . rainbow-mode)
+  :hook (
+         ;; (css-mode . rainbow-mode)
+         (prog-mode . rainbow-mode)
+         )
   )
 
 (use-package display-line-numbers
   :disabled
+  :hook (
+         (prog-mode . display-line-numbers)
+         )
+  :init
+  (defun relative-line-numbers ()
+    (interactive)
+    (setq-local display-line-numbers 'visual)
+    )
+
+  (defun absolute-line-numbers ()
+    (interactive)
+    (setq-local display-line-numbers t)
+    )
+
   :config
   (setq display-line-numbers-type 'relative)
   ;;(setq-default
@@ -127,31 +146,17 @@
    display-line-numbers-widen t
    ;; this is the default
    display-line-numbers-current-absolute t)
-  (add-hook 'evil-insert-state-entry-hook (lambda ()
-                                            (setq-local display-line-numbers 'visual)
 
-                                            ))
-  (add-hook 'evil-insert-state-exit-hook (lambda ()
-                                           (setq-local display-line-numbers t)
-                                           ))
+  (add-hook 'prog-mode-hook (lambda ()
+                              (add-hook 'evil-insert-state-exit-hook #'relative-line-numbers)
+                              (add-hook 'evil-insert-state-entry-hook #'absolute-line-numbers)
+                              ))
 
   ;; example of customizing colors
   ;;(custom-set-faces '(line-number-current-line ((t :weight bold
   ;;:foreground "goldenrod"
   ;;:background "slate gray"))))
 
-  (defcustom display-line-numbers-exempt-modes
-    '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode help-mode magit-mode )
-    "Major modes on which to disable the linum mode, exempts them from global requirement."
-    :group 'display-line-numbers
-    :type 'list
-    :version "green")
-  (defun display-line-numbers--turn-on ()
-    "Turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'."
-    (if (and
-         (not (member major-mode display-line-numbers-exempt-modes))
-         (not (minibufferp)))
-        (display-line-numbers-mode)))
 
   ;; (global-display-line-numbers-mode)
   ;;(when (version<= "26.0.50" emacs-version )

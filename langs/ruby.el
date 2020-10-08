@@ -72,7 +72,9 @@
   )
 
 (use-package ruby-electric
-  :hook (( ruby-mode . ruby-electric-mode )
+  :hook (
+         ( ruby-mode . ruby-electric-mode )
+         ( enh-ruby-mode . ruby-electric-mode )
          )
   )
 

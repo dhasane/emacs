@@ -6,9 +6,7 @@
   ;; :hook (tramp-mode . keychain-refresh-environment)
   :config
   (add-hook 'tramp-mode-hook 'keychain-refresh-environment)
-
   )
-
 
 (defun eshell-new()
   "Open a new instance of eshell."
@@ -26,12 +24,6 @@
   (
    eshell-kill-on-exit
    )
-  ;; :general
-  ;; (:keymaps 'eshell-mode-map
-  ;;  :states '(normal)
-  ;;          "] ]" 'eshell-next-prompt
-  ;;          "[ [" 'eshell-previous-prompt
-  ;;          )
   :init
   (add-hook 'eshell-mode-hook
             (lambda ()
@@ -73,6 +65,7 @@
                  :keymaps 'eshell-mode-map
                  "] ]" 'eshell-next-prompt
                  "[ [" 'eshell-previous-prompt
+                 "TAB" 'completion-at-point
                  )
                 )
               )

@@ -56,44 +56,56 @@
 (use-package php-mode
   )
 
-(use-package tide                       ; https://github.com/ananthakumaran/tide
-  :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save))
+(use-package typescript-mode
+  :config
+  (setq typescript-indent-level              2
+        typescript-expr-indent-offset        2
+        company-tooltip-align-annotations    t
+
+        flycheck-check-syntax-automatically  '(save idle-change mode-enabled)
+        flycheck-auto-change-delay           1.5
+
+        whitespace-line-column               120   ;; max line length
+        whitespace-style                     '(face lines-tail trailing)
+        )
+
+  ;;(whitespace-mode)
+  )
+
+(use-package tide                              ; https://github.com/ananthakumaran/tide
+  :after(typescript-mode company flycheck)
+  :hook((typescript-mode . tide-setup)
+        (typescript-mode . tide-mode)
+        (typescript-mode . tide-hl-identifier-mode)
+        (before-save . tide-format-before-save))
   :init
-  (defun setup-tide-mode ()
+  (defun setup-tide-mode()
     (interactive)
     (tide-setup)
     (flycheck-mode +1)
-    ;; (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
     (tide-hl-identifier-mode +1)
     (company-mode +1))
 
-  (defun my/setup-tsx-mode ()
-    (when (string-equal "tsx" (file-name-extension buffer-file-name))
-      (setup-tide-mode)))
-
-  (defun my/setup-jsx-mode ()
-    (when (string-equal "jsx" (file-name-extension buffer-file-name))
-      (setup-tide-mode)))
-
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (add-hook 'js2-mode-hook #'setup-tide-mode)
-  (add-hook 'web-mode-hook #'my/setup-tsx-mode)
-  (add-hook 'rjsx-mode-hook #'my/setup-jsx-mode)
   :requires flycheck
   :config
+  (setq tide-format-options
+        '(
+          :insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :tabSize 2 :indentSize 2))
   (add-to-list 'company-backends 'company-tide)
-  ;; aligns annotation to the right hand side
-  ;; (setq company-tooltip-align-annotations t)
-
-  ;; formats the buffer before saving
-  ;; (add-hook 'before-save-hook 'tide-format-before-save)
 
   (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
-  (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append))
+  (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+  )
+
+;;(use-package ng2-mode
+;;  :after(tide)
+;;  :config
+;;  (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
+;;  (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
+;;  )
 
 (use-package rjsx-mode
   :defer t)

@@ -8,60 +8,98 @@
   :defer .1
   :after general
   :general
-  (:keymap 'org-mode-map
-           "C-c c" (lambda ()
-                     (interactive)(org-insert-structure-template "src"))
+  (org-mode-map
+   "C-c c" #'insert-org-mode-src-structure-template
    )
   :hook(
-		(org-mode .
+        (org-mode . (lambda ()
+                      (progn
+                        (make-local-variable 'line-spacing)
+                        (make-local-variable 'left-margin-width)
+                        (make-local-variable 'right-margin-width)
+                        (setq line-spacing 0
+                              left-margin-width 2
+                              right-margin-width 2
 
-		 (lambda ()
-		   (progn
-			 (make-local-variable 'line-spacing)
-			 (make-local-variable 'left-margin-width)
-			 (make-local-variable 'right-margin-width)
-			 (setq line-spacing 0
-				   left-margin-width 2
-				   right-margin-width 2
-
-				   )
-			 ;; (set-window-buffer nil (current-buffer))
-			 )))
+                              )
+                        ;; (set-window-buffer nil (current-buffer))
+                        )))
         (org-mode . visual-line-mode)
+        (org-mode . org-indent)
 
-		)
+        )
+  :custom-face
+  (org-ellipsis ((t (:foreground "red"))))
+  (org-block ((t (:inherit fixed-pitch))))
+  (org-code ((t (:inherit (shadow fixed-pitch)))))
+  (org-document-info ((t (:foreground "dark orange"))))
+  (org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+  (org-indent ((t (:inherit (org-hide fixed-pitch)))))
+  (org-link ((t (:foreground "royal blue" :underline t))))
+  (org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+  ;; (org-property-value ((t (:inherit fixed-pitch))) t)
+  (org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+  (org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+  (org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+  (org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+  :init
+
   :config
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)  ; in my case /bin/bash
+     (ruby . t)
+     (rust . nil)
+     (python . t)
+     ;; (javascript . t)
+     ;; (typescript . t)
+     (sed . t)
+     (awk . t)
+     (clojure . t)))
+
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-confirm-babel-evaluate nil
+        org-edit-src-content-indentation 0)
+
+  (defun insert-org-mode-src-structure-template ()
+    (interactive)
+    (org-insert-structure-template "src")
+    )
 
   ;; (add-to-list 'org-structure-template-alist
              ;; '("s" "#+NAME: ?\n#+BEGIN_SRC \n\n#+END_SRC"))
 
-  (custom-theme-set-faces
-   'user
-   '(org-block ((t (:inherit fixed-pitch))))
-   '(org-code ((t (:inherit (shadow fixed-pitch)))))
-   '(org-document-info ((t (:foreground "dark orange"))))
-   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-   '(org-link ((t (:foreground "royal blue" :underline t))))
-   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   '(org-property-value ((t (:inherit fixed-pitch))) t)
-   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-   '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+  ;; (custom-theme-set-faces
+  ;;  'user
+  ;;  '(org-block ((t (:inherit fixed-pitch))))
+  ;;  '(org-code ((t (:inherit (shadow fixed-pitch)))))
+  ;;  '(org-document-info ((t (:foreground "dark orange"))))
+  ;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+  ;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+  ;;  '(org-link ((t (:foreground "royal blue" :underline t))))
+  ;;  '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+  ;;  '(org-property-value ((t (:inherit fixed-pitch))) t)
+  ;;  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+  ;;  '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+  ;;  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+  ;;  '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
 
   (setq org-startup-indented t
-        org-src-tab-acts-natively t
-		;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
-		org-ellipsis "  " ;; folding symbol
-		org-pretty-entities t
-		org-hide-emphasis-markers t
-		;; show actually italicized text instead of /italicized text/
-		org-agenda-block-separator ""
-		org-fontify-whole-heading-line t
-		org-fontify-done-headline t
-		org-fontify-quote-and-verse-blocks t
-		)
+        ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+        ;; folding symbol
+        org-ellipsis (propertize "  " 'font-lock-face '(:foreground "red"))
+        ; (propertize "  " :foreground "orange" :background "red")
+        org-pretty-entities t
+        org-hide-emphasis-markers t
+        ;; show actually italicized text instead of /italicized text/
+        org-agenda-block-separator ""
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t
+        )
 
 
   (setq org-log-done t)
@@ -85,14 +123,27 @@
   ;; (org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))
   )
 
+(use-package poly-org
+  :disabled
+  :after (polymode org)
+  :hook (org-mode . poly-org-mode)
+  ;; :config
+  ;; (add-to-list 'auto-mode-alist '("\\.org" . poly-org))
+  )
+
+(use-package babel
+  ;; :hook (org-mode . babel-mode)
+  :config
+  )
+
 (use-package evil-org
   :ensure t
   :after (org evil)
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
-			(lambda ()
-			  (evil-org-set-key-theme)))
+            (lambda ()
+              (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 
