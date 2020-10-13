@@ -3,30 +3,33 @@
 ;;; code:
 (defcustom lsp-ignore-modes
   '(
-    emacs-lisp
+    emacs-lisp-mode
     typescript-mode
+    ng2-ts-mode
     )
   "Modes to prevent Emacs from loading lsp-mode."
   :type 'list
+  :group 'lsp-mode-ignore
   )
 
-(defun lsp-enable-mode ()
+(defun dh/lsp-enable-mode ()
   "Activar lsp solo si no es un modo a ignorar."
-  (unless (member major-mode lsp-ignore-modes)
-    (progn
+  (interactive)
+  ;; (if (not (member major-mode '(emacs-lisp-mode)))
+  (if (not (member major-mode lsp-ignore-modes))
       (lsp-deferred)
-      (message "lsp activado")
-      )
-    (message "lsp no activado")
+    ;;(message "lsp no activado")
     )
   )
+
+;; (add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
 
 (use-package lsp-mode
   :ensure t
   :demand t
   ;; :init
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (prog-mode . #'lsp-enable-mode)
+         (prog-mode . #'dh/lsp-enable-mode)
          (lsp-mode  . lsp-enable-which-key-integration)
          (lsp-mode  . lsp-lens-mode)
          )
@@ -38,7 +41,7 @@
   ;;  )
   :config
   ;; :project/:workspace/:file
-  (setq lsp-diagnostics-modeline-scope :project)
+  (setq lsp-modeline-diagnostics-scope :project)
   (setq lsp-ui-peek-enable t
 		lsp-enable-semantic-highlighting t
 		lsp-diagnostics-modeline-mode t)
@@ -61,27 +64,39 @@
   :ensure t
   :after (evil)
   ;;:hook (prog-mode . company-mode)
-  :bind
-  (
-   :map
-   evil-insert-state-map
-   ;; ("TAB" . #'dh/complete-in-context)
-   ("TAB" . 'tab-indent-or-complete)
-   ;; ("TAB" . 'company-complete-common-or-cycle)
-
-   :map
-   company-active-map
-   ( "TAB" . 'company-complete-common-or-cycle)
-   ( "<tab>" . 'company-complete-common-or-cycle)
-
-   ( "S-TAB" . 'company-select-previous)
-   ( "<backtab>" . 'company-select-previous)
-
-   ( "<return>" . 'company-complete-selection)
-   ( "RET" . 'company-complete-selection)
-
-   ;; ( "ESC" . company-abort)
+  :general
+  (:states '(insert)
+           "TAB" 'tab-indent-or-complete
+           )
+  (company-active-map
+   "TAB"  'company-complete-common-or-cycle
+   "<tab>"  'company-complete-common-or-cycle
+   "S-TAB"  'company-select-previous
+   "<backtab>"  'company-select-previous
+   "<return>"  'company-complete-selection
+   "RET"  'company-complete-selection
    )
+  ;; :bind
+  ;; (
+  ;;  :map
+  ;;  evil-insert-state-map
+  ;;  ;; ("TAB" . #'dh/complete-in-context)
+  ;;  ("TAB" . 'tab-indent-or-complete)
+  ;;  ;; ("TAB" . 'company-complete-common-or-cycle)
+
+  ;;  :map
+  ;;  company-active-map
+  ;;  ( "TAB" . 'company-complete-common-or-cycle)
+  ;;  ( "<tab>" . 'company-complete-common-or-cycle)
+
+  ;;  ( "S-TAB" . 'company-select-previous)
+  ;;  ( "<backtab>" . 'company-select-previous)
+
+  ;;  ( "<return>" . 'company-complete-selection)
+  ;;  ( "RET" . 'company-complete-selection)
+
+  ;;  ;; ( "ESC" . company-abort)
+  ;;  )
   :custom
   ;;(company-begin-commands '(self-insert-command))
   ;;(company-show-numbers t)
@@ -204,7 +219,8 @@
 				(delq 'company-pseudo-tooltip-frontend company-frontends)
 				)
 
-	(company-tng-configure-default)
+	;; (company-tng-configure-default)
+    (company-tng-mode)
     (add-hook 'after-init-hook 'global-company-mode)
   ;; para probar company-box
   ;;(add-hook 'after-init-hook 'global-company-mode)
@@ -276,10 +292,19 @@
   )
 
 (use-package yasnippet
+  :demand t
   :ensure t
   :defer .1
-  :hook (prog-mode-hook-hook . yas-minor-mode)
-  ;;:config (yas-global-mode)
+  ;; :hook (prog-mode . yas-minor-mode)
+  :config
+  (yas-global-mode 1)
+  )
+
+(use-package yasnippet-snippets
+  :demand t
+  :after yasnippet
+  :config
+  (yas-reload-all)
   )
 
 ;; optionally if you want to use debugger

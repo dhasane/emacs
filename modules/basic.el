@@ -7,10 +7,13 @@
 ;;(defun always-use-fancy-splash-screens-p () 1)
   ;;(defalias 'use-fancy-splash-screens-p 'always-use-fancy-splash-screens-p)
 
-;; quitar las barras
-(menu-bar-mode -1) ;; TODO: me gustaria activarlo para org
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+
+(setq-default bidi-paragraph-direction 'left-to-right)
+(if (version<= "27.1" emacs-version)
+    (setq bidi-inhibit-bpa t))
+
+(if (version<= "27.1" emacs-version)
+    (global-so-long-mode 1))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; llenar toda la pantalla
 

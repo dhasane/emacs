@@ -21,9 +21,13 @@
 
 (use-package helm
   )
+
 (use-package lsp-java
-  :demand t
-  :hook (java-mode . 'lsp-deferred)
+  ;; :mode "\\.java\\'"
+  :hook (
+         ;;(java-mode . 'lsp-deferred)
+         (java-mode . 'lsp)
+         )
   :config
   ;; (add-hook 'java-mode-hook 'lsp)
   ;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
