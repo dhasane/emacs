@@ -6,6 +6,7 @@
     emacs-lisp-mode
     typescript-mode
     ng2-ts-mode
+    csharp-mode
     )
   "Modes to prevent Emacs from loading lsp-mode."
   :type 'list
@@ -22,7 +23,7 @@
     )
   )
 
-;; (add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
+(add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
 
 (use-package lsp-mode
   :ensure t
@@ -54,8 +55,10 @@
 (use-package flycheck
   :demand t
   :ensure t
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode)
+  :hook ( prog-mode . flycheck-mode)
+
+  ;; :config
+  ;; (add-hook 'after-init-hook #'global-flycheck-mode)
   )
 
 (use-package company

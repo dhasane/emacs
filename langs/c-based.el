@@ -119,12 +119,13 @@
   )
 
 (use-package omnisharp
-  :hook (csharp-mode . omnisharp-mode)
+  :after company
   :config
-  (eval-after-load "company"
-    '(add-to-list 'company-backends 'company-omnisharp))
-  (omnisharp-start-omnisharp-server)
+  ;; (omnisharp-start-omnisharp-server)
 
   (shell-command
    "export DOTNET_CLI_TELEMETRY_OPTOUT=1")
-  )
+
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-hook 'csharp-mode-hook 'flycheck-mode)
+  (add-to-list 'company-backends 'company-omnisharp))

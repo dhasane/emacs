@@ -25,7 +25,7 @@
                         ;; (set-window-buffer nil (current-buffer))
                         )))
         (org-mode . visual-line-mode)
-        (org-mode . org-indent)
+        (org-mode . org-indent-mode)
 
         )
   :custom-face

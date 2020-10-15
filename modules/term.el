@@ -65,7 +65,7 @@
                  :keymaps 'eshell-mode-map
                  "] ]" 'eshell-next-prompt
                  "[ [" 'eshell-previous-prompt
-                 "TAB" 'completion-at-point
+                 "TAB" 'company-complete-common-or-cycle
                  )
                 )
               )

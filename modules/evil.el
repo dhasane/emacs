@@ -47,11 +47,16 @@
    ","   #'hydra-leader/body
    )
   (
+   :states '(visual)
+   "C-s" 'save-and-exit-evil
+   )
+  (
    :states '(insert)
    "C-s" #'save-and-exit-evil
    "C-v" 'evil-paste-before
    "C-z" 'undo-tree-undo
    )
+
   ;; :bind
   ;; (:map
   ;;  evil-normal-state-map
@@ -148,8 +153,9 @@
   (defun save-and-exit-evil ()
     "Salir de modo de insert y guardar el archivo."
     (interactive)
+    (evil-force-normal-state)
     (save-buffer)
-    (evil-force-normal-state) )
+	)
 
  ;;; esc quits
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
