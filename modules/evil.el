@@ -60,46 +60,25 @@
   ;; :bind
   ;; (:map
   ;;  evil-normal-state-map
-  ;;  ("C-S-k" . evil-lookup)
   ;;  ;("ESC" . evil-ex-nohighlight)
-  ;;  ("j" . evil-next-visual-line)
-  ;;  ("k" . evil-previous-visual-line)
   ;; ;;("g t" . 'tab-next )
   ;; ;;("g b" . 'tab-previous )
-  ;;  ("C-s" . evil-write )
   ;;  ;; ("TAB" . evil-window-map )
   ;;  ;; ("TAB q" . #'close-except-last-window )
   ;;  ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
-  ;;  ("C-l" . evil-window-right )
-  ;;  ("C-h" . evil-window-left )
-  ;;  ("C-k" . evil-window-up )
-  ;;  ("C-j" . evil-window-down )
-  ;;  ("C-M-q" . ido-kill-buffer ) ;'evil-quit )
-  ;;  ("C-q" . #'close-except-last-window )
   ;;  ;;("C-z" . undo-tree-undo )
-  ;;  (","   .  #'hydra-leader/body )
   ;;  :map
   ;;  evil-motion-state-map
-  ;;  ("j" . evil-next-visual-line)
-  ;;  ("k" . evil-previous-visual-line)
   ;;  ;; ("TAB" . evil-window-map )
   ;;  ;; ("TAB q" . #'close-except-last-window )
   ;;  ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
-  ;;  ("C-l" . evil-window-right )
-  ;;  ("C-h" . evil-window-left )
-  ;;  ("C-k" . evil-window-up )
-  ;;  ("C-j" . evil-window-down )
-  ;;  (","   .  #'hydra-leader/body )
   ;; :map
-  ;; evil-insert-state-map
-  ;; ("C-s" . #'save-and-exit-evil )
-  ;; ("C-v" . 'evil-paste-before )
-  ;; ("C-z" . 'undo-tree-undo )
-  ;; )
 
   ;; :functions
 
-  ;; :custom
+  :custom
+  (evil-undo-system 'undo-tree)
+
   :config
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)

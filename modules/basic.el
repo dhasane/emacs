@@ -103,3 +103,6 @@
   )
 
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
+
+(provide 'basic)
+;;; basic.el ends here

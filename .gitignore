@@ -9,6 +9,7 @@ transient
 bookmarks
 semanticdb
 elpy
+eclipse.jdt.ls
 url
 .extension
 .dap-breakpoints

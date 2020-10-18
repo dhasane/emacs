@@ -87,6 +87,7 @@
   )
 
 (use-package undo-tree
+  :demand t
   :config
   (setq undo-tree-show-minibuffer-help t
         ;; undo-tree-auto-save-history t
