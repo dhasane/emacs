@@ -148,11 +148,16 @@ los carga."
 (defconst config-lang-dir (expand-file-name "langs/" user-emacs-directory)
   "Directorio de modulos de configuracion para lenguajes.")
 
+(defconst custom-elisp-dir (expand-file-name "lisp/" user-emacs-directory)
+  "Directorio de modulos de configuracion para lenguajes.")
+
 ;; load config
 (simple-comp-load-folder config-module-dir
                          :compile t
                          :ignorar '("fira-code"))
 (simple-comp-load-folder config-lang-dir
+						 :compile t)
+(simple-comp-load-folder custom-elisp-dir
 						 :compile t)
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
@@ -200,12 +205,10 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "rs" reload-emacs-config "reload init" )
   ( "re" open-emacs-config "edit init" )
   ( "l" (lambda ()
-          ;; evitar mostrar todos los archivos, en caso de estar fuera
-          ;; de un proyecto
           (interactive)
           (if (projectile-project-p)
               (projectile-find-file)
-            (ivy-switch-buffer) ;; TODO: tal vez seria mejor mostrar los archivos en el folder actual
+            (call-interactively 'find-file)
             )
           )  "jet pack" )
   ( "s" swiper "swiper" )
@@ -215,8 +218,8 @@ _re_: edit     |   _j_: previous    |   _o_: org
 
   ;;( "j" previous-buffer "next" )
   ;;( "k" next-buffer "next" )
-  ( "j" projectile-next-project-buffer "next" )
-  ( "k" projectile-previous-project-buffer "next" )
+  ( "j" (prev-user-buffer-ring) "prev" )
+  ( "k" (next-user-buffer-ring) "next" )
 
   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) "execute macro" )
   ( "m" (magit) "magit" )
