@@ -282,12 +282,6 @@
         )
   )
 
-;;(use-package lsp-ivy
-  ;;:ensure t
-  ;;:defer t
-  ;;:commands lsp-ivy-workspace-symbol
-  ;;)
-
 (use-package lsp-treemacs
   :ensure t
   :defer t
@@ -315,11 +309,20 @@
   :ensure t
   :after lsp-mode
   :config
-  (dap-mode t)
+  (dap-mode 1)
   (dap-auto-configure-mode)
-  (dap-ui-mode t))
+
+  (dap-ui-mode 1)
+  ;; enables mouse hover support
+  (dap-tooltip-mode 1)
+  ;; use tooltips for mouse hover
+  ;; if it is not enabled `dap-mode' will use the minibuffer.
+  (tooltip-mode 1)
+  ;; displays floating panel with debug buttons
+  ;; requies emacs 26+
+  (dap-ui-controls-mode 1)
+  )
 ;; TODO: mirar como funciona lo de dap-mode
-;; (use-package dap-java :after (lsp-java))
 
 (use-package polymode
   :disabled

@@ -40,7 +40,10 @@
   :config
   (add-hook 'enh-ruby-mode-hook 'robe-mode)
   (add-hook 'enh-ruby-mode-hook 'yard-mode)
+  (require 'dap-ruby)
   )
+
+;; (use-package dap-ruby)
 
 ;; (use-package rubocop
 ;;   :ensure-system-package

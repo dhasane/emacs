@@ -1,5 +1,5 @@
-
-;;; package --- summary:
+;;; package --- Summary
+;; -*- lexical-binding: t -*-
 
 ;; EEEEEEEEEEEEEEEEEEEEEE                                                                               ;;
 ;; E::::::::::::::::::::E                                                                               ;;
@@ -36,7 +36,8 @@
 
 ;; Make startup faster by reducing the frequency of garbage
 ;; collection.  The default is 800 kilobytes.  Measured in bytes.
-(setq gc-cons-threshold (* 50 1000 1000))
+;; (setq gc-cons-threshold (* 50 1000 1000))
+(setq gc-cons-threshold most-positive-fixnum)
 
 ;;; init ----------------------------------------------------
 ;;; Inicio configuracion
@@ -86,9 +87,18 @@
   (package-install 'use-package))
 
 (eval-when-compile (require 'use-package))
-(setq use-package-always-ensure t) ;; siempre instalar lo que no se tenga
-(setq use-package-always-defer t) ;; siempre diferir el inicio de paquetes
-(setq use-package-compute-statistics t) ;; t para verificar tiempos de carga
+
+(eval-and-compile
+  ;; siempre instalar lo que no se tenga
+  (setq use-package-always-ensure t)
+  ;; siempre diferir el inicio de paquetes
+  (setq use-package-always-defer t)
+  ;; (setq use-package-expand-minimally t)
+  ;; t para verificar tiempos de carga
+  (setq use-package-compute-statistics t)
+  (setq use-package-enable-imenu-support t)
+  )
+
 (use-package use-package-ensure-system-package)
 (use-package general :demand t)
 
@@ -98,10 +108,18 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
+(use-package auto-package-update
+  :if (not (daemonp))
+  :custom
+  (auto-package-update-interval 7) ;; in days
+  (auto-package-update-prompt-before-update t)
+  (auto-package-update-delete-old-versions t)
+  (auto-package-update-hide-results t)
+  :config
+  (auto-package-update-maybe))
+
 (cl-defun simple-comp-load-folder (config-dir &key compile ignorar)
-  "Busca los archivos en CONFIG-DIR con terminacion el o elc
-(dependiendo de COMPILE), ignorando en estos la lista IGNORAR y
-los carga."
+  "Carga los archivos en CONFIG-DIR con terminacion el o elc (dependiendo de COMPILE), ignorando en estos la lista IGNORAR."
   (if compile (byte-recompile-directory config-dir 0))
   (let ((files-ignore
          (mapcar (lambda (f)
@@ -149,16 +167,16 @@ los carga."
   "Directorio de modulos de configuracion para lenguajes.")
 
 (defconst custom-elisp-dir (expand-file-name "lisp/" user-emacs-directory)
-  "Directorio de modulos de configuracion para lenguajes.")
+  "Directorio de modulos de LISP.")
 
 ;; load config
 (simple-comp-load-folder config-module-dir
                          :compile t
                          :ignorar '("fira-code"))
 (simple-comp-load-folder config-lang-dir
-						 :compile t)
+                         :compile t)
 (simple-comp-load-folder custom-elisp-dir
-						 :compile t)
+                         :compile t)
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -179,7 +197,7 @@ los carga."
  :prefix "<SPC>"
  :states 'normal
  ;; :keymaps 'comint-mode-map
- "e" 'find-file
+ "e" 'counsel-find-file
  "b" 'switch-to-buffer
  "k" 'kill-buffer
  "w" 'evil-window-map
@@ -207,8 +225,8 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "l" (lambda ()
           (interactive)
           (if (projectile-project-p)
-              (projectile-find-file)
-            (call-interactively 'find-file)
+              (counsel-projectile-find-file)
+            (call-interactively 'counsel-find-file)
             )
           )  "jet pack" )
   ( "s" swiper "swiper" )

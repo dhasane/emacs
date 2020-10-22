@@ -35,6 +35,9 @@
   (require 'dap-java)
   ;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
   )
+;; (use-package dap-java :after (lsp-java))
+(use-package dap-java :ensure nil)
+
 
 ;; (use-package lsp-java :after lsp
 ;;   :init
@@ -52,6 +55,3 @@
 ;;   )
 
 
-(use-package dap-java
-  :ensure nil
-  )

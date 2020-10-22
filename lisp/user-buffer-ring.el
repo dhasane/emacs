@@ -60,6 +60,7 @@
   (if (buffer-file-name)
       (let ((bfn (buffer-name)))
         (setq user-buffer-ring-index 0)
+        (message (concat "agregando " bfn))
         (if (member bfn user-buffer-ring)
             (remove-value-from-user-buffer-ring bfn)
           )
@@ -81,6 +82,7 @@
 (defun remove-value-from-user-buffer-ring (bfn)
   "Eliminar el valor BFN del user-buffer-ring."
   (interactive)
+  ;; TODO: podria ser bueno verificar la posicion actual para moverla
   (setq user-buffer-ring (delete bfn user-buffer-ring))
   )
 
@@ -89,7 +91,6 @@
   (if (buffer-file-name)
       (let ((bfn (buffer-name)))
         (progn
-          (message (concat "chaoooo " bfn) )
           (remove-value-from-user-buffer-ring bfn)
           )
         )
@@ -101,6 +102,37 @@
 ;; (add-hook 'buffer-list-update-hook 'save-to-user-buffer-ring)
 
 (add-hook 'kill-buffer-hook 'remove-from-user-buffer-ring)
+
+;; (defun esto-es-una-prueba (a)
+;;   (if (member (buffer-name) user-buffer-ring)
+;;       (progn
+;;         (message "%s" a)
+;;         (message "%s" (buffer-name))
+;;         )
+;;       )
+;;   )
+;;
+;; (push 'esto-es-una-prueba window-buffer-change-functions)
+
+;; (add-hook 'window-buffer-change-functions 'save-to-user-buffer-ring)
+
+
+(defun user-buffer-ring-get-index ()
+  (interactive)
+   (if (member (buffer-name) user-buffer-ring)
+       ;; (message a)
+       (let ((pos (seq-position (buffer-name) user-buffer-ring)))
+         (message (concat "index" user-buffer-ring-index))
+         (message pos)
+         ;; (if pos
+         ;;     (setq user-buffer-ring-index pos)
+         ;;     )
+
+         )
+       )
+   )
+
+;; (add-hook 'window-buffer-change-functions 'user-buffer-ring-get-index)
 
 ;; buffer-list-update-hook
 
