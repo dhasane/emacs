@@ -56,8 +56,14 @@
            (lambda (cand) (get-buffer cand)))
           counsel-find-file
           (:columns
-           ((ivy-read-file-transformer)
-            (ivy-rich-counsel-find-file-truename (:face font-lock-doc-face))))
+           (
+            (ivy-read-file-transformer)
+            (ivy-rich-switch-buffer-path
+             (:width
+              (lambda (x)
+                (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3)))))
+            ;; (ivy-rich-counsel-find-file-truename (:face font-lock-doc-face))
+            ))
           counsel-M-x
           (:columns
            ((counsel-M-x-transformer (:width 35))

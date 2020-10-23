@@ -244,6 +244,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "o" (hydra-org/body) "org" )
   ( "rn" lsp-rename "rename")
   ( "?" evil-show-marks "marks")
+  ( "t" treemacs "tree")
   )
 
 ;; final ------------------------------------------------------

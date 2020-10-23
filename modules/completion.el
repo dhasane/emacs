@@ -74,8 +74,10 @@
   (company-active-map
    "TAB"  'company-complete-common-or-cycle
    "<tab>"  'company-complete-common-or-cycle
+
    "S-TAB"  'company-select-previous
    "<backtab>"  'company-select-previous
+
    "<return>"  'company-complete-selection
    "RET"  'company-complete-selection
    )
@@ -84,19 +86,6 @@
   ;;  :map
   ;;  evil-insert-state-map
   ;;  ;; ("TAB" . #'dh/complete-in-context)
-  ;;  ("TAB" . 'tab-indent-or-complete)
-  ;;  ;; ("TAB" . 'company-complete-common-or-cycle)
-
-  ;;  :map
-  ;;  company-active-map
-  ;;  ( "TAB" . 'company-complete-common-or-cycle)
-  ;;  ( "<tab>" . 'company-complete-common-or-cycle)
-
-  ;;  ( "S-TAB" . 'company-select-previous)
-  ;;  ( "<backtab>" . 'company-select-previous)
-
-  ;;  ( "<return>" . 'company-complete-selection)
-  ;;  ( "RET" . 'company-complete-selection)
 
   ;;  ;; ( "ESC" . company-abort)
   ;;  )
@@ -146,19 +135,19 @@
 
   (add-hook 'eshell-mode-hook 'company-eshell-setup)
 
-  ;;(defun check-expansion ()
-    ;;(save-excursion
-      ;;(if (looking-at "\\_>") t
-        ;;(backward-char 1)
-        ;;(if (looking-at "\\.") t
-          ;;(backward-char 1)
-          ;;(if (looking-at "->") t nil)
-          ;;)
-        ;;)
-      ;;)
-    ;;)
+  ;; (defun check-expansion ()
+  ;;   (save-excursion
+  ;;     (if (looking-at "\\_>") t
+  ;;       (backward-char 1)
+  ;;       (if (looking-at "\\.") t
+  ;;         (backward-char 1)
+  ;;         (if (looking-at "->") t nil)
+  ;;         )
+  ;;       )
+  ;;     )
+  ;;   )
 
-	;; completar siempre que no sea espacio
+  ;; completar siempre que no sea espacio
   (defun check-expansion ()
     (save-excursion
       (backward-char 1)
@@ -173,20 +162,39 @@
     (let ((yas-fallback-behavior 'return-nil))
       (yas-expand)))
 
+  ;; (defun tab-indent-or-complete ()
+  ;;   (interactive)
+  ;;   (if (minibufferp)
+  ;;       (minibuffer-complete)
+  ;;     (if (or (not yas-minor-mode)
+  ;;             (null (do-yas-expand)))
+  ;;         (if (check-expansion)
+  ;;             (company-complete-common)
+  ;;           ;;(indent-for-tab-command) ;; indentar correctamente
+  ;;           (tab-to-tab-stop) ;; agregar tabs
+  ;;           )
+  ;;       )
+  ;;     )
+  ;;   )
+
   (defun tab-indent-or-complete ()
     (interactive)
     (if (minibufferp)
         (minibuffer-complete)
-      (if (or (not yas-minor-mode)
-              (null (do-yas-expand)))
-          (if (check-expansion)
-              (company-complete-common)
-            ;;(indent-for-tab-command) ;; indentar correctamente
-            (tab-to-tab-stop) ;; agregar tabs
-            )
+      (if (check-expansion)
+          (company-complete-common)
+        ;;(indent-for-tab-command) ;; indentar correctamente
+        (tab-to-tab-stop) ;; agregar tabs
         )
       )
     )
+
+  (defun autocomplete-show-snippets ()
+    "Show snippets in autocomplete popup."
+    (let ((backend (car company-backends)))
+      (unless (listp backend)
+        (setcar company-backends `(,backend :with company-yasnippet company-files)))))
+  (add-hook 'after-change-major-mode-hook 'autocomplete-show-snippets)
 
   ;;(setq company-frontends (delq 'company-pseudo-tooltip-frontend company-frontends))
 
@@ -293,6 +301,11 @@
   :ensure t
   :defer .1
   ;; :hook (prog-mode . yas-minor-mode)
+  :general
+  (yas-minor-mode-map
+   "TAB" nil
+   "<tab>" nil
+   )
   :config
   (yas-global-mode 1)
   )
