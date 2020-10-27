@@ -110,5 +110,8 @@
 (use-package rjsx-mode
   :defer t)
 
-(use-package tern
+;; (use-package tern
+;;   )
+
+(use-package restclient
   )

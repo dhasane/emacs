@@ -95,11 +95,6 @@
   (global-undo-tree-mode)
   )
 
-(use-package auto-async-byte-compile
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-  )
-
 ;; tramp ---------------------------------------------------
 
 (use-package tramp
@@ -139,4 +134,14 @@
         (message "Test does not work")
         (display-buffer (current-buffer))
         (sit-for 30))))
+  )
+
+(use-package ranger
+  :demand t
+  :custom
+  (ranger-override-dired-mode t)
+  (ranger-return-to-ranger t)
+  (ranger-show-hidden t)
+  ;; :config
+  ;; (ranger-show-file-details)
   )

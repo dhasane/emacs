@@ -42,10 +42,13 @@
   ;;  )
   :config
   ;; :project/:workspace/:file
+  (setq read-process-output-max (* 4 1024 1024))
   (setq lsp-modeline-diagnostics-scope :project)
   (setq lsp-ui-peek-enable t
-		lsp-enable-semantic-highlighting t
-		lsp-diagnostics-modeline-mode t)
+        lsp-enable-which-key-integration t
+        lsp-enable-semantic-highlighting t
+        lsp-diagnostics-modeline-mode t)
+  (setq lsp-print-performance t)
   (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode)
 
   ;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
@@ -55,7 +58,7 @@
 (use-package flycheck
   :demand t
   :ensure t
-  :hook ( prog-mode . flycheck-mode)
+  :hook (prog-mode . flycheck-mode)
 
   ;; :config
   ;; (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -69,7 +72,8 @@
   ;;:hook (prog-mode . company-mode)
   :general
   (:states '(insert)
-           "TAB" 'tab-indent-or-complete
+           ;;"TAB" 'tab-indent-or-complete
+           "TAB" 'dh/complete-in-context
            )
   (company-active-map
    "TAB"  'company-complete-common-or-cycle
@@ -80,6 +84,9 @@
 
    "<return>"  'company-complete-selection
    "RET"  'company-complete-selection
+
+   "ESC" 'company-abort
+   "C-s" 'company-abort
    )
   ;; :bind
   ;; (
@@ -130,6 +137,7 @@
       ;; (add-to-list 'company-backends 'company-files)
       (add-to-list 'company-backends 'company-keywords)
       (add-to-list 'company-backends 'company-capf)
+      ;; (yas-minor-mode nil)
       )
     )
 
@@ -226,16 +234,36 @@
                  'company-tern)
                 )))
 
-	(setq company-frontends
-				(delq 'company-pseudo-tooltip-frontend company-frontends)
-				)
+  (setq company-frontends
+        (delq 'company-pseudo-tooltip-frontend company-frontends)
+        )
 
-	;; (company-tng-configure-default)
+    ;; (company-tng-configure-default)
     (company-tng-mode)
     (add-hook 'after-init-hook 'global-company-mode)
-  ;; para probar company-box
-  ;;(add-hook 'after-init-hook 'global-company-mode)
-  )
+    ;; para probar company-box
+    ;;(add-hook 'after-init-hook 'global-company-mode)
+
+    ;; https://emacs.stackexchange.com/questions/12360/how-to-make-private-python-methods-the-last-company-mode-choices
+    (defun company-transform-candidates-_-to-end (candidates)
+      "mover los candidatos que inicien por _ al final"
+      (let ((deleted))
+        (mapcar #'(lambda (c)
+                    (if (or (string-prefix-p "_" c) (string-prefix-p "._" c))
+                        (progn
+                          (add-to-list 'deleted c)
+                          (setq candidates (delete c candidates)))))
+                candidates)
+        (append candidates (nreverse deleted))))
+
+    ;; (defun my-python-yasnippet-conf()
+    ;;   (setq-local company-transformers
+    ;;               (append company-transformers '(company-transform-python))))
+
+    ;; (add-hook 'python-mode-hook 'my-python-yasnippet-conf)
+    (append company-transformers '(company-transform-candidates-_-to-end))
+
+    )
 
 ;;(use-package readline-complete
 	;;:ensure t
@@ -300,14 +328,21 @@
   :demand t
   :ensure t
   :defer .1
-  ;; :hook (prog-mode . yas-minor-mode)
+  :hook (
+         (prog-mode . yas-minor-mode)
+         (org-mode . yas-minor-mode)
+         )
   :general
   (yas-minor-mode-map
    "TAB" nil
    "<tab>" nil
    )
   :config
-  (yas-global-mode 1)
+  ;; (yas-global-mode 1)
+
+  )
+
+(use-package ivy-yasnippet
   )
 
 (use-package yasnippet-snippets

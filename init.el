@@ -195,6 +195,7 @@
 
 (general-define-key
  :prefix "<SPC>"
+ ;; :non-normal-prefix "M-SPC"
  :states 'normal
  ;; :keymaps 'comint-mode-map
  "e" 'counsel-find-file
@@ -202,7 +203,18 @@
  "k" 'kill-buffer
  "w" 'evil-window-map
  "t" 'hydra-tabs/body
- "s" 'evil-write
+ "s" 'swiper
+ "j" 'prev-user-buffer-ring
+ "k" 'next-user-buffer-ring
+ "y" 'ivy-yasnippet
+ "l" #'(lambda ()
+         (interactive)
+         (if (projectile-project-p)
+             (counsel-projectile-find-file)
+           (call-interactively 'counsel-find-file)
+           )
+         )  ;; "jet pack"
+
  )
 
 ;; the hydra to rule them all buahaha
@@ -252,7 +264,8 @@ _re_: edit     |   _j_: previous    |   _o_: org
 (put 'narrow-to-region 'disabled nil)
 
 ;; Make gc pauses faster by decreasing the threshold.
-(setq gc-cons-threshold (* 2 1000 1000))
+;; (setq gc-cons-threshold (* 2 1000 1000))
+(setq gc-cons-threshold 100000000)
 
 (provide 'init)
 ;;; init.el ends here

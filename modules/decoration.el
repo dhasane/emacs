@@ -116,10 +116,15 @@
 
 (use-package rainbow-mode
   :demand t
-  :hook (
-         ;; (css-mode . rainbow-mode)
-         (prog-mode . rainbow-mode)
-         )
+  :hook (org-mode
+         emacs-lisp-mode
+         web-mode
+         typescript-mode
+         js2-mode)
+  ;; (
+  ;;  ;; (css-mode . rainbow-mode)
+  ;;  (prog-mode . rainbow-mode)
+  ;;  )
   )
 
 (use-package display-line-numbers
@@ -160,21 +165,24 @@
 
   ;; (global-display-line-numbers-mode)
   ;;(when (version<= "26.0.50" emacs-version )
-    ;;(global-display-line-numbers-mode))
+  ;;  (global-display-line-numbers-mode))
   ;; :hook (prog-mode . display-line-numbers)
   )
 
-;; esto me parece que esta lento
-;;(use-package indent-guide
-  ;;:ensure t
-  ;;:defer .1
-  ;;:hook (
-         ;;(prog-mode-hook . indent-guide-mode)
-         ;;)
-  ;;:config
-  ;;;; (indent-guide-global-mode)
-  ;;(setq indent-guide-recursive t)
-  ;;)
+(use-package indent-guide
+  :ensure t
+  :defer .1
+  ;; :hook (
+  ;;        (emacs-lisp-mode . indent-guide-mode)
+  ;;        )
+  :config
+  (indent-guide-global-mode)
+  (setq indent-guide-recursive t
+        ;; indent-guide-lispy-modes
+        indent-guide-threshold -1
+        indent-guide-char "║" ;; U+2551
+        )
+  )
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
 ;; (set-window-parameter (selected-window) 'alpha '(85 . 50))
