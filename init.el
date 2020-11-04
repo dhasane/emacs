@@ -214,7 +214,7 @@
            (call-interactively 'counsel-find-file)
            )
          )  ;; "jet pack"
-
+ "n" 'hydra-roam/body
  )
 
 ;; the hydra to rule them all buahaha

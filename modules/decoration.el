@@ -7,6 +7,10 @@
 (use-package dashboard
   :ensure t
   :demand t
+  :defines
+  (
+   show-week-agenda-p
+   )
   :init
   ;; (setq dashboard-startup-banner 'logo)
   ;; Value can be
@@ -172,11 +176,12 @@
 (use-package indent-guide
   :ensure t
   :defer .1
-  ;; :hook (
-  ;;        (emacs-lisp-mode . indent-guide-mode)
-  ;;        )
+  :hook (
+         (prog-mode . indent-guide-mode)
+         (python-mode . (lambda () indent-guide-mode nil))
+         )
   :config
-  (indent-guide-global-mode)
+  ;; (indent-guide-global-mode)
   (setq indent-guide-recursive t
         ;; indent-guide-lispy-modes
         indent-guide-threshold -1

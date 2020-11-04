@@ -8,11 +8,9 @@
 
 (use-package tab-bar
   :after evil
-  :bind
-  (:map
-   evil-normal-state-map ("TAB t" . tab-bar-new-tab-to )
-   ;; ("TAB q" . tab-bar-close-tab )
-   ("g b" . tab-bar-switch-to-prev-tab )
+  :general
+  (:states '(normal motion)
+   "g b" 'tab-bar-switch-to-prev-tab
    )
   :custom-face
   (tab-bar              ((t (:background "#282828" :foreground "#fdf4c2"))))

@@ -28,7 +28,16 @@
 (use-package lsp-mode
   :ensure t
   :demand t
-  ;; :init
+  :defines
+  (
+   lsp-modeline-diagnostics-scope
+   lsp-ui-peek-enable
+   lsp-enable-which-key-integration
+   lsp-enable-semantic-highlighting
+   lsp-diagnostics-modeline-mode
+  )
+  :init
+  (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (prog-mode . #'dh/lsp-enable-mode)
          (lsp-mode  . lsp-enable-which-key-integration)
@@ -72,30 +81,25 @@
   ;;:hook (prog-mode . company-mode)
   :general
   (:states '(insert)
-           ;;"TAB" 'tab-indent-or-complete
-           "TAB" 'dh/complete-in-context
-           )
-  (company-active-map
-   "TAB"  'company-complete-common-or-cycle
-   "<tab>"  'company-complete-common-or-cycle
-
-   "S-TAB"  'company-select-previous
-   "<backtab>"  'company-select-previous
-
-   "<return>"  'company-complete-selection
-   "RET"  'company-complete-selection
-
-   "ESC" 'company-abort
-   "C-s" 'company-abort
+   ;; "TAB" 'tab-indent-or-complete
+   "TAB" 'dh/complete-in-context
    )
-  ;; :bind
-  ;; (
-  ;;  :map
-  ;;  evil-insert-state-map
-  ;;  ;; ("TAB" . #'dh/complete-in-context)
+  (company-active-map
+   "TAB" 'company-complete-common-or-cycle
+   "<tab>" 'company-complete-common-or-cycle
 
-  ;;  ;; ( "ESC" . company-abort)
-  ;;  )
+   "S-TAB" 'company-select-previous
+   "<backtab>" 'company-select-previous
+
+   "RET" 'company-complete-selection
+   "<return>" 'company-complete-selection
+
+   [escape] 'company-abort
+   )
+  :functions
+  (
+   check-expansion
+   )
   :custom
   ;;(company-begin-commands '(self-insert-command))
   ;;(company-show-numbers t)
@@ -106,6 +110,8 @@
   (global-company-mode t)
   ;;(setq company-tooltip-margin 4)
   :config
+
+  (evil-make-intercept-map company-active-map 'insert)
 
   ;; disable company completion of *all* remote filenames, whether
   ;; connected or not

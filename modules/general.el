@@ -80,6 +80,10 @@
 ;; (use-package rainbow-blocks
   ;; )
 
+(use-package proced
+  :custom
+  (proced-auto-update-flag t)
+  )
 (use-package origami
   :demand t
   :config
@@ -89,9 +93,9 @@
 (use-package undo-tree
   :demand t
   :config
-  (setq undo-tree-show-minibuffer-help t
-        ;; undo-tree-auto-save-history t
-        )
+  ;; (setq ;; undo-tree-show-minibuffer-help t
+  ;;       ;; undo-tree-auto-save-history t
+  ;;       )
   (global-undo-tree-mode)
   )
 

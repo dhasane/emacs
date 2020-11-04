@@ -18,13 +18,22 @@
   (
    eshell
    eshell-visual-commands
+   eshell-visual-subcommands
    eshell-mode-map
+   eshell-prompt-function
+   eshell-highlight-prompt
+   eshell-kill-on-exit
    )
   :functions
   (
    eshell-kill-on-exit
    )
   :init
+  (setq eshell-visual-subcommands
+        '(
+          ("sudo" "pacman")
+          ("sudo" "apt")
+          ))
   (add-hook 'eshell-mode-hook
             (lambda ()
               (mapc (lambda (vc)
@@ -36,8 +45,6 @@
                       "top"
                       "less"
                       "vim"
-                      "pacman"
-                      "apt"
                       "irb"
                       )
                     )
@@ -61,11 +68,16 @@
     (add-hook 'eshell-mode-hook
               (lambda ()
                 (general-define-key
-                 :states 'normal
+                 :states '(insert normal)
                  :keymaps 'eshell-mode-map
-                 "] ]" 'eshell-next-prompt
-                 "[ [" 'eshell-previous-prompt
-                 "TAB" 'company-complete-common-or-cycle
+                 ;; "] ]" 'eshell-next-prompt
+                 ;; "[ [" 'eshell-previous-prompt
+                 ;; "TAB" 'company-complete-common-or-cycle
+                 "C-l" 'evil-window-right
+                 "C-h" 'evil-window-left
+                 "C-k" 'evil-window-up
+                 "C-j" 'evil-window-down
+
                  )
                 )
               )
@@ -79,7 +91,7 @@
   ;; (propertize "]──[" 'face `(:foreground "green"))
   ;; (propertize "└─" 'face `(:foreground "green"))
 
-  (defun dahas-eshell-prompt ()
+  (defun dahas/eshell-prompt ()
     (let (
           (header-bg "#453060")
           (grin "#b8bb26") ;; minibuffer-prompt
@@ -119,9 +131,9 @@
        " "
        )))
 
-  (setq eshell-prompt-function 'dahas-eshell-prompt
+  (setq eshell-prompt-function 'dahas/eshell-prompt
         eshell-highlight-prompt t
-        comint-prompt-read-only t)
+        )
 
 
   ;; (mapcar (lambda (val)
@@ -196,8 +208,7 @@
 ;; (add-hook 'proced-mode-hook 'proced-settings)
 
 (defun shell-command-on-buffer ()
-  "Asks for a command and executes it in inferior shell with current buffer
-as input."
+  "Asks for a command and execute it in inferior shell with current buffer as input."
   (interactive)
   (shell-command-on-region
    (point-min) (point-max)

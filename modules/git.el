@@ -2,8 +2,6 @@
 ;; magit ------------------------------------------------------
 ;;; Code:
 
-; use ido to switch branches
-; https://github.com/bradleywright/emacs-d/blob/master/packages/init-magit.el
 (use-package magit
   :ensure t
   :demand t
@@ -26,6 +24,14 @@
 (use-package evil-magit
   :after (magit evil)
   :demand t
+  :general
+  (
+   :states '(normal insert)
+   "C-l" 'evil-window-right
+   "C-h" 'evil-window-left
+   "C-k" 'evil-window-up
+   "C-j" 'evil-window-down
+   )
   :config
   ;; (setq magit-completing-read-function 'magit-ido-completing-read)
   ;; open magit status in same window as current buffer

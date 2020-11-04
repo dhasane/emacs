@@ -11,6 +11,10 @@
   (org-mode-map
    "C-c c" #'insert-org-mode-src-structure-template
    )
+  (org-mode-map
+   :states '(normal)
+           "RET" 'org-open-at-point
+           )
   :hook(
         (org-mode . (lambda ()
                       (progn
@@ -67,6 +71,7 @@
   (org-display-inline-images t t)
   (setq org-redisplay-inline-images t)
   (setq org-startup-with-inline-images "inlineimages")
+  ;; (setq org-agenda-include-diary t)
 
   ;; (org-display-inline-images t)
 
@@ -111,6 +116,7 @@
   (setq org-log-done t)
 
   (setq org-agenda-files '("~/org"))
+  (setq org-default-notes-file (concat org-directory "/capture.org"))
 
   (font-lock-add-keywords
    'org-mode
@@ -130,18 +136,27 @@
   )
 
 (use-package org-roam
-      :ensure t
-      :hook
-      (after-init . org-roam-mode)
-      :custom
-      (org-roam-directory "~/org")
-      :bind (:map org-roam-mode-map
+  :ensure t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/org")
+  :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
                ("C-c n g" . org-roam-graph))
               :map org-mode-map
               (("C-c n i" . org-roam-insert))
-              (("C-c n I" . org-roam-insert-immediate))))
+              (("C-c n I" . org-roam-insert-immediate)))
+  :config
+  ;; (setq org-roam-graph-viewer
+  ;;   (lambda (file)
+  ;;     (let ((org-roam-graph-viewer "/mnt/c/Program Files/Mozilla Firefox/firefox.exe"))
+  ;;       (org-roam-graph--open (concat "file://///wsl$/Ubuntu" file)))))
+  (setq org-roam-graph-viewer #'eww-open-file)
+  (setq org-roam-graph-executable "neato" ) ;; requiere graphviz
+
+  )
 
 (use-package poly-org
   :disabled
@@ -157,8 +172,17 @@
   )
 
 (use-package evil-org
+  :demand t
   :ensure t
   :after (org evil)
+  :general
+  (
+   :states 'normal
+   :keymaps 'org-mode-map
+   "C-k" 'evil-window-up
+   "C-j" 'evil-window-down
+	)
+
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
@@ -189,44 +213,53 @@
               (kbd "M-o") (evil-org-define-eol-command org-insert-heading)
               (kbd "M-t") (evil-org-define-eol-command org-insert-todo))
 
-            ;; Configure leader key
-            (evil-leader/set-key-for-mode 'org-mode
-                                          "." 'hydra-org-state/body
-                                          "t" 'org-todo
-                                          "T" 'org-show-todo-tree
-                                          "v" 'org-mark-element
-                                          "a" 'org-agenda
-                                          "c" 'org-archive-subtree
-                                          "l" 'evil-org-open-links
-                                          "C" 'org-resolve-clocks)
 
-            ;; Define a transient state for quick navigation
-            (defhydra hydra-org-state ()
-              ;; basic navigation
-              ("i" org-cycle)
-              ("I" org-shifttab)
-              ("h" org-up-element)
-              ("l" org-down-element)
-              ("j" org-forward-element)
-              ("k" org-backward-element)
-              ;; navigating links
-              ("n" org-next-link)
-              ("p" org-previous-link)
-              ("o" org-open-at-point)
-              ;; navigation blocks
-              ("N" org-next-block)
-              ("P" org-previous-block)
-              ;; updates
-              ("." org-ctrl-c-ctrl-c)
-              ("*" org-ctrl-c-star)
-              ("-" org-ctrl-c-minus)
-              ;; change todo state
-              ("H" org-shiftleft)
-              ("L" org-shiftright)
-              ("J" org-shiftdown)
-              ("K" org-shiftup)
-              ("t" org-todo)))
+            ;; Configure leader key
+            ;; (evil-leader/set-key-for-mode 'org-mode
+            ;;                               "." 'hydra-org-state/body
+            ;;                               "t" 'org-todo
+            ;;                               "T" 'org-show-todo-tree
+            ;;                               "v" 'org-mark-element
+            ;;                               "a" 'org-agenda
+            ;;                               "c" 'org-archive-subtree
+            ;;                               "l" 'evil-org-open-links
+            ;;                               "C" 'org-resolve-clocks)
+
+            )
           )
+
+;; Define a transient state for quick navigation
+(defhydra hydra-org-state ()
+  ;; basic navigation
+  ("i" org-cycle)
+  ("I" org-shifttab)
+  ("h" org-up-element)
+  ("l" org-down-element)
+  ("j" org-forward-element)
+  ("k" org-backward-element)
+  ;; navigating links
+  ("n" org-next-link)
+  ("p" org-previous-link)
+  ("o" org-open-at-point)
+  ;; navigation blocks
+  ("N" org-next-block)
+  ("P" org-previous-block)
+  ;; updates
+  ("." org-ctrl-c-ctrl-c)
+  ("*" org-ctrl-c-star)
+  ("-" org-ctrl-c-minus)
+  ;; change todo state
+  ("H" org-shiftleft)
+  ("L" org-shiftright)
+  ("J" org-shiftdown)
+  ("K" org-shiftup)
+  ("t" org-todo))
+
+(defhydra hydra-roam (:color blue)
+  ("f" org-roam-find-file "find")
+  ("i" org-roam-insert "insert")
+  ("m" org-roam-graph "map")
+  )
 
 ;; TODO: cuadrar esto bien y aprender un poco, que por el momento solo he usado 'a'
 (defhydra hydra-org (:color red :columns 3)
