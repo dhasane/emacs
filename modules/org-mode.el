@@ -1,4 +1,4 @@
-
+;;; package --- Summary
 
 ;; org mode ------------------------------------------------
 ;;; code:
@@ -83,21 +83,6 @@
   ;; (add-to-list 'org-structure-template-alist
              ;; '("s" "#+NAME: ?\n#+BEGIN_SRC \n\n#+END_SRC"))
 
-  ;; (custom-theme-set-faces
-  ;;  'user
-  ;;  '(org-block ((t (:inherit fixed-pitch))))
-  ;;  '(org-code ((t (:inherit (shadow fixed-pitch)))))
-  ;;  '(org-document-info ((t (:foreground "dark orange"))))
-  ;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-  ;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-  ;;  '(org-link ((t (:foreground "royal blue" :underline t))))
-  ;;  '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-  ;;  '(org-property-value ((t (:inherit fixed-pitch))) t)
-  ;;  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-  ;;  '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-  ;;  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-  ;;  '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-
   (setq org-startup-indented t
         ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
         ;; folding symbol
@@ -111,7 +96,6 @@
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t
         )
-
 
   (setq org-log-done t)
 
@@ -149,10 +133,6 @@
               (("C-c n i" . org-roam-insert))
               (("C-c n I" . org-roam-insert-immediate)))
   :config
-  ;; (setq org-roam-graph-viewer
-  ;;   (lambda (file)
-  ;;     (let ((org-roam-graph-viewer "/mnt/c/Program Files/Mozilla Firefox/firefox.exe"))
-  ;;       (org-roam-graph--open (concat "file://///wsl$/Ubuntu" file)))))
   (setq org-roam-graph-viewer #'eww-open-file)
   (setq org-roam-graph-executable "neato" ) ;; requiere graphviz
 
@@ -186,8 +166,8 @@
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
+			(lambda ()
+			  (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 
