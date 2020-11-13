@@ -85,9 +85,7 @@
 
   (setq org-startup-indented t
         ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
-        ;; folding symbol
-        org-ellipsis (propertize "  " 'font-lock-face '(:foreground "red"))
-        ; (propertize "  " :foreground "orange" :background "red")
+        org-ellipsis (propertize "  " 'font-lock-face '(:foreground "red"))    ; folding symbol
         org-pretty-entities t
         org-hide-emphasis-markers t
         ;; show actually italicized text instead of /italicized text/
@@ -119,6 +117,29 @@
   ;; (org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))
   )
 
+;; TODO: cuadrar esto bien y aprender un poco, que por el momento solo he usado 'a'
+(defhydra hydra-org (:color blue :columns 3)
+  ("a" org-agenda         "agenda")
+  ("l s" org-store-link   "store link")
+  ("l i" org-insert-link  "insert link")
+  ("o" org-roam           "roam")
+  ("f" org-roam-find-file "find")
+  ("i" org-roam-insert    "insert")
+  ("m" org-roam-graph     "map")
+  ("k" kill-org-buffers   "kill")
+  )
+;; (defhydra hydra-org (:color red :columns 3)
+;;   "Org Mode Movements"
+;;   ("a" org-agenda "agenda")
+;;   ("l" org-store-link "store link")
+;;   ("n" outline-next-visible-heading "next heading")
+;;   ("p" outline-previous-visible-heading "prev heading")
+;;   ("N" org-forward-heading-same-level "next heading at same level")
+;;   ("P" org-backward-heading-same-level "prev heading at same level")
+;;   ("u" outline-up-heading "up heading")
+;;   ("g" org-goto "goto" :exit t) ;; y esto como que no sirve :v
+;;   )
+
 (use-package org-roam
   :ensure t
   :hook
@@ -135,8 +156,15 @@
   :config
   (setq org-roam-graph-viewer #'eww-open-file)
   (setq org-roam-graph-executable "neato" ) ;; requiere graphviz
-
   )
+
+;; (defhydra hydra-roam
+;;   (:color blue)
+;;   ("o" org-roam           "roam")
+;;   ("f" org-roam-find-file "find")
+;;   ("i" org-roam-insert    "insert")
+;;   ("m" org-roam-graph     "map")
+;;   )
 
 (use-package poly-org
   :disabled
@@ -166,8 +194,8 @@
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
-			(lambda ()
-			  (evil-org-set-key-theme)))
+            (lambda ()
+              (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 
@@ -235,21 +263,3 @@
   ("K" org-shiftup)
   ("t" org-todo))
 
-(defhydra hydra-roam (:color blue)
-  ("f" org-roam-find-file "find")
-  ("i" org-roam-insert "insert")
-  ("m" org-roam-graph "map")
-  )
-
-;; TODO: cuadrar esto bien y aprender un poco, que por el momento solo he usado 'a'
-(defhydra hydra-org (:color red :columns 3)
-  "Org Mode Movements"
-  ("a" org-agenda "agenda")
-  ("l" org-store-link "store link")
-  ("n" outline-next-visible-heading "next heading")
-  ("p" outline-previous-visible-heading "prev heading")
-  ("N" org-forward-heading-same-level "next heading at same level")
-  ("P" org-backward-heading-same-level "prev heading at same level")
-  ("u" outline-up-heading "up heading")
-  ("g" org-goto "goto" :exit t) ;; y esto como que no sirve :v
-  )

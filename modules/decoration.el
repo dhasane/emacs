@@ -46,6 +46,7 @@
           "Yeeeee boiii"
           "Gotta go fast"
           "Stonks"
+          "Para la gente que piensa que ya no hay razon para vivir y nada mas para esperar, la cuestion es lograr que entiendan que la vida espera algo de ellos -Victor Frankel"
           )
         )
 
@@ -54,27 +55,28 @@
 (use-package gruvbox-theme
   :demand t
   :config
-  (load-theme 'gruvbox-dark-medium)
+  (load-theme
+   ;; 'gruvbox-dark-medium
+   ;; 'gruvbox-dark-soft
+   'gruvbox-dark-hard
+   )
   )
 
-;;(use-package ample-theme
-  ;;;; https://github.com/jordonbiondo/ample-theme
-  ;;:init (progn
-          ;;(load-theme 'ample t t)
-          ;;;;(load-theme 'ample-flat t t)
-          ;;;;(load-theme 'ample-light t t)
-          ;;(enable-theme 'ample)
-               ;;)
-  ;;:defer t
-  ;;:ensure t)
+;; (use-package ample-theme
+;;   ;; https://github.com/jordonbiondo/ample-theme
+;;   :init
+;;
+;;   ;; (load-theme 'ample t t)
+;;   ;;(load-theme 'ample-flat t t)
+;;   ;; (load-theme 'ample-light t t) ;; no
+;;   (load-theme 'ample)
+;;   :defer t
+;;   :ensure t)
 ;;(use-package kaolin-themes
   ;;;; https://github.com/ogdenwebb/emacs-kaolin-themes
   ;;:config
   ;;(load-theme 'kaolin-temple t)
   ;;(kaolin-treemacs-theme))
-;; (load-theme
- ;; 'gruvbox-light-medium)
-;; (load-theme 'gruvbox-dark-soft)
 
 ;; fonts ------
 (progn
