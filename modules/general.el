@@ -146,6 +146,8 @@
   (ranger-override-dired-mode t)
   (ranger-return-to-ranger t)
   (ranger-show-hidden t)
-  ;; :config
-  ;; (ranger-show-file-details)
+  :config
+  (ranger-show-file-details)
+  (ranger-override-dired-mode t)
+  )
   )

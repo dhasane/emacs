@@ -42,8 +42,8 @@
 ;;; init ----------------------------------------------------
 ;;; Inicio configuracion
 
-(load "server")
-(unless (server-running-p) (server-start))
+;; (load "server")
+;; (unless (server-running-p) (server-start))
 
 (setq file-name-handler-alist nil)
 
@@ -171,12 +171,14 @@
 
 ;; load config
 (simple-comp-load-folder config-module-dir
-                         :compile t
+                         ;;:compile t
                          :ignorar '("fira-code"))
 (simple-comp-load-folder config-lang-dir
-                         :compile t)
+                         ;; :compile t
+                         )
 (simple-comp-load-folder custom-elisp-dir
-                         :compile t)
+                         ;; :compile t
+                         )
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -197,7 +199,6 @@
  :prefix "<SPC>"
  ;; :non-normal-prefix "M-SPC"
  :states 'normal
- ;; :keymaps 'comint-mode-map
  "e" 'counsel-find-file
  "b" 'switch-to-buffer
  "k" 'kill-buffer
@@ -214,7 +215,8 @@
            (call-interactively 'counsel-find-file)
            )
          )  ;; "jet pack"
- "n" 'hydra-roam/body
+ "o" 'hydra-org/body
+ ;; "<SPC>" 'swiper-avy
  )
 
 ;; the hydra to rule them all buahaha
@@ -264,8 +266,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
 (put 'narrow-to-region 'disabled nil)
 
 ;; Make gc pauses faster by decreasing the threshold.
-;; (setq gc-cons-threshold (* 2 1000 1000))
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold 100000000) ;; 100 mb
 
 (provide 'init)
 ;;; init.el ends here

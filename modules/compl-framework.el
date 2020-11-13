@@ -42,7 +42,8 @@
   (setq ivy-rich-path-style 'abbrev)
 
   (setq ivy-rich-display-transformers-list
-        '(ivy-switch-buffer
+        '(
+          ivy-switch-buffer
           (:columns
            (
             ;; (ivy-rich-switch-buffer-icon (:width 2))
@@ -58,11 +59,12 @@
           (:columns
            (
             (ivy-read-file-transformer)
-            (ivy-rich-switch-buffer-path
-             (:width
-              (lambda (x)
-                (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3)))))
-            ;; (ivy-rich-counsel-find-file-truename (:face font-lock-doc-face))
+            ;; (ivy-rich-switch-buffer-path
+            ;;  (:width
+            ;;   (lambda (x)
+            ;;     (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3)))))
+            (ivy-rich-counsel-find-file-truename (:face "#900000" ;;font-lock-doc-face
+                                                        ))
             ))
           counsel-M-x
           (:columns

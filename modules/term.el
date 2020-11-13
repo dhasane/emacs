@@ -50,6 +50,9 @@
                     )
               )
             )
+  (add-to-list 'display-buffer-alist
+                 '("sudo". ((display-buffer-pop-up-window) .
+                             ((inhibit-same-window . t)))))
   :config
 
   (defun check-gitconfig-create ()
@@ -150,12 +153,18 @@
   ;;         )
 
   (setq eshell-kill-on-exit t)
+  (setq pcomplete-ignore-case t)
 
   (defun eshell/clear ()
-	"Clear the eshell buffer."
-	(let ((inhibit-read-only t))
-	  (erase-buffer)
+    "Clear the eshell buffer."
+    (let ((inhibit-read-only t))
+      (erase-buffer)
       ))
+
+  (defun eshell/upd ()
+    "Update system"
+    ;;TODO: identificar el sistema para actualizar
+    )
   )
 
 (use-package eshell-z

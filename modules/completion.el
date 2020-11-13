@@ -42,26 +42,43 @@
          (prog-mode . #'dh/lsp-enable-mode)
          (lsp-mode  . lsp-enable-which-key-integration)
          (lsp-mode  . lsp-lens-mode)
+         (lsp-managed-mode-hook . lsp-diagnostics-modeline-mode)
          )
-  ;; :general
-  ;; (
-  ;;  :keymap 'prog-mode
-  ;;  :states 'normal
-  ;;  ;; "K" #'lsp-ui-peek-find-definitions
-  ;;  )
-  :config
+  :custom
   ;; :project/:workspace/:file
-  (setq read-process-output-max (* 4 1024 1024))
-  (setq lsp-modeline-diagnostics-scope :project)
-  (setq lsp-ui-peek-enable t
-        lsp-enable-which-key-integration t
-        lsp-enable-semantic-highlighting t
-        lsp-diagnostics-modeline-mode t)
-  (setq lsp-print-performance t)
-  (add-hook 'lsp-managed-mode-hook 'lsp-diagnostics-modeline-mode)
+  (lsp-modeline-diagnostics-scope :project)
+  (lsp-ui-peek-enable t)
+  (lsp-enable-semantic-highlighting t)
+  (lsp-enable-indentation t)
+  (lsp-file-watch-threshold 500)
+  (lsp-print-performance t)
+  (lsp-enable-snippet nil)
 
+  :config
+  (setq read-process-output-max (* 4 1024 1024))
+  (setq lsp-enable-which-key-integration t
+        ;; lsp-auto-guess-root t       ; Detect project root
+        ;; lsp-log-io nil
+        lsp-diagnostics-modeline-mode nil
+        )
+
+  ;; (push 'lsp-blacg)
+
+  ;; (lsp-session-folders-blacklist "~")
+
+  ;; (defun lsp-on-save-operation ()
+  ;;   (when (or (boundp 'lsp-mode)
+  ;;             (bound-p 'lsp-deferred))
+  ;;     (lsp-organize-imports)
+  ;;     (lsp-format-buffer)))
   ;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
   :commands (lsp lsp-deferred)
+  )
+
+(use-package lsp-ivy
+  )
+
+(use-package ivy-avy
   )
 
 (use-package flycheck
@@ -74,16 +91,18 @@
   )
 
 (use-package company
-  ;; :disabled
+  ;; :disabled t
   :demand t
   :ensure t
   :after (evil)
-  ;;:hook (prog-mode . company-mode)
+  :hook (prog-mode . company-mode)
   :general
-  (:states '(insert)
-   ;; "TAB" 'tab-indent-or-complete
-   "TAB" 'dh/complete-in-context
-   )
+  (
+   :keymap 'prog-mode
+   :states '(insert)
+           ;; "TAB" 'tab-indent-or-complete
+           "TAB" 'dh/complete-in-context
+           )
   (company-active-map
    "TAB" 'company-complete-common-or-cycle
    "<tab>" 'company-complete-common-or-cycle
@@ -109,6 +128,9 @@
   (company-idle-delay nil) ; Delay in showing suggestions.
   (global-company-mode t)
   ;;(setq company-tooltip-margin 4)
+
+  (company-tooltip-maximum-width 60) ;; normalizar y evitar saltos
+  (company-tooltip-minimum-width 60)
   :config
 
   (evil-make-intercept-map company-active-map 'insert)
@@ -219,7 +241,7 @@
            company-files          ; files & directory
            company-keywords       ; keywords
            company-capf
-           company-yasnippet
+           ;; company-yasnippet
            company-dabbrev-code
            ;;company-dabbrev
            ;;company-abbrev
@@ -244,43 +266,44 @@
         (delq 'company-pseudo-tooltip-frontend company-frontends)
         )
 
-    ;; (company-tng-configure-default)
-    (company-tng-mode)
-    (add-hook 'after-init-hook 'global-company-mode)
-    ;; para probar company-box
-    ;;(add-hook 'after-init-hook 'global-company-mode)
+  ;; (company-tng-configure-default)
+  (company-tng-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
+  ;; para probar company-box
+  ;;(add-hook 'after-init-hook 'global-company-mode)
 
-    ;; https://emacs.stackexchange.com/questions/12360/how-to-make-private-python-methods-the-last-company-mode-choices
-    (defun company-transform-candidates-_-to-end (candidates)
-      "mover los candidatos que inicien por _ al final"
-      (let ((deleted))
-        (mapcar #'(lambda (c)
-                    (if (or (string-prefix-p "_" c) (string-prefix-p "._" c))
-                        (progn
-                          (add-to-list 'deleted c)
-                          (setq candidates (delete c candidates)))))
-                candidates)
-        (append candidates (nreverse deleted))))
+  ;; https://emacs.stackexchange.com/questions/12360/how-to-make-private-python-methods-the-last-company-mode-choices
+  (defun company-transform-candidates-_-to-end (candidates)
+    "mover los candidatos que inicien por _ al final"
+    (let ((deleted))
+      (mapcar #'(lambda (c)
+                  (if (or (string-prefix-p "_" c) (string-prefix-p "._" c))
+                      (progn
+                        (add-to-list 'deleted c)
+                        (setq candidates (delete c candidates)))))
+              candidates)
+      (append candidates (nreverse deleted))))
 
-    ;; (defun my-python-yasnippet-conf()
-    ;;   (setq-local company-transformers
-    ;;               (append company-transformers '(company-transform-python))))
+  ;; (defun my-python-yasnippet-conf()
+  ;;   (setq-local company-transformers
+  ;;               (append company-transformers '(company-transform-python))))
 
-    ;; (add-hook 'python-mode-hook 'my-python-yasnippet-conf)
-    (append company-transformers '(company-transform-candidates-_-to-end))
+  ;; (add-hook 'python-mode-hook 'my-python-yasnippet-conf)
+  (append company-transformers '(company-transform-candidates-_-to-end))
 
-    )
+  )
 
 ;;(use-package readline-complete
-	;;:ensure t
-	;;)
+;;:ensure t
+;;)
 
-(use-package company-quickhelp
-  :ensure t
-  :after (company)
-  :init
-  (company-quickhelp-mode)
-  )
+;; (use-package company-quickhelp
+;;   :disabled t
+;;   :ensure t
+;;   :after (company)
+;;   :init
+;;   (company-quickhelp-mode)
+;;   )
 
 ;; (use-package company-box
   ;; :ensure t

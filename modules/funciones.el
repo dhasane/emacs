@@ -102,3 +102,36 @@
       (message "archivo remoto")
     (message "archivo local"))
   )
+
+(require 'notifications)
+(defun send-notification (msg)
+  "Prueba MSG."
+  (notifications-notify
+    :title msg
+    :body "There's 34 mails unread"
+    :urgency 'low)
+  )
+
+(defun print-list (list)
+  "Imprimir todos los elementos de la lista LIST."
+  (dolist (el list)
+    (print el)
+    )
+  )
+
+(defun kill-org-buffers ()
+  "Kill all org buffers."
+  (interactive)
+  (dolist (x (buffer-list))
+    (let ((name (buffer-name x) ) )
+      ;; (message name)
+      (if (string-match "\\.org\\'" name)
+          (progn
+            (message (concat ">> " name))
+            (save-buffer x)
+            (kill-buffer x)
+            )
+        )
+      )
+    )
+  )

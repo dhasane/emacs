@@ -15,7 +15,7 @@
   ;; For rainbow semantic highlighting
   (ccls-use-default-rainbow-sem-highlight)
 
-  (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
+  ;; (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
                                         ; Use lsp-goto-implementation or lsp-ui-peek-find-implementation (textDocument/implementation) for derived types/functions
                                         ; $ccls/inheritance is more general
 
