@@ -1,5 +1,7 @@
 ### Emacs ###
 
+# cosas que he ido quitando
+org-roam.db
 history
 ido.last
 places
@@ -16,6 +18,7 @@ url
 .dap-breakpoints
 .cache/
 .lsp-session-*
+lsp-cache/
 projectile-bookmarks.eld
 workspace
 

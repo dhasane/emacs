@@ -67,15 +67,25 @@
      )
     )
 
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (general-define-key
+               (
+                :keymap 'eshell-mode-map
+                :states '(insert)
+                "TAB" 'eshell-pcomplete
+                )
+               )
+              )
+            )
+
   (with-eval-after-load "evil"
     (add-hook 'eshell-mode-hook
               (lambda ()
                 (general-define-key
                  :states '(insert normal)
                  :keymaps 'eshell-mode-map
-                 ;; "] ]" 'eshell-next-prompt
-                 ;; "[ [" 'eshell-previous-prompt
-                 ;; "TAB" 'company-complete-common-or-cycle
+                 "TAB" 'eshell-pcomplete
                  "C-l" 'evil-window-right
                  "C-h" 'evil-window-left
                  "C-k" 'evil-window-up
@@ -165,6 +175,35 @@
     "Update system"
     ;;TODO: identificar el sistema para actualizar
     )
+  )
+
+(use-package esh-autosuggest
+  :hook (
+         (eshell-mode . esh-autosuggest-mode)
+         (eshell-mode-hook . #'setup-eshell-ivy-completion)
+         )
+  ;; If you have use-package-hook-name-suffix set to nil, uncomment and use the
+  ;; line below instead:
+  ;; :hook (eshell-mode-hook . esh-autosuggest-mode)
+  :ensure t
+  ;; :general
+  ;; (
+  ;;  :keymaps 'eshell-mode
+  ;;  :states '(insert)
+  ;;  "TAB" 'eshell-pcomplete
+  ;;  )
+  :config
+  (setq ivy-do-completion-in-region t) ; this is the default
+
+  (defun setup-eshell-ivy-completion ()
+    (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
+    ;; only if you want to use the minibuffer for completions instead of the
+    ;; in-buffer interface
+    (setq-local ivy-display-functions-alist
+                (remq (assoc 'ivy-completion-in-region ivy-display-functions-alist)
+                      ivy-display-functions-alist)))
+
+  ;; (add-hook 'eshell-mode-hook #'setup-eshell-ivy-completion)
   )
 
 (use-package eshell-z

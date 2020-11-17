@@ -100,8 +100,7 @@
   (
    :keymap 'prog-mode
    :states '(insert)
-           ;; "TAB" 'tab-indent-or-complete
-           "TAB" 'dh/complete-in-context
+           "TAB" 'tab-indent-or-complete
            )
   (company-active-map
    "TAB" 'company-complete-common-or-cycle
@@ -139,20 +138,6 @@
   ;; connected or not
   (defun company-files--connected-p (file)
     (not (file-remote-p file)))
-
-  (defcustom just-complete-modes
-    '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode )
-    "Modes in which to just complete instead of indent or complete."
-    :type 'list
-    )
-
-  (defun dh/complete-in-context ()
-    (interactive)
-    (if (member major-mode just-complete-modes )
-        (company-complete-common-or-cycle)
-      (tab-indent-or-complete)
-      )
-    )
 
   (defun company-eshell-setup ()
     (when (boundp 'company-backends)
