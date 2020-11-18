@@ -70,11 +70,9 @@
   (add-hook 'eshell-mode-hook
             (lambda ()
               (general-define-key
-               (
-                :keymap 'eshell-mode-map
+                :keymaps 'eshell-mode-map
                 :states '(insert)
-                "TAB" 'eshell-pcomplete
-                )
+                "TAB" 'completion-at-point
                )
               )
             )
@@ -85,12 +83,10 @@
                 (general-define-key
                  :states '(insert normal)
                  :keymaps 'eshell-mode-map
-                 "TAB" 'eshell-pcomplete
                  "C-l" 'evil-window-right
                  "C-h" 'evil-window-left
                  "C-k" 'evil-window-up
                  "C-j" 'evil-window-down
-
                  )
                 )
               )
@@ -148,7 +144,6 @@
         eshell-highlight-prompt t
         )
 
-
   ;; (mapcar (lambda (val)
   ;;           (push val 'eshell-cannot-leave-input-list))
   ;;         '(
@@ -178,32 +173,27 @@
   )
 
 (use-package esh-autosuggest
+  :demand t
   :hook (
          (eshell-mode . esh-autosuggest-mode)
-         (eshell-mode-hook . #'setup-eshell-ivy-completion)
          )
   ;; If you have use-package-hook-name-suffix set to nil, uncomment and use the
   ;; line below instead:
   ;; :hook (eshell-mode-hook . esh-autosuggest-mode)
   :ensure t
-  ;; :general
-  ;; (
-  ;;  :keymaps 'eshell-mode
-  ;;  :states '(insert)
-  ;;  "TAB" 'eshell-pcomplete
-  ;;  )
   :config
   (setq ivy-do-completion-in-region t) ; this is the default
 
   (defun setup-eshell-ivy-completion ()
-    (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
+    (interactive)
+    ;; (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
     ;; only if you want to use the minibuffer for completions instead of the
     ;; in-buffer interface
     (setq-local ivy-display-functions-alist
                 (remq (assoc 'ivy-completion-in-region ivy-display-functions-alist)
                       ivy-display-functions-alist)))
 
-  ;; (add-hook 'eshell-mode-hook #'setup-eshell-ivy-completion)
+  (add-hook 'eshell-mode-hook #'setup-eshell-ivy-completion)
   )
 
 (use-package eshell-z
