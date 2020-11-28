@@ -245,7 +245,8 @@ _re_: edit     |   _j_: previous    |   _o_: org
           )  "jet pack" )
   ( "s" swiper "swiper" )
   ;;( "." toggle-terminal "terminal" )
-  ( "." eshell-new "terminal" )
+  ;; ( "." eshell-new "terminal" )
+  ( "." (dh/open-create-eshell-buffer) "terminal" )
   ( "e" counsel-flycheck "errores" )
 
   ;;( "j" previous-buffer "next" )

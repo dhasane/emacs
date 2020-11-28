@@ -13,6 +13,35 @@
   (interactive)
   (eshell 'N))
 
+(defun dh/open-create-eshell-buffer ()
+  "Crear un buffer nuevo, o saltar a uno ya existente.
+Se crea con el nombre de la carpeta en la que se encuentre.
+Adicionalmente, en caso de estar dentro de un proyecto, se utiliza
+proyectile para darle nombre al buffer, de forma que se comparta
+por todo el proyecto.
+"
+  (interactive)
+  (let* ((nombre
+          (concat "*eshell*<"
+                  (if (projectile-project-p)
+                      (projectile-project-name)
+                    (concat default-directory)
+                    )
+                  ">")
+          )
+         (eshell-buffer-exists
+          (member nombre
+                  (mapcar (lambda (buf)
+                            (buffer-name buf))
+                          (buffer-list)))))
+    (if eshell-buffer-exists
+        (switch-to-buffer nombre)
+      (progn
+        (eshell 99)
+        (rename-buffer nombre))))
+
+  )
+
 (use-package eshell
   :defines
   (
@@ -28,6 +57,8 @@
   (
    eshell-kill-on-exit
    )
+  :custom
+  (eshell-destroy-buffer-when-process-dies t)
   :init
   (setq eshell-visual-subcommands
         '(
@@ -66,6 +97,19 @@
      ;;(magit-status)
      )
     )
+
+  (add-hook 'eshell-directory-change-hook
+            (lambda ()
+              (rename-buffer
+               (concat "*eshell*<"
+                       (if (projectile-project-p)
+                           (projectile-project-name)
+                         (concat default-directory)
+                         )
+                       ">")
+               )
+              )
+            )
 
   (add-hook 'eshell-mode-hook
             (lambda ()

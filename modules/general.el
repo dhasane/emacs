@@ -84,6 +84,7 @@
   :custom
   (proced-auto-update-flag t)
   )
+
 (use-package origami
   :demand t
   :config
@@ -149,5 +150,4 @@
   :config
   (ranger-show-file-details)
   (ranger-override-dired-mode t)
-  )
   )
