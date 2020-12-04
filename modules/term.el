@@ -8,6 +8,10 @@
   (add-hook 'tramp-mode-hook 'keychain-refresh-environment)
   )
 
+(add-hook 'eshell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
+(add-hook 'shell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
+(add-hook 'term-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
+
 (defun eshell-new()
   "Open a new instance of eshell."
   (interactive)
@@ -241,10 +245,11 @@ por todo el proyecto.
   )
 
 (use-package eshell-z
-  :config
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (require 'eshell-z)))
+  :hook (
+         (eshell-mode .
+                   (lambda ()
+                     (require 'eshell-z)))
+         )
   )
 
 (use-package eshell-syntax-highlighting

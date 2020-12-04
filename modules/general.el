@@ -5,6 +5,9 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+(use-package nix-mode
+  :ensure t)
+
 (use-package which-key
   :ensure t
   :demand t
@@ -25,19 +28,16 @@
   (which-key-mode)
   )
 
-(use-package pdf-tools
-  :config
-  (pdf-tools-install)
-  (pdf-loader-install)
-  )
-
 ;; eliminar espacios al final de una linea
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (use-package ws-butler
   :demand t
   :ensure t
   :defer .1
-  :hook ((prog-mode . ws-butler-mode))
+  :hook (
+         (prog-mode . ws-butler-mode)
+         (org-mode . ws-butler-mode)
+         )
   )
 
 (use-package midnight
@@ -84,6 +84,9 @@
   :custom
   (proced-auto-update-flag t)
   )
+
+;; (use-package restart-emacs
+;;   )
 
 (use-package origami
   :demand t

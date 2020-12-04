@@ -13,8 +13,8 @@
    )
   (org-mode-map
    :states '(normal)
-           "RET" 'org-open-at-point
-           )
+   "RET" 'org-open-at-point
+   )
   :hook(
         (org-mode . (lambda ()
                       (progn
@@ -63,10 +63,12 @@
      (awk . t)
      (clojure . t)))
 
-  (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-confirm-babel-evaluate nil
-        org-edit-src-content-indentation 0)
+  (defun my/fix-inline-images ()
+    (when org-inline-image-overlays
+      (org-redisplay-inline-images)))
+
+  (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
+  (setq-default org-image-actual-width 620)
 
   (org-display-inline-images t t)
   (setq org-redisplay-inline-images t)
@@ -86,6 +88,9 @@
   (setq org-startup-indented t
         ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
         org-ellipsis (propertize "  " 'font-lock-face '(:foreground "red"))    ; folding symbol
+        ;; deja de incluir lineas vacias al final, pero arregla el problema con ellipsis
+        org-cycle-separator-lines -1
+
         org-pretty-entities t
         org-hide-emphasis-markers t
         ;; show actually italicized text instead of /italicized text/
@@ -104,6 +109,11 @@
    'org-mode
    '(("^ +\\([-*]\\) "
       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-confirm-babel-evaluate nil
+        org-edit-src-content-indentation 0)
 
   ;; :custom-face
   ;; (org-level-8 ((t (,@headline ,@variable-tuple))))

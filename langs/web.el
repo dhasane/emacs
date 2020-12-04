@@ -55,6 +55,11 @@
 
 (use-package php-mode
   :mode ("\\.php\\’" . php-mode)
+  :general
+  (
+   :states '(insert)
+   "TAB" 'tab-indent-or-complete
+   )
   :init
   (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
   )

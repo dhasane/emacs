@@ -41,8 +41,8 @@
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (prog-mode . #'dh/lsp-enable-mode)
          (lsp-mode  . lsp-enable-which-key-integration)
-         (lsp-mode  . lsp-lens-mode)
-         (lsp-managed-mode-hook . lsp-diagnostics-modeline-mode)
+         ;; (lsp-mode  . lsp-modeline-diagnostics-mode)
+         (lsp-managed-mode-hook . lsp-modeline-diagnostics-mode)
          )
   :custom
   ;; :project/:workspace/:file
@@ -342,6 +342,10 @@
   :demand t
   :ensure t
   :defer .1
+  :defines
+  (
+   yas-reload-all
+  )
   :hook (
          (prog-mode . yas-minor-mode)
          (org-mode . yas-minor-mode)
@@ -362,6 +366,8 @@
 (use-package yasnippet-snippets
   :demand t
   :after yasnippet
+  :defines
+  (yas-reload-all)
   :config
   (yas-reload-all)
   )

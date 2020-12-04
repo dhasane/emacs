@@ -196,8 +196,9 @@
 (gbind "C-x b" 'ivy-switch-buffer )
 
 (general-define-key
+ :keymaps 'override
  :prefix "<SPC>"
- ;; :non-normal-prefix "M-SPC"
+ :non-normal-prefix "<M-SPC>"
  :states 'normal
  "e" 'counsel-find-file
  "b" 'switch-to-buffer

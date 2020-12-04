@@ -126,11 +126,9 @@
          emacs-lisp-mode
          web-mode
          typescript-mode
-         js2-mode)
-  ;; (
-  ;;  ;; (css-mode . rainbow-mode)
-  ;;  (prog-mode . rainbow-mode)
-  ;;  )
+         js2-mode
+         css-mode
+         )
   )
 
 (use-package display-line-numbers
@@ -175,20 +173,24 @@
   ;; :hook (prog-mode . display-line-numbers)
   )
 
-(use-package indent-guide
-  :ensure t
-  :defer .1
+(use-package highlight-indent-guides
   :hook (
-         (prog-mode . indent-guide-mode)
-         (python-mode . (lambda () indent-guide-mode nil))
+         (prog-mode . highlight-indent-guides-mode)
          )
+  :custom
+  (highlight-indent-guides-method 'character
+                                  ;; 'column
+                                  )
+  (highlight-indent-guides-character ?║ ;; U+2551
+                                     )
+  (highlight-indent-guides-responsive ;;'top
+                                      'stack
+                                      )
   :config
-  ;; (indent-guide-global-mode)
-  (setq indent-guide-recursive t
-        ;; indent-guide-lispy-modes
-        indent-guide-threshold -1
-        indent-guide-char "║" ;; U+2551
-        )
+  ;; (set-face-background 'highlight-indent-guides-odd-face "blue")
+  ;; (set-face-background 'highlight-indent-guides-even-face "green")
+  ;; (set-face-foreground 'highlight-indent-guides-character-face "red")
+
   )
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))

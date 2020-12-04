@@ -33,7 +33,7 @@
 
   :general
   (
-   :states '(normal motion)
+   :states '(normal motion override)
    "C-S-k" 'evil-lookup
    "j" 'evil-next-visual-line
    "k" 'evil-previous-visual-line
@@ -107,14 +107,14 @@
              (rdictcc-buffer-mode . emacs)
 
              ;; motion
-             (debugger-mode . motion)
-             (inferior-emacs-lisp-mode . motion)
-             (package-menu-mode . motion)
-             (help-mode . motion)
-             (grep-mode . motion)
-             (special-mode . motion)
-             (bc-menu-mode . motion)
-             (Custom-mode . motion)
+             ;; (debugger-mode . motion)
+             ;; (inferior-emacs-lisp-mode . motion)
+             ;; (package-menu-mode . motion)
+             ;; (help-mode . motion)
+             ;; (grep-mode . motion)
+             ;; (special-mode . motion)
+             ;; (bc-menu-mode . motion)
+             ;; (Custom-mode . motion)
              )
            do (evil-set-initial-state mode state))
 

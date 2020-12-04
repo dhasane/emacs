@@ -85,7 +85,7 @@
 ;; (setq-default scroll-up-aggressively 0.01
 ;;               scroll-down-aggressively 0.01)
 
-(setq redisplay-dont-pause t
+(setq
   scroll-margin 10
   scroll-step 1
   scroll-conservatively 10000
