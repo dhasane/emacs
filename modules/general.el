@@ -88,6 +88,15 @@
 ;; (use-package restart-emacs
 ;;   )
 
+(use-package nhexl-mode
+  :custom
+  (nhexl-display-unprintables t)
+  (nhexl-line-width t)
+  (nhexl-obey-font-lock nil)
+  (nhexl-separate-line nil)
+  (nhexl-silently-convert-to-unibyte t)
+  )
+
 (use-package origami
   :demand t
   :config

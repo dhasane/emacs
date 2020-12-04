@@ -70,6 +70,9 @@
       create-lockfiles nil
      )
 
+;; quitar el mouse del lugar donde uno esta editando
+(mouse-avoidance-mode 'cat-and-mouse)
+
 (setq x-wait-for-event-timeout nil)
 
 (blink-cursor-mode 0)
