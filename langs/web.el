@@ -39,6 +39,19 @@
       ad-do-it))
 )
 
+(dolist (hook '(js-mode-hook
+                js2-mode-hook
+                js3-mode-hook
+                inferior-js-mode-hook
+                ))
+  (add-hook hook
+            (lambda ()
+              (tern-mode t)
+              (add-to-list
+               (make-local-variable 'company-backends)
+               'company-tern)
+              )))
+
 (use-package js2-mode
   :mode "\\.js\\'"
   ;; en teoria esto es mejor como minor-mode desde emacs 27, pero como que me funciona mejor como principal

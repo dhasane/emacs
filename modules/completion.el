@@ -94,15 +94,16 @@
   ;; :disabled t
   :demand t
   :ensure t
-  :after (evil)
+  :defer .1
   :hook (prog-mode . company-mode)
   :general
   (
    :keymap 'prog-mode
    :states '(insert)
-           "TAB" 'tab-indent-or-complete
-           )
-  (company-active-map
+   "TAB" 'tab-indent-or-complete
+   )
+  (
+   :keymaps 'company-active-map
    "TAB" 'company-complete-common-or-cycle
    "<tab>" 'company-complete-common-or-cycle
 
@@ -111,6 +112,7 @@
 
    "RET" 'company-complete-selection
    "<return>" 'company-complete-selection
+   "<ret>" 'company-complete-selection
 
    [escape] 'company-abort
    )
@@ -130,7 +132,12 @@
 
   (company-tooltip-maximum-width 60) ;; normalizar y evitar saltos
   (company-tooltip-minimum-width 60)
+  (company-tng-mode t)
+  (company-tng-auto-configure nil)
+  (company-require-match nil)
   :config
+
+  (company-tng-mode)
 
   (evil-make-intercept-map company-active-map 'insert)
 
@@ -138,23 +145,6 @@
   ;; connected or not
   (defun company-files--connected-p (file)
     (not (file-remote-p file)))
-
-  (defun company-eshell-setup ()
-    (when (boundp 'company-backends)
-      ;; (make-local-variable 'company-idle-delay)
-      ;; (company-idle-delay 0) ; Delay in showing suggestions.
-      (make-local-variable 'company-backends)
-      ;; remove
-      (setq company-backends nil)
-      ;; add
-      ;; (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends 'company-keywords)
-      (add-to-list 'company-backends 'company-capf)
-      ;; (yas-minor-mode nil)
-      )
-    )
-
-  (add-hook 'eshell-mode-hook 'company-eshell-setup)
 
   ;; (defun check-expansion ()
   ;;   (save-excursion
@@ -179,9 +169,9 @@
       )
     )
 
-  (defun do-yas-expand ()
-    (let ((yas-fallback-behavior 'return-nil))
-      (yas-expand)))
+  ;; (defun do-yas-expand ()
+  ;;   (let ((yas-fallback-behavior 'return-nil))
+  ;;     (yas-expand)))
 
   ;; (defun tab-indent-or-complete ()
   ;;   (interactive)
@@ -210,12 +200,12 @@
       )
     )
 
-  (defun autocomplete-show-snippets ()
-    "Show snippets in autocomplete popup."
-    (let ((backend (car company-backends)))
-      (unless (listp backend)
-        (setcar company-backends `(,backend :with company-yasnippet company-files)))))
-  (add-hook 'after-change-major-mode-hook 'autocomplete-show-snippets)
+  ;; (defun autocomplete-show-snippets ()
+  ;;   "Show snippets in autocomplete popup."
+  ;;   (let ((backend (car company-backends)))
+  ;;     (unless (listp backend)
+  ;;       (setcar company-backends `(,backend :with company-yasnippet company-files)))))
+  ;; (add-hook 'after-change-major-mode-hook 'autocomplete-show-snippets)
 
   ;;(setq company-frontends (delq 'company-pseudo-tooltip-frontend company-frontends))
 
@@ -234,28 +224,8 @@
           )
         )
 
-  (dolist (hook '(js-mode-hook
-                  js2-mode-hook
-                  js3-mode-hook
-                  inferior-js-mode-hook
-                  ))
-    (add-hook hook
-              (lambda ()
-                (tern-mode t)
-                (add-to-list
-                 (make-local-variable 'company-backends)
-                 'company-tern)
-                )))
-
-  (setq company-frontends
-        (delq 'company-pseudo-tooltip-frontend company-frontends)
-        )
-
-  ;; (company-tng-configure-default)
-  (company-tng-mode)
-  (add-hook 'after-init-hook 'global-company-mode)
-  ;; para probar company-box
-  ;;(add-hook 'after-init-hook 'global-company-mode)
+  ;; (add-hook 'after-init-hook 'global-company-mode)
+  (global-company-mode)
 
   ;; https://emacs.stackexchange.com/questions/12360/how-to-make-private-python-methods-the-last-company-mode-choices
   (defun company-transform-candidates-_-to-end (candidates)
@@ -269,26 +239,21 @@
               candidates)
       (append candidates (nreverse deleted))))
 
-  ;; (defun my-python-yasnippet-conf()
-  ;;   (setq-local company-transformers
-  ;;               (append company-transformers '(company-transform-python))))
-
-  ;; (add-hook 'python-mode-hook 'my-python-yasnippet-conf)
   (append company-transformers '(company-transform-candidates-_-to-end))
 
+  ;; (company-tng-configure-default)
   )
 
 ;;(use-package readline-complete
 ;;:ensure t
 ;;)
 
-;; (use-package company-quickhelp
-;;   :disabled t
-;;   :ensure t
-;;   :after (company)
-;;   :init
-;;   (company-quickhelp-mode)
-;;   )
+(use-package company-quickhelp
+  :ensure t
+  :after (company)
+  :init
+  (company-quickhelp-mode)
+  )
 
 ;; (use-package company-box
   ;; :ensure t

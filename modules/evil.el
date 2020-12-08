@@ -197,7 +197,15 @@
   ;; (evil-collection-init)
 
   (let ((prevent-ec '(company)))
-    (seq-difference evil-collection-mode-list prevent-ec)
+    (dolist (pe prevent-ec)
+      (setq evil-collection-mode-list (delete pe evil-collection-mode-list))
+      )
     )
+
+  ;; (dolist (dd evil-collection-mode-list)
+  ;;   ;; (message "%s" evil-collection-mode-list)
+  ;;   (message "%s" dd)
+  ;;   )
+
   (evil-collection-init)
   )

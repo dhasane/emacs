@@ -21,15 +21,23 @@
   (setq projectile-completion-system 'ivy)
   )
 
-(global-set-key (kbd "<f5>")
-                (lambda ()
-                  (interactive)
-                  (setq-local compilation-read-command nil)
-                  (call-interactively 'compile)))
+(use-package compile
+  :hook
+  ;; Add color formatting to *compilation* buffer
+  (compilation-filter . (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
+  :general
+  ("<f5>" (lambda ()
+            (interactive)
+            (setq-local compilation-read-command nil)
+            (call-interactively 'compile))
+   )
+  )
 
-(setq gdb-many-windows t ;; use gdb-many-windows by default
-      gdb-show-main t    ;; Non-nil means display source file containing the main routine at startup
- )
+(use-package gud
+  :custom
+  (gdb-many-windows t) ;; use gdb-many-windows by default
+  (gdb-show-main t)    ;; Non-nil means display source file containing the main routine at startup
+  )
 
 (use-package skeletor
   :after (projectile)
