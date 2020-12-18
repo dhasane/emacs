@@ -34,18 +34,23 @@
   :ensure t
   :hook (python-mode . elpy-enable)
   :custom
-  (elpy-modules
-   'elpy-module-sane-defaults
-   'elpy-module-company
-   'elpy-module-eldoc
-   'elpy-module-flymake
-   ;; 'elpy-module-highlight-indentation ;; la indentacion la muestro con otro paquete
-   'elpy-module-pyvenv
-   'elpy-module-yasnippet
-   'elpy-module-django
-   )
   (elpy-shell-starting-directory 'current-directory)
   :config
+  (let ((prevent-elpy '(elpy-module-highlight-indentation)))
+    (dolist (pe prevent-elpy)
+      (setq elpy-modules (delete pe elpy-modules))
+      )
+    )
+  ;; (elpy-modules
+  ;;  'elpy-module-sane-defaults
+  ;;  'elpy-module-company
+  ;;  'elpy-module-eldoc
+  ;;  'elpy-module-flymake
+  ;;  ;; ' ;; la indentacion la muestro con otro paquete
+  ;;  'elpy-module-pyvenv
+  ;;  'elpy-module-yasnippet
+  ;;  'elpy-module-django
+  ;;  )
   ;; (elpy-enable)
   ;; (setq elpy-shell-use-project-root nil)
   )

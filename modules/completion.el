@@ -146,28 +146,31 @@
   (defun company-files--connected-p (file)
     (not (file-remote-p file)))
 
-  ;; (defun check-expansion ()
-  ;;   (save-excursion
-  ;;     (if (looking-at "\\_>") t
-  ;;       (backward-char 1)
-  ;;       (if (looking-at "\\.") t
-  ;;         (backward-char 1)
-  ;;         (if (looking-at "->") t nil)
-  ;;         )
-  ;;       )
-  ;;     )
-  ;;   )
-
-  ;; completar siempre que no sea espacio
   (defun check-expansion ()
     (save-excursion
-      (backward-char 1)
-      (if (looking-at "[\n \t]")
-          nil
-        t
+      (if (looking-at "\\_>") t
+        (backward-char 1)
+        (if (looking-at "\\.") t
+          (backward-char 1)
+          (if (looking-at "->") t
+            (if (looking-at "::") t
+              nil)
+            )
+          )
         )
       )
     )
+
+  ;; completar siempre que no sea espacio
+  ;; (defun check-expansion ()
+  ;;   (save-excursion
+  ;;     (backward-char 1)
+  ;;     (if (looking-at "[\n \t]")
+  ;;         nil
+  ;;       t
+  ;;       )
+  ;;     )
+  ;;   )
 
   ;; (defun do-yas-expand ()
   ;;   (let ((yas-fallback-behavior 'return-nil))
@@ -255,23 +258,33 @@
   (company-quickhelp-mode)
   )
 
-;; (use-package company-box
-  ;; :ensure t
-  ;; :after (company)
-  ;; :hook (company-mode . company-box-mode)
-  ;; :bind
-  ;; (
-   ;; ;;:map
-   ;; ;;company-box-mode-map
-   ;; ;;( "TAB" . 'company-box--next-line)
-   ;; ;;( "<tab>" . 'company-box--prev-line)
-   ;; )
-  ;; :config
-  ;; (setq company-box-doc-delay 0
-        ;; company-box-doc-enable t
-        ;; ;;company-box--max 10
-        ;; )
-  ;; )
+(use-package company-box
+  :ensure t
+  :after (company)
+  :hook (company-mode . company-box-mode)
+  :config
+  (setq company-box-doc-delay 0
+        company-box-doc-enable t
+        ;;company-box--max 10
+        )
+
+  (setq company-box-backends-colors
+        '(
+          (company-yasnippet :all "lime green"
+                             :selected
+                             (
+                              :background "lime green"
+                              :foreground "black"
+                              ))
+          (company-elisp . (:icon "yellow"
+                                  :selected (
+                                             :background "orange"
+                                             :foreground "black")))
+        (company-dabbrev . "purple")
+        ;;(company-)
+        )
+        )
+  )
 
 (use-package lsp-ui
   :ensure t
