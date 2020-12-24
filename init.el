@@ -118,9 +118,19 @@
   :config
   (auto-package-update-maybe))
 
-(cl-defun simple-comp-load-folder (config-dir &key compile ignorar)
-  "Carga los archivos en CONFIG-DIR con terminacion el o elc (dependiendo de COMPILE), ignorando en estos la lista IGNORAR."
-  (if compile (byte-recompile-directory config-dir 0))
+(cl-defun comp-load-folder (config-dir &key compile ignorar)
+  "Carga los archivos en CONFIG-DIR con terminacion el o elc.
+En caso de que COMPILE sea t, se compilan todos los archivos en CONFIG-DIR.
+Al ser nil, se eliminan todos los archivos .elc que se encuentren,
+para evitar que vayan a ser cargados en vez de los .el.
+Se ignoran los archivos en la lista IGNORAR y no son cargados."
+  (if compile
+      (byte-recompile-directory config-dir 0)
+    (dolist (file (directory-files config-dir t ".+\\.elc$"))
+      (message (concat "borrando " file ))
+      (delete-file file)
+      )
+    )
   (let ((files-ignore
          (mapcar (lambda (f)
                    (concat config-dir f (if compile ".elc" ".el")))
@@ -170,30 +180,35 @@
   "Directorio de modulos de LISP.")
 
 ;; load config
-(simple-comp-load-folder config-module-dir
+(comp-load-folder config-module-dir
                          ;;:compile t
                          :ignorar '("fira-code"))
-(simple-comp-load-folder config-lang-dir
+(comp-load-folder config-lang-dir
                          ;; :compile t
                          )
-(simple-comp-load-folder custom-elisp-dir
+(comp-load-folder custom-elisp-dir
                          ;; :compile t
                          )
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-;; para simplificar
-(defun gbind (key function)
-  "Map FUNCTION to KEY globally."
-  (global-set-key (kbd key) function) )
+(general-define-key
+ :keymaps 'override
+ "C-S-h" 'help-command
+ "C-S-s" 'save-all-buffers
+ "C-S-q" 'kill-other-buffers ; tambien esta clean-buffer-list
+ )
 
-(gbind "C-S-h" 'help-command )
-(gbind "C-_" 'comment-dwim) ;; TODO: poner esto a funcionar
-(gbind "C-S-s" 'save-all-buffers )
-(gbind "C-S-q" 'kill-other-buffers ) ; tambien esta clean-buffer-list
-(gbind "C-c g" 'prelude-google)
-(gbind "C-c t" 'toggle-transparency)
-(gbind "C-x b" 'ivy-switch-buffer )
+(general-define-key
+ :prefix "C-x"
+ "b" 'ivy-switch-buffer
+ )
+
+(general-define-key
+ :prefix "C-c"
+ "g" 'prelude-google
+ "t" 'toggle-transparency
+ )
 
 (general-define-key
  :keymaps 'override
@@ -217,7 +232,6 @@
            )
          )  ;; "jet pack"
  "o" 'hydra-org/body
- ;; "<SPC>" 'swiper-avy
  )
 
 ;; the hydra to rule them all buahaha

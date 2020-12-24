@@ -51,18 +51,26 @@
   (lsp-enable-semantic-highlighting t)
   (lsp-enable-indentation t)
   (lsp-file-watch-threshold 500)
-  (lsp-print-performance t)
   (lsp-enable-snippet nil)
+
+  ;; (lsp-intelephense-multi-root nil)
+
+  ;; debug
+  (lsp-print-io t)
+  (lsp-trace t)
+  (lsp-print-performance t)
+
+  ;; general
+  (lsp-auto-guess-root nil)
+  (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
+  (lsp-response-timeout 10)
 
   :config
   (setq read-process-output-max (* 4 1024 1024))
   (setq lsp-enable-which-key-integration t
-        ;; lsp-auto-guess-root t       ; Detect project root
         ;; lsp-log-io nil
         lsp-diagnostics-modeline-mode nil
         )
-
-  ;; (push 'lsp-blacg)
 
   ;; (lsp-session-folders-blacklist "~")
 

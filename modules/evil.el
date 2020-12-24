@@ -45,6 +45,9 @@
    "C-M-q" 'ido-kill-buffer ;'evil-quit
    "C-q" #'close-except-last-window
    ","   #'hydra-leader/body
+   ;; "u" 'undo-tree-undo
+   ;; "C-_" 'comment-dwim ; cambiar esto desactiva undo-tree
+   ;; "C-/" 'comment-dwim
    )
   (
    :states '(visual)

@@ -120,12 +120,19 @@
 
 (use-package omnisharp
   :after company
+  :hook (
+         (csharp-mode . dh/.net-shut-up)
+         (csharp-mode . omnisharp-mode)
+         (csharp-mode . flycheck-mode)
+         )
+  :init
+  (defun dh/.net-shut-up ()
+    (interactive)
+    (shell-command
+     "export DOTNET_CLI_TELEMETRY_OPTOUT=1")
+    )
+
   :config
   ;; (omnisharp-start-omnisharp-server)
-
-  (shell-command
-   "export DOTNET_CLI_TELEMETRY_OPTOUT=1")
-
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook 'flycheck-mode)
-  (add-to-list 'company-backends 'company-omnisharp))
+  (add-to-list 'company-backends 'company-omnisharp)
+  )

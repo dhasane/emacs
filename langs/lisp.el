@@ -12,3 +12,9 @@
   :config
   (setq inferior-lisp-program "sbcl")
   )
+
+(use-package evil-paredit
+  :hook (
+         (emacs-lisp-mode . evil-paredit-mode)
+         )
+  )

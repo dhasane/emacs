@@ -180,3 +180,13 @@
          (insert filename))))
 
 (global-set-key "\C-c\C-i" 'my-insert-file-name)
+
+
+(defun dh/fill-column ()
+  "Para que no se me olvide."
+  (interactive)
+  (setq fill-column 80)
+  (display-fill-column-indicator-mode)
+  ;; (global-display-fill-column-indicator-mode)
+  ;; (set-face-attribute 'fill-column-indicator nil :foreground "grey90")
+  )

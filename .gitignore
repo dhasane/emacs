@@ -1,26 +1,27 @@
 ### Emacs ###
 
 # cosas que he ido quitando
-org-roam.db
+.cache/
+.dap-breakpoints
+.extension
+.last-package-update-day
+.lsp-session-*
+bookmarks
+custom.el
+eclipse.jdt.ls
+eln-cache
+elpy
 history
 ido.last
-nov-places
-places
-recentf
-custom.el
-transient
-bookmarks
-semanticdb
-elpy
-eclipse.jdt.ls
-.last-package-update-day
-url
-.extension
-.dap-breakpoints
-.cache/
-.lsp-session-*
 lsp-cache/
+nov-places
+org-roam.db
+places
 projectile-bookmarks.eld
+recentf
+semanticdb
+transient
+url
 workspace
 
 # -*- mode: gitignore; -*-

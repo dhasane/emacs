@@ -124,16 +124,3 @@
   ;;:defer t
   ;;:commands lsp-ivy-workspace-symbol
   ;;)
-
-;; (use-package helm
-;;   :disabled
-;;   :demand t
-;;   ;; :unless ivy
-;;   :general
-;;   (
-;;    :states '(normal)
-;;    "M-x" 'helm-M-x
-;;    )
-;;   :config
-;;   (helm-mode 1)
-;;   )

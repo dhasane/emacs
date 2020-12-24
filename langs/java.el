@@ -19,8 +19,8 @@
 ;;   (add-hook 'java-mode-hook 'company-mode)
 ;;   )
 
-(use-package helm
-  )
+;; (use-package helm
+  ;; )
 
 (use-package lsp-java
   ;; :mode "\\.java\\'"
