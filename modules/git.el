@@ -19,17 +19,9 @@
    "M-j" 'magit-section-forward-sibling
    "M-k" 'magit-section-backward-sibling
    )
-  )
-
-(use-package evil-magit
-  :after (magit evil)
-  :demand t
-  :config
-  ;; (setq magit-completing-read-function 'magit-ido-completing-read)
-  ;; open magit status in same window as current buffer
-  (setq magit-status-buffer-switch-function 'switch-to-buffer)
+  :custom
   ;; highlight word/letter changes in hunk diffs
-  (setq magit-diff-refine-hunk t)
+  (magit-diff-refine-hunk t)
   )
 
 (use-package git-gutter

@@ -53,6 +53,7 @@
   (dashboard-setup-startup-hook))
 
 (use-package gruvbox-theme
+  ;; :disabled
   :demand t
   :config
   (load-theme

@@ -26,20 +26,24 @@
             "C-M-x" 'ruby-send-block
             "C-c C-c" 'ruby-send-buffer-or-create-inf-ruby-buffer
    )
+  :hook
+  (
+   (ruby-mode-hook . enh-ruby-mode-hook)
+   (enh-ruby-mode-hook . robe-mode)
+   (enh-ruby-mode-hook . yard-mode)
+   )
 
   ;; :ensure-system-package
   ;; ((ruby-lint   . "gem install ruby-lint")
   ;;  ;; (ripper-tags . "gem install ripper-tags")
   ;;  (ripper . "gem install ripper")
   ;;  (pry         . "gem install pry"))
-  ;; :mode "\\.rb\\"
-  :init
-  (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-  (add-to-list 'auto-mode-alist
-               '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+  :mode "\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'"
+  ;; :init
+  ;; (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+  ;; (add-to-list 'auto-mode-alist
+  ;;              '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
   :config
-  (add-hook 'enh-ruby-mode-hook 'robe-mode)
-  (add-hook 'enh-ruby-mode-hook 'yard-mode)
   (require 'dap-ruby)
   )
 
@@ -76,8 +80,8 @@
 
 (use-package ruby-electric
   :hook (
-         ( ruby-mode . ruby-electric-mode )
-         ( enh-ruby-mode . ruby-electric-mode )
+         (ruby-mode . ruby-electric-mode)
+         (enh-ruby-mode . ruby-electric-mode)
          )
   )
 

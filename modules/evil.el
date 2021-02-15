@@ -8,25 +8,23 @@
 (use-package evil
   :ensure t
   :demand t
-  :init
-  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-  (setq evil-want-keybinding nil) ;; para collection debe ser nil
-  (setq
-   evil-search-module 'evil-search
-   evil-vsplit-window-right t ;; like vim's 'splitright'
-   evil-split-window-below t ;; like vim's 'splitbelow'
-   evil-move-beyond-eol t
-   evil-want-Y-yank-to-eol t
-   evil-auto-indent t
-   evil-move-cursor-back nil
-   evil-symbol-word-search t
-   evil-indent-convert-tabs t
-   indent-tabs-mode t
-   )
+  :custom
+  (evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (evil-want-keybinding nil) ;; para collection debe ser nil
+  (evil-search-module 'evil-search)
+  (evil-vsplit-window-right t) ;; like vim's 'splitright'
+  (evil-split-window-below t) ;; like vim's 'splitbelow'
+  (evil-move-beyond-eol t)
+  (evil-want-Y-yank-to-eol t)
+  (evil-auto-indent t)
+  (evil-move-cursor-back nil)
+  (evil-symbol-word-search t)
+  (evil-indent-convert-tabs t)
+  (indent-tabs-mode t)
 
-  ;; (setq evil-ex-complete-emacs-commands nil)
-  ;; (setq evil-shift-round nil)
-  ;; (setq evil-want-C-u-scroll t)
+  ;; (evil-ex-complete-emacs-commands nil)
+  ;; (evil-shift-round nil)
+  ;; (evil-want-C-u-scroll t)
 
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
@@ -92,7 +90,7 @@
            '(
              ;; insert
              (shell-mode . insert)
-             (dashboard-mode . insert)
+             ;; (dashboard-mode . insert)
              (git-commit-mode . insert)
              (nrepl-mode . insert)
 
@@ -175,8 +173,10 @@
   :ensure t
   :after (evil)
   :functions evil-googles-use-diff-faces
+  :custom
+  ;; (evil-goggles-duration 0.250) ;; default is 0.200
+  (evil-goggles-duration 0.250) ;; default is 0.200
   :config
-  (setq evil-goggles-duration 0.250) ;; default is 0.200
   (evil-goggles-use-diff-faces)
   (evil-goggles-mode)
   :custom-face
@@ -187,19 +187,34 @@
   (evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
   (evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
   ;; (evil-goggles-yank-face ((t (:inherit diff-changed))))
-  (evil-goggles-yank-face ((t (:inherit 'isearch-fail))))
+  (evil-goggles-yank-face ((t (:inherit 'evil-goggles-record-macro-face))))
+  ;; (evil-goggles-yank-face ((t (:inherit 'isearch-fail))))
   )
 
 (use-package evil-collection
   :demand t
   :after evil
   :ensure t
-  :init
-  (setq warning-suppress-types '((evil-collection)))
+  :custom
+  (warning-suppress-types '((evil-collection)))
+  :general
+  (
+   :states '(normal motion override)
+   "C-l" 'evil-window-right
+   "C-h" 'evil-window-left
+   "C-k" 'evil-window-up
+   "C-j" 'evil-window-down
+   )
   :config
   ;; (evil-collection-init)
 
-  (let ((prevent-ec '(company)))
+  (let ((prevent-ec '(
+                      company
+                      racer
+                      flycheck
+                      flymake
+                      ;; compile
+                      )))
     (dolist (pe prevent-ec)
       (setq evil-collection-mode-list (delete pe evil-collection-mode-list))
       )
@@ -211,4 +226,40 @@
   ;;   )
 
   (evil-collection-init)
+
+  (general-define-key
+   :states '(normal)
+   :keymaps 'evil-collection-magit-mode-map
+   "C-l" 'evil-window-right
+   "C-h" 'evil-window-left
+   "C-k" 'evil-window-up
+   "C-j" 'evil-window-down
+   "M-j" 'magit-section-forward-sibling
+   "M-k" 'magit-section-backward-sibling
+   )
+  ;; (general-define-key
+  ;;  :state '(evil-collection-magit-state normal)
+  ;;  :mode 'magit-mode-map
+  ;;  "?" 'evil-search-backward
+  ;;  "C-l" 'evil-window-right
+  ;;  "C-h" 'evil-window-left
+  ;;  "C-k" 'evil-window-up
+  ;;  "C-j" 'evil-window-down
+  ;;  "M-j" 'magit-section-forward-sibling
+  ;;  "M-k" 'magit-section-backward-sibling)
+
+  (evil-define-key evil-collection-magit-state magit-mode-map
+    "?" 'evil-search-backward)
+  (evil-define-key evil-collection-magit-state magit-mode-map
+    "C-l" 'evil-window-right)
+  (evil-define-key evil-collection-magit-state magit-mode-map
+    "C-h" 'evil-window-left)
+  (evil-define-key evil-collection-magit-state magit-mode-map
+    "C-k" 'evil-window-up)
+  (evil-define-key evil-collection-magit-state magit-mode-map
+    "C-j" 'evil-window-down)
+  (evil-define-key evil-collection-magit-state magit-mode-map
+    "M-j" 'magit-section-forward-sibling)
+  (evil-define-key evil-collection-magit-state magit-mode-map
+    "M-k" 'magit-section-backward-sibling)
   )

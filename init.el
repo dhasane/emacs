@@ -118,7 +118,56 @@
   :config
   (auto-package-update-maybe))
 
-(cl-defun comp-load-folder (config-dir &key compile ignorar)
+(defun dh/compile-file (filename)
+  "Compilar FILENAME.
+Estaba aburrido y queria poner para que se compile un unico archivo."
+  (let ((file (concat filename ".el"))
+        (comfile (concat filename ".elc")))
+    (if (or (not (file-exists-p comfile))
+            (file-newer-than-file-p file comfile)
+            )
+        (progn
+          (message (concat "compilando: " file)) ;; compilar
+          (byte-compile-file file)
+          )
+      ;; (message "all is gud") ;; al is gud
+      )
+    )
+  )
+
+(cl-defun comp-load-folder (config-dir &key compilar ignorar)
+  "Carga los archivos en CONFIG-DIR con terminacion el o elc.
+En caso de que COMPILE sea t, se compilan todos los archivos en CONFIG-DIR.
+Al ser nil, se eliminan todos los archivos .elc que se encuentren,
+para evitar que vayan a ser cargados en vez de los .el.
+Se ignoran los archivos en la lista IGNORAR y no son cargados.
+COMPILAR sirve para que solo archivos especificos sean copilados."
+  (let ((files-ignore
+         (mapcar (lambda (f)
+                   (concat config-dir f ".el$"))
+                 ignorar)))
+
+    (dolist (comp-file (mapcar (lambda (f)
+                            (concat config-dir f))
+                          compilar))
+      (dh/compile-file comp-file)
+      (load comp-file)
+      )
+
+    (dolist (ign files-ignore)
+      (message (concat "ignorando: " ign))
+      )
+
+    (dolist (file (directory-files config-dir t ".el$"))
+      (unless (member file files-ignore)
+        ;; (message file)
+        (load file)
+        )
+      )
+    )
+  )
+
+(cl-defun compile-all-load-folder (config-dir &key compile ignorar)
   "Carga los archivos en CONFIG-DIR con terminacion el o elc.
 En caso de que COMPILE sea t, se compilan todos los archivos en CONFIG-DIR.
 Al ser nil, se eliminan todos los archivos .elc que se encuentren,
@@ -152,21 +201,7 @@ Se ignoran los archivos en la lista IGNORAR y no son cargados."
 (defun auto-comp-init ()
   "Auto compilar el archivo INIT."
   ;; esta dando errores al comenzar desde el archivo compilado
-  (defun comp(file)
-    (message "compilando") ;; compilar
-    (byte-compile-file file)
-    )
-  (let ((init (concat user-emacs-directory "init.el"))
-        (compinit (concat user-emacs-directory "init.elc"))
-        )
-    (if (not (file-exists-p compinit))
-        (comp init)
-      (if (file-newer-than-file-p init compinit)
-          (comp init)
-        (message "all is gud") ;; al is gud
-        )
-      )
-    )
+  (dh/compile-file (concat user-emacs-directory "init"))
   )
 ;; (auto-comp-init)
 
@@ -181,14 +216,13 @@ Se ignoran los archivos en la lista IGNORAR y no son cargados."
 
 ;; load config
 (comp-load-folder config-module-dir
-                         ;;:compile t
-                         :ignorar '("fira-code"))
-(comp-load-folder config-lang-dir
-                         ;; :compile t
-                         )
-(comp-load-folder custom-elisp-dir
-                         ;; :compile t
-                         )
+                  :ignorar '("fira-code")
+                  :compilar '("basic" "evil" "org-mode" "project" "ivy")
+                  )
+(comp-load-folder config-lang-dir)
+;; (comp-load-folder custom-elisp-dir
+;;                          ;; :compile t
+;;                          )
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -216,7 +250,8 @@ Se ignoran los archivos en la lista IGNORAR y no son cargados."
  :non-normal-prefix "<M-SPC>"
  :states 'normal
  "e" 'counsel-find-file
- "b" 'switch-to-buffer
+ ;; "b" 'switch-to-buffer
+ "b" 'bufler-switch-buffer
  "k" 'kill-buffer
  "w" 'evil-window-map
  "t" 'hydra-tabs/body

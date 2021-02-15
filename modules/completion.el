@@ -4,8 +4,8 @@
 (defcustom lsp-ignore-modes
   '(
     emacs-lisp-mode
-    typescript-mode
-    ng2-ts-mode
+    ;; typescript-mode
+    ;; ng2-ts-mode
     csharp-mode
     )
   "Modes to prevent Emacs from loading lsp-mode."
@@ -94,12 +94,15 @@
   :ensure t
   :hook (prog-mode . flycheck-mode)
 
+  :custom
+  (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   ;; :config
   ;; (add-hook 'after-init-hook #'global-flycheck-mode)
   )
 
 (use-package company
   ;; :disabled t
+  :after (evil)
   :demand t
   :ensure t
   :defer .1
@@ -335,6 +338,7 @@
   :hook (
          (prog-mode . yas-minor-mode)
          (org-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode)
          )
   :general
   (yas-minor-mode-map
@@ -385,4 +389,8 @@
   ;; (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
   ;; (setq polymode-prefix-key (kbd "C-c n"))
   ;; (define-hostmode poly-python-hostmode :mode 'python-mode)
+  )
+
+(use-package tree-sitter
+
   )

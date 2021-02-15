@@ -39,23 +39,28 @@
       ad-do-it))
 )
 
-(dolist (hook '(js-mode-hook
-                js2-mode-hook
-                js3-mode-hook
-                inferior-js-mode-hook
-                ))
-  (add-hook hook
-            (lambda ()
-              (tern-mode t)
-              (add-to-list
-               (make-local-variable 'company-backends)
-               'company-tern)
-              )))
+(use-package js
+  :custom
+  (js-indent-level 2)
+  (indent-tabs-mode nil)
+  (company-tooltip-align-annotations    t)
+
+  (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
+  (flycheck-auto-change-delay           1.5)
+
+  (whitespace-line-column               120)   ;; max line length
+  (whitespace-style                     '(face lines-tail trailing))
+  )
 
 (use-package js2-mode
-  :mode "\\.js\\'"
+  ;; :mode "\\.js\\'"
   ;; en teoria esto es mejor como minor-mode desde emacs 27, pero como que me funciona mejor como principal
-  ;; :hook ((js-mode . js2-minor-mode))
+  :after (company)
+  :hook ((js-mode . js2-minor-mode))
+  :custom
+  (tern-mode t)
+  :config
+  ;; (push 'company-tern company-backends)
   )
 
 ;; https://github.com/magnars/js2-refactor.el
@@ -68,11 +73,11 @@
 
 (use-package php-mode
   :mode ("\\.php\\’" . php-mode)
-  :general
-  (
-   :states '(insert)
-   "TAB" 'tab-indent-or-complete
-   )
+  ;; :general
+  ;; (
+  ;;  :states '(insert)
+  ;;  "TAB" 'tab-indent-or-complete
+  ;;  )
   :init
   (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
   )
@@ -81,55 +86,57 @@
   )
 
 (use-package typescript-mode
-  :config
-  (setq typescript-indent-level              2
-        typescript-expr-indent-offset        2
-        company-tooltip-align-annotations    t
+  :after (company)
+  :mode "\\.ts$\\'"
+  :custom
+  (typescript-indent-level              2)
+  (typescript-expr-indent-offset        2)
+  (company-tooltip-align-annotations    t)
 
-        flycheck-check-syntax-automatically  '(save idle-change mode-enabled)
-        flycheck-auto-change-delay           1.5
+  (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
+  (flycheck-auto-change-delay           1.5)
 
-        whitespace-line-column               120   ;; max line length
-        whitespace-style                     '(face lines-tail trailing)
-        )
+  (whitespace-line-column               120)   ;; max line length
+  (whitespace-style                     '(face lines-tail trailing))
 
   ;;(whitespace-mode)
+  :config
+  ;; (push 'company-tern company-backends)
   )
 
 (use-package tide                              ; https://github.com/ananthakumaran/tide
-  :after(typescript-mode company flycheck)
-  :hook((typescript-mode . tide-setup)
-        (typescript-mode . tide-mode)
-        (typescript-mode . tide-hl-identifier-mode)
-        (before-save . tide-format-before-save))
-  :init
-  (defun setup-tide-mode()
-    (interactive)
-    (tide-setup)
-    (flycheck-mode +1)
-    (eldoc-mode +1)
-    (tide-hl-identifier-mode +1)
-    (company-mode +1))
-
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (add-hook 'js2-mode-hook #'setup-tide-mode)
-  :requires flycheck
+  :disabled
+  :after (typescript-mode company flycheck)
+  :hook (
+         ;; (typescript-mode . tide-setup)
+         (typescript-mode . tide-mode)
+         (typescript-mode . tide-hl-identifier-mode)
+         )
+  :custom
+  (tide-format-options
+   '(
+     :insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+     :placeOpenBraceOnNewLineForFunctions nil
+     :tabSize 2
+     :indentSize 2
+     ))
   :config
-  (setq tide-format-options
-        '(
-          :insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :tabSize 2 :indentSize 2))
+  (tide-setup)
+  (tide-hl-identifier-mode +1)
+  (eldoc-mode +1)
   (add-to-list 'company-backends 'company-tide)
-
-  (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
-  (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+  (add-hook before-save-hook tide-format-before-save)
   )
 
-;;(use-package ng2-mode
-;;  :after(tide)
-;;  :config
-;;  (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
-;;  (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
-;;  )
+;; (set (make-local-variable 'company-backends)
+;;      '((company-tide company-files)
+;;        (company-dabbrev-code company-dabbrev)))
+
+(use-package ng2-mode
+  :config
+  (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
+  (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
+ )
 
 (use-package rjsx-mode
   :defer t)

@@ -179,3 +179,6 @@
   (ranger-show-file-details)
   (ranger-override-dired-mode t)
   )
+
+(use-package bufler
+  )

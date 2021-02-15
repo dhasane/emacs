@@ -219,7 +219,6 @@ por todo el proyecto.
   ;;         )
 
   (setq eshell-kill-on-exit t)
-  (setq pcomplete-ignore-case t)
 
   (defun eshell/clear ()
     "Clear the eshell buffer."
@@ -231,6 +230,11 @@ por todo el proyecto.
     "Update system"
     ;;TODO: identificar el sistema para actualizar
     )
+  )
+
+(use-package pcomplete
+  :custom
+  (pcomplete-ignore-case t)
   )
 
 (use-package esh-autosuggest

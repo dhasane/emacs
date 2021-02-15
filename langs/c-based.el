@@ -6,11 +6,16 @@
   :after (company)
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp-deferred)))
+  :custom
+  (ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
+  (ccls-code-lens-mode +1)
+  (ccls-code-lens-position 'end)
+  (ccls-executable "~/.nix-profile/bin/ccls")
+  ;; (ccls-sem-highlight-method 'font-lock)
+  ;; alternatively,
+  ;; (ccls-sem-highlight-method 'overlay)
   :config
-  (setq ccls-code-lens-position 'end)
-  (setq ccls-executable "~/.nix-profile/bin/ccls")
-  (setq ccls-sem-highlight-method 'font-lock)
-  ;; alternatively, (setq ccls-sem-highlight-method 'overlay)
+
 
   ;; For rainbow semantic highlighting
   (ccls-use-default-rainbow-sem-highlight)

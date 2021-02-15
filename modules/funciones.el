@@ -21,10 +21,12 @@
   (message "Se han cerrado los demas buffers")
   )
 
-(defun melpa-refresh ()
+(defun dahas/refresh-package-database ()
   "Refresh melpa contents."
   (interactive)
-  (package-refresh-contents 'ASYNC) )
+  (package-refresh-contents 'ASYNC)
+  ;; (auto-package-update-now)
+  )
 
 (defun reload-emacs-config ()
   "Reload your init.el file without restarting Emacs."

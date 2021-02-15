@@ -105,13 +105,14 @@
   (setq org-agenda-files '("~/org"))
   (setq org-default-notes-file (concat org-directory "/capture.org"))
 
-  (font-lock-add-keywords
-   'org-mode
-   '(("^ +\\([-*]\\) "
-      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+  ;; (font-lock-add-keywords
+  ;;  'org-mode
+  ;;  '(("^ +\\([-*]\\) "
+  ;;     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
   (setq org-src-fontify-natively t
         org-src-tab-acts-natively t
+        org-src-preserve-indentation t
         org-confirm-babel-evaluate nil
         org-edit-src-content-indentation 0)
 
@@ -163,9 +164,15 @@
               :map org-mode-map
               (("C-c n i" . org-roam-insert))
               (("C-c n I" . org-roam-insert-immediate)))
-  :config
-  (setq org-roam-graph-viewer #'eww-open-file)
-  (setq org-roam-graph-executable "neato" ) ;; requiere graphviz
+  :custom
+  (org-roam-graph-viewer #'eww-open-file)
+  (org-roam-graph-executable ;; requiere graphviz
+   ;; "dot" ;; esto es el default
+   ;; "neato"
+   "fdp" ;; compacto y no sobrelapa
+   ;; "twopi"
+   ;; "circo"
+   )
   )
 
 ;; (defhydra hydra-roam
