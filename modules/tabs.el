@@ -1,5 +1,10 @@
+;;; package --- Summary
+
+;;; Commentary:
 
 ;;; code:
+
+;; -*- lexical-binding: t; -*-
 
 ;; en caso que la version sea mayor a 27, usar los tabs ya que vienen
 ;; incluidos, de lo contrario, usar eyebrowse (tiene cosas que se

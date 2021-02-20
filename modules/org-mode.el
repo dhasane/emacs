@@ -1,7 +1,11 @@
 ;;; package --- Summary
 
-;; org mode ------------------------------------------------
+;;; Commentary:
+;;; configuracion de org mode
+
 ;;; code:
+
+;; -*- lexical-binding: t; -*-
 
 (use-package org
   :ensure t

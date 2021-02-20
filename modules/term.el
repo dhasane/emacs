@@ -1,6 +1,11 @@
+;;; package --- Summary
 
+;;; Commentary:
+;;; Configuracion para eshel y term
 
-;;; Code:
+;;; code:
+
+;; -*- lexical-binding: t; -*-
 
 (use-package keychain-environment
   ;; :hook (tramp-mode . keychain-refresh-environment)

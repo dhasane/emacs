@@ -1,6 +1,11 @@
+;;; package --- Summary
 
-;; magit ------------------------------------------------------
-;;; Code:
+;;; Commentary:
+;;; COnfiguracion para la integracion entre Emacs y git
+
+;;; code:
+
+;; -*- lexical-binding: t; -*-
 
 (use-package magit
   :ensure t
@@ -19,6 +24,21 @@
    "M-j" 'magit-section-forward-sibling
    "M-k" 'magit-section-backward-sibling
    )
+  ;; :hook (evil-collection-setup-hook
+  ;;        .
+  ;;        (lambda()
+  ;;          (general-define-key
+  ;;           :state '(evil-collection-magit-state normal)
+  ;;           :mode 'magit-mode-map
+  ;;           "?" 'evil-search-backward
+  ;;           "C-l" 'evil-window-right
+  ;;           "C-h" 'evil-window-left
+  ;;           "C-k" 'evil-window-up
+  ;;           "C-j" 'evil-window-down
+  ;;           "M-j" 'magit-section-forward-sibling
+  ;;           "M-k" 'magit-section-backward-sibling)
+
+  ;;          ))
   :custom
   ;; highlight word/letter changes in hunk diffs
   (magit-diff-refine-hunk t)

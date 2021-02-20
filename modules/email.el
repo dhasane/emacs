@@ -1,3 +1,10 @@
+;;; package --- Summary
+
+;;; Commentary:
+
+;;; code:
+
+;; -*- lexical-binding: t; -*-
 
 ;; esto es algo que me gustaria probar eventualmente
 

@@ -1,5 +1,11 @@
 
-;;; Code:
+;;; package --- Summary
+
+;;; Commentary:
+
+;;; code:
+
+;; -*- lexical-binding: t; -*-
 
 (setq-default indicate-empty-lines t)
 ;; (setq indicate-buffer-boundaries t)

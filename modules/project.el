@@ -1,8 +1,14 @@
+;;; package --- Summary
 
-;;; Code:
+;;; Commentary:
+;;; Configuracion general para paquetes usados en varios proyectos
 
-;; Projectile
+;;; code:
+
+;; -*- lexical-binding: t; -*-
+
 (use-package projectile
+  :demand t
   :ensure t
   :defer .1
   :bind
@@ -11,14 +17,14 @@
    projectile-mode-map
    ("M-p" . 'projectile-command-map)
    )
-  :init
-  (setq projectile-require-project-root nil)
+  :custom
+  (projectile-require-project-root nil)
+  ;; (projectile-project-search-path '("~/projects/" "~/work/"))
+  (projectile-project-search-path '("~/dev/"))
+  (projectile-sort-order 'recently-active)
+  (projectile-completion-system 'ivy)
   :config
   (projectile-mode +1)
-  ;; (setq projectile-project-search-path '("~/projects/" "~/work/"))
-  (setq projectile-project-search-path '("~/dev/"))
-  (setq projectile-sort-order 'recently-active)
-  (setq projectile-completion-system 'ivy)
   )
 
 (use-package compile

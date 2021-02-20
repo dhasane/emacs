@@ -192,3 +192,9 @@
   ;; (global-display-fill-column-indicator-mode)
   ;; (set-face-attribute 'fill-column-indicator nil :foreground "grey90")
   )
+
+(defun dahas/prt-list (list)
+  (dolist (val list)
+    (message val)
+    )
+  )

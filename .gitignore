@@ -23,6 +23,7 @@ semanticdb
 transient
 url
 workspace
+games
 
 # -*- mode: gitignore; -*-
 *~

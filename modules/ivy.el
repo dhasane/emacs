@@ -1,6 +1,13 @@
+;;; package --- Summary
 
-;;; Code:
+;;; Commentary:
+
+;;; code:
+
+;; -*- lexical-binding: t; -*-
+
 (use-package ivy
+  :diminish
   :ensure t
   ;; :diminish (ivy-mode . "")
   :demand t

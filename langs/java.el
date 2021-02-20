@@ -1,57 +1,55 @@
 
-;; (use-package lsp-java
-;;   :ensure t
-;;   ;; :mode "\\.java\\'"
-;;   ;; :hook (
-;;   ;;        (java-mode . 'lsp-deferred)
-;;   ;;        (java-mode . 'flycheck-mode)
-;;   ;;        (java-mode . 'company-mode)
-;;   ;;        )
-;;   ;; :after (lsp-mode company)
-;;   :config
-;;   ;; (require 'lsp-java-boot)
-;;
-;; ;; to enable the lenses
-;;   (add-hook 'lsp-mode-hook #'lsp-lens-mode)
-;;   ;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
-;;   (add-hook 'java-mode-hook #'lsp-deferred)
-;;   (add-hook 'java-mode-hook 'flycheck-mode)
-;;   (add-hook 'java-mode-hook 'company-mode)
-;;   )
-
-;; (use-package helm
-  ;; )
-
-(use-package lsp-java
-  ;; :mode "\\.java\\'"
+(use-package lsp-java :ensure t
+  ;; :config (add-hook 'java-mode-hook 'lsp)
   :hook (
-         ;;(java-mode . 'lsp-deferred)
          (java-mode . 'lsp)
          )
+  :custom
+  (lsp-java-java-path "/usr/lib/jvm/java-15-openjdk/bin/java")
+  (lsp-java-configuration-runtimes '[(:name "JavaSE-15"
+                                      :path "/usr/lib/jvm/java-15-openjdk"
+                                      :default t)])
+  (lsp-java-vmargs (list
+                    "-noverify"
+                    "--enable-preview"))
+
   :config
+  (setenv "JAVA_HOME"  "/usr/lib/jvm/java-15-openjdk/")
+  )
+
+(use-package dap-java :after (lsp-java))
+
+(use-package lsp-java
+  :disabled
+  :demand t
+  :after (lsp-mode company)
+  :diminish
+  :hook (
+         ;; (java-mode . lsp-deferred)
+         (java-mode . lsp-deferred)
+         (java-mode . lsp-java-boot-lens-mode)
+         (java-mode . flycheck-mode)
+         (java-mode . company-mode)
+         (java-mode . (lambda ()
+                        (set
+                         (make-local-variable 'company-idle-delay) 0.5)
+                        ))
+         )
+  ; :after (lsp-mode company)
+  :custom
+
+  (lsp-java-java-path "/usr/lib/jvm/java-15-openjdk/bin/java") ;  "path_to_java_folder/Contents/Home/bin/java"
+  :config
+  (setenv "JAVA_HOME"  "/usr/lib/jvm/java-15-openjdk/") ;  "path_to_java_folder/Contents/Home/"
   ;; (add-hook 'java-mode-hook 'lsp)
   ;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
-  (add-hook 'lsp-mode-hook #'lsp-lens-mode)
-  (require 'dap-java)
-  ;; (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+  ;; (require 'dap-java)
+  ;; (make-local-variable company-idle-delay)
+  ;; (setq company-idle-delay 1) ; Delay in showing suggestions.
   )
 ;; (use-package dap-java :after (lsp-java))
-(use-package dap-java :ensure nil)
+;; (use-package dap-java :after (lsp-java))
 
-
-;; (use-package lsp-java :after lsp
-;;   :init
-;;   (setq lsp-java-java-path "/usr/lib/jvm/jdk-15/bin/java"
-;;         lsp-java-import-gradle-java-home "/usr/lib/jvm/jdk-15/bin/java"
-;;         lsp-java-configuration-runtimes '[(:name "JavaSE-15"
-;;                                                  :path "/usr/lib/jvm/jdk-15"
-;;                                                  :default t)]
-;;         lsp-java-vmargs (list
-;;                          "-noverify"
-;;                          "--enable-preview"))
-;;   :config
-;;   (add-hook 'java-mode-hook #'lsp)
-;;   (require 'dap-java)
+;; (use-package eclim
+;;   :hook (java-mode)
 ;;   )
-
-

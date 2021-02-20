@@ -1,7 +1,10 @@
+;;; package --- Summary
+
+;;; Commentary:
 
 ;;; code:
 
-;; TODO: encontrar algo para hacer que el minibuffer funcione de forma mas interesante
+;; -*- lexical-binding: t; -*-
 
 (setq enable-recursive-minibuffers t)
 

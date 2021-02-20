@@ -1,6 +1,12 @@
 
+;;; package --- Summary
+
+;;; Commentary:
 
 ;;; code:
+
+;; -*- lexical-binding: t; -*-
+
 ;; quitar la pantalla inicial
 ;;(setq inhibit-startup-screen t)
 ;;(desktop-save-mode 1)
@@ -23,7 +29,7 @@
 
 (setq backward-delete-char-untabify-method 'hungry)
 (setq large-file-warning-threshold nil) ;; Don’t warn me about opening large files
-(setq x-select-enable-clipboard t) ;; Enable copy/past-ing from clipboard
+(setq select-enable-clipboard t) ;; Enable copy/past-ing from clipboard
 (setq system-uses-terminfo nil) ;; Fix weird color escape sequences
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
 (fset 'yes-or-no-p 'y-or-n-p) ;; Answer with y and n instead of yes and no

@@ -1,7 +1,12 @@
+;;; package --- Summary
 
+;;; Commentary:
+;;; Todo lo relacionado a vim
 
-;; Todo lo relacionado a vim
-;;; Code:
+;;; code:
+
+;; -*- lexical-binding: t; -*-
+
 
 (require 'cl-lib)
 
@@ -248,18 +253,18 @@
   ;;  "M-j" 'magit-section-forward-sibling
   ;;  "M-k" 'magit-section-backward-sibling)
 
-  (evil-define-key evil-collection-magit-state magit-mode-map
-    "?" 'evil-search-backward)
-  (evil-define-key evil-collection-magit-state magit-mode-map
-    "C-l" 'evil-window-right)
-  (evil-define-key evil-collection-magit-state magit-mode-map
-    "C-h" 'evil-window-left)
-  (evil-define-key evil-collection-magit-state magit-mode-map
-    "C-k" 'evil-window-up)
-  (evil-define-key evil-collection-magit-state magit-mode-map
-    "C-j" 'evil-window-down)
-  (evil-define-key evil-collection-magit-state magit-mode-map
-    "M-j" 'magit-section-forward-sibling)
-  (evil-define-key evil-collection-magit-state magit-mode-map
-    "M-k" 'magit-section-backward-sibling)
+  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
+  ;;   "?" 'evil-search-backward)
+  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
+  ;;   "C-l" 'evil-window-right)
+  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
+  ;;   "C-h" 'evil-window-left)
+  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
+  ;;   "C-k" 'evil-window-up)
+  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
+  ;;   "C-j" 'evil-window-down)
+  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
+  ;;   "M-j" 'magit-section-forward-sibling)
+  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
+  ;;   "M-k" 'magit-section-backward-sibling)
   )
