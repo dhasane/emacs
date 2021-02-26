@@ -15,9 +15,10 @@
 
   :config
   (setenv "JAVA_HOME"  "/usr/lib/jvm/java-15-openjdk/")
+  (require 'dap-java)
   )
 
-(use-package dap-java :after (lsp-java))
+;; (use-package dap-java :after (dap-mode lsp-java))
 
 (use-package lsp-java
   :disabled

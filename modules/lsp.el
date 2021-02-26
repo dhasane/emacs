@@ -30,7 +30,13 @@
 
 (add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
 
-(use-package lsp-mode :ensure t)
+(use-package lsp-mode :ensure t
+  :custom
+  (lsp-keymap-prefix "C-c l")
+  (lsp-keep-workspace-alive nil)
+  :config
+  (lsp-enable-which-key-integration t)
+  )
 
 (use-package lsp-mode
   :disabled
@@ -101,7 +107,6 @@
 
 (use-package lsp-ui
   :ensure t
-  :demand t
   :after (lsp-mode evil)
   :commands lsp-ui-mode
   :general

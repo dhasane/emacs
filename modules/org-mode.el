@@ -50,8 +50,43 @@
   (org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
   (org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
   (org-verbatim ((t (:inherit (shadow fixed-pitch)))))
-  :init
+  :custom
+  ;; ubicacion
+  (org-agenda-files '("~/org"))
+  (org-default-notes-file (concat org-directory "/capture.org"))
 
+  ;; imagenes
+  (org-redisplay-inline-images t)
+  (org-startup-with-inline-images "inlineimages")
+
+  ;; code blocks
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-src-preserve-indentation t)
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0)
+
+  ;; organizacion
+  (org-startup-indented t)
+  ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+  (org-ellipsis (propertize "  " 'font-lock-face '(:foreground "red")))    ; folding symbol
+  ;; deja de incluir lineas vacias al final, pero arregla el problema con ellipsis
+  (org-cycle-separator-lines -1)
+
+  ;; decoracion
+  (org-pretty-entities t)
+  (org-hide-emphasis-markers t)
+  ;; show actually italicized text instead of /italicized text/
+  (org-agenda-block-separator "")
+  (org-fontify-whole-heading-line t)
+  (org-fontify-done-headline t)
+  (org-fontify-quote-and-verse-blocks t)
+
+
+   (org-startup-truncated nil)
+
+
+  (org-log-done t)
   :config
 
   (org-babel-do-load-languages
@@ -75,8 +110,6 @@
   (setq-default org-image-actual-width 620)
 
   (org-display-inline-images t t)
-  (setq org-redisplay-inline-images t)
-  (setq org-startup-with-inline-images "inlineimages")
   ;; (setq org-agenda-include-diary t)
 
   ;; (org-display-inline-images t)
@@ -89,36 +122,10 @@
   ;; (add-to-list 'org-structure-template-alist
              ;; '("s" "#+NAME: ?\n#+BEGIN_SRC \n\n#+END_SRC"))
 
-  (setq org-startup-indented t
-        ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
-        org-ellipsis (propertize "  " 'font-lock-face '(:foreground "red"))    ; folding symbol
-        ;; deja de incluir lineas vacias al final, pero arregla el problema con ellipsis
-        org-cycle-separator-lines -1
-
-        org-pretty-entities t
-        org-hide-emphasis-markers t
-        ;; show actually italicized text instead of /italicized text/
-        org-agenda-block-separator ""
-        org-fontify-whole-heading-line t
-        org-fontify-done-headline t
-        org-fontify-quote-and-verse-blocks t
-        )
-
-  (setq org-log-done t)
-
-  (setq org-agenda-files '("~/org"))
-  (setq org-default-notes-file (concat org-directory "/capture.org"))
-
   ;; (font-lock-add-keywords
   ;;  'org-mode
   ;;  '(("^ +\\([-*]\\) "
   ;;     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-  (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-src-preserve-indentation t
-        org-confirm-babel-evaluate nil
-        org-edit-src-content-indentation 0)
 
   ;; :custom-face
   ;; (org-level-8 ((t (,@headline ,@variable-tuple))))
@@ -159,8 +166,6 @@
   :ensure t
   :hook
   (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory "~/org")
   :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
@@ -169,6 +174,7 @@
               (("C-c n i" . org-roam-insert))
               (("C-c n I" . org-roam-insert-immediate)))
   :custom
+  (org-roam-directory "~/org")
   (org-roam-graph-viewer #'eww-open-file)
   (org-roam-graph-executable ;; requiere graphviz
    ;; "dot" ;; esto es el default
@@ -284,3 +290,4 @@
   ("K" org-shiftup)
   ("t" org-todo))
 
+;;; org-mode ends here

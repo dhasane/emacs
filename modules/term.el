@@ -52,6 +52,9 @@ por todo el proyecto.
   )
 
 (use-package eshell
+  :hook (
+        (eshell-mode . visual-line-mode)
+         )
   :defines
   (
    eshell

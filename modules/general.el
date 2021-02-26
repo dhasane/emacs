@@ -182,3 +182,11 @@
 
 (use-package bufler
   )
+
+(setq visual-line-fringe-indicators
+      '(
+        nil ;; left-curly-arrow
+        nil ;; right-curly-arrow
+        ))
+
+;;; general end here
