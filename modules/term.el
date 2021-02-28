@@ -13,6 +13,106 @@
   (add-hook 'tramp-mode-hook 'keychain-refresh-environment)
   )
 
+;; ejemplos:
+;; (defun test-main ()
+;;   (interactive)
+;;   (let ((choice (completing-read "Select: " '("item1" "item2" "item3"))))
+;;     (message choice)))
+;; (let ((algo '(("foobar1" 1) ("barfoo" 2) ("foobaz" 3) ("foobar2" 4))))
+;;   (completing-read
+;;    "Complete a foo: "
+;;    algo
+;;    nil t "fo")
+;;   )
+
+(defun dh/select-eshell ()
+  "Seleccionar entre los buffers de eshell."
+  (interactive)
+  (let ((buffers
+         (mapcar
+          (lambda (eshbuf) ;; retorna una lista del nombre con su buffer
+            (list (buffer-name eshbuf) eshbuf)
+            )
+          (seq-filter (lambda (buf) ;; filtra por buffers con eshel
+                        (string-match-p "*eshell*" (buffer-name buf)))
+                      (buffer-list))
+          )
+         )
+        )
+    (if buffers
+        (switch-to-buffer
+         (completing-read
+          "Select: "
+          buffers
+          nil t
+          (if (projectile-project-p)
+              (projectile-project-name)
+            ""
+            )
+          )
+         )
+      (message "No hay buffers de eshell")
+      )
+    )
+  )
+
+(defun dh/eshell-buffer-name ()
+  "Conseguir el nombre de una terminal.
+Se tiene en cuenta la carpeta actual, el proyecto y la cantidad de
+terminales en esta ubicacion."
+  (let (
+        (nombre-base (concat "*eshell*"
+                             (if (projectile-project-p)
+                                 (concat "[" (projectile-project-name) "]")
+                               )
+                             "<" default-directory ">"
+                             )
+         )
+        (extra "")
+        )
+    ;; TODO: revisar si se esta ejecutando un proceso y en caso dado,
+    ;; mostrar el proceso en vez del directorio
+
+    ;; si ya existe, agregarle un numero al final
+    (if (member nombre-base (mapcar (lambda (buf)
+                                      (buffer-name buf))
+                                    (buffer-list)))
+        (let ((buffers-mismo-nombre (seq-filter
+                                     (lambda (buf)
+                                       (string-prefix-p nombre-base (buffer-name buf)))
+                                     (buffer-list))
+                                    )
+              (i 1)
+              )
+          ;; (message (format "%s" buffers-mismo-nombre))
+          ;; (message (format "%s %s" (concat nombre-base extra) buffers-mismo-nombre))
+          ;; (message (format "%s" (member (concat nombre-base extra) buffers-mismo-nombre)))
+
+          ;; puede no ser lo mas eficiente, pero funciona
+          (while (member (concat nombre-base extra)
+                         (mapcar (lambda (buf)
+                                   (buffer-name buf))
+                                 buffers-mismo-nombre))
+            ;; (message (format "i: %s" i))
+            (setq extra (format "%s" i))
+            (setq i (+ i 1)))
+          )
+      )
+
+    (concat nombre-base extra)
+    )
+  )
+
+
+(defun dh/create-new-eshell-buffer ()
+  (interactive)
+  (let* ((nombre (dh/eshell-buffer-name))
+         )
+    (eshell 99)
+    (rename-buffer nombre)
+    )
+  )
+
 (add-hook 'eshell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
 (add-hook 'shell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
 (add-hook 'term-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
@@ -125,14 +225,7 @@ por todo el proyecto.
 
   (add-hook 'eshell-directory-change-hook
             (lambda ()
-              (rename-buffer
-               (concat "*eshell*<"
-                       (if (projectile-project-p)
-                           (projectile-project-name)
-                         (concat default-directory)
-                         )
-                       ">")
-               )
+              (rename-buffer (dh/eshell-buffer-name))
               )
             )
 

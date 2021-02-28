@@ -219,7 +219,9 @@ _re_: edit     |   _j_: previous    |   _o_: org
   ( "s" swiper "swiper" )
   ;;( "." toggle-terminal "terminal" )
   ;; ( "." eshell-new "terminal" )
-  ( "." (dh/open-create-eshell-buffer) "terminal" )
+  ;; ( "." (dh/open-create-eshell-buffer) "terminal" )
+  ( "." (dh/create-new-eshell-buffer) "terminal" )
+  ( "/" (dh/select-eshell) "seleccionar terminal" )
   ( "e" counsel-flycheck "errores" )
 
   ;;( "j" previous-buffer "next" )

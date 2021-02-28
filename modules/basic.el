@@ -130,5 +130,6 @@
 
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
-(provide 'basic)
+(setq debug-on-error t)
+
 ;;; basic.el ends here
