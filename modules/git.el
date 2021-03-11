@@ -45,6 +45,7 @@
   )
 
 (use-package git-gutter
+  :delight
   :ensure t
   :demand t
   :custom
@@ -53,3 +54,10 @@
   (git-gutter)
   (global-git-gutter-mode +1)
   )
+
+(use-package magit-todos
+  :init
+  (magit-todos-mode)
+  )
+
+;;; git.el ends here

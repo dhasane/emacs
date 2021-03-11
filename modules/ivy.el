@@ -7,6 +7,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package ivy
+  :delight
   :diminish
   :ensure t
   ;; :diminish (ivy-mode . "")

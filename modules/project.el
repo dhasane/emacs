@@ -8,6 +8,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package projectile
+  :delight '(:eval (format "[%s]" (projectile-project-name)))
   :demand t
   :ensure t
   :defer .1
@@ -57,3 +58,16 @@
   :config
   (setq skeletor-project-directory "~/dev")
   )
+
+(use-package hl-todo
+  :custom
+  (hl-todo-keyword-faces
+   '(("TODO"   . "#FF0000")
+     ("FIXME"  . "#FF0000")
+     ("DEBUG"  . "#A020F0")
+     ("GOTCHA" . "#FF4500")
+     ("STUB"   . "#1E90FF")))
+  :init
+  (global-hl-todo-mode))
+
+;;; project.el ends here

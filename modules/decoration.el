@@ -123,11 +123,13 @@
   )
 
 (use-package rainbow-delimiters
+  :delight
   :hook (prog-mode . rainbow-delimiters-mode)
   :demand t
   )
 
 (use-package rainbow-mode
+  :delight
   :demand t
   :hook (org-mode
          emacs-lisp-mode
@@ -181,6 +183,7 @@
   )
 
 (use-package highlight-indent-guides
+  :delight
   :hook (
          (prog-mode . highlight-indent-guides-mode)
          )

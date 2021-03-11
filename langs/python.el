@@ -12,7 +12,7 @@
 
 (use-package python
   :demand t
-  :mode "\\.py\\'"
+  :mode ("\\.py\\'" . python-mode)
   :hook
   (python-mode .
                (lambda ()

@@ -196,6 +196,19 @@
   ;; (evil-goggles-yank-face ((t (:inherit 'isearch-fail))))
   )
 
+(use-package evil-owl
+  :delight
+  :custom
+  (evil-owl-max-string-length 500)
+  :config
+  (add-to-list 'display-buffer-alist
+               '("*evil-owl*"
+                 (display-buffer-in-side-window)
+                 (side . bottom)
+                 (window-height . 0.3)))
+  :init
+  (evil-owl-mode))
+
 (use-package evil-collection
   :demand t
   :after evil

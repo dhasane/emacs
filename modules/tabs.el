@@ -23,18 +23,21 @@
   (tab-bar-tab-inactive ((t (:background "#504945" :foreground "#fdf4c2"))))
   :custom
   (tab-bar-show 1)
-  :init
 
   ;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
   ;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
-  (setq tab-bar-show 1)
-  (setq tab-bar-close-button-show nil)
-  (setq tab-bar-tab-hints t)
-  (setq tab-bar-tab-name-truncated-max 1)
+  (tab-bar-show 1)
+  (tab-bar-close-button-show nil)
+  (tab-bar-tab-hints t)
+  (tab-bar-tab-name-truncated-max 1)
+  (tab-bar-tab-name-function 'dh/set-tabs-name)
+  ;; (tab-bar-tab-name-function 'set-name-if-in-project)
+  ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
+  ;; (tab-bar-tab-name-function)
   :config
   ;; esto tal vez lo podria usar para cambiar tab-bar
   ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
-  (defun set-name-if-in-project ()
+  (defun dh/set-name-if-in-project ()
     (format "%s"
             (if (projectile-project-p)
                 (format "[%s] - %s" (projectile-project-name) (tab-bar-tab-name-current))
@@ -42,14 +45,25 @@
               )
             )
     )
-  (setq tab-bar-tab-name-function 'set-name-if-in-project)
-  ;; (setq tab-bar-tab-name-function 'tab-bar-tab-name-current)
-  ;; (setq tab-bar-tab-name-function)
+
+  (defun dh/set-tabs-name ()
+    "Muestra el nombre del tab, en caso de exceder los MAX caracteres,
+muestra solo el nombre del proyecto y los caracteres sobrantes del
+nombre del tab."
+    (let ((max 30)
+          (project (if (projectile-project-p) (projectile-project-name)))
+          (nombre (tab-bar-tab-name-current)))
+      (let ((final-name (concat
+                         (if (< max (length nombre))
+                             (substring nombre (- max))
+                           nombre))))
+        (format "[%s] %s" project final-name))))
 
   (defun close-tab-configuration ()
     (interactive)
     (tab-bar-close-tab)
     )
+
   (defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
     "Tab management"
     ("c" tab-bar-new-tab-to "create" )
@@ -68,8 +82,6 @@
     ;;("8" eyebrowse-switch-to-window-config-8 )
     ;;("9" eyebrowse-switch-to-window-config-9 )
     )
-  (setq tab-bar-show 1)
-  (setq-default tab-bar-show 1)
   )
 
 (use-package eyebrowse

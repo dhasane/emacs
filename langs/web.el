@@ -72,14 +72,12 @@
   )
 
 (use-package php-mode
-  :mode ("\\.php\\’" . php-mode)
-  ;; :general
-  ;; (
-  ;;  :states '(insert)
-  ;;  "TAB" 'tab-indent-or-complete
-  ;;  )
-  :init
-  (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+  :mode ("\\.php\\'" . php-mode)
+  :general
+  (php-mode-map
+   :states '(insert override)
+   "TAB" 'basic-tab-indent-or-complete
+   )
   )
 
 (use-package phpunit
@@ -87,7 +85,7 @@
 
 (use-package typescript-mode
   :after (company)
-  :mode "\\.ts$\\'"
+  :mode "\\.ts\\'"
   :custom
   (typescript-indent-level              2)
   (typescript-expr-indent-offset        2)
@@ -111,6 +109,13 @@
          ;; (typescript-mode . tide-setup)
          (typescript-mode . tide-mode)
          (typescript-mode . tide-hl-identifier-mode)
+         (typescript-mode . (lambda ()
+                              (tide-setup)
+                              (tide-hl-identifier-mode +1)
+                              (eldoc-mode +1)
+                              (add-to-list 'company-backends 'company-tide)
+                              (add-hook before-save-hook tide-format-before-save)
+                              ))
          )
   :custom
   (tide-format-options
@@ -120,12 +125,6 @@
      :tabSize 2
      :indentSize 2
      ))
-  :config
-  (tide-setup)
-  (tide-hl-identifier-mode +1)
-  (eldoc-mode +1)
-  (add-to-list 'company-backends 'company-tide)
-  (add-hook before-save-hook tide-format-before-save)
   )
 
 ;; (set (make-local-variable 'company-backends)
@@ -136,6 +135,8 @@
   :config
   (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
   (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
+  (with-eval-after-load 'typescript-mode
+    (add-hook 'typescript-mode-hook #'lsp))
  )
 
 (use-package rjsx-mode

@@ -9,7 +9,7 @@
 (use-package company :demand t :defer .1
   :general
   (
-   :keymap 'prog-mode
+   :keymap '(prog-mode override)
    :states '(insert)
    "TAB" 'basic-tab-indent-or-complete
    )

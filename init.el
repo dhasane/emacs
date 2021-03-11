@@ -119,6 +119,7 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "12:00")
   )
+(use-package delight)
 
 (load (expand-file-name "compile" user-emacs-directory))
 

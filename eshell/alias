@@ -1,12 +1,11 @@
-alias rb ruby $@
-alias gco git checkout $@
+alias rb ruby $*
+alias gco git checkout $*
 alias upmk ..; mk; cd -
 alias clone git clone git@github.com:$1/$2
 alias fo find-file-other-window $1
 alias rf rm -rf $*
 alias v find-file $1
 alias word grep -rnw . -e $1
-alias flutter '~/inst/flutter/bin/flutter $1'
 alias ff find-file $1
 alias d dired $1
 alias py python3 $1

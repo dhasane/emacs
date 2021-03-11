@@ -83,7 +83,7 @@
   (org-fontify-quote-and-verse-blocks t)
 
 
-   (org-startup-truncated nil)
+  (org-startup-truncated nil)
 
 
   (org-log-done t)
@@ -92,10 +92,12 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
-     (shell . t)  ; in my case /bin/bash
+     (shell . t)
      (ruby . t)
      (rust . nil)
      (python . t)
+     (sql . t)
+     ;; (psql . t)
      ;; (javascript . t)
      ;; (typescript . t)
      (sed . t)
@@ -139,7 +141,6 @@
   ;; (org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))
   )
 
-;; TODO: cuadrar esto bien y aprender un poco, que por el momento solo he usado 'a'
 (defhydra hydra-org (:color blue :columns 3)
   ("a" org-agenda         "agenda")
   ("l s" org-store-link   "store link")
@@ -163,6 +164,7 @@
 ;;   )
 
 (use-package org-roam
+  :delight
   :ensure t
   :hook
   (after-init . org-roam-mode)
@@ -207,6 +209,7 @@
   )
 
 (use-package evil-org
+  :delight
   :demand t
   :ensure t
   :after (org evil)

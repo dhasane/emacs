@@ -63,15 +63,25 @@ terminales en esta ubicacion."
   (let (
         (nombre-base (concat "*eshell*"
                              (if (projectile-project-p)
-                                 (concat "[" (projectile-project-name) "]")
+                                 (concat
+                                  "["
+                                  (projectile-project-name)
+                                  "]")
                                )
-                             "<" default-directory ">"
+                             "<"
+                             (if (get-buffer-process
+                                  (current-buffer))
+                                 (format "%s" (get-buffer-process
+                                               (current-buffer)
+                                               ))
+                                 default-directory
+                                 )
+                             ">"
                              )
          )
         (extra "")
         )
-    ;; TODO: revisar si se esta ejecutando un proceso y en caso dado,
-    ;; mostrar el proceso en vez del directorio
+    ;; TODO: en caso de que empiece un proceso largo, encontrar como llamar esta funcion
 
     ;; si ya existe, agregarle un numero al final
     (if (member nombre-base (mapcar (lambda (buf)
@@ -98,11 +108,9 @@ terminales en esta ubicacion."
             (setq i (+ i 1)))
           )
       )
-
     (concat nombre-base extra)
     )
   )
-
 
 (defun dh/create-new-eshell-buffer ()
   (interactive)
@@ -332,6 +340,51 @@ por todo el proyecto.
     ;;TODO: identificar el sistema para actualizar
     )
   )
+
+(use-package tramp
+  :custom
+  (tramp-verbose 1) ;; aumentarlo para debug
+  (tramp-terminal-type "tramp")
+  ;; (tramp-default-method "ssh")
+  ;;(tramp-chunksize 500)
+
+  ;; The information about remote hosts is kept in the file specified in ‘tramp-persistency-file-name’. Keep this file.
+  ;; If you are confident that files on remote hosts are not changed
+  ;; out of Emacs’ control, set
+  (remote-file-name-inhibit-cache nil) ;; esto puede ser mala idea, pero probemos
+  (tramp-completion-reread-directory-timeout nil)
+  )
+
+(defun eval-connection (usr hst)
+  (with-temp-buffer
+    (let* ((user usr) (host hst)
+           (init 0) (step 50)
+           (sent init) (received init))
+      (while (= sent received)
+        (setq sent (+ sent step))
+        (erase-buffer)
+        (let ((proc (start-process (buffer-name) (current-buffer)
+                                   "ssh" "-l" user host "wc" "-c")))
+          (when (process-live-p proc)
+            (process-send-string proc (make-string sent ?\ ))
+            (process-send-eof proc)
+            (process-send-eof proc))
+          (while (not (progn (goto-char (point-min))
+                             (re-search-forward "\\w+" (point-max) t)))
+            (accept-process-output proc 1))
+          (when (process-live-p proc)
+            (setq received (string-to-number (match-string 0)))
+            (delete-process proc)
+            (message "Bytes sent: %s\tBytes received: %s" sent received)
+            (sit-for 0))))
+      (if (> sent (+ init step))
+          (message "You should set ‘tramp-chunksize’ to a maximum of %s"
+                   (- sent step))
+        (message "Test does not work")
+        (display-buffer (current-buffer))
+        (sit-for 30))))
+  )
+
 
 (use-package pcomplete
   :custom
