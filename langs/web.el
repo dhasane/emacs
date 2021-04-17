@@ -77,6 +77,7 @@
   (php-mode-map
    :states '(insert override)
    "TAB" 'basic-tab-indent-or-complete
+   [tab] 'basic-tab-indent-or-complete
    )
   )
 

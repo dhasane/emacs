@@ -136,9 +136,9 @@
 
 ;; load config
 (comp-load-folder config-module-dir
-                  :ignorar '("fira-code")
-                  :compilar '("basic" "evil" "org-mode" "project" "ivy" "completion")
-                  )
+				  :ignorar '("fira-code")
+				  ;; :compilar '("basic" "evil" "org-mode" "project" "ivy" "completion")
+				  )
 
 (comp-load-folder config-lang-dir)
 
@@ -168,6 +168,14 @@
  "t" 'toggle-transparency
  )
 
+(defun dh/jet-pack ()
+  (interactive)
+  (if (projectile-project-p)
+      (counsel-projectile-find-file)
+    (call-interactively 'counsel-find-file)
+    )
+  )
+
 (general-define-key
  :keymaps 'override
  :prefix "<SPC>"
@@ -183,13 +191,7 @@
  "j" 'prev-user-buffer-ring
  "k" 'next-user-buffer-ring
  "y" 'ivy-yasnippet
- "l" #'(lambda ()
-         (interactive)
-         (if (projectile-project-p)
-             (counsel-projectile-find-file)
-           (call-interactively 'counsel-find-file)
-           )
-         )  ;; "jet pack"
+ "l" #'dh/jet-pack ;; "jet pack"
  "o" 'hydra-org/body
  )
 
@@ -210,13 +212,7 @@ _re_: edit     |   _j_: previous    |   _o_: org
 "
   ( "rs" reload-emacs-config "reload init" )
   ( "re" open-emacs-config "edit init" )
-  ( "l" (lambda ()
-          (interactive)
-          (if (projectile-project-p)
-              (counsel-projectile-find-file)
-            (call-interactively 'counsel-find-file)
-            )
-          )  "jet pack" )
+  ( "l" #'dh/jet-pack  "jet pack" )
   ( "s" swiper "swiper" )
   ;;( "." toggle-terminal "terminal" )
   ;; ( "." eshell-new "terminal" )

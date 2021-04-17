@@ -37,27 +37,24 @@
   :config
   ;; esto tal vez lo podria usar para cambiar tab-bar
   ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
-  (defun dh/set-name-if-in-project ()
-    (format "%s"
-            (if (projectile-project-p)
-                (format "[%s] - %s" (projectile-project-name) (tab-bar-tab-name-current))
-              (tab-bar-tab-name-current)
-              )
-            )
-    )
 
   (defun dh/set-tabs-name ()
     "Muestra el nombre del tab, en caso de exceder los MAX caracteres,
 muestra solo el nombre del proyecto y los caracteres sobrantes del
 nombre del tab."
     (let ((max 30)
-          (project (if (projectile-project-p) (projectile-project-name)))
           (nombre (tab-bar-tab-name-current)))
       (let ((final-name (concat
                          (if (< max (length nombre))
                              (substring nombre (- max))
                            nombre))))
-        (format "[%s] %s" project final-name))))
+        (format "%s%s"
+                (get-project-name-except-if-remote
+                 :pre "["
+                 :pos "] "
+                 )
+                final-name)
+        )))
 
   (defun close-tab-configuration ()
     (interactive)

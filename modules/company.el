@@ -16,6 +16,7 @@
   (
    :keymaps 'company-active-map
    "TAB" 'company-complete-common-or-cycle
+   [tab] 'company-complete-common-or-cycle
    "<tab>" 'company-complete-common-or-cycle
 
    "S-TAB" 'company-select-previous

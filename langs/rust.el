@@ -6,8 +6,8 @@
   (rust-format-on-save t)
   (lsp-rust-analyzer-cargo-watch-enable t)
   (lsp-rust-server
-   ;; 'rust-analyzer
-   'rls
+   'rust-analyzer
+   ;; 'rls
    )
   )
 

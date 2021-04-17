@@ -1,11 +1,8 @@
-
-;;; package --- Summary
+;;; package --- Summary -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; code:
-
-;; -*- lexical-binding: t; -*-
 
 ;; quitar la pantalla inicial
 ;;(setq inhibit-startup-screen t)

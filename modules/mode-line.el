@@ -28,15 +28,6 @@
               (set-face-foreground 'mode-line (cdr color)))))
   ;; )
 
-
-(defun get-project-name-except-if-remote ()
-  (interactive)
-  (if (file-remote-p default-directory)
-      ""
-    (projectile-project-name)
-    )
-  )
-
 (use-package nyan-mode
   :demand t
   )

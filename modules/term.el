@@ -1,11 +1,9 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; Configuracion para eshel y term
 
 ;;; code:
-
-;; -*- lexical-binding: t; -*-
 
 (use-package keychain-environment
   ;; :hook (tramp-mode . keychain-refresh-environment)
@@ -45,14 +43,25 @@
           "Select: "
           buffers
           nil t
-          (if (projectile-project-p)
-              (projectile-project-name)
-            ""
-            )
+          (get-project-name-except-if-remote)
           )
          )
       (message "No hay buffers de eshell")
       )
+    )
+  )
+
+;; TODO: crear una terminal del tipo seleccionado
+(defun dh/create-shell-type ()
+  "Seleccionar entre los buffers de eshell."
+  (interactive)
+  (let ((terminales '("eshell" "vterm")))
+    (setq sel-term
+          (completing-read
+           "Select: "
+           terminales
+           nil t
+           ))
     )
   )
 
@@ -62,12 +71,10 @@ Se tiene en cuenta la carpeta actual, el proyecto y la cantidad de
 terminales en esta ubicacion."
   (let (
         (nombre-base (concat "*eshell*"
-                             (if (projectile-project-p)
-                                 (concat
-                                  "["
-                                  (projectile-project-name)
-                                  "]")
-                               )
+                             (get-project-name-except-if-remote
+                              :pre "["
+                              :pos "]"
+                              )
                              "<"
                              (if (get-buffer-process
                                   (current-buffer))
@@ -130,6 +137,10 @@ terminales en esta ubicacion."
   (interactive)
   (eshell 'N))
 
+(defun display-ansi-colors ()
+  (interactive)
+  (format-decode-buffer 'ansi-colors))
+
 (defun dh/open-create-eshell-buffer ()
   "Crear un buffer nuevo, o saltar a uno ya existente.
 Se crea con el nombre de la carpeta en la que se encuentre.
@@ -140,10 +151,9 @@ por todo el proyecto.
   (interactive)
   (let* ((nombre
           (concat "*eshell*<"
-                  (if (projectile-project-p)
-                      (projectile-project-name)
-                    (concat default-directory)
-                    )
+                  (get-project-name-except-if-remote
+                   :else (concat default-directory)
+                   )
                   ">")
           )
          (eshell-buffer-exists
@@ -179,6 +189,8 @@ por todo el proyecto.
    )
   :custom
   (eshell-destroy-buffer-when-process-dies t)
+  (eshell-banner-message "")
+  (setenv "TERM" "dumb")
   :init
   (setq eshell-visual-subcommands
         '(
@@ -236,6 +248,10 @@ por todo el proyecto.
               (rename-buffer (dh/eshell-buffer-name))
               )
             )
+  ;; (add-hook 'eshell-after-prompt-hook
+  ;;           (lambda ()
+  ;;             (rename-buffer (dh/eshell-buffer-name))
+  ;;             ))
 
   (add-hook 'eshell-mode-hook
             (lambda ()
@@ -341,6 +357,21 @@ por todo el proyecto.
     )
   )
 
+(use-package xterm-color
+  :disabled
+  :after (eshell)
+  :hook
+  (eshell-before-prompt-hook . (lambda ()
+                                 (setq xterm-color-preserve-properties t)))
+
+  :init
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  ;; :custom
+  ;; (eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+  :config
+  ;; (setenv "TERM" "xterm-256color")
+  )
+
 (use-package tramp
   :custom
   (tramp-verbose 1) ;; aumentarlo para debug
@@ -385,12 +416,6 @@ por todo el proyecto.
         (sit-for 30))))
   )
 
-
-(use-package pcomplete
-  :custom
-  (pcomplete-ignore-case t)
-  )
-
 (use-package esh-autosuggest
   :disabled
   :demand t
@@ -418,6 +443,20 @@ por todo el proyecto.
   :config
   ;; Enable in all Eshell buffers.
   (eshell-syntax-highlighting-global-mode +1))
+
+(use-package bash-completion
+  :hook
+  (shell-dynamic-complete-functions . bash-completion-dynamic-complete)
+  :config
+  (defun eshell-bash-completion ()
+    (while (pcomplete-here
+            (nth 2 (bash-completion-dynamic-complete-nocomint (save-excursion (eshell-bol) (point)) (point))))))
+
+  (setq eshell-default-completion-function 'eshell-bash-completion)
+  )
+
+(use-package vterm
+  )
 
 ;; comint
 
@@ -460,3 +499,5 @@ por todo el proyecto.
   (shell-command-on-region
    (point-min) (point-max)
    (read-shell-command "Shell command on buffer: ")))
+
+;;; term.el ends here

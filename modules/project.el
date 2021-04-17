@@ -26,16 +26,43 @@
   (projectile-completion-system 'ivy)
   :config
   (projectile-mode +1)
+
+
+  (cl-defun get-project-name-except-if-remote (&key pre pos else)
+    "Retorna el nombre del proyecto, en caso de no ser remoto."
+    (interactive)
+    (if (file-remote-p default-directory)
+        ""
+      (if (projectile-project-p)
+          (concat pre (projectile-project-name) pos)
+        (if else
+            #'else
+          ""))))
+
   )
+
+;; (use-package code-compass
+;;   :demand
+;;   :init
+;;   (use-package async)
+;;   (use-package dash)
+;;   (use-package f)
+;;   (use-package s)
+;;   (use-package simple-httpd)
+;;   :load-path "~/.emacs.d/elisp/code-compass/" )
 
 (use-package compile
   :hook
-  ;; Add color formatting to *compilation* buffer
-  (compilation-filter . (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
+  (
+   ;; Add color formatting to *compilation* buffer
+   (compilation-filter . (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
+   (compilation-mode . visual-line-mode)
+   (compilation-filter . comint-truncate-buffer)
+   )
   :general
   ("<f5>" (lambda ()
             (interactive)
-            (setq-local compilation-read-command nil)
+            ;; (setq-local compilation-read-command nil)
             (call-interactively 'compile))
    )
   )

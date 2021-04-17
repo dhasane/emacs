@@ -1,11 +1,9 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; configuracion de org mode
 
 ;;; code:
-
-;; -*- lexical-binding: t; -*-
 
 (use-package org
   :ensure t
@@ -82,10 +80,7 @@
   (org-fontify-done-headline t)
   (org-fontify-quote-and-verse-blocks t)
 
-
   (org-startup-truncated nil)
-
-
   (org-log-done t)
   :config
 

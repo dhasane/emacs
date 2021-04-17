@@ -12,6 +12,8 @@
     ;; typescript-mode
     ;; ng2-ts-mode
     csharp-mode
+    makefile-mode
+    shell-script-mode
     )
   "Modes to prevent Emacs from loading lsp-mode."
   :type 'list
@@ -109,6 +111,7 @@
   :ensure t
   :after (lsp-mode evil)
   :commands lsp-ui-mode
+  ;; :hook (lsp-ui-mode . sideline-mode)
   :general
   (
    :keymap 'prog-mode
@@ -128,19 +131,23 @@
   (lsp-ui-doc-enable nil)
   (lsp-ui-doc-delay nil)
 
-  (lsp-ui-sideline-enable t)
-  (lsp-ui-sideline-show-symbol t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-sideline-showcode-actions t)
-  (lsp-ui-sideline-update-mode 'point)
-
   (lsp-ui-doc-header t)
   (lsp-ui-doc-include-signature t)
   (lsp-ui-doc-position 'top)
   (lsp-ui-doc-border (face-foreground 'default))
-  (lsp-ui-sideline-enable nil)
+
+  ;; sideline
+  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-show-symbol t)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-sideline-update-mode 'point)
   (lsp-ui-sideline-ignore-duplicate t)
-  (lsp-ui-sideline-show-code-actions nil)
+  (lsp-ui-sideline-show-code-actions t)
+
+  (lsp-ui-sideline-diagnostic-max-lines 10)
+  :custom-face
+  (lsp-ui-sideline-current-symbol ((t (:foreground "black" :background "#689d6b"))))
+  (lsp-ui-sideline-global ((t (:box (:line-width (-1 . -1) :color "grey75" :style released-button)))))
   )
 
 (use-package lsp-treemacs
