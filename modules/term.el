@@ -169,6 +169,12 @@ por todo el proyecto.
 
   )
 
+(use-package pcomplete
+  :demand t
+  :custom
+  (pcomplete-ignore-case t)
+  )
+
 (use-package eshell
   :hook (
         (eshell-mode . visual-line-mode)
@@ -355,6 +361,93 @@ por todo el proyecto.
     "Update system"
     ;;TODO: identificar el sistema para actualizar
     )
+
+  (defun pcomplete/mk ()
+    "Completion rules for the `make' command."
+    ;; mk esta definido en eshell/alias
+    (pcomplete/make)
+    )
+
+  ;; https://www.emacswiki.org/emacs/EshellCompletion
+;;;; sudo completion
+  (defun pcomplete/sudo ()
+    "Completion rules for the `sudo' command."
+    (let ((pcomplete-ignore-case t))
+      (pcomplete-here (funcall pcomplete-command-completion-function))
+      (while (pcomplete-here (pcomplete-entries)))))
+
+;;;; systemctl completion
+  (defcustom pcomplete-systemctl-commands
+    '("disable" "enable" "status" "start" "restart" "stop" "reenable"
+      "list-units" "list-unit-files")
+    "p-completion candidates for `systemctl' main commands"
+    :type '(repeat (string :tag "systemctl command"))
+    :group 'pcomplete)
+
+  (defvar pcomplete-systemd-units
+    (split-string
+     (shell-command-to-string
+      "(systemctl list-units --all --full --no-legend;systemctl list-unit-files --full --no-legend)|while read -r a b; do echo \" $a\";done;"))
+    "p-completion candidates for all `systemd' units")
+
+  (defvar pcomplete-systemd-user-units
+    (split-string
+     (shell-command-to-string
+      "(systemctl list-units --user --all --full --no-legend;systemctl list-unit-files --user --full --no-legend)|while read -r a b;do echo \" $a\";done;"))
+    "p-completion candidates for all `systemd' user units")
+
+  (defun pcomplete/systemctl ()
+    "Completion rules for the `systemctl' command."
+    (pcomplete-here (append pcomplete-systemctl-commands '("--user")))
+    (cond ((pcomplete-test "--user")
+           (pcomplete-here pcomplete-systemctl-commands)
+           (pcomplete-here pcomplete-systemd-user-units))
+          (t (pcomplete-here pcomplete-systemd-units))))
+
+;;;; man completion
+  (defvar pcomplete-man-user-commands
+    (split-string
+     (shell-command-to-string
+      "apropos -s 1 .|while read -r a b; do echo \" $a\";done;"))
+    "p-completion candidates for `man' command")
+
+  (defun pcomplete/man ()
+    "Completion rules for the `man' command."
+    (pcomplete-here pcomplete-man-user-commands))
+
+  ;; https://www.masteringemacs.org/article/pcomplete-context-sensitive-completion-emacs
+  (defconst pcmpl-git-commands
+    '("add" "bisect" "branch" "checkout" "clone"
+      "commit" "diff" "fetch" "grep"
+      "init" "log" "merge" "mv" "pull" "push" "rebase"
+      "reset" "rm" "show" "status" "tag" )
+    "List of `git' commands.")
+
+  (defvar pcmpl-git-ref-list-cmd "git for-each-ref refs/ --format='%(refname)'"
+    "The `git' command to run to get a list of refs.")
+
+  (defun pcmpl-git-get-refs (type)
+    "Return a list of `git' refs filtered by TYPE."
+    (with-temp-buffer
+      (insert (shell-command-to-string pcmpl-git-ref-list-cmd))
+      (goto-char (point-min))
+      (let ((ref-list))
+        (while (re-search-forward (concat "^refs/" type "/\\(.+\\)$") nil t)
+          (add-to-list 'ref-list (match-string 1)))
+        ref-list)))
+
+  (defun pcomplete/git ()
+    "Completion for `git'."
+    ;; Completion for the command argument.
+    (pcomplete-here* pcmpl-git-commands)
+    ;; complete files/dirs forever if the command is `add' or `rm'
+    (cond
+     ((pcomplete-match (regexp-opt '("add" "rm")) 1)
+      (while (pcomplete-here (pcomplete-entries))))
+     ;; provide branch completion for the command `checkout'.
+     ((pcomplete-match "checkout" 1)
+      (pcomplete-here* (pcmpl-git-get-refs "heads")))))
+
   )
 
 (use-package xterm-color
@@ -468,6 +561,7 @@ por todo el proyecto.
     (other-window 1)))
 
 (setq comint-prompt-read-only t)    ; "Make the prompt read only."
+;; (setq comint-buffer-maximum-size 2000)
 
 (general-define-key
  :states 'normal

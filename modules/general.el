@@ -147,15 +147,36 @@
   :demand t
   :custom
   (ranger-override-dired-mode t)
-  (ranger-return-to-ranger t)
+  (ranger-return-to-ranger nil)
   (ranger-show-hidden t)
+  (ranger-cleanup-on-disable t)
+
+  ;; headers
+  (ranger-header-func 'ranger-header-line)
+  (ranger-parent-header-func 'ranger-parent-header-line)
+  (ranger-preview-header-func 'ranger-preview-header-line)
+
+  ;; organizacion de ventanas
+  (ranger-width-parents 0.12)
+  (ranger-max-parent-width 0.12)
+  (ranger-preview-file t)
+  (ranger-show-literal t)
+  (ranger-width-preview 0.55)
+
+  ;; excluir preview
+  (ranger-excluded-extensions
+   '("mkv" "iso" "mp4"))
+  ;; en MB
+  (ranger-max-preview-size 10)
+  (ranger-dont-show-binary t)
   :config
   (ranger-show-file-details)
-  (ranger-override-dired-mode t)
   )
 
 (use-package bufler
   :delight
+  :config
+  ;; (bufler-workspace-mode t)
   )
 
 (setq visual-line-fringe-indicators

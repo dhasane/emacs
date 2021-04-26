@@ -26,6 +26,8 @@
    "<return>" 'company-complete-selection
    "<ret>" 'company-complete-selection
 
+   "C-s" 'complete-and-save
+
    [escape] 'company-abort
    )
   :custom
@@ -54,8 +56,11 @@
   :config
   (company-tng-mode)
 
-  (eval-after-load 'evil
-    (evil-make-intercept-map company-active-map 'insert)
+  (defun dh/complete-and-save ()
+    "Completar la recomendacion y guardar"
+    (interactive)
+    (company-complete-selection)
+    (save-buffer)
     )
 
   ;; completar siempre que no sea espacio

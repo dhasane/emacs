@@ -123,12 +123,14 @@
   )
 
 (use-package rainbow-delimiters
+  :defer 1
   :delight
   :hook (prog-mode . rainbow-delimiters-mode)
   :demand t
   )
 
 (use-package rainbow-mode
+  :defer 1
   :delight
   :demand t
   :hook (org-mode
@@ -182,7 +184,14 @@
   ;; :hook (prog-mode . display-line-numbers)
   )
 
+(use-package hl-line
+  :defer 1
+  :config
+  (global-hl-line-mode +1)
+)
+
 (use-package highlight-indent-guides
+  :defer 1
   :delight
   :hook (
          (prog-mode . highlight-indent-guides-mode)

@@ -104,6 +104,8 @@
 (use-package hydra :ensure t :demand t)
 (use-package benchmark-init
   :ensure t
+  :init
+  (benchmark-init/activate)
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
@@ -181,58 +183,79 @@
  :prefix "<SPC>"
  :non-normal-prefix "<M-SPC>"
  :states 'normal
- "e" 'counsel-find-file
- ;; "b" 'switch-to-buffer
- "b" 'bufler-switch-buffer
+
  "k" 'kill-buffer
- "w" 'evil-window-map
  "t" 'hydra-tabs/body
+  ;; "t" treemacs ; "tree"
+ ;; general
+ "b" 'bufler-switch-buffer ; 'switch-to-buffer
+ "o" 'hydra-org/body
+ "m" 'magit
+ "w" 'evil-window-map
  "s" 'swiper
+
+ ;; TODO: arreglar esto
+ ; "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) ; ; ; "execute macro"
+ ;; "?" #'evil-show-marks ; "marks"
+
+ ;; eshell
+ ;; TODO: "," dh/jump-to-last-eshell-buffer
+ "." 'dh/create-new-eshell-buffer ; "terminal"
+ "/" 'dh/select-eshell ; "seleccionar terminal"
+
+ ;; move to files
+ "e" 'counsel-find-file ; buscar solo en el mismo directorio
+ "E" 'dh/jet-pack       ; buscar en todo el proyecto
  "j" 'prev-user-buffer-ring
  "k" 'next-user-buffer-ring
+
+ ;; project
  "y" 'ivy-yasnippet
- "l" #'dh/jet-pack ;; "jet pack"
- "o" 'hydra-org/body
+ "rn" #'lsp-rename ; "rename"
+   ;; "e" 'counsel-flycheck ; "errores"
+
+ ;; emacs
+ "rs" 'reload-emacs-config ; "reload init"
+ "re" 'open-emacs-config ; "edit init"
  )
-
 ;; the hydra to rule them all buahaha
-(defhydra hydra-leader (:color blue :idle 1.0 :hint nil)
-  "
-actuar como leader en vim :
-
-^Config^       |    ^Buffers^       |  ^Edit^
-^^^^^^^^-------------------------------------------------
-_rs_: reload   |   _l_: jet-pack    |   _m_: magit
-_re_: edit     |   _j_: previous    |   _o_: org
-^ ^            |   _k_: next        |   _e_: errores
-^ ^            |   _._: terminal    |   _SPC_: execute macro
-^ ^            |   _?_: marks       |   _rn_: rename
-^ ^            |   ^ ^              |   _s_: search text
-
-"
-  ( "rs" reload-emacs-config "reload init" )
-  ( "re" open-emacs-config "edit init" )
-  ( "l" #'dh/jet-pack  "jet pack" )
-  ( "s" swiper "swiper" )
-  ;;( "." toggle-terminal "terminal" )
-  ;; ( "." eshell-new "terminal" )
-  ;; ( "." (dh/open-create-eshell-buffer) "terminal" )
-  ( "." (dh/create-new-eshell-buffer) "terminal" )
-  ( "/" (dh/select-eshell) "seleccionar terminal" )
-  ( "e" counsel-flycheck "errores" )
-
-  ;;( "j" previous-buffer "next" )
-  ;;( "k" next-buffer "next" )
-  ( "j" (prev-user-buffer-ring) "prev" )
-  ( "k" (next-user-buffer-ring) "next" )
-
-  ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) "execute macro" )
-  ( "m" (magit) "magit" )
-  ( "o" (hydra-org/body) "org" )
-  ( "rn" lsp-rename "rename")
-  ( "?" evil-show-marks "marks")
-  ( "t" treemacs "tree")
-  )
+;; (defhydra hydra-leader (:color blue :idle 1.0 :hint nil)
+;;   "
+;; actuar como leader en vim :
+;;
+;; ^Config^       |    ^Buffers^       |  ^Edit^
+;; ^^^^^^^^-------------------------------------------------
+;; _rs_: reload   |   _l_: jet-pack    |   _m_: magit
+;; _re_: edit     |   _j_: previous    |   _o_: org
+;; ^ ^            |   _k_: next        |   _e_: errores
+;; ^ ^            |   _._: terminal    |   _SPC_: execute macro
+;; ^ ^            |   _?_: marks       |   _rn_: rename
+;; ^ ^            |   ^ ^              |   _s_: search text
+;;
+;; "
+;;   ( "rs" reload-emacs-config "reload init" )
+;;   ( "re" open-emacs-config "edit init" )
+;;   ( "l" #'dh/jet-pack  "jet pack" )
+;;   ( "s" swiper "swiper" )
+;;   ;;( "." toggle-terminal "terminal" )
+;;   ;; ( "." eshell-new "terminal" )
+;;   ;; ( "." (dh/open-create-eshell-buffer) "terminal" )
+;;   ( "." (dh/create-new-eshell-buffer) "terminal" )
+;;   ( "/" (dh/select-eshell) "seleccionar terminal" )
+;;   ( "e" counsel-flycheck "errores" )
+;;
+;;   ;;( "j" previous-buffer "next" )
+;;   ;;( "k" next-buffer "next" )
+;;   ( "j" (prev-user-buffer-ring) "prev" )
+;;   ( "k" (next-user-buffer-ring) "next" )
+;;
+;;   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) "execute macro" )
+;;   ( "m" (magit) "magit" )
+;;   ( "o" (hydra-org/body) "org" )
+;;   ( "rn" lsp-rename "rename")
+;;   ( "?" evil-show-marks "marks")
+;;   ( "t" treemacs "tree")
+;;   )
 
 ;; final ------------------------------------------------------
 

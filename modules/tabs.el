@@ -50,6 +50,7 @@ nombre del tab."
                            nombre))))
         (format "%s%s"
                 (get-project-name-except-if-remote
+                 :show-external t
                  :pre "["
                  :pos "] "
                  )

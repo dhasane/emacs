@@ -1,11 +1,19 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; funciones para compilar archivos de elisp
 
 ;;; code:
 
-;; -*- lexical-binding: t; -*-
+;; TODO: arreglar para native-compile
+;; https://stackoverflow.com/questions/20952894/what-emacs-lisp-function-is-to-require-as-autoload-is-to-load
+
+(defun dh/load-file (file)
+  "Cargar FILE.
+Servir como un wrapper alrededor de la funcion de carga.
+Para no tener que cambiar en varias partes sino solo aca."
+  (load-file file)
+  )
 
 (defun dh/compile-file (filename)
   "Compilar FILENAME.
@@ -33,14 +41,14 @@ Se ignoran los archivos en la lista IGNORAR y no son cargados.
 COMPILAR sirve para que solo archivos especificos sean copilados."
   (let ((files-ignore
          (mapcar (lambda (f)
-                   (concat config-dir f ".el$"))
+                   (concat config-dir f ".elc?$"))
                  ignorar)))
 
     (dolist (comp-file (mapcar (lambda (f)
                             (concat config-dir f))
                           compilar))
       (dh/compile-file comp-file)
-      (load comp-file)
+      (dh/load-file comp-file)
       )
 
     (dolist (ign files-ignore)
@@ -50,7 +58,7 @@ COMPILAR sirve para que solo archivos especificos sean copilados."
     (dolist (file (directory-files config-dir t ".el$"))
       (unless (member file files-ignore)
         ;; (message file)
-        (load file)
+        (dh/load-file file)
         )
       )
     )
@@ -81,7 +89,7 @@ Se ignoran los archivos en la lista IGNORAR y no son cargados."
     (dolist (file (directory-files config-dir t (if compile ".elc$" ".el$")))
       (unless (member file files-ignore)
         ;; (message file)
-        (load file)
+        (dh/load-file file)
         )
       )
     )

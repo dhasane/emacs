@@ -47,7 +47,7 @@
    "C-j" 'evil-window-down
    "C-M-q" 'ido-kill-buffer ;'evil-quit
    "C-q" #'close-except-last-window
-   ","   #'hydra-leader/body
+   ;; ","   #'hydra-leader/body
    ;; "u" 'undo-tree-undo
    ;; "C-_" 'comment-dwim ; cambiar esto desactiva undo-tree
    ;; "C-/" 'comment-dwim
@@ -91,38 +91,39 @@
 
   (evil-mode 1)
 
-  (cl-loop for (mode . state) in
-           '(
-             ;; insert
-             (shell-mode . insert)
-             ;; (dashboard-mode . insert)
-             (git-commit-mode . insert)
-             (nrepl-mode . insert)
+  ;; Esto en teoria ya es manejado por evil-collection
+  ;; (cl-loop for (mode . state) in
+  ;;          '(
+  ;;            ;; insert
+  ;;            (shell-mode . insert)
+  ;;            ;; (dashboard-mode . insert)
+  ;;            (git-commit-mode . insert)
+  ;;            (nrepl-mode . insert)
 
-             ;; normal
-             (debugger-mode . normal)
-             (pylookup-mode . normal)
-             (inferior-python-mode . normal)
-             (comint-mode . normal)
-             (dired-mode . normal)
-             (wdired-mode . normal)
-             (nrepl-mode . normal)
+  ;;            ;; normal
+  ;;            (debugger-mode . normal)
+  ;;            (pylookup-mode . normal)
+  ;;            (inferior-python-mode . normal)
+  ;;            (comint-mode . normal)
+  ;;            (dired-mode . normal)
+  ;;            (wdired-mode . normal)
+  ;;            (nrepl-mode . normal)
 
-             ;; emacs
-             (term-mode . emacs)
-             (rdictcc-buffer-mode . emacs)
+  ;;            ;; emacs
+  ;;            (term-mode . emacs)
+  ;;            (rdictcc-buffer-mode . emacs)
 
-             ;; motion
-             ;; (debugger-mode . motion)
-             ;; (inferior-emacs-lisp-mode . motion)
-             ;; (package-menu-mode . motion)
-             ;; (help-mode . motion)
-             ;; (grep-mode . motion)
-             ;; (special-mode . motion)
-             ;; (bc-menu-mode . motion)
-             ;; (Custom-mode . motion)
-             )
-           do (evil-set-initial-state mode state))
+  ;;            ;; motion
+  ;;            ;; (debugger-mode . motion)
+  ;;            ;; (inferior-emacs-lisp-mode . motion)
+  ;;            ;; (package-menu-mode . motion)
+  ;;            ;; (help-mode . motion)
+  ;;            ;; (grep-mode . motion)
+  ;;            ;; (special-mode . motion)
+  ;;            ;; (bc-menu-mode . motion)
+  ;;            ;; (Custom-mode . motion)
+  ;;            )
+  ;;          do (evil-set-initial-state mode state))
 
   (defun close-except-last-window ()
     "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
@@ -142,6 +143,8 @@
     (save-buffer)
     )
 
+  (evil-make-intercept-map company-active-map 'insert)
+
  ;;; esc quits
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
@@ -153,6 +156,7 @@
   )
 
 (use-package evil-leader
+  :defer 1
   :demand t
   :config
   ;; (global-evil-leader-mode)
@@ -168,6 +172,7 @@
 
 
 (use-package evil-surround
+  :defer 1
   :ensure t
   :after (evil)
   :config
@@ -175,6 +180,7 @@
 
 ;; visual hints while editing
 (use-package evil-goggles
+  :defer 1
   :ensure t
   :after (evil)
   :functions evil-googles-use-diff-faces
@@ -197,6 +203,7 @@
   )
 
 (use-package evil-owl
+  :defer 1
   :delight
   :custom
   (evil-owl-max-string-length 500)

@@ -1,11 +1,9 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; Configuracion general para paquetes usados en varios proyectos
 
 ;;; code:
-
-;; -*- lexical-binding: t; -*-
 
 (use-package projectile
   :delight '(:eval (format "[%s]" (projectile-project-name)))
@@ -28,11 +26,19 @@
   (projectile-mode +1)
 
 
-  (cl-defun get-project-name-except-if-remote (&key pre pos else)
-    "Retorna el nombre del proyecto, en caso de no ser remoto."
+  (cl-defun get-project-name-except-if-remote (&key pre pos else show-external)
+    "Retorna el nombre del proyecto, en caso de no ser remoto.
+Se tienen varios parametros opcionales:
+* PRE y POS representan las cadenas para incluir antes y despues del
+nombre del proyecto. Solo se muestran en caso de estar dentro de un
+proyecto.
+* ELSE es la funcion a ejecutar en caso de estar local y fuera de un proyecto.
+* SHOW-EXTERNAL es si se quiere mostrar el simbolo '' en caso de estar
+conectado a una maquina externa.
+"
     (interactive)
     (if (file-remote-p default-directory)
-        ""
+        (if show-external (concat pre "" pos) "")
       (if (projectile-project-p)
           (concat pre (projectile-project-name) pos)
         (if else
