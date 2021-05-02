@@ -191,11 +191,14 @@
  "b" 'bufler-switch-buffer ; 'switch-to-buffer
  "o" 'hydra-org/body
  "m" 'magit
+ "g" 'magit
  "w" 'evil-window-map
  "s" 'swiper
 
  ;; TODO: arreglar esto
- ; "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) ; ; ; "execute macro"
+ ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
+
+ "2" (lambda () (interactive) (call-interactively 'evil-execute-macro))
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell

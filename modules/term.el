@@ -178,6 +178,7 @@ por todo el proyecto.
 (use-package eshell
   :hook (
         (eshell-mode . visual-line-mode)
+        (eshell-output-filter-functions . #'eshell-truncate-buffer)
          )
   :defines
   (
@@ -196,6 +197,7 @@ por todo el proyecto.
   :custom
   (eshell-destroy-buffer-when-process-dies t)
   (eshell-banner-message "")
+  (eshell-buffer-maximum-lines 1000)
   (setenv "TERM" "dumb")
   :init
   (setq eshell-visual-subcommands

@@ -57,8 +57,7 @@
 ;;
 ;;(setq-default tab-always-indent 'complete)
 ;;
-(setq c-default-style "linux"
-      )
+(setq c-default-style "linux")
 (setq-default c-basic-offset 4
               tab-width 4
               indent-tabs-mode nil)
@@ -92,16 +91,6 @@
 (blink-cursor-mode 0)
 
 ;; hacer que el movimiento de la pantalla sea suave
-;;(setq scroll-margin 10
-;;      scroll-conservatively 0
-;;      scroll-step 1
-;;      ;;scroll-up-aggressively 0.01
-;;      ;;scroll-down-aggressively 0.01
-;;      )
-
-;; (setq-default scroll-up-aggressively 0.01
-;;               scroll-down-aggressively 0.01)
-
 (setq
   scroll-margin 10
   scroll-step 1

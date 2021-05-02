@@ -128,6 +128,11 @@
   :init
   (lsp-ui-mode)
   :custom
+
+  ;; debug
+  (lsp-print-io t)
+
+  ;; ui-doc
   (lsp-ui-doc-enable nil)
   (lsp-ui-doc-delay nil)
 

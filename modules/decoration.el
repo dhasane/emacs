@@ -17,7 +17,11 @@
   (
    show-week-agenda-p
    )
-  :init
+  :custom
+
+  (inhibit-startup-screen t)
+  ;; (initial-buffer-choice "~/.emacs")
+  ;; (initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   ;; (setq dashboard-startup-banner 'logo)
   ;; Value can be
   ;; 'official which displays the official emacs logo
@@ -25,23 +29,22 @@
   ;; 1, 2 or 3 which displays one of the text banners
   ;; "path/to/your/image.png" which displays whatever image you would prefer
 
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
+  (dashboard-set-heading-icons t)
+  (dashboard-set-file-icons t)
   ;; (dashboard-modify-heading-icons '((recents . "file-text")
                                   ;; (bookmarks . "book")))
-  (setq dashboard-set-navigator t)
-  (setq show-week-agenda-p t)
-  (setq dashboard-center-content t)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-  (setq dashboard-items
-        '(
-          (recents   . 5)
-          (projects  . 5)
-          (agenda    . 5)
-          (bookmarks . 5)
-          (registers . 5)
-          )
-        )
+  (dashboard-set-navigator t)
+  (show-week-agenda-p t)
+  (dashboard-center-content t)
+  (dashboard-items
+   '(
+     (recents   . 5)
+     (projects  . 5)
+     (agenda    . 5)
+     (bookmarks . 5)
+     (registers . 5)
+     )
+   )
   :config
   (setq dashboard-footer-messages
         '(
@@ -186,8 +189,9 @@
 
 (use-package hl-line
   :defer 1
-  :config
-  (global-hl-line-mode +1)
+  :hook (prog-mode . hl-line-mode)
+  ;; :config
+  ;; (global-hl-line-mode +1)
 )
 
 (use-package highlight-indent-guides
