@@ -216,6 +216,25 @@
 
   )
 
+(use-package tree-sitter
+  :hook
+  (tree-sitter-after-on-hook . tree-sitter-hl-mode)
+  (rust-mode . tree-sitter-hl-mode)
+
+  :init
+
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+  (use-package tree-sitter-langs)
+  (require 'tree-sitter)
+  (require 'tree-sitter-hl)
+  (require 'tree-sitter-langs)
+  (require 'tree-sitter-debug)
+  (require 'tree-sitter-query)
+
+  (global-tree-sitter-mode)
+  )
+
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
 ;; (set-window-parameter (selected-window) 'alpha '(85 . 50))
 ;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
