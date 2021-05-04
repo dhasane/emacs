@@ -32,6 +32,13 @@ Estaba aburrido y queria poner para que se compile un unico archivo."
     )
   )
 
+(defun dh/compile-folder (config-dir)
+  (if (native-comp-available-p)
+      (native-compile-async config-dir 'recursively)
+    (byte-recompile-directory config-dir 0)
+    )
+  )
+
 (cl-defun comp-load-folder (config-dir &key compilar ignorar)
   "Carga los archivos en CONFIG-DIR con terminacion el o elc.
 En caso de que COMPILE sea t, se compilan todos los archivos en CONFIG-DIR.
@@ -71,7 +78,7 @@ Al ser nil, se eliminan todos los archivos .elc que se encuentren,
 para evitar que vayan a ser cargados en vez de los .el.
 Se ignoran los archivos en la lista IGNORAR y no son cargados."
   (if compile
-      (byte-recompile-directory config-dir 0)
+      (dh/compile-folder config-dir)
     (dolist (file (directory-files config-dir t ".+\\.elc$"))
       (message (concat "borrando " file ))
       (delete-file file)

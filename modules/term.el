@@ -469,7 +469,7 @@ por todo el proyecto.
 
 (use-package tramp
   :custom
-  (tramp-verbose 1) ;; aumentarlo para debug
+  (tramp-verbose 6) ;; aumentarlo para debug
   (tramp-terminal-type "tramp")
   ;; (tramp-default-method "ssh")
   ;;(tramp-chunksize 500)

@@ -167,3 +167,27 @@ Containing LEFT, and RIGHT aligned respectively."
 ;;              ;; mode-line-misc-info
 ;;              get-project-name-except-if-remote
 ;;             ))))))
+
+(defun jordon-fancy-mode-line-render (left center right &optional lpad rpad)
+  "Return a string the width of the current window with
+LEFT, CENTER, and RIGHT spaced out accordingly, LPAD and RPAD,
+can be used to add a number of spaces to the front and back of the string."
+  (condition-case err
+      (let* ((left (if lpad (concat (make-string lpad ?\s) left) left))
+             (right (if rpad (concat right (make-string rpad ?\s)) right))
+             (width (apply '+ (window-width) (let ((m (window-margins))) (list (or (car m) 0) (or (cdr m) 0)))))
+             (total-length (+ (length left) (length center) (length right) 2)))
+        (when (> total-length width) (setq left "" right ""))
+        (let* ((left-space (/ (- width (length center)) 2))
+               (right-space (- width left-space (length center)))
+               (lspaces (max (- left-space (length left)) 1))
+               (rspaces (max (- right-space (length right)) 1 0)))
+          (concat left (make-string lspaces  ?\s)
+                  center
+                  (make-string rspaces ?\s)
+                  right)))
+    (error (format "[%s]: (%s) (%s) (%s)" err left center right))))
+
+;; (jordon-fancy-mode-line-render )
+
+;;; mode-line.el ends here

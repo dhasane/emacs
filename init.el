@@ -148,6 +148,20 @@
 ;;                          ;; :compile t
 ;;                          )
 
+(if (native-comp-available-p)
+    (progn
+      (mapc (lambda (dir)
+                (native-compile-async dir 'recursively))
+              '(
+                (expand-file-name "modules/" user-emacs-directory)
+                (expand-file-name "langs/" user-emacs-directory)
+                (expand-file-name "elpa/" user-emacs-directory)
+                )
+              )
+     )
+  (message "no hay native comp disponible")
+  )
+
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (general-define-key
@@ -194,10 +208,10 @@
  "g" 'magit
  "w" 'evil-window-map
  "s" 'swiper
+ "y" 'ivy-yasnippet
 
- ;; TODO: arreglar esto
+ ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
-
  "2" (lambda () (interactive) (call-interactively 'evil-execute-macro))
  ;; "?" #'evil-show-marks ; "marks"
 
@@ -212,9 +226,11 @@
  "j" 'prev-user-buffer-ring
  "k" 'next-user-buffer-ring
 
- ;; project
- "y" 'ivy-yasnippet
- "rn" #'lsp-rename ; "rename"
+ ;; lsp
+ "pn" #'lsp-rename ; "rename"
+ "pd" #'lsp-ui-peek-find-definitions
+ "pr" #'lsp-ui-peek-find-references
+ "pm" #'lsp-ui-imenu
    ;; "e" 'counsel-flycheck ; "errores"
 
  ;; emacs

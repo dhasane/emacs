@@ -149,6 +149,9 @@
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-code-actions t)
 
+  ;; imenu
+  (lsp-ui-imenu-window-width 30)
+
   (lsp-ui-sideline-diagnostic-max-lines 10)
   :custom-face
   (lsp-ui-sideline-current-symbol ((t (:foreground "black" :background "#689d6b"))))
