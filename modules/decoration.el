@@ -66,9 +66,9 @@
   :demand t
   :config
   (load-theme
-   ;; 'gruvbox-dark-medium
+   'gruvbox-dark-medium
    ;; 'gruvbox-dark-soft
-   'gruvbox-dark-hard
+   ;; 'gruvbox-dark-hard
    )
   )
 

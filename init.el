@@ -1,5 +1,4 @@
-;;; package --- Summary
-;; -*- lexical-binding: t -*-
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;; EEEEEEEEEEEEEEEEEEEEEE                                                                               ;;
 ;; E::::::::::::::::::::E                                                                               ;;
@@ -104,8 +103,8 @@
 (use-package hydra :ensure t :demand t)
 (use-package benchmark-init
   :ensure t
-  :init
-  (benchmark-init/activate)
+  ;; :init
+  ;; (benchmark-init/activate)
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
@@ -122,6 +121,7 @@
   (auto-package-update-at-time "12:00")
   )
 (use-package delight)
+(setq package-native-compile t)
 
 (load (expand-file-name "compile" user-emacs-directory))
 
@@ -136,6 +136,20 @@
 (defconst custom-elisp-dir (expand-file-name "lisp/" user-emacs-directory)
   "Directorio de modulos de LISP.")
 
+(if (native-comp-available-p)
+    (progn
+      (mapc (lambda (dir)
+              (native-compile-async (expand-file-name dir user-emacs-directory) 'recursively))
+            '(
+              "modules/"
+              "langs/"
+              "elpa/"
+              )
+            )
+      )
+  (message "no hay native comp disponible")
+  )
+
 ;; load config
 (comp-load-folder config-module-dir
 				  :ignorar '("fira-code")
@@ -147,20 +161,6 @@
 ;; (comp-load-folder custom-elisp-dir
 ;;                          ;; :compile t
 ;;                          )
-
-(if (native-comp-available-p)
-    (progn
-      (mapc (lambda (dir)
-                (native-compile-async dir 'recursively))
-              '(
-                (expand-file-name "modules/" user-emacs-directory)
-                (expand-file-name "langs/" user-emacs-directory)
-                (expand-file-name "elpa/" user-emacs-directory)
-                )
-              )
-     )
-  (message "no hay native comp disponible")
-  )
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -199,12 +199,12 @@
  :states 'normal
 
  "k" 'kill-buffer
- "t" 'hydra-tabs/body
-  ;; "t" treemacs ; "tree"
+ ;; "t" 'hydra-tabs/body
+ "t" 'treemacs ; "tree"
+
  ;; general
  "b" 'bufler-switch-buffer ; 'switch-to-buffer
  "o" 'hydra-org/body
- "m" 'magit
  "g" 'magit
  "w" 'evil-window-map
  "s" 'swiper
@@ -227,15 +227,18 @@
  "k" 'next-user-buffer-ring
 
  ;; lsp
- "pn" #'lsp-rename ; "rename"
+ "rn" #'lsp-rename ; "rename"
  "pd" #'lsp-ui-peek-find-definitions
  "pr" #'lsp-ui-peek-find-references
  "pm" #'lsp-ui-imenu
    ;; "e" 'counsel-flycheck ; "errores"
 
  ;; emacs
- "rs" 'reload-emacs-config ; "reload init"
- "re" 'open-emacs-config ; "edit init"
+ "'rs" 'reload-emacs-config ; "reload init"
+ "'e" 'open-emacs-config ; "edit init"
+ "'ps" 'profiler-start
+ "'pS" 'profiler-stop
+ "'pr" 'profiler-report
  )
 ;; the hydra to rule them all buahaha
 ;; (defhydra hydra-leader (:color blue :idle 1.0 :hint nil)

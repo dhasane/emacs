@@ -3,7 +3,7 @@
   :ensure t
   :mode "\\.rs\\'"
   :custom
-  (rust-format-on-save t)
+  (rust-format-on-save nil) ;; es nice, pero lento
   (lsp-rust-analyzer-cargo-watch-enable t)
   (lsp-rust-server
    'rust-analyzer

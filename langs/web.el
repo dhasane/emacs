@@ -53,6 +53,7 @@
   )
 
 (use-package js2-mode
+  :disabled
   ;; :mode "\\.js\\'"
   ;; en teoria esto es mejor como minor-mode desde emacs 27, pero como que me funciona mejor como principal
   :after (company)
@@ -65,6 +66,7 @@
 
 ;; https://github.com/magnars/js2-refactor.el
 (use-package js2-refactor
+  :disabled
   :hook ((js2-mode . #'js2-refactor-mode))
   :config
   ; (add-hook 'js2-mode-hook #'js2-refactor-mode)

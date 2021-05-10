@@ -8,7 +8,6 @@
 (use-package org
   :ensure t
   :defer .1
-  :after general
   :general
   (org-mode-map
    "C-c c" #'insert-org-mode-src-structure-template
@@ -32,7 +31,6 @@
                         )))
         (org-mode . visual-line-mode)
         (org-mode . org-indent-mode)
-
         )
   :custom-face
   (org-ellipsis ((t (:foreground "red"))))

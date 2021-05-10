@@ -1,10 +1,8 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; code:
-
-;; -*- lexical-binding: t; -*-
 
 (use-package flycheck
   :demand t
@@ -13,7 +11,6 @@
   :init (global-flycheck-mode)
 
   :custom
-  ;; TODO: revisar esto, que no esta funcionando completamente
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   ;; :config
   ;; (add-hook 'after-init-hook #'global-flycheck-mode)

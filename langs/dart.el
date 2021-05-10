@@ -3,5 +3,5 @@
 (use-package lsp-dart
   :ensure t
   :defer t
-  :after (lsp-mode company)
+  ;; :after (lsp-mode company)
   :hook (dart-mode . lsp-deferred))

@@ -11,6 +11,17 @@
 ;; parecen mas a tmu, lo cual es genial, pero hay unos detalles que no
 ;; me gustan tanto, como que este en el modeline)
 
+(defcustom dh/min-tab-size 10
+  "Minimum width of a tab in characters."
+  :type 'integer
+  :group 'tab-line)
+
+(defcustom dh/max-tab-size 30
+ "Maximum width of a tab in characters."
+  :type 'integer
+  :group 'tab-line
+  )
+
 (use-package tab-bar
   :after evil
   :general
@@ -42,11 +53,10 @@
     "Muestra el nombre del tab, en caso de exceder los MAX caracteres,
 muestra solo el nombre del proyecto y los caracteres sobrantes del
 nombre del tab."
-    (let ((max 30)
-          (nombre (tab-bar-tab-name-current)))
+    (let ((nombre (tab-bar-tab-name-current)))
       (let ((final-name (concat
-                         (if (< max (length nombre))
-                             (substring nombre (- max))
+                         (if (< dh/max-tab-size (length nombre))
+                             (substring nombre (- dh/max-tab-size))
                            nombre))))
         (format "%s%s"
                 (get-project-name-except-if-remote

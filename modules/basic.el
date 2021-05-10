@@ -118,4 +118,6 @@
 
 (setq debug-on-error nil)
 
+(setq redisplay-dont-pause t)
+
 ;;; basic.el ends here
