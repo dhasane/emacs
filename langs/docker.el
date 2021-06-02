@@ -1,4 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
+;;; Commentary:
+
+;;; code:
 
 (use-package dockerfile-mode
   )
@@ -12,3 +16,5 @@
 
 (use-package docker-tramp
   )
+
+;;; docker.el ends here

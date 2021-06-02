@@ -14,13 +14,12 @@
 (defcustom dh/min-tab-size 10
   "Minimum width of a tab in characters."
   :type 'integer
-  :group 'tab-line)
+  :group 'tab-bar)
 
 (defcustom dh/max-tab-size 30
  "Maximum width of a tab in characters."
   :type 'integer
-  :group 'tab-line
-  )
+  :group 'tab-bar)
 
 (use-package tab-bar
   :after evil
@@ -92,41 +91,41 @@ nombre del tab."
     )
   )
 
-(use-package eyebrowse
-  :if (version< emacs-version "27.0" )
-  :ensure t
-  :after evil
-  :bind
-  (
-   :map
-   evil-normal-state-map
-   ("TAB t" . 'eyebrowse-create-window-config )
-   ("g t" . eyebrowse-next-window-config )
-   ("g b" . eyebrowse-prev-window-config )
-   )
-  :config
-  (eyebrowse-mode t)
-  (defun close-tab-configuration ()
-    (interactive)
-    (eyebrowse-close-window-config)
-    )
-  (defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
-    "Tab management"
-    ("c" eyebrowse-create-window-config "create" )
-    ("$" eyebrowse-rename-window-config "rename" )
-    ("q" eyebrowse-close-window-config "quit" )
-    ("l" eyebrowse-next-window-config "left"); :color red)
-    ("h" eyebrowse-prev-window-config "right"); :color red)
-    ("-" split-window-vertically "vertical" )
-    ("+" split-window-horizontally "horizontal")
-    ("1" eyebrowse-switch-to-window-config-1)
-    ("2" eyebrowse-switch-to-window-config-2)
-    ("3" eyebrowse-switch-to-window-config-3)
-    ("4" eyebrowse-switch-to-window-config-4)
-    ("5" eyebrowse-switch-to-window-config-5)
-    ("6" eyebrowse-switch-to-window-config-6)
-    ("7" eyebrowse-switch-to-window-config-7)
-    ("8" eyebrowse-switch-to-window-config-8)
-    ("9" eyebrowse-switch-to-window-config-9)
-    )
-  )
+;; (use-package eyebrowse
+;;   :if (version< emacs-version "27.0" )
+;;   :ensure t
+;;   :after evil
+;;   :bind
+;;   (
+;;    :map
+;;    evil-normal-state-map
+;;    ("TAB t" . 'eyebrowse-create-window-config )
+;;    ("g t" . eyebrowse-next-window-config )
+;;    ("g b" . eyebrowse-prev-window-config )
+;;    )
+;;   :config
+;;   (eyebrowse-mode t)
+;;   (defun close-tab-configuration ()
+;;     (interactive)
+;;     (eyebrowse-close-window-config)
+;;     )
+;;   (defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
+;;     "Tab management"
+;;     ("c" eyebrowse-create-window-config "create" )
+;;     ("$" eyebrowse-rename-window-config "rename" )
+;;     ("q" eyebrowse-close-window-config "quit" )
+;;     ("l" eyebrowse-next-window-config "left"); :color red)
+;;     ("h" eyebrowse-prev-window-config "right"); :color red)
+;;     ("-" split-window-vertically "vertical" )
+;;     ("+" split-window-horizontally "horizontal")
+;;     ("1" eyebrowse-switch-to-window-config-1)
+;;     ("2" eyebrowse-switch-to-window-config-2)
+;;     ("3" eyebrowse-switch-to-window-config-3)
+;;     ("4" eyebrowse-switch-to-window-config-4)
+;;     ("5" eyebrowse-switch-to-window-config-5)
+;;     ("6" eyebrowse-switch-to-window-config-6)
+;;     ("7" eyebrowse-switch-to-window-config-7)
+;;     ("8" eyebrowse-switch-to-window-config-8)
+;;     ("9" eyebrowse-switch-to-window-config-9)
+;;     )
+;;   )

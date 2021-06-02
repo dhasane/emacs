@@ -1,3 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 ;;(use-package solargraph
 	;;:ensure t
@@ -92,3 +97,5 @@
   :config
   (push 'company-robe company-backends)
   )
+
+;;; ruby.el ends here

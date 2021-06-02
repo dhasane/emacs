@@ -53,11 +53,11 @@
   ;; :project/:workspace/:file
   ;; (lsp-modeline-diagnostics-scope :project)
   (lsp-ui-peek-enable t)
-  (lsp-enable-semantic-highlighting t)
+  (lsp-semantic-tokens-enable t)
   (lsp-enable-indentation t)
-  (lsp-file-watch-threshold 500)
+  ;;;;   (lsp-file-watch-threshold 500)
   (lsp-enable-snippet nil)
-  ;; (lsp-intelephense-multi-root nil)
+  (lsp-intelephense-multi-root t)
 
   ;; debug
   ;; (lsp-print-io t)
@@ -67,8 +67,8 @@
   ;; general
   ;; (lsp-auto-guess-root nil)
   (lsp-headerline-breadcrumb-enable t)
-  (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
-  (lsp-response-timeout 10)
+  ;;;;   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
+  ;;;;   (lsp-response-timeout 10)
 
   (read-process-output-max (* 4 1024 1024))
 
@@ -80,7 +80,7 @@
 
   :config
   (lsp-enable-which-key-integration t)
-  (lsp-diagnostics-modeline-mode t)
+  (lsp-modeline-diagnostics-mode t)
   ;; lsp-log-io nil
 
   ;; (lsp-session-folders-blacklist "~")
@@ -135,7 +135,13 @@
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-code-actions t)
 
-  (lsp-ui-sideline-delay 2)
+  (lsp-ui-sideline-delay 0.7)
+
+  ;; signature
+  (lsp-signature-render-documentation nil)
+
+  ;; modeline actions
+  (lsp-auto-execute-action nil)
 
   ;; imenu
   (lsp-ui-imenu-window-width 30)

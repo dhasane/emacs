@@ -1,4 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
+;;; Commentary:
+
+;;; code:
 
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 
@@ -16,3 +20,5 @@
 ;; (use-package evil-paredit
 ;;   :hook ((emacs-lisp-mode . evil-paredit-mode))
 ;;   )
+
+;;; lisp.el ends here

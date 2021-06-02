@@ -1,39 +1,15 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; Todo lo relacionado a vim
 
 ;;; code:
 
-;; -*- lexical-binding: t; -*-
-
-
 (require 'cl-lib)
 
 (use-package evil
-  :ensure t
+  :defer nil
   :demand t
-  :custom
-  (evil-want-integration t) ;; This is optional since it's already set to t by default.
-  (evil-want-keybinding nil) ;; para collection debe ser nil
-  (evil-search-module 'evil-search)
-  (evil-vsplit-window-right t) ;; like vim's 'splitright'
-  (evil-split-window-below t) ;; like vim's 'splitbelow'
-  (evil-move-beyond-eol t)
-  (evil-want-Y-yank-to-eol t)
-  (evil-auto-indent t)
-  (evil-move-cursor-back nil)
-  (evil-symbol-word-search t)
-  (evil-indent-convert-tabs t)
-  (indent-tabs-mode t)
-
-  ;; (evil-ex-complete-emacs-commands nil)
-  ;; (evil-shift-round nil)
-  ;; (evil-want-C-u-scroll t)
-
-  ;; para redefinir comandos evil-ex
-  ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
-
   :general
   (
    :states '(normal motion override)
@@ -83,7 +59,27 @@
   ;; :functions
 
   :custom
+  (evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (evil-want-keybinding nil) ;; para collection debe ser nil
+  (evil-search-module 'evil-search)
+  (evil-vsplit-window-right t) ;; like vim's 'splitright'
+  (evil-split-window-below t) ;; like vim's 'splitbelow'
+  (evil-move-beyond-eol t)
+  (evil-want-Y-yank-to-eol t)
+  (evil-auto-indent t)
+  (evil-move-cursor-back nil)
+  (evil-symbol-word-search t)
+  (evil-indent-convert-tabs t)
+  (indent-tabs-mode t)
+
   (evil-undo-system 'undo-tree)
+
+  ;; (evil-ex-complete-emacs-commands nil)
+  ;; (evil-shift-round nil)
+  ;; (evil-want-C-u-scroll t)
+
+  ;; para redefinir comandos evil-ex
+  ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
   :config
   ;; para redefinir comandos evil-ex
@@ -158,7 +154,7 @@
 (use-package evil-leader
   :defer 1
   :demand t
-  :config
+  ;; :config
   ;; (global-evil-leader-mode)
   ;; (evil-leader/set-leader "<SPC>")
   ;; (evil-leader/set-key
@@ -180,6 +176,7 @@
 
 ;; visual hints while editing
 (use-package evil-goggles
+  :delight
   :defer 1
   :ensure t
   :after (evil)
@@ -217,11 +214,13 @@
   (evil-owl-mode))
 
 (use-package evil-collection
+  :delight
   :demand t
   :after evil
   :ensure t
   :custom
   (warning-suppress-types '((evil-collection)))
+  ;; (evil-collection-unimpaired-mode -1)
   :general
   (
    :states '(normal motion override)

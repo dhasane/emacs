@@ -1,3 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 (use-package kotlin-mode
   :ensure t
@@ -12,3 +17,5 @@
               ("C-c k u" . lsp-intellij-run-project)
               ("C-c k c" . lsp-intellij-build-project))
   :hook (kotlin-mode . lsp-intellij-enable))
+
+;;; kotlin.el ends here

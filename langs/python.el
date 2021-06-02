@@ -1,3 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 (use-package lsp-python-ms
   :ensure t
@@ -55,3 +60,4 @@
   ;; (setq elpy-shell-use-project-root nil)
   )
 
+;;; python.el ends here

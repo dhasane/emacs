@@ -1,3 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 (use-package sqlup-mode
   :hook
@@ -18,3 +23,5 @@
 ;; (add-hook 'sql-interactive-mode-hook
 ;;           (lambda ()
 ;;             (toggle-truncate-lines t)))
+
+;;; sql.el ends here

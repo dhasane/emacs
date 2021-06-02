@@ -1,3 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 (use-package indent-guide
   :ensure t
@@ -9,3 +14,5 @@
   :mode ("\\.yml\\'" "\\.sls\\'" "\\.yml.j2\\'")
   :init
   (add-hook 'yaml-mode-hook 'turn-off-auto-fill))
+
+;;; yaml.el ends here

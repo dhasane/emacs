@@ -1,12 +1,13 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; code:
 
-;; -*- lexical-binding: t; -*-
-
-(use-package company :demand t :defer .1
+(use-package company
+  :demand t
+  :defer nil
+  :delight
   :general
   (
    :keymap '(prog-mode override)

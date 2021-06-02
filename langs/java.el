@@ -1,3 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 (use-package lsp-java
   ;; :config (add-hook 'java-mode-hook 'lsp)
@@ -55,3 +60,5 @@
 ;; ;; (use-package eclim
 ;; ;;   :hook (java-mode)
 ;; ;;   )
+
+;;; java.el ends here

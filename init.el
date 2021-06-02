@@ -35,7 +35,6 @@
 
 ;; Make startup faster by reducing the frequency of garbage
 ;; collection.  The default is 800 kilobytes.  Measured in bytes.
-;; (setq gc-cons-threshold (* 50 1000 1000))
 (setq gc-cons-threshold most-positive-fixnum)
 
 ;;; init ----------------------------------------------------
@@ -96,12 +95,15 @@
   ;; t para verificar tiempos de carga
   (setq use-package-compute-statistics t)
   (setq use-package-enable-imenu-support t)
+
+  (setq use-package-verbose t)
   )
 
 (use-package use-package-ensure-system-package)
 (use-package general :demand t)
 (use-package hydra :ensure t :demand t)
 (use-package benchmark-init
+  :disabled
   :ensure t
   ;; :init
   ;; (benchmark-init/activate)
@@ -171,6 +173,7 @@
  "C-S-h" 'help-command
  "C-S-s" 'save-all-buffers
  "C-S-q" 'kill-other-buffers ; tambien esta clean-buffer-list
+ "M-/"   'comment-dwim
  )
 
 (general-define-key
@@ -216,7 +219,6 @@
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell
- ;; TODO: "," dh/jump-to-last-eshell-buffer
  "." 'dh/create-new-eshell-buffer ; "terminal"
  "/" 'dh/select-eshell ; "seleccionar terminal"
 
@@ -231,7 +233,7 @@
  "pd" #'lsp-ui-peek-find-definitions
  "pr" #'lsp-ui-peek-find-references
  "pm" #'lsp-ui-imenu
-   ;; "e" 'counsel-flycheck ; "errores"
+ "pe" #'counsel-flycheck ; "errores"
 
  ;; emacs
  "'rs" 'reload-emacs-config ; "reload init"

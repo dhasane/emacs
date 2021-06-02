@@ -84,7 +84,7 @@
       )
 
 ;; quitar el mouse del lugar donde uno esta editando
-(mouse-avoidance-mode 'cat-and-mouse)
+;; (mouse-avoidance-mode 'cat-and-mouse)
 
 (setq x-wait-for-event-timeout nil)
 
@@ -117,7 +117,5 @@
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
 (setq debug-on-error nil)
-
-(setq redisplay-dont-pause t)
 
 ;;; basic.el ends here

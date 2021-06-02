@@ -11,7 +11,15 @@
   :init (global-flycheck-mode)
 
   :custom
-  (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+  (flycheck-check-syntax-automatically
+   '(
+	 ;; save
+	 idle-change
+	 idle-buffer-switch
+	 mode-enabled
+	 ))
+  (flycheck-idle-change-delay 2)
+  (flycheck-idle-buffer-switch-delay 2)
   ;; :config
   ;; (add-hook 'after-init-hook #'global-flycheck-mode)
   )

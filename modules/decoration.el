@@ -1,11 +1,10 @@
+;; -*- lexical-binding: t; -*-
 
 ;;; package --- Summary
 
 ;;; Commentary:
 
 ;;; code:
-
-;; -*- lexical-binding: t; -*-
 
 (setq-default indicate-empty-lines t)
 ;; (setq indicate-buffer-boundaries t)
@@ -219,12 +218,9 @@
 (use-package tree-sitter
   :hook
   (tree-sitter-after-on-hook . tree-sitter-hl-mode)
-  (rust-mode . tree-sitter-hl-mode)
+  (tree-sitter-after-on-hook . (lambda () (font-lock-mode -1)))
 
   :init
-
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-
   (use-package tree-sitter-langs)
   (require 'tree-sitter)
   (require 'tree-sitter-hl)

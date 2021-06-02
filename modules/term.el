@@ -52,18 +52,15 @@
   )
 
 ;; TODO: crear una terminal del tipo seleccionado
-(defun dh/create-shell-type ()
-  "Seleccionar entre los buffers de eshell."
-  (interactive)
-  (let ((terminales '("eshell" "vterm")))
-    (setq sel-term
-          (completing-read
-           "Select: "
-           terminales
-           nil t
-           ))
-    )
-  )
+;; (defun dh/create-shell-type ()
+;;   "Seleccionar entre los buffers de eshell."
+;;   (interactive)
+;;   (let ((terminales '("eshell" "vterm")))
+;;     (setq sel-term
+;;           (completing-read
+;;            "Select: "
+;;            terminales
+;;            nil t))))
 
 (defun dh/eshell-buffer-name ()
   "Conseguir el nombre de una terminal.
@@ -73,21 +70,15 @@ terminales en esta ubicacion."
         (nombre-base (concat "*eshell*"
                              (get-project-name-except-if-remote
                               :pre "["
-                              :pos "]"
-                              )
+                              :pos "]")
                              "<"
                              (if (get-buffer-process
                                   (current-buffer))
                                  (format "%s" (get-buffer-process
-                                               (current-buffer)
-                                               ))
-                                 default-directory
-                                 )
-                             ">"
-                             )
-         )
-        (extra "")
-        )
+                                               (current-buffer)))
+                                 default-directory)
+                             ">"))
+        (extra ""))
     ;; TODO: en caso de que empiece un proceso largo, encontrar como llamar esta funcion
 
     ;; si ya existe, agregarle un numero al final
@@ -97,10 +88,8 @@ terminales en esta ubicacion."
         (let ((buffers-mismo-nombre (seq-filter
                                      (lambda (buf)
                                        (string-prefix-p nombre-base (buffer-name buf)))
-                                     (buffer-list))
-                                    )
-              (i 1)
-              )
+                                     (buffer-list)))
+              (i 1))
           ;; (message (format "%s" buffers-mismo-nombre))
           ;; (message (format "%s %s" (concat nombre-base extra) buffers-mismo-nombre))
           ;; (message (format "%s" (member (concat nombre-base extra) buffers-mismo-nombre)))
@@ -112,21 +101,14 @@ terminales en esta ubicacion."
                                  buffers-mismo-nombre))
             ;; (message (format "i: %s" i))
             (setq extra (format "%s" i))
-            (setq i (+ i 1)))
-          )
-      )
-    (concat nombre-base extra)
-    )
-  )
+            (setq i (+ i 1)))))
+    (concat nombre-base extra)))
 
 (defun dh/create-new-eshell-buffer ()
   (interactive)
-  (let* ((nombre (dh/eshell-buffer-name))
-         )
+  (let* ((nombre (dh/eshell-buffer-name)))
     (eshell 99)
-    (rename-buffer nombre)
-    )
-  )
+    (rename-buffer nombre)))
 
 (add-hook 'eshell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
 (add-hook 'shell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
@@ -200,15 +182,15 @@ por todo el proyecto.
   (eshell-buffer-maximum-lines 1000)
   (setenv "TERM" "dumb")
   :init
-  (setq eshell-visual-subcommands
-        '(
-          ("sudo" "pacman")
-          ("sudo" "apt")
-          ))
+  ;; (setq eshell-visual-subcommands
+  ;;       '(
+  ;;         ("sudo" "pacman")
+  ;;         ("sudo" "apt")
+  ;;         ))
   (add-hook 'eshell-mode-hook
             (lambda ()
               (mapc (lambda (vc)
-                      (add-to-list 'eshell-visual-commands vc))
+                      (push 'eshell-visual-commands vc))
                     '(
                       "ssh"
                       "htop"
@@ -221,9 +203,9 @@ por todo el proyecto.
                     )
               )
             )
-  (add-to-list 'display-buffer-alist
-                 '("sudo". ((display-buffer-pop-up-window) .
-                             ((inhibit-same-window . t)))))
+  ;; (push 'display-buffer-alist
+  ;;                '("sudo". ((display-buffer-pop-up-window) .
+  ;;                            ((inhibit-same-window . t)))))
   :config
 
   (setq ivy-do-completion-in-region t) ; this is the default
@@ -335,8 +317,7 @@ por todo el proyecto.
        )))
 
   (setq eshell-prompt-function 'dahas/eshell-prompt
-        eshell-highlight-prompt t
-        )
+        eshell-highlight-prompt t)
 
   ;; (mapcar (lambda (val)
   ;;           (push val 'eshell-cannot-leave-input-list))
@@ -435,7 +416,7 @@ por todo el proyecto.
       (goto-char (point-min))
       (let ((ref-list))
         (while (re-search-forward (concat "^refs/" type "/\\(.+\\)$") nil t)
-          (add-to-list 'ref-list (match-string 1)))
+          (push 'ref-list (match-string 1)))
         ref-list)))
 
   (defun pcomplete/git ()
@@ -460,7 +441,7 @@ por todo el proyecto.
                                  (setq xterm-color-preserve-properties t)))
 
   :init
-  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (push 'eshell-preoutput-filter-functions 'xterm-color-filter)
   ;; :custom
   ;; (eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
   :config

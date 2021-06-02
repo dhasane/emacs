@@ -1,9 +1,14 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'"
   :custom
-  (rust-format-on-save nil) ;; es nice, pero lento
+  (rust-format-on-save t)
   (lsp-rust-analyzer-cargo-watch-enable t)
   (lsp-rust-server
    'rust-analyzer
@@ -32,3 +37,5 @@
    "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"
    )
   )
+
+;;; rust.el ends here

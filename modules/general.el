@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 
 
 ;;; Code:
@@ -184,5 +185,9 @@
         nil ;; left-curly-arrow
         nil ;; right-curly-arrow
         ))
+
+(use-package eldoc
+  :delight
+  )
 
 ;;; general end here

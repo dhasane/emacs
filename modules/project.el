@@ -65,6 +65,8 @@ conectado a una maquina externa.
    (compilation-mode . visual-line-mode)
    (compilation-filter . comint-truncate-buffer)
    )
+  :custom
+  (compilation-scroll-output t)
   :general
   ("<f5>" (lambda ()
             (interactive)

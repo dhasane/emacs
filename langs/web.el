@@ -1,4 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
+;;; Commentary:
+
+;;; code:
 
 (use-package web-mode
   :ensure t
@@ -128,6 +132,8 @@
      :tabSize 2
      :indentSize 2
      ))
+  :config
+  (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
   )
 
 ;; (set (make-local-variable 'company-backends)
@@ -137,7 +143,6 @@
 (use-package ng2-mode
   :config
   (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
-  (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
   (with-eval-after-load 'typescript-mode
     (add-hook 'typescript-mode-hook #'lsp))
  )
@@ -150,3 +155,5 @@
 
 (use-package restclient
   )
+
+;;; web.el ends here
