@@ -61,18 +61,33 @@
 (setq-default c-basic-offset 4
               tab-width 4
               indent-tabs-mode nil)
+(setq indent-tabs-mode nil)
 
 ;; que no pregunte cuando me quiero salir
 (setq use-dialog-box nil)
 
+
+(use-package whitespace
+  :custom
+  (whitespace-line-column 120)   ;; max line length
+  (whitespace-style
+   '(
+     face
+     tabs
+     lines-tail
+     trailing
+     ))
+  :hook ((prog-mode . whitespace-mode))
+  )
+
 ;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq auto-save-default nil
-      ;; make-backup-files nil
+      make-backup-files nil
       create-lockfiles nil
      )
 
-(defvar dh/backup-directory (expand-file-name "backup" user-emacs-directory))
+(defvar dh/backup-directory (expand-file-name ".cache/backup" user-emacs-directory))
 (unless (file-directory-p dh/backup-directory)
   (make-directory dh/backup-directory))
 (setq backup-directory-alist `(("." . ,dh/backup-directory ))
@@ -97,6 +112,11 @@
   scroll-conservatively 10000
   scroll-preserve-screen-position 1)
 
+;; scrolling
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-follow-mouse t)
+(setq scroll-step 1)
+
 ;; quitar todo tipo de 'alarma'
 (setq visible-bell nil
       ring-bell-function 'ignore)
@@ -117,5 +137,10 @@
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
 (setq debug-on-error nil)
+
+(define-key minibuffer-local-map (kbd "<C-up>" )
+  'previous-history-element)
+(define-key minibuffer-local-map (kbd "<C-down>" )
+  'next-history-element)
 
 ;;; basic.el ends here

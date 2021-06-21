@@ -46,7 +46,6 @@
 (use-package js
   :custom
   (js-indent-level 2)
-  (indent-tabs-mode nil)
   (company-tooltip-align-annotations    t)
 
   (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
@@ -97,14 +96,6 @@
   (typescript-indent-level              2)
   (typescript-expr-indent-offset        2)
   (company-tooltip-align-annotations    t)
-
-  (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
-  (flycheck-auto-change-delay           1.5)
-
-  (whitespace-line-column               120)   ;; max line length
-  (whitespace-style                     '(face lines-tail trailing))
-
-  ;;(whitespace-mode)
   :config
   ;; (push 'company-tern company-backends)
   )

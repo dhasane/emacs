@@ -12,3 +12,5 @@
 
 
 (advice-add #'x-apply-session-resources :override #'ignore)
+
+;;; early-init.el ends here

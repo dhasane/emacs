@@ -96,7 +96,7 @@
   (setq use-package-compute-statistics t)
   (setq use-package-enable-imenu-support t)
 
-  (setq use-package-verbose t)
+  (setq use-package-verbose nil)
   )
 
 (use-package use-package-ensure-system-package)
@@ -127,6 +127,11 @@
 
 (load (expand-file-name "compile" user-emacs-directory))
 
+(custom-set-variables '(load-prefer-newer nil))
+(use-package auto-compile
+  :defer nil
+  :config (auto-compile-on-load-mode))
+
 ;; (auto-comp-init)
 
 (defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
@@ -138,24 +143,24 @@
 (defconst custom-elisp-dir (expand-file-name "lisp/" user-emacs-directory)
   "Directorio de modulos de LISP.")
 
-(if (native-comp-available-p)
-    (progn
-      (mapc (lambda (dir)
-              (native-compile-async (expand-file-name dir user-emacs-directory) 'recursively))
-            '(
-              "modules/"
-              "langs/"
-              "elpa/"
-              )
-            )
-      )
-  (message "no hay native comp disponible")
-  )
+;; (if (native-comp-available-p)
+;;     (progn
+;;       (mapc (lambda (dir)
+;;               (native-compile-async (expand-file-name dir user-emacs-directory) 'recursively))
+;;             '(
+;;               "modules/"
+;;               "langs/"
+;;               "elpa/"
+;;               )
+;;             )
+;;       )
+;;   (message "no hay native comp disponible")
+;;   )
 
 ;; load config
 (comp-load-folder config-module-dir
 				  :ignorar '("fira-code")
-				  ;; :compilar '("basic" "evil" "org-mode" "project" "ivy" "completion")
+				  ;; :compilar '("basic" "evil" "org-mode" "project" "completion")
 				  )
 
 (comp-load-folder config-lang-dir)
@@ -178,7 +183,7 @@
 
 (general-define-key
  :prefix "C-x"
- "b" 'ivy-switch-buffer
+ "b" 'switch-buffer
  )
 
 (general-define-key
@@ -188,10 +193,11 @@
  )
 
 (defun dh/jet-pack ()
+  "Saltar a cualquier parte del proyecto."
   (interactive)
   (if (projectile-project-p)
-      (counsel-projectile-find-file)
-    (call-interactively 'counsel-find-file)
+      (call-interactively 'project-find-file)
+    (call-interactively 'find-file)
     )
   )
 
@@ -210,8 +216,12 @@
  "o" 'hydra-org/body
  "g" 'magit
  "w" 'evil-window-map
- "s" 'swiper
- "y" 'ivy-yasnippet
+ "y" 'consult-yasnippet
+
+ ;; buscar
+ "ss" 'consult-line
+ "sg" 'consult-git-grep
+ "si" 'consult-imenu
 
  ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
@@ -223,7 +233,7 @@
  "/" 'dh/select-eshell ; "seleccionar terminal"
 
  ;; move to files
- "e" 'counsel-find-file ; buscar solo en el mismo directorio
+ "e" 'find-file ; buscar solo en el mismo directorio
  "E" 'dh/jet-pack       ; buscar en todo el proyecto
  "j" 'prev-user-buffer-ring
  "k" 'next-user-buffer-ring
@@ -233,14 +243,15 @@
  "pd" #'lsp-ui-peek-find-definitions
  "pr" #'lsp-ui-peek-find-references
  "pm" #'lsp-ui-imenu
- "pe" #'counsel-flycheck ; "errores"
+ "pe" #'flycheck ; "errores"
 
  ;; emacs
  "'rs" 'reload-emacs-config ; "reload init"
- "'e" 'open-emacs-config ; "edit init"
+ "'e"  'open-emacs-config ; "edit init"
  "'ps" 'profiler-start
  "'pS" 'profiler-stop
  "'pr" 'profiler-report
+ "'s"  'proced
  )
 ;; the hydra to rule them all buahaha
 ;; (defhydra hydra-leader (:color blue :idle 1.0 :hint nil)

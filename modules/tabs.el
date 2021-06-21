@@ -79,7 +79,7 @@ nombre del tab."
     ("h" tab-bar-switch-to-prev-tab "right"); :color red)
     ("-" split-window-vertically "vertical" )
     ("+" split-window-horizontally "horizontal")
-    ("s" tab-switcher "switcher")
+    ("s" tab-switch "switcher")
     ;;("2" eyebrowse-switch-to-window-config-2 )
     ;;("3" eyebrowse-switch-to-window-config-3 )
     ;;("4" eyebrowse-switch-to-window-config-4 )

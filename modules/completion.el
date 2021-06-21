@@ -47,9 +47,6 @@
 
   )
 
-(use-package ivy-yasnippet
-  )
-
 (use-package yasnippet-snippets
   :demand t
   :after yasnippet

@@ -21,7 +21,7 @@
   ;; (projectile-project-search-path '("~/projects/" "~/work/"))
   (projectile-project-search-path '("~/dev/"))
   (projectile-sort-order 'recently-active)
-  (projectile-completion-system 'ivy)
+  ;; (projectile-completion-system 'ivy)
   :config
   (projectile-mode +1)
 

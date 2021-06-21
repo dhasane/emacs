@@ -65,7 +65,11 @@
   ;; organizacion
   (org-startup-indented t)
   ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
-  (org-ellipsis (propertize "  " 'font-lock-face '(:foreground "red")))    ; folding symbol
+  (org-ellipsis (propertize
+                 ;; " ↵ "
+                 ;; " ⌄ "
+                 " ▼ "
+                 'font-lock-face '(:foreground "red")))    ; folding symbol
   ;; deja de incluir lineas vacias al final, pero arregla el problema con ellipsis
   (org-cycle-separator-lines -1)
 

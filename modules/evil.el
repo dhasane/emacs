@@ -5,8 +5,6 @@
 
 ;;; code:
 
-(require 'cl-lib)
-
 (use-package evil
   :defer nil
   :demand t
@@ -70,7 +68,6 @@
   (evil-move-cursor-back nil)
   (evil-symbol-word-search t)
   (evil-indent-convert-tabs t)
-  (indent-tabs-mode t)
 
   (evil-undo-system 'undo-tree)
 
@@ -86,6 +83,17 @@
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
   (evil-mode 1)
+
+  (let ((after-fn (lambda (&rest _) (recenter nil))))
+    (advice-add 'evil-goto-line :after after-fn)
+    (advice-add 'evil-goto-mark :after after-fn)
+    (advice-add 'evil-goto-mark-line :after after-fn)
+    (advice-add 'evil-window-vsplit :before after-fn)
+    (advice-add 'evil-window-vsplit :after after-fn)
+    (advice-add 'evil-window-split :before after-fn)
+    (advice-add 'evil-window-split :after after-fn)
+    ;; etc...
+    )
 
   ;; Esto en teoria ya es manejado por evil-collection
   ;; (cl-loop for (mode . state) in
