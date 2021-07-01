@@ -460,6 +460,19 @@ por todo el proyecto.
   ;; out of Emacs’ control, set
   (remote-file-name-inhibit-cache nil) ;; esto puede ser mala idea, pero probemos
   (tramp-completion-reread-directory-timeout nil)
+  :config
+  ;; (defadvice projectile-on (around exlude-tramp activate)
+  ;;   "This should disable projectile when visiting a remote file"
+  ;;   (unless  (--any? (and it (file-remote-p it))
+  ;;                    (list
+  ;;                     (buffer-file-name)
+  ;;                     list-buffers-directory
+  ;;                     default-directory
+  ;;                     ;; dired-directory
+  ;;                     ))
+  ;;     ad-do-it))
+  (defadvice projectile-project-root (around ignore-remote first activate)
+    (unless (file-remote-p default-directory) ad-do-it))
   )
 
 (defun eval-connection (usr hst)

@@ -230,7 +230,7 @@
 
  ;; eshell
  "." 'dh/create-new-eshell-buffer ; "terminal"
- "/" 'dh/select-eshell ; "seleccionar terminal"
+ "," 'dh/select-eshell ; "seleccionar terminal"
 
  ;; move to files
  "e" 'find-file ; buscar solo en el mismo directorio

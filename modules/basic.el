@@ -87,16 +87,16 @@
       create-lockfiles nil
      )
 
-(defvar dh/backup-directory (expand-file-name ".cache/backup" user-emacs-directory))
-(unless (file-directory-p dh/backup-directory)
-  (make-directory dh/backup-directory))
-(setq backup-directory-alist `(("." . ,dh/backup-directory ))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 20   ; how many of the newest versions to keep
-      kept-old-versions 5    ; and how many of the old
-      )
+;; (defvar dh/backup-directory (expand-file-name ".cache/backup" user-emacs-directory))
+;; (unless (file-directory-p dh/backup-directory)
+;;   (make-directory dh/backup-directory))
+;; (setq backup-directory-alist `(("." . ,dh/backup-directory ))
+;;       backup-by-copying t    ; Don't delink hardlinks
+;;       version-control t      ; Use version numbers on backups
+;;       delete-old-versions t  ; Automatically delete excess backups
+;;       kept-new-versions 20   ; how many of the newest versions to keep
+;;       kept-old-versions 5    ; and how many of the old
+;;       )
 
 ;; quitar el mouse del lugar donde uno esta editando
 ;; (mouse-avoidance-mode 'cat-and-mouse)
