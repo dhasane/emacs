@@ -198,3 +198,7 @@
     (message val)
     )
   )
+
+(defun insert-literal-key-pressed (key)
+  (interactive "kKey: ")
+  (insert (format "(kbd %S)" (key-description key))))

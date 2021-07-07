@@ -207,8 +207,10 @@
  :non-normal-prefix "<M-SPC>"
  :states 'normal
 
- "k" 'kill-buffer
- ;; "t" 'hydra-tabs/body
+ [tab] 'hydra-tabs/body
+ "TAB" 'hydra-tabs/body
+
+ ;; "k" 'kill-buffer
  "t" 'treemacs ; "tree"
 
  ;; general
@@ -225,7 +227,8 @@
 
  ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
- "2" (lambda () (interactive) (call-interactively 'evil-execute-macro))
+ ;; "2" '(lambda () (interactive) (call-interactively 'evil-execute-macro))
+ "2" '(lambda () (interactive) (call-interactively 'evil-owl-execute-macro))
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell
@@ -235,15 +238,17 @@
  ;; move to files
  "e" 'find-file ; buscar solo en el mismo directorio
  "E" 'dh/jet-pack       ; buscar en todo el proyecto
- "j" 'prev-user-buffer-ring
- "k" 'next-user-buffer-ring
+
+ ;; TODO: arreglar esto
+ ;; "j" 'prev-user-buffer-ring
+ ;; "k" 'next-user-buffer-ring
 
  ;; lsp
- "rn" #'lsp-rename ; "rename"
- "pd" #'lsp-ui-peek-find-definitions
- "pr" #'lsp-ui-peek-find-references
- "pm" #'lsp-ui-imenu
- "pe" #'flycheck ; "errores"
+ "rn" 'lsp-rename ; "rename"
+ "pd" 'lsp-ui-peek-find-definitions
+ "pr" 'lsp-ui-peek-find-references
+ "pm" 'lsp-ui-imenu
+ "pe" 'flycheck ; "errores"
 
  ;; emacs
  "'rs" 'reload-emacs-config ; "reload init"
