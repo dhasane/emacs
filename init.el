@@ -33,10 +33,6 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-;; Make startup faster by reducing the frequency of garbage
-;; collection.  The default is 800 kilobytes.  Measured in bytes.
-(setq gc-cons-threshold most-positive-fixnum)
-
 ;;; init ----------------------------------------------------
 ;;; Inicio configuracion
 
@@ -132,6 +128,13 @@
   :defer nil
   :config (auto-compile-on-load-mode))
 
+(use-package gcmh
+  :init
+  (gcmh-mode 1)
+  :custom
+  (gcmh-verbose t)
+  )
+
 ;; (auto-comp-init)
 
 (defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
@@ -183,7 +186,7 @@
 
 (general-define-key
  :prefix "C-x"
- "b" 'switch-buffer
+ "b" 'switch-to-buffer
  )
 
 (general-define-key
@@ -218,7 +221,7 @@
  "o" 'hydra-org/body
  "g" 'magit
  "w" 'evil-window-map
- "y" 'consult-yasnippet
+ "y" 'yas-insert-snippet
 
  ;; buscar
  "ss" 'consult-line
@@ -248,7 +251,7 @@
  "pd" 'lsp-ui-peek-find-definitions
  "pr" 'lsp-ui-peek-find-references
  "pm" 'lsp-ui-imenu
- "pe" 'flycheck ; "errores"
+ "pe" 'consult-flycheck ; "errores"
 
  ;; emacs
  "'rs" 'reload-emacs-config ; "reload init"
@@ -302,7 +305,7 @@
 (put 'narrow-to-region 'disabled nil)
 
 ;; Make gc pauses faster by decreasing the threshold.
-(setq gc-cons-threshold 100000000) ;; 100 mb
+;; (setq gc-cons-threshold 100000000) ;; 100 mb
 
 (provide 'init)
 ;;; init.el ends here

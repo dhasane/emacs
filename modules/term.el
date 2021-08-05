@@ -534,6 +534,7 @@ por todo el proyecto.
   (eshell-syntax-highlighting-global-mode +1))
 
 (use-package bash-completion
+  :disabled
   :hook
   (shell-dynamic-complete-functions . bash-completion-dynamic-complete)
   :config

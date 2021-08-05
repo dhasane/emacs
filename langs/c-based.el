@@ -39,6 +39,8 @@
   ;; (lsp-ui-peek-find-references nil (list :folders (vector (projectile-project-root))))
   )
 
+(use-package clang-format)
+
 (use-package csharp-mode
   )
 

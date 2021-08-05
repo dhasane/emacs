@@ -22,7 +22,7 @@
         ;; mu4e-sent-messages-behavior 'delete
         message-kill-buffer-on-exit t
         mu4e-confirm-quit nil
-        mu4e-completing-read-function 'ivy-completing-read
+        mu4e-completing-read-function 'completing-read
         mu4e-compose-format-flowed t
         message-signature-file "~/my-emacs/utils/signature"
         ;; Don't get too clever showing html

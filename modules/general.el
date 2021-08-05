@@ -123,6 +123,7 @@
 
 (use-package undo-tree
   :delight
+  :defer 5
   :demand t
   :commands (undo-tree-undo undo-tree-redo)
   :init

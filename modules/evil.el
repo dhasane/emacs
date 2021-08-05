@@ -78,6 +78,12 @@
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
+  (evil-motion-state-cursor 'box)  ; █
+  (evil-visual-state-cursor 'box)  ; █
+  (evil-normal-state-cursor 'box)  ; █
+  (evil-insert-state-cursor 'bar)  ; ⎸
+  (evil-emacs-state-cursor  'hbar) ; _
+
   :config
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
@@ -94,6 +100,12 @@
     (advice-add 'evil-window-split :after after-fn)
     ;; etc...
     )
+
+  ;; (setq evil-default-cursor (quote (t "#750000"))
+  ;;       evil-visual-state-cursor '("#880000" box)
+  ;;       evil-normal-state-cursor '("#750000" box)
+  ;;       evil-insert-state-cursor '("#e2e222" bar)
+  ;;       )
 
   ;; Esto en teoria ya es manejado por evil-collection
   ;; (cl-loop for (mode . state) in
@@ -159,6 +171,13 @@
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
   )
 
+(unless (display-graphic-p)
+  (use-package evil-terminal-cursor-changer
+    :init
+    (evil-terminal-cursor-changer-activate) ; or (etcc-on)
+    )
+  )
+
 (use-package evil-leader
   :defer 1
   :demand t
@@ -190,10 +209,9 @@
   :after (evil)
   :functions evil-googles-use-diff-faces
   :custom
-  ;; (evil-goggles-duration 0.250) ;; default is 0.200
   (evil-goggles-duration 0.250) ;; default is 0.200
   :config
-  (evil-goggles-use-diff-faces)
+  ;; (evil-goggles-use-diff-faces)
   (evil-goggles-mode)
   :custom-face
   (evil-goggles-change-face ((t (:inherit diff-removed))))
@@ -295,3 +313,5 @@
   ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
   ;;   "M-k" 'magit-section-backward-sibling)
   )
+
+;;; evil.el ends here

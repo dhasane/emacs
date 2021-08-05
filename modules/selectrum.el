@@ -19,9 +19,9 @@
   (prescient-persist-mode +1)
   )
 
-(use-package consult
+(use-package consult)
 
-  )
+(use-package consult-flycheck)
 
 (use-package orderless
   :ensure t
@@ -74,3 +74,5 @@
   ;; auto-updating embark collect buffer
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+;;; selectrum.el ends here
