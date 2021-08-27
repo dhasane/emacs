@@ -101,7 +101,8 @@
     ;;
     )
    ((string-equal system-type "darwin") ; Mac
-    (when (member "Menlo" (font-family-list)) (set-frame-font "Menlo-14" t t))
+    (when (member "Menlo" (font-family-list))
+      (set-frame-font "Menlo-12" t t))
     ;;
     )
    ((string-equal system-type "windows-nt") ; Windows

@@ -139,14 +139,14 @@
   )
 
 (defhydra hydra-org (:color blue :columns 3)
-  ("a" org-agenda         "agenda")
-  ("l s" org-store-link   "store link")
-  ("l i" org-insert-link  "insert link")
-  ("o" org-roam           "roam")
-  ("f" org-roam-find-file "find")
-  ("i" org-roam-insert    "insert")
-  ("m" org-roam-graph     "map")
-  ("k" kill-org-buffers   "kill")
+  ("a"   org-agenda             "agenda")
+  ("l s" org-store-link         "store link")
+  ("l i" org-insert-link        "insert link")
+  ("o"   org-roam-buffer-toggle "roam")
+  ("f"   org-roam-node-find     "find")
+  ("i"   org-roam-node-insert   "insert")
+  ("m"   org-roam-graph         "map")
+  ("k"   kill-org-buffers       "kill")
   )
 ;; (defhydra hydra-org (:color red :columns 3)
 ;;   "Org Mode Movements"
@@ -182,6 +182,9 @@
    ;; "twopi"
    ;; "circo"
    )
+  :init
+  (setq org-roam-v2-ack t)
+  (org-roam-db-autosync-mode)
   )
 
 ;; (defhydra hydra-roam
