@@ -4,21 +4,29 @@
 
 ;;; code:
 
+;; (use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
+
 (use-package lsp-java
-  ;; :disabled
   :hook (
-         (java-mode . lsp-deferred)
+         (java-mode . lsp)
          )
-  :custom
+  :config
   ;; (setenv "JAVA_HOME"  "/usr/lib/jvm/java-15-openjdk/")
+  ;; (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home")
+
+  (require 'dap-java)
+
+  :custom
+  (lsp-java-completion-overwrite nil)
+  (lsp-java-enable-file-watch nil)
+
+  ;; (lsp-java-java-path (concat (getenv "JAVA_HOME") "/bin/java"))
   ;; (lsp-java-java-path "/usr/lib/jvm/java-15-openjdk/bin/java")
   ;; (lsp-java-configuration-runtimes '[(:name "JavaSE-15"
   ;;                                     :path "/usr/lib/jvm/java-15-openjdk"
   ;;                                     :default t)])
+  ;; (lsp-java-import-gradle-home "/Users/dhamiltonsmith/work/learn/")
 
-  (require 'dap-java)
-  :custom
-  (lsp-java-completion-overwrite nil)
   ;; current VSCode defaults
   (lsp-java-vmargs
    '(;; "-XX:+UseParallelGC"
@@ -44,7 +52,6 @@
      "-server"
      "-XX:+DoEscapeAnalysis"
      "-XX:+UseCompressedOops"
-     "-XX:-UseSplitVerifier"
      "-Xverify:none"
      "--add-modules=ALL-SYSTEM"
      "-Xdock:icon=../Resources/Eclipse.icns"

@@ -60,7 +60,6 @@
   (lsp-semantic-tokens-enable t)
   (lsp-enable-indentation t)
   ;;;;   (lsp-file-watch-threshold 500)
-  (lsp-enable-snippet nil)
 
   ;; debug
   ;; (lsp-print-io t)
@@ -68,6 +67,9 @@
   ;; (lsp-print-performance t)
 
   ;; general
+  (lsp-log-io nil)
+  (lsp-enable-snippet nil)
+  (lsp-enable-completion-at-point t)
   ;; (lsp-auto-guess-root nil)
   (lsp-headerline-breadcrumb-enable t)
   ;;;;   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
@@ -142,6 +144,7 @@
   (lsp-ui-sideline-show-code-actions t)
 
   (lsp-ui-sideline-delay 0.7)
+  (lsp-ui-sideline-diagnostic-max-lines 10)
 
   ;; signature
   (lsp-signature-render-documentation nil)
@@ -152,11 +155,10 @@
   ;; imenu
   (lsp-ui-imenu-window-width 30)
 
-  (lsp-ui-sideline-diagnostic-max-lines 10)
   :custom-face
   (lsp-ui-sideline-current-symbol ((t (:foreground "black" :background "#689d6b"))))
-  (lsp-ui-sideline-global
-   ((t (:box (:line-width (-1 . -1) :color "grey75" :style released-button)))))
+  ;; (lsp-ui-sideline-global
+  ;;  ((t (:box (:line-width (-1 . -1) :color "grey75" :style released-button)))))
   )
 
 (use-package lsp-treemacs

@@ -18,7 +18,12 @@
 (if (version<= "27.1" emacs-version)
     (global-so-long-mode 1))
 
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; llenar toda la pantalla
+;; (cond
+;;  ((string-equal system-type "gnu/linux")
+;;   ;; llenar toda la pantalla
+;;   (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;;   )
+;;  )
 
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
