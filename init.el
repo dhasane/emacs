@@ -247,27 +247,27 @@
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell
- "." 'dh/create-new-eshell-buffer ; "terminal"
- "," 'dh/select-eshell ; "seleccionar terminal"
+ "." 'dh/create-new-eshell-buffer       ; "terminal"
+ "," 'dh/select-eshell                  ; "seleccionar terminal"
 
  ;; move to files
- "e" 'find-file ; buscar solo en el mismo directorio
- "E" 'dh/jet-pack       ; buscar en todo el proyecto
+ "e" 'find-file                         ; buscar solo en el mismo directorio
+ "E" 'dh/jet-pack                       ; buscar en todo el proyecto
 
  ;; TODO: arreglar esto
  ;; "j" 'prev-user-buffer-ring
  ;; "k" 'next-user-buffer-ring
 
  ;; lsp
- "rn" 'lsp-rename ; "rename"
+ "rn" 'lsp-rename                       ; "rename"
  "pd" 'lsp-ui-peek-find-definitions
  "pr" 'lsp-ui-peek-find-references
  "pm" 'lsp-ui-imenu
- "pe" 'consult-flycheck ; "errores"
+ "pe" 'consult-flycheck                 ; "errores"
 
  ;; emacs
- "'rs" 'reload-emacs-config ; "reload init"
- "'e"  'open-emacs-config ; "edit init"
+ "'rs" 'reload-emacs-config             ; "reload init"
+ "'e"  'open-emacs-config               ; "edit init"
  "'ps" 'profiler-start
  "'pS" 'profiler-stop
  "'pr" 'profiler-report

@@ -18,8 +18,7 @@
    )
   :custom
   (projectile-require-project-root nil)
-  ;; (projectile-project-search-path '("~/projects/" "~/work/"))
-  (projectile-project-search-path '("~/dev/"))
+  (projectile-project-search-path '("~/dev/" "~/work"))
   (projectile-sort-order 'recently-active)
   ;; (projectile-completion-system 'ivy)
   :config

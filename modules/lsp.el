@@ -80,6 +80,11 @@
   (lsp-eldoc-render-all nil)
   (lsp-completion-enable t)
   (lsp-keep-workspace-alive nil)
+  ;; (lsp-file-watch-ignored
+  ;;  '(".idea" ".ensime_cache" ".eunit" "node_modules"
+  ;;    ".git" ".hg" ".fslckout" "_FOSSIL_"
+  ;;    ".bzr" "_darcs" ".tox" ".svn" ".stack-work"
+  ;;    "build"))
 
   :config
   (lsp-enable-which-key-integration t)
