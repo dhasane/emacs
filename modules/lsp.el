@@ -50,6 +50,11 @@
   :custom
   (lsp-keymap-prefix "C-c l")
 
+  (lsp-enable-on-type-formatting nil)
+  (lsp-enable-file-watchers nil)
+  (lsp-enable-xref t)
+  (lsp-enable-completion-at-point t)
+
   ;; :project/:workspace/:file
   ;; (lsp-modeline-diagnostics-scope :project)
   (lsp-ui-peek-enable t)
@@ -57,7 +62,6 @@
   (lsp-enable-indentation t)
   ;;;;   (lsp-file-watch-threshold 500)
   (lsp-enable-snippet nil)
-  (lsp-intelephense-multi-root t)
 
   ;; debug
   ;; (lsp-print-io t)
@@ -73,7 +77,6 @@
   (read-process-output-max (* 4 1024 1024))
 
   ;; (lsp-auto-configure nil)
-  (lsp-enable-file-watchers t)
   (lsp-eldoc-render-all nil)
   (lsp-completion-enable t)
   (lsp-keep-workspace-alive nil)

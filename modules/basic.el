@@ -35,6 +35,12 @@
 
 (setq lexical-binding t)
 
+(setq save-interprogram-paste-before-kill t
+      mouse-yank-at-point t
+      require-final-newline t
+      load-prefer-newer t
+      )
+
 ;; mostrar los ultimos archivos modificados
 (recentf-mode 1)
 
