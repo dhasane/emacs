@@ -221,4 +221,7 @@
     (add-hook 'visual-line-mode-hook 'my-activate-adaptive-wrap-prefix-mode))
   )
 
+(use-package logview
+  )
+
 ;;; general end here

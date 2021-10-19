@@ -65,4 +65,6 @@
   (lsp-java-enable-file-watch nil)
   )
 
+(use-package gradle-mode)
+
 ;;; java.el ends here

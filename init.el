@@ -208,7 +208,7 @@
  "t" 'treemacs ; "tree"
 
  ;; general
- "b" 'bufler-switch-buffer ; 'switch-to-buffer
+ "b" 'switch-to-buffer
  "o" 'hydra-org/body
  "g" 'magit
  "w" 'evil-window-map
