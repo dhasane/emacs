@@ -198,7 +198,6 @@
 
 (use-package evil-surround
   :defer 1
-  :ensure t
   :after (evil)
   :config
   (global-evil-surround-mode 1))
@@ -207,7 +206,6 @@
 (use-package evil-goggles
   :delight
   :defer 1
-  :ensure t
   :after (evil)
   :functions evil-googles-use-diff-faces
   :custom
@@ -245,7 +243,6 @@
   :delight
   :demand t
   :after evil
-  :ensure t
   :custom
   (warning-suppress-types '((evil-collection)))
   ;; (evil-collection-unimpaired-mode -1)

@@ -8,7 +8,6 @@
 ;; (setq indicate-buffer-boundaries t)
 
 (use-package dashboard
-  :ensure t
   :demand t
   :defines
   (
@@ -78,7 +77,7 @@
 ;;   ;; (load-theme 'ample-light t t) ;; no
 ;;   (load-theme 'ample)
 ;;   :defer t
-;;   :ensure t)
+;;   )
 ;;(use-package kaolin-themes
   ;;;; https://github.com/ogdenwebb/emacs-kaolin-themes
   ;;:config

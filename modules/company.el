@@ -142,7 +142,6 @@
   )
 
 ;;(use-package readline-complete
-;;:ensure t
 ;;)
 
 (use-package company-quickhelp
@@ -154,7 +153,6 @@
 
 (use-package company-box
   :disabled
-  :ensure t
   :after (company)
   :hook (company-mode . company-box-mode)
   :config

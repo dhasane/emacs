@@ -9,7 +9,6 @@
          ("\\.h\\'"   . c-mode)
          ("\\.cpp\\'" . c++-mode)
   )
-  :ensure t
   :after (company)
   :hook ((c-mode    . lsp-deferred)
          (c++-mode  . lsp-deferred)

@@ -5,7 +5,6 @@
 ;;; code:
 
 (use-package web-mode
-  :ensure t
   :defer t
   :mode (
          "\\.html?\\'"

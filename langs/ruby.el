@@ -5,7 +5,6 @@
 ;;; code:
 
 ;;(use-package solargraph
-	;;:ensure t
 	;;:config
 	;;(define-key ruby-mode-map (kbd "M-i") 'solargraph:complete)
 	;;)
@@ -91,7 +90,6 @@
   )
 
 (use-package robe
-  :ensure t
   :after (company ruby-mode)
   :hook (ruby-mode . robe-mode)
   :config

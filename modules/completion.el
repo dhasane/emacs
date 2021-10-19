@@ -6,7 +6,6 @@
 
 (use-package flycheck
   :demand t
-  :ensure t
   ;; :hook (prog-mode . flycheck-mode)
   :init (global-flycheck-mode)
 
@@ -26,7 +25,6 @@
 
 (use-package yasnippet
   :demand t
-  :ensure t
   :defer .1
   :defines
   (
@@ -58,7 +56,7 @@
 
 ;; optionally if you want to use debugger
 (use-package dap-mode
-  :ensure t :after lsp-mode :demand t
+  :after lsp-mode :demand t
   :config
   (dap-mode 1)
   (dap-auto-configure-mode)

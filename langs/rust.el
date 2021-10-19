@@ -5,7 +5,6 @@
 ;;; code:
 
 (use-package rust-mode
-  :ensure t
   :mode "\\.rs\\'"
   :custom
   (rust-format-on-save t)
@@ -18,13 +17,11 @@
 
 (use-package flycheck-rust
   :disabled
-  :ensure t
   :demand t
   :hook (flycheck-mode . #'flycheck-rust-setup))
 
 (use-package racer
   :disabled
-  :ensure t
   :hook
   (
    (rust-mode  . #'racer-mode)

@@ -5,11 +5,9 @@
 ;;; code:
 
 (use-package kotlin-mode
-  :ensure t
   :hook (kotlin-mode . company-mode))
 
 (use-package lsp-intellij
-  :ensure t
   :after lsp-mode
   :config
   (setq lsp-intellij--code-lens-kind-face nil)

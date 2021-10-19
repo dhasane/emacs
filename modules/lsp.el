@@ -31,7 +31,6 @@
 (add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
 
 (use-package lsp-mode
-  :ensure t
   :demand t
   :defines
   (
@@ -102,7 +101,6 @@
   )
 
 (use-package lsp-ui
-  :ensure t
   :after (lsp-mode evil)
   :commands lsp-ui-mode
   ;; :hook (lsp-ui-mode . sideline-mode)
@@ -162,7 +160,6 @@
   )
 
 (use-package lsp-treemacs
-  :ensure t
   :defer t
   :commands lsp-treemacs-errors-list
   )

@@ -62,7 +62,6 @@
 
 (use-package mu4e-alert
   :disabled
-  :ensure t
   :after mu4e
   :config
   (setq mu4e-alert-modeline-formatter

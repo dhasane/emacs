@@ -24,7 +24,6 @@
 (use-package consult-flycheck)
 
 (use-package orderless
-  :ensure t
   :custom
   (completion-styles '(orderless))
   (orderless-component-separator "[ &]")
@@ -45,7 +44,6 @@
   (marginalia-mode))
 
 (use-package embark
-  :ensure t
 
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
@@ -67,7 +65,6 @@
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :ensure t
   :after (embark consult)
   :demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an

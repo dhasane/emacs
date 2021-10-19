@@ -50,41 +50,32 @@
   (write-region "" nil custom-file))
 (load custom-file)
 
-(require 'package)
-(setq
- package-archives
- '(
-   ("melpa"         . "https://melpa.org/packages/")
-   ("melpa-stable"  . "http://stable.melpa.org/packages/")
-   ("elpa"          . "https://elpa.gnu.org/packages/")
-   ("gnu"           . "http://elpa.gnu.org/packages/")
-   )
- package-archive-priorities
- '(
-   ("melpa"         . 15)
-   ("melpa-stable"  . 10)
-   ("gnu"           . 5)
-   ("elpa"          . 0)
-   )
- )
+;; tambien funciona con emacs-ng
+(unless (fboundp 'ng-bootstrap-straight)
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage)))
 
-(package-initialize)
-
-; fetch the list of packages available
-(unless package-archive-contents
-  (package-refresh-contents))
-(package-install-selected-packages)
-
-;; Bootstrap `use-package`
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(straight-use-package 'el-patch)
+(straight-use-package 'use-package)
 
 (eval-when-compile (require 'use-package))
 
+(use-package straight
+  :custom (straight-use-package-by-default t))
+
 (eval-and-compile
   ;; siempre instalar lo que no se tenga
-  (setq use-package-always-ensure t)
+  (setq use-package-always-ensure nil)
   ;; siempre diferir el inicio de paquetes
   (setq use-package-always-defer t)
   ;; (setq use-package-expand-minimally t)
@@ -97,30 +88,18 @@
 
 (use-package use-package-ensure-system-package)
 (use-package general :demand t)
-(use-package hydra :ensure t :demand t)
+(use-package hydra :demand t)
 (use-package benchmark-init
   :disabled
-  :ensure t
-  ;; :init
-  ;; (benchmark-init/activate)
+  :init
+  (benchmark-init/activate)
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
-(use-package auto-package-update
-  :if (not (daemonp))
-  :custom
-  (auto-package-update-interval 7) ;; in days
-  (auto-package-update-prompt-before-update t)
-  (auto-package-update-delete-old-versions t)
-  (auto-package-update-hide-results nil) ;; con nil se muestran los paquetes modificados
-  :config
-  (auto-package-update-maybe)
-  (auto-package-update-at-time "12:00")
-  )
 (use-package delight)
-(setq package-native-compile t)
 
+(setq package-native-compile t)
 (load (expand-file-name "compile" user-emacs-directory))
 
 (custom-set-variables '(load-prefer-newer nil))

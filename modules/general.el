@@ -6,12 +6,10 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-(use-package nix-mode
-  :ensure t)
+(use-package nix-mode)
 
 (use-package which-key
   :delight
-  :ensure t
   :demand t
   :defer .1
   :custom
@@ -36,7 +34,6 @@
 (use-package ws-butler
   :delight
   :demand t
-  :ensure t
   :defer .1
   :hook (
          (prog-mode . ws-butler-mode)
@@ -84,6 +81,10 @@
   ;;           "\\`\\*\\(Wo\\)?Man .*\\*\\'"
   ;;           )))
   )
+
+
+(use-package indent-guide
+  :init (add-hook 'yaml-mode-hook 'indent-guide-mode))
 
 (use-package highlight-indentation
   :delight

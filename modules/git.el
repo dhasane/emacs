@@ -8,7 +8,6 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package magit
-  :ensure t
   :demand t
   :defer .1
   :general
@@ -46,7 +45,6 @@
 
 (use-package git-gutter
   :delight
-  :ensure t
   :demand t
   :custom
   (git-gutter:window-width 1)

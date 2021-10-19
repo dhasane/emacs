@@ -15,7 +15,6 @@
 (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
 
 (use-package company-auctex
-  :ensure t
   :config
   (add-hook 'LaTeX-mode-hook 'company-mode)
   (company-auctex-init))

@@ -7,7 +7,6 @@
 (use-package ivy
   :delight
   :diminish
-  :ensure t
   :defer 0
   ;; :diminish (ivy-mode . "")
   :demand t
@@ -44,7 +43,6 @@
 (use-package all-the-icons-ivy-rich
   :demand t
   :defer 0
-  :ensure t
   :custom
   (inhibit-compacting-font-caches t)
   :init (all-the-icons-ivy-rich-mode 1))
@@ -158,7 +156,6 @@
   (setq ivy-rich-parse-remote-buffer nil))
 
 ;;(use-package lsp-ivy
-;;:ensure t
 ;;:defer t
 ;;:commands lsp-ivy-workspace-symbol
 ;;)

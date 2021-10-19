@@ -5,7 +5,6 @@
 ;;; code:
 
 (use-package markdown-mode
-  :ensure t
   :commands (gfm-mode)
   :mode (("\\.md\\'" . gfm-mode)
 	   ("\\.gfm\\'" . gfm-mode))

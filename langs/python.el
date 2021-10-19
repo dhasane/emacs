@@ -4,8 +4,7 @@
 
 ;;; code:
 
-(use-package virtualenvwrapper
-  :ensure t)
+(use-package virtualenvwrapper)
 
 (use-package python
   :demand t
@@ -33,7 +32,6 @@
 ;; (use-package anaconda-mode)
 
 (use-package lsp-pyright
-  :ensure t
   :hook (python-mode . (lambda ()
                           (require 'lsp-pyright)
                           (lsp-deferred)))  ; or lsp-deferred
@@ -45,7 +43,6 @@
   )
 
 (use-package lsp-python-ms
-  :ensure t
   :after (lsp-mode company)
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
@@ -58,8 +55,6 @@
   )
 
 (use-package elpy
-  ;; :disabled
-  :ensure t
   :hook (python-mode . elpy-enable)
   :custom
   (elpy-shell-starting-directory 'current-directory)
@@ -90,7 +85,6 @@
   )
 
 (use-package pyvenv
-  :ensure t
   ;; :init
   ;; (setenv "WORKON_HOME" "~/.venvs/")
   :hook (python-mode . pyvenv-mode)

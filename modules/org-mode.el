@@ -6,7 +6,7 @@
 ;;; code:
 
 (use-package org
-  :ensure t
+  :straight (:type built-in)
   :defer .1
   :general
   (org-mode-map
@@ -162,7 +162,6 @@
 
 (use-package org-roam
   :delight
-  :ensure t
   :hook
   (after-init . org-roam-mode)
   :bind (:map org-roam-mode-map
@@ -211,7 +210,6 @@
 (use-package evil-org
   :delight
   :demand t
-  :ensure t
   :after (org evil)
   :general
   (

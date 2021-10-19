@@ -93,7 +93,6 @@ nombre del tab."
 
 ;; (use-package eyebrowse
 ;;   :if (version< emacs-version "27.0" )
-;;   :ensure t
 ;;   :after evil
 ;;   :bind
 ;;   (

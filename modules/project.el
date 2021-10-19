@@ -8,7 +8,6 @@
 (use-package projectile
   :delight '(:eval (format "[%s]" (projectile-project-name)))
   :demand t
-  :ensure t
   :defer .1
   :bind
   (
