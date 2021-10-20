@@ -9,16 +9,6 @@
   (selectrum-mode +1)
   )
 
-(use-package selectrum-prescient
-  :config
-  ;; to make sorting and filtering more intelligent
-  (selectrum-prescient-mode +1)
-
-  ;; to save your command history on disk, so the sorting gets more
-  ;; intelligent over time
-  (prescient-persist-mode +1)
-  )
-
 (use-package consult)
 
 (use-package consult-flycheck)
@@ -44,7 +34,6 @@
   (marginalia-mode))
 
 (use-package embark
-
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
@@ -71,5 +60,30 @@
   ;; auto-updating embark collect buffer
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package prescient
+  :demand t
+  )
+
+(use-package company-prescient
+  :demand t
+  :config
+  (company-prescient-mode t)
+  ;; :custom
+  ;; (company-prescient-sort-length-enable)
+  )
+
+(use-package selectrum-prescient
+  :demand t
+  :config
+  ;; to make sorting and filtering more intelligent
+  (selectrum-prescient-mode t)
+  ;; to save your command history on disk, so the sorting gets more
+  ;; intelligent over time
+  (prescient-persist-mode t)
+  ;; :custom
+  ;; (selectrum-prescient-enable-filtering)
+  ;; (selectrum-prescient-enable-sorting)
+  )
 
 ;;; selectrum.el ends here
