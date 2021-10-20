@@ -77,20 +77,6 @@
 ;; que no pregunte cuando me quiero salir
 (setq use-dialog-box nil)
 
-
-(use-package whitespace
-  :custom
-  (whitespace-line-column 120)   ;; max line length
-  (whitespace-style
-   '(
-     face
-     tabs
-     lines-tail
-     trailing
-     ))
-  :hook ((prog-mode . whitespace-mode))
-  )
-
 ;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq auto-save-default nil
@@ -146,12 +132,8 @@
   )
 
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (setq debug-on-error nil)
-
-(define-key minibuffer-local-map (kbd "<C-up>" )
-  'previous-history-element)
-(define-key minibuffer-local-map (kbd "<C-down>" )
-  'next-history-element)
 
 ;;; basic.el ends here

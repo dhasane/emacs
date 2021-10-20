@@ -1,0 +1,67 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;; code:
+
+;; tambien funciona con emacs-ng
+(unless (fboundp 'ng-bootstrap-straight)
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage)))
+
+(straight-use-package 'el-patch)
+(straight-use-package 'use-package)
+
+(eval-when-compile (require 'use-package))
+
+(use-package straight
+  :custom (straight-use-package-by-default t))
+
+(eval-and-compile
+  ;; siempre instalar lo que no se tenga
+  (setq use-package-always-ensure nil)
+  ;; siempre diferir el inicio de paquetes
+  (setq use-package-always-defer t)
+  ;; (setq use-package-expand-minimally t)
+  ;; t para verificar tiempos de carga
+  (setq use-package-compute-statistics t)
+  (setq use-package-enable-imenu-support t)
+
+  (setq use-package-verbose nil)
+  )
+
+(use-package use-package-ensure-system-package)
+(use-package general :demand t)
+(use-package hydra :demand t)
+(use-package benchmark-init
+  :disabled
+  :init
+  (benchmark-init/activate)
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+(custom-set-variables '(load-prefer-newer nil))
+(use-package auto-compile
+  :defer nil
+  :config (auto-compile-on-load-mode))
+
+(use-package gcmh
+  :init
+  (gcmh-mode 1)
+  :custom
+  (gcmh-verbose t)
+  )
+
+(use-package delight)
+
+;;; startup.el ends here

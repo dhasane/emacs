@@ -6,6 +6,19 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+(use-package whitespace
+  :custom
+  (whitespace-line-column 120)   ;; max line length
+  (whitespace-style
+   '(
+     face
+     tabs
+     lines-tail
+     trailing
+     ))
+  :hook ((prog-mode . whitespace-mode))
+  )
+
 (use-package nix-mode)
 
 (use-package which-key
