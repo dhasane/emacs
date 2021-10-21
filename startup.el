@@ -1,7 +1,21 @@
 ;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
+;;; Empezar procesos necesarios para el funcionamiento correcto del resto de la configuracion
+
 ;;; code:
+
+;; (load "server")
+;; (let ((dh/server-name  "emacs_server"))
+  ;; (use-package server
+    ;; :custom
+    ;; (server-name dh/server-name)
+    ;; ;; :init
+    ;; ;; (unless
+    ;; ;;     (server-running-p dh/server-name)
+    ;; ;;   (server-start dh/server-name))
+    ;; )
+  ;; )
 
 ;; tambien funciona con emacs-ng
 (unless (fboundp 'ng-bootstrap-straight)

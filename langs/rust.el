@@ -18,15 +18,15 @@
 (use-package flycheck-rust
   :disabled
   :demand t
-  :hook (flycheck-mode . #'flycheck-rust-setup))
+  :hook (flycheck-mode . flycheck-rust-setup))
 
 (use-package racer
   :disabled
   :hook
   (
-   (rust-mode  . #'racer-mode)
-   (racer-mode .  #'eldoc-mode)
-   (racer-mode .  #'company-mode)
+   (rust-mode)
+   (racer-mode . eldoc-mode)
+   (racer-mode . company-mode)
    )
   :custom
   (racer-rust-src-path

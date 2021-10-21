@@ -10,6 +10,8 @@
 	;;)
 
 (setq ruby-indent-tabs-mode nil)
+(use-package ruby-mode
+  )
 
 (defun ruby-send-buffer-or-create-inf-ruby-buffer ()
   "Crea un buffer para inf-ruby, en caso de no existir, y manda el buffer actual de ruby."
@@ -22,6 +24,13 @@
     (inf-ruby)
     ))
 
+(use-package robe
+  :after (company ruby-mode)
+  :hook (enh-ruby-mode)
+  :config
+  (push 'company-robe company-backends)
+  )
+
 (use-package enh-ruby-mode
   :general
   (
@@ -32,9 +41,8 @@
    )
   :hook
   (
-   (ruby-mode-hook . enh-ruby-mode-hook)
-   (enh-ruby-mode-hook . robe-mode)
-   (enh-ruby-mode-hook . yard-mode)
+   (ruby-mode)
+   (enh-ruby-mode . 'yard-mode)
    )
 
   ;; :ensure-system-package
@@ -87,13 +95,6 @@
          (ruby-mode . ruby-electric-mode)
          (enh-ruby-mode . ruby-electric-mode)
          )
-  )
-
-(use-package robe
-  :after (company ruby-mode)
-  :hook (ruby-mode . robe-mode)
-  :config
-  (push 'company-robe company-backends)
   )
 
 ;;; ruby.el ends here

@@ -7,9 +7,6 @@
 ;; (use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
 
 (use-package lsp-java
-  :hook (
-         (java-mode . lsp)
-         )
   :config
   ;; (setenv "JAVA_HOME"  "/usr/lib/jvm/java-15-openjdk/")
   ;; (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home")

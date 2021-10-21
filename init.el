@@ -57,18 +57,6 @@
 
 (reql "startup")
 
-;; (load "server")
-;; (let ((dh/server-name  "emacs_server"))
-  ;; (use-package server
-    ;; :custom
-    ;; (server-name dh/server-name)
-    ;; ;; :init
-    ;; ;; (unless
-    ;; ;;     (server-running-p dh/server-name)
-    ;; ;;   (server-start dh/server-name))
-    ;; )
-  ;; )
-
 ;; (auto-comp-init)
 
 (setq package-native-compile t)

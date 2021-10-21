@@ -10,11 +10,6 @@
          ("\\.cpp\\'" . c++-mode)
   )
   :after (company)
-  :hook ((c-mode    . lsp-deferred)
-         (c++-mode  . lsp-deferred)
-         (objc-mode . lsp-deferred)
-         (cuda-mode . lsp-deferred)
-         )
   :custom
   (ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
   (ccls-code-lens-mode +1)

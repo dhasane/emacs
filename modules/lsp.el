@@ -4,34 +4,50 @@
 
 ;;; code:
 
-(defcustom lsp-ignore-modes
-  '(
-    emacs-lisp-mode
-    ;; typescript-mode
-    ;; ng2-ts-mode
-    csharp-mode
-    makefile-mode
-    shell-script-mode
-    )
-  "Modes to prevent Emacs from loading lsp-mode."
-  :type 'list
-  :group 'lsp-mode-ignore
-  )
+;; (defcustom lsp-ignore-modes
+;;   '(
+;;     emacs-lisp-mode
+;;     ;; typescript-mode
+;;     ;; ng2-ts-mode
+;;     csharp-mode
+;;     makefile-mode
+;;     shell-script-mode
+;;     )
+;;   "Modes to prevent Emacs from loading lsp-mode."
+;;   :type 'list
+;;   :group 'lsp-mode-ignore
+;;   )
+;;
+;; (defun dh/lsp-enable-mode ()
+;;   "Activar lsp solo si no es un modo a ignorar."
+;;   (interactive)
+;;   ;; (if (not (member major-mode '(emacs-lisp-mode)))
+;;   (if (not (member major-mode lsp-ignore-modes))
+;;       (lsp-deferred)
+;;     ;;(message "lsp no activado")
+;;     )
+;;   )
 
-(defun dh/lsp-enable-mode ()
-  "Activar lsp solo si no es un modo a ignorar."
-  (interactive)
-  ;; (if (not (member major-mode '(emacs-lisp-mode)))
-  (if (not (member major-mode lsp-ignore-modes))
-      (lsp-deferred)
-    ;;(message "lsp no activado")
-    )
-  )
-
-(add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
+;; (add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
 
 (use-package lsp-mode
   :demand t
+  :hook
+  (
+   (
+    rust-mode
+    enh-ruby-mode
+    java-mode
+    dart-mode
+    c-mode
+    c++-mode
+    objc-mode
+    cuda-mode
+    haskell-mode
+    haskell-literate-mode
+    )
+   . lsp-deferred
+   )
   :defines
   (
    lsp-modeline-diagnostics-scope
