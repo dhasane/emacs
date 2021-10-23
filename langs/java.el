@@ -30,36 +30,24 @@
      ;; "-XX:GCTimeRatio=4"
      ;; "-XX:AdaptiveSizePolicyWeight=90"
      ;; "-Dsun.zip.disableMemoryMapping=true"
-     ;; "-Xmx2G"
-     ;; "-Xms100m"
+     ;; "-noverify"
+     ;; "--enable-preview"
 
-     "-Dosgi.requiredJavaVersion=11"
-     "-Dosgi.instance.area.default=@user.home/eclipse-workspace"
-     "-Dsun.java.command=Eclipse"
-     "-XX:+UseG1GC"
-     "-XX:+UseStringDeduplication"
      "--add-modules=ALL-SYSTEM"
-     "-XstartOnFirstThread"
-     "-Dorg.eclipse.swt.internal.carbon.smallFonts"
-     "-Dosgi.requiredJavaVersion=11"
-     "-Dosgi.dataAreaRequiresExplicitInit=true"
      "-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true"
-     "-Xms1g"
-     "-Xmx5g"
-     "-server"
+     "-Dosgi.dataAreaRequiresExplicitInit=true"
+     "-Dosgi.instance.area.default=@user.home/eclipse-workspace"
+     "-Dosgi.requiredJavaVersion=11"
      "-XX:+DoEscapeAnalysis"
      "-XX:+UseCompressedOops"
-     "-Xverify:none"
-     "--add-modules=ALL-SYSTEM"
-     "-Xdock:icon=../Resources/Eclipse.icns"
-     "-XstartOnFirstThread"
-     "-Dorg.eclipse.swt.internal.carbon.smallFonts"
-
+     "-XX:+UseG1GC"
+     "-XX:+UseStringDeduplication"
+     "-Xms1g"
+     ;; "-Xms100m"
+     "-Xmx5g"
+     ;; "-Xmx2G"
+     "-server"
      ))
-  ;; (lsp-java-vmargs (list
-  ;;                   "-noverify"
-  ;;                   "--enable-preview"))
-  (lsp-java-enable-file-watch nil)
   )
 
 (use-package gradle-mode)

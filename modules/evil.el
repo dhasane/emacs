@@ -6,21 +6,21 @@
 ;;; code:
 
 (use-package evil
-  :defer nil
   :demand t
   :general
   (
    :states '(normal motion override)
+   :keymaps 'override
    "C-S-k" 'evil-lookup
-   "j" 'evil-next-visual-line
-   "k" 'evil-previous-visual-line
-   "C-s" 'evil-write
-   "C-l" 'evil-window-right
-   "C-h" 'evil-window-left
-   "C-k" 'evil-window-up
-   "C-j" 'evil-window-down
+   "j"     'evil-next-visual-line
+   "k"     'evil-previous-visual-line
+   "C-s"   'evil-write
+   "C-l"   'evil-window-right
+   "C-h"   'evil-window-left
+   "C-k"   'evil-window-up
+   "C-j"   'evil-window-down
    "C-M-q" 'ido-kill-buffer ;'evil-quit
-   "C-q" #'close-except-last-window
+   "C-q"   'close-except-last-window
    ;; ","   #'hydra-leader/body
    ;; "u" 'undo-tree-undo
    ;; "C-_" 'comment-dwim ; cambiar esto desactiva undo-tree
@@ -28,11 +28,13 @@
    )
   (
    :states '(visual)
+   :keymaps 'override
    "C-s" 'save-and-exit-evil
    )
   (
    :states '(insert)
-   "C-s" #'save-and-exit-evil
+   :keymaps 'override
+   "C-s" 'save-and-exit-evil
    "C-v" 'evil-paste-before
    "C-z" 'undo-tree-undo
    )
@@ -55,15 +57,17 @@
   ;; :map
 
   ;; :functions
-
+  :init
+  ;; por alguna razon estas variables no funcionaban en caso de ser
+  ;; definidas en custom
+  (setq evil-want-Y-yank-to-eol t)
+  (setq evil-search-module 'evil-search)
   :custom
   (evil-want-integration t) ;; This is optional since it's already set to t by default.
   (evil-want-keybinding nil) ;; para collection debe ser nil
-  (evil-search-module 'evil-search)
   (evil-vsplit-window-right t) ;; like vim's 'splitright'
   (evil-split-window-below t) ;; like vim's 'splitbelow'
   (evil-move-beyond-eol t)
-  (evil-want-Y-yank-to-eol t)
   (evil-auto-indent t)
   (evil-move-cursor-back nil)
   (evil-symbol-word-search t)
@@ -77,12 +81,6 @@
 
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
-
-  (evil-motion-state-cursor 'box)  ; █
-  (evil-visual-state-cursor 'box)  ; █
-  (evil-normal-state-cursor 'box)  ; █
-  (evil-insert-state-cursor 'bar)  ; ⎸
-  (evil-emacs-state-cursor  'hbar) ; _
 
   :config
   ;; para redefinir comandos evil-ex
@@ -100,12 +98,6 @@
     (advice-add 'evil-window-split :after after-fn)
     ;; etc...
     )
-
-  ;; (setq evil-default-cursor (quote (t "#750000"))
-  ;;       evil-visual-state-cursor '("#880000" box)
-  ;;       evil-normal-state-cursor '("#750000" box)
-  ;;       evil-insert-state-cursor '("#e2e222" bar)
-  ;;       )
 
   ;; Esto en teoria ya es manejado por evil-collection
   ;; (cl-loop for (mode . state) in
@@ -171,11 +163,22 @@
   (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
   )
 
-(unless (display-graphic-p)
-  (use-package evil-terminal-cursor-changer
-    :init
-    (evil-terminal-cursor-changer-activate) ; or (etcc-on)
-    )
+(use-package evil-terminal-cursor-changer
+  :unless window-system
+  :init
+  (evil-terminal-cursor-changer-activate) ; or (etcc-on)
+  :custom
+  (evil-motion-state-cursor 'box)  ; █
+  (evil-visual-state-cursor 'box)  ; █
+  (evil-normal-state-cursor 'box)  ; █
+  (evil-insert-state-cursor 'bar)  ; ⎸
+  (evil-emacs-state-cursor  'hbar) ; _
+
+  ;; (setq evil-default-cursor (quote (t "#750000"))
+  ;;       evil-visual-state-cursor '("#880000" box)
+  ;;       evil-normal-state-cursor '("#750000" box)
+  ;;       evil-insert-state-cursor '("#e2e222" bar)
+  ;;       )
   )
 
 (use-package evil-leader
