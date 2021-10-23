@@ -87,16 +87,6 @@
         )
       )
     )
-  )
-
-(use-package company
-  :disabled
-  :hook (prog-mode . company-mode)
-  :functions
-  (
-   check-expansion
-   )
-  :config
 
   ;; disable company completion of *all* remote filenames, whether
   ;; connected or not
@@ -107,22 +97,21 @@
   ;;(setq company-frontends (delq 'company-pseudo-tooltip-frontend company-frontends))
 
   ;; set default `company-backends'
-  (setq company-backends
-        '(
-          (
-           company-files          ; files & directory
-           company-keywords       ; keywords
-           company-capf
-           ;; company-yasnippet
-           company-dabbrev-code
-           ;; company-dabbrev
-           ;; company-abbrev
-           )
-          )
-        )
+  ;; (setq company-backends
+  ;;       '(
+  ;;         (
+  ;;          company-files          ; files & directory
+  ;;          company-keywords       ; keywords
+  ;;          company-capf
+  ;;          ;; company-yasnippet
+  ;;          company-dabbrev-code
+  ;;          ;; company-dabbrev
+  ;;          ;; company-abbrev
+  ;;          )
+  ;;         )
+  ;;       )
 
   ;; (add-hook 'after-init-hook 'global-company-mode)
-  (global-company-mode)
 
   ;; https://emacs.stackexchange.com/questions/12360/how-to-make-private-python-methods-the-last-company-mode-choices
   (defun company-transform-candidates-_-to-end (candidates)
@@ -179,14 +168,4 @@
         )
   )
 
-(use-package company
-  :disabled
-  :diminish
-  :demand t
-  :bind ((:map company-mode-map ("M-/" . company-complete))
-         (:map company-active-map
-               ("M-/" . company-select-next)
-               ("C-n" . company-select-next)
-               ("C-p" . company-select-previous)))
-  :init
-  (global-company-mode 1))
+;;; company.el ends here

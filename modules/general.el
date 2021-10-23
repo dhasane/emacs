@@ -237,4 +237,36 @@
 (use-package logview
   )
 
+;; optionally if you want to use debugger
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (dap-mode 1)
+  (dap-auto-configure-mode)
+
+  (dap-ui-mode t)
+  ;; enables mouse hover support
+  (dap-tooltip-mode 1)
+  ;; use tooltips for mouse hover
+  ;; if it is not enabled `dap-mode' will use the minibuffer.
+  (tooltip-mode 1)
+  ;; displays floating panel with debug buttons
+  ;; requies emacs 26+
+  (dap-ui-controls-mode 1)
+  )
+;; TODO: mirar como funciona lo de dap-mode
+
+(use-package polymode
+  :disabled
+  :mode ("\\.md\\'" "\\.org\\'" )
+  :config
+  ;; (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+  ;; (setq polymode-prefix-key (kbd "C-c n"))
+  ;; (define-hostmode poly-python-hostmode :mode 'python-mode)
+  )
+
+(use-package tree-sitter
+
+  )
+
 ;;; general end here

@@ -1,3 +1,4 @@
 
 (use-package chess
+  :disabled
   )

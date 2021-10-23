@@ -209,7 +209,6 @@
 
 (use-package evil-org
   :delight
-  :demand t
   :after (org evil)
   :general
   (
@@ -217,10 +216,9 @@
    :keymaps 'org-mode-map
    "C-k" 'evil-window-up
    "C-j" 'evil-window-down
-	)
-
+   )
+  :hook (org-mode . evil-org-mode)
   :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
             (lambda ()
               (evil-org-set-key-theme)))

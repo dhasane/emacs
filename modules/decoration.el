@@ -123,7 +123,6 @@
   )
 
 (use-package rainbow-delimiters
-  :defer 1
   :delight
   :hook (prog-mode . rainbow-delimiters-mode)
   :demand t
@@ -232,3 +231,5 @@
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
 ;; (set-window-parameter (selected-window) 'alpha '(85 . 50))
 ;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+
+;;; decoration.el ends here

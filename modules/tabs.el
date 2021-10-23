@@ -1,10 +1,8 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; code:
-
-;; -*- lexical-binding: t; -*-
 
 ;; en caso que la version sea mayor a 27, usar los tabs ya que vienen
 ;; incluidos, de lo contrario, usar eyebrowse (tiene cosas que se
@@ -22,7 +20,6 @@
   :group 'tab-bar)
 
 (use-package tab-bar
-  :after evil
   :general
   (:states '(normal motion)
    "g b" 'tab-bar-switch-to-prev-tab
