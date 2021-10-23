@@ -42,6 +42,7 @@
   )
 
 (use-package yasnippet-snippets
+  :delight
   :demand t
   :after yasnippet
   :defines

@@ -15,7 +15,7 @@
 
 (general-define-key
  :prefix "C-x"
- "b" 'switch-to-buffer
+ "b" 'consult-buffer  ;'switch-to-buffer
  )
 
 (general-define-key
@@ -46,7 +46,7 @@
  "t" 'treemacs ; "tree"
 
  ;; general
- "b" 'switch-to-buffer
+ "b" 'consult-buffer  ;'switch-to-buffer
  "o" 'hydra-org/body
  "g" 'magit
  "w" 'evil-window-map

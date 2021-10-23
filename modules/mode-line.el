@@ -1,37 +1,60 @@
-;;; package --- Summary
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; code:
 
-;; -*- lexical-binding: t; -*-
-
 ;; change mode-line color by evil state
 ;; (let (default-color (cons (face-background 'mode-line)
                           ;; (face-foreground 'mode-line)))
-(add-hook 'post-command-hook
-          (lambda ()
-            (let ((color (cond ;; ((minibufferp) default-color)
-                          ((evil-insert-state-p) '("#73b3e7" . "#3e4249"))
-                          ((evil-normal-state-p) '("#a1bf78" . "#3e4249"))
-                          ((evil-replace-state-p)'("#d390e7" . "#3e4249"))
-                          ((evil-visual-state-p) '("#e77171" . "#3e4249"))
-
-                          ;; "#209070"
-                          ((evil-motion-state-p) '("#501099" . "#ffffff"))
-
-                          ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                          ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                          ;; (t default-color)
-                          )))
-              (set-face-background 'mode-line (car color))
-              (set-face-foreground 'mode-line (cdr color)))))
-  ;; )
+;; (add-hook 'post-command-hook
+;;           (lambda ()
+;;             (let ((color (cond ;; ((minibufferp) default-color)
+;;                           ((evil-insert-state-p) '("#73b3e7" . "#3e4249"))
+;;                           ((evil-normal-state-p) '("#a1bf78" . "#3e4249"))
+;;                           ((evil-replace-state-p)'("#d390e7" . "#3e4249"))
+;;                           ((evil-visual-state-p) '("#e77171" . "#3e4249"))
+;;
+;;                           ;; "#209070"
+;;                           ((evil-motion-state-p) '("#501099" . "#ffffff"))
+;;
+;;                           ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+;;                           ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+;;                           ;; (t default-color)
+;;                           )))
+;;               (set-face-background 'mode-line (car color))
+;;               (set-face-foreground 'mode-line (cdr color)))))
+;;   ;; )
 
 (use-package nyan-mode
-  :demand t
+  :disabled
+  ;; :demand t
   )
 
+(use-package minions
+  :disabled
+  :config (minions-mode 1))
+
+(use-package telephone-line
+  :demand t
+  :config
+  (telephone-line-evil-config)
+  :custom
+  (telephone-line-primary-left-separator 'telephone-line-tan-left)
+  ;; (telephone-line-secondary-left-separator 'telephone-line-halfsin-left)
+
+  (telephone-line-primary-right-separator 'telephone-line-tan-right)
+  (telephone-line-secondary-right-separator 'telephone-line-tan-right)
+  :custom-face
+  (telephone-line-evil-insert ((t (:foreground "#3e4249" :background "#73b3e7"))))
+  (telephone-line-evil-normal ((t (:foreground "#3e4249" :background "#a1bf78"))))
+  (telephone-line-evil-visual ((t (:foreground "#3e4249" :background "#e77171"))))
+  (telephone-line-evil-motion ((t (:foreground "#3e4249" :background "#501099"))))
+
+  (telephone-line-evil-operator ((t (:foreground "white" :background "red" :inherit mode-line-inactive))))
+
+  (telephone-line-evil-inactive ((t (:foreground "#3e4249" :background "#006fa0" :inherit mode-line-inactive))))
+)
 
 ;; https://emacs.stackexchange.com/questions/5529/how-to-right-align-some-items-in-the-modeline/37270#37270
 (defun simple-mode-line-render (left right)

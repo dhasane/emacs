@@ -70,6 +70,7 @@
   :config (auto-compile-on-load-mode))
 
 (use-package gcmh
+  :delight
   :init
   (gcmh-mode 1)
   :custom
