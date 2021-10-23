@@ -9,7 +9,6 @@
          ("\\.h\\'"   . c-mode)
          ("\\.cpp\\'" . c++-mode)
   )
-  :after (company)
   :custom
   (ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
   (ccls-code-lens-mode +1)
@@ -39,7 +38,6 @@
   )
 
 (use-package omnisharp
-  :after company
   :hook (
          (csharp-mode . dh/.net-shut-up)
          (csharp-mode . omnisharp-mode)

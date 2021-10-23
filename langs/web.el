@@ -45,7 +45,6 @@
 (use-package js
   :custom
   (js-indent-level 2)
-  (company-tooltip-align-annotations    t)
 
   (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
   (flycheck-auto-change-delay           1.5)
@@ -58,7 +57,6 @@
   :disabled
   ;; :mode "\\.js\\'"
   ;; en teoria esto es mejor como minor-mode desde emacs 27, pero como que me funciona mejor como principal
-  :after (company)
   :hook ((js-mode . js2-minor-mode))
   :custom
   (tern-mode t)
@@ -89,12 +87,10 @@
   )
 
 (use-package typescript-mode
-  :after (company)
   :mode "\\.ts\\'"
   :custom
-  (typescript-indent-level              2)
-  (typescript-expr-indent-offset        2)
-  (company-tooltip-align-annotations    t)
+  (typescript-indent-level       2)
+  (typescript-expr-indent-offset 2)
   :config
   ;; (push 'company-tern company-backends)
   )
@@ -126,10 +122,6 @@
   (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
   )
 
-;; (set (make-local-variable 'company-backends)
-;;      '((company-tide company-files)
-;;        (company-dabbrev-code company-dabbrev)))
-
 (use-package ng2-mode
   :config
   (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
@@ -139,9 +131,6 @@
 
 (use-package rjsx-mode
   :defer t)
-
-;; (use-package tern
-;;   )
 
 (use-package restclient
   )

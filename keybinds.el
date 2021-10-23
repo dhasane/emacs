@@ -46,6 +46,8 @@
  "t" 'treemacs ; "tree"
 
  ;; general
+ "x" 'execute-extended-command
+ ;; consult-complex-command
  "b" 'consult-buffer  ;'switch-to-buffer
  "o" 'hydra-org/body
  "g" 'magit

@@ -5,7 +5,7 @@
 ;;; code:
 
 (use-package kotlin-mode
-  :hook (kotlin-mode . company-mode))
+  )
 
 (use-package lsp-intellij
   :after lsp-mode

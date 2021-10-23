@@ -20,6 +20,7 @@
   :group 'tab-bar)
 
 (use-package tab-bar
+  :demand t
   :general
   (:states '(normal motion)
    "g b" 'tab-bar-switch-to-prev-tab
@@ -29,11 +30,9 @@
   (tab-bar-tab          ((t (:background "#282828" :foreground "#fdf4c2"))))
   (tab-bar-tab-inactive ((t (:background "#504945" :foreground "#fdf4c2"))))
   :custom
-  (tab-bar-show 1)
 
   ;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
   ;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
-  (tab-bar-show 1)
   (tab-bar-close-button-show nil)
   (tab-bar-tab-hints t)
   (tab-bar-tab-name-truncated-max 1)
@@ -41,6 +40,9 @@
   ;; (tab-bar-tab-name-function 'set-name-if-in-project)
   ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
   ;; (tab-bar-tab-name-function)
+  (tab-bar-show 1)
+  :init
+  (setq tab-bar-show 1)
   :config
   ;; esto tal vez lo podria usar para cambiar tab-bar
   ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows

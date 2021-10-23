@@ -25,7 +25,7 @@
     ))
 
 (use-package robe
-  :after (company ruby-mode)
+  :after (ruby-mode)
   :hook (enh-ruby-mode)
   :config
   (push 'company-robe company-backends)

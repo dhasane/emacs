@@ -190,6 +190,7 @@
   )
 
 (use-package bufler
+  :disabled
   :delight
   :config
   ;; (bufler-workspace-mode t)

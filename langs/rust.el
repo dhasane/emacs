@@ -26,7 +26,6 @@
   (
    (rust-mode)
    (racer-mode . eldoc-mode)
-   (racer-mode . company-mode)
    )
   :custom
   (racer-rust-src-path

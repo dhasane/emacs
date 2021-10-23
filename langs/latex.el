@@ -16,7 +16,6 @@
 
 (use-package company-auctex
   :config
-  (add-hook 'LaTeX-mode-hook 'company-mode)
   (company-auctex-init))
 
 (setq org-latex-logfiles-extensions
