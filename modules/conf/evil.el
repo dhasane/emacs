@@ -115,8 +115,6 @@
   ;; siempre antes de guardar ir a estado normal
   (advice-add #'save-buffer :before #'evil-force-normal-state)
 
-  (evil-make-intercept-map company-active-map 'insert)
-
  ;;; esc quits
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)

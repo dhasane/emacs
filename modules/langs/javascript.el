@@ -62,13 +62,11 @@
   :custom
   (typescript-indent-level       2)
   (typescript-expr-indent-offset 2)
-  :config
-  ;; (push 'company-tern company-backends)
   )
 
 (use-package tide                              ; https://github.com/ananthakumaran/tide
   :disabled
-  :after (typescript-mode company flycheck)
+  :after (typescript-mode flycheck)
   :hook (
          ;; (typescript-mode . tide-setup)
          (typescript-mode . tide-mode)
@@ -77,7 +75,6 @@
                               (tide-setup)
                               (tide-hl-identifier-mode +1)
                               (eldoc-mode +1)
-                              (add-to-list 'company-backends 'company-tide)
                               (add-hook before-save-hook tide-format-before-save)
                               ))
          )

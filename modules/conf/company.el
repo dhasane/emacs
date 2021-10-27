@@ -5,6 +5,7 @@
 ;;; code:
 
 (use-package company
+  :disabled t
   :demand t
   :defer nil
   :delight
@@ -56,6 +57,10 @@
   (company-tooltip-flip-when-above t)
   :config
   (company-tng-mode)
+
+  (with-eval-after-load "evil"
+    (evil-make-intercept-map company-active-map 'insert)
+    )
 
   (defun dh/complete-and-save ()
     "Completar la recomendacion y guardar"
@@ -132,6 +137,16 @@
 
 ;;(use-package readline-complete
 ;;)
+(use-package company-prescient
+  :disabled t
+  :after prescient
+  :demand t
+  :config
+  (company-prescient-mode t)
+  ;; :custom
+  ;; (company-prescient-sort-length-enable)
+  )
+
 
 (use-package company-quickhelp
   :disabled
