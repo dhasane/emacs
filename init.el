@@ -52,16 +52,12 @@
 
 (defun reql (file)
   "Load FILE relative to 'user-emacs-directory'."
-  (load (expand-file-name file user-emacs-directory))
-  )
+  (load (expand-file-name file user-emacs-directory)))
 
 (reql "startup")
 
-;; (auto-comp-init)
-
 (setq package-native-compile t)
 (reql "compile")
-
 
 (defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
   "Directorio de modulos de configuracion.")
@@ -71,20 +67,6 @@
 
 (defconst custom-elisp-dir (expand-file-name "lisp/" user-emacs-directory)
   "Directorio de modulos de LISP.")
-
-;; (if (native-comp-available-p)
-;;     (progn
-;;       (mapc (lambda (dir)
-;;               (native-compile-async (expand-file-name dir user-emacs-directory) 'recursively))
-;;             '(
-;;               "modules/"
-;;               "langs/"
-;;               "elpa/"
-;;               )
-;;             )
-;;       )
-;;   (message "no hay native comp disponible")
-;;   )
 
 ;; load config
 (comp-load-folder config-module-dir

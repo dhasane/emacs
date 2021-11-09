@@ -32,6 +32,19 @@ Estaba aburrido y queria poner para que se compile un unico archivo."
     )
   )
 
+
+(defun comp-dirs (dirs)
+  (if (native-comp-available-p)
+      (progn
+        (mapc (lambda (dir)
+                (native-compile-async (expand-file-name dir user-emacs-directory) 'recursively))
+              dirs
+              )
+        )
+    (message "no hay native comp disponible")
+    )
+  )
+
 (defun dh/compile-folder (config-dir)
   (if (native-comp-available-p)
       (native-compile-async config-dir 'recursively)

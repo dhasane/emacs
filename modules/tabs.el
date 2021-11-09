@@ -36,17 +36,13 @@
   (tab-bar-close-button-show nil)
   (tab-bar-tab-hints t)
   (tab-bar-tab-name-truncated-max 1)
-  (tab-bar-tab-name-function 'dh/set-tabs-name)
+  ;; (tab-bar-tab-name-function 'dh/set-tabs-name)
   ;; (tab-bar-tab-name-function 'set-name-if-in-project)
   ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
   ;; (tab-bar-tab-name-function)
   (tab-bar-show 1)
   :init
-  (setq tab-bar-show 1)
-  :config
-  ;; esto tal vez lo podria usar para cambiar tab-bar
-  ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
-
+  (setq-default tab-bar-show 1)
   (defun dh/set-tabs-name ()
     "Muestra el nombre del tab, en caso de exceder los MAX caracteres,
 muestra solo el nombre del proyecto y los caracteres sobrantes del
@@ -64,6 +60,11 @@ nombre del tab."
                  )
                 final-name)
         )))
+  (setq tab-bar-tab-name-function 'dh/set-tabs-name)
+  :config
+  ;; esto tal vez lo podria usar para cambiar tab-bar
+  ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
+
 
   (defun close-tab-configuration ()
     (interactive)

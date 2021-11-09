@@ -17,12 +17,19 @@
    )
   :custom
   (projectile-require-project-root nil)
-  (projectile-project-search-path '("~/dev/" "~/work"))
+  ;; (projectile-project-search-path '("~/dev/" "~/work"))
   (projectile-sort-order 'recently-active)
   ;; (projectile-completion-system 'ivy)
   :config
+
+  ;; evitar cargar rutas que no existen
+  (dolist (path '("~/dev/" "~/work"))
+    (if (f-exists-p path)
+        (add-to-list 'projectile-project-search-path path)))
+
   (projectile-mode +1)
 
+  :init
 
   (cl-defun get-project-name-except-if-remote (&key pre pos else show-external)
     "Retorna el nombre del proyecto, en caso de no ser remoto.
@@ -42,7 +49,6 @@ conectado a una maquina externa.
         (if else
             #'else
           ""))))
-
   )
 
 ;; (use-package code-compass
