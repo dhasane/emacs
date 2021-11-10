@@ -4,13 +4,22 @@
 
 ;;; code:
 
+
+(use-package vertico
+  :init
+  (vertico-mode)
+  :custom
+  (vertico-cycle t)
+  )
+
 (use-package corfu
+  :if (not (featurep 'vertico))
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   ;; (corfu-auto t)                 ;; Enable auto completion
   ;; (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
-  ;; (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
-  ;; (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+  (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+  (corfu-quit-no-match t)        ;; Automatically quit if there is no match
   (corfu-echo-documentation 0) ;; Do not show documentation in the echo area
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.

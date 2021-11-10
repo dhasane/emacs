@@ -1,10 +1,9 @@
-;;; package --- Summary
+;;; package --- Summary -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; code:
 
-;; -*- lexical-binding: t; -*-
 
 (setq enable-recursive-minibuffers t)
 
