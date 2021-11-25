@@ -37,7 +37,7 @@
  :keymaps 'override
  :prefix "<SPC>"
  :non-normal-prefix "<M-SPC>"
- :states 'normal
+ :states '(normal motion)
 
  [tab] 'hydra-tabs/body
  "TAB" 'hydra-tabs/body
@@ -53,6 +53,8 @@
  "g" 'magit
  "w" 'evil-window-map
  "y" 'yas-insert-snippet
+
+ "d" 'dired
 
  ;; buscar
  "ss" 'consult-line

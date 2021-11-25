@@ -18,13 +18,6 @@
 (if (version<= "27.1" emacs-version)
     (global-so-long-mode 1))
 
-;; (cond
-;;  ((string-equal system-type "gnu/linux")
-;;   ;; llenar toda la pantalla
-;;   (add-to-list 'default-frame-alist '(fullscreen . maximized))
-;;   )
-;;  )
-
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
@@ -76,8 +69,6 @@
 
 ;; que no pregunte cuando me quiero salir
 (setq use-dialog-box nil)
-
-;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq auto-save-default nil
       make-backup-files nil

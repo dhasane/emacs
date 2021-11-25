@@ -86,8 +86,5 @@
 
 (put 'narrow-to-region 'disabled nil)
 
-;; Make gc pauses faster by decreasing the threshold.
-;; (setq gc-cons-threshold 100000000) ;; 100 mb
-
 (provide 'init)
 ;;; init.el ends here
