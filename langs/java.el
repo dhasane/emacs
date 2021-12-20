@@ -16,6 +16,7 @@
   :custom
   (lsp-java-completion-overwrite nil)
   (lsp-java-enable-file-watch nil)
+  (lsp-enable-indentation nil)
 
   ;; (lsp-java-java-path (concat (getenv "JAVA_HOME") "/bin/java"))
   ;; (lsp-java-java-path "/usr/lib/jvm/java-15-openjdk/bin/java")
@@ -42,14 +43,20 @@
      "-XX:+UseCompressedOops"
      "-XX:+UseG1GC"
      "-XX:+UseStringDeduplication"
-     "-Xms1g"
-     ;; "-Xms100m"
-     "-Xmx5g"
-     ;; "-Xmx2G"
      "-server"
+
+     ;; "-java.import.gradle.wrapper.enabled=false"
+
+     ;; memory
+     "-Xms1g"                           ; min ;; "-Xms100m"
+     "-Xmx5g"                           ; max ;; "-Xmx2G"
      ))
   )
 
 (use-package gradle-mode)
+;;(use-package gradle-mode
+;;  :custom
+;;  (gradle-executable-path "/Users/dhamiltonsmith/work/learn/bin/gdl")
+;;  )
 
 ;;; java.el ends here

@@ -1,11 +1,10 @@
-;;; package --- Summary
+;;; package --- Summary -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; COnfiguracion para la integracion entre Emacs y git
 
 ;;; code:
 
-;; -*- lexical-binding: t; -*-
 
 (use-package magit
   :demand t
@@ -41,6 +40,8 @@
   :custom
   ;; highlight word/letter changes in hunk diffs
   (magit-diff-refine-hunk t)
+  ;; (magit-status-buffer-switch-function 'switch-to-buffer)
+  ;; (magit-display-buffer-function 'switch-to-buffer)
   )
 
 (use-package git-gutter
@@ -54,6 +55,7 @@
   )
 
 (use-package magit-todos
+  :disabled
   :init
   (magit-todos-mode)
   )

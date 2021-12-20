@@ -28,7 +28,7 @@
   "Saltar a cualquier parte del proyecto."
   (interactive)
   (if (projectile-project-p)
-      (call-interactively 'project-find-file)
+      (call-interactively 'projectile-find-file)
     (call-interactively 'find-file)
     )
   )
