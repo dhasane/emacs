@@ -41,10 +41,6 @@
 
 (setq file-name-handler-alist nil)
 
-;; carpeta especifica para cada una de las versiones
-;; en caso de haber diferencias mayores
-;; (format "~/.emacs.d/elpa-%d" emacs-major-version)
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
@@ -54,37 +50,16 @@
   "Load FILE relative to 'user-emacs-directory'."
   (load (expand-file-name file user-emacs-directory)))
 
-(reql "startup")
-
 (setq package-native-compile t)
-(reql "compile")
+(reql "loadup")
 
-(defconst config-module-dir (expand-file-name "modules/" user-emacs-directory)
-  "Directorio de modulos de configuracion.")
 
-(defconst config-lang-dir (expand-file-name "langs/" user-emacs-directory)
-  "Directorio de modulos de configuracion para lenguajes.")
-
-(defconst custom-elisp-dir (expand-file-name "lisp/" user-emacs-directory)
-  "Directorio de modulos de LISP.")
-
-;; load config
-(comp-load-folder config-module-dir
-				  :ignorar '("fira-code")
-				  ;; :compilar '("basic" "evil" "org-mode" "project" "completion")
-				  )
-
-(comp-load-folder config-lang-dir)
-
-;; (comp-load-folder custom-elisp-dir
-;;                          ;; :compile t
-;;                          )
-
-(reql "keybinds")
+(cl/load (cl/file "startup"))
+(cl/load (cl/dir  "modules" '("fira-code")))
+(cl/load (cl/dir  "langs"))
+(cl/load (cl/file "keybinds"))
 
 ;; final ------------------------------------------------------
-
-(put 'narrow-to-region 'disabled nil)
 
 (provide 'init)
 ;;; init.el ends here

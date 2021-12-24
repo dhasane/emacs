@@ -127,4 +127,7 @@
 
 (setq debug-on-error nil)
 
+                                        ; extra settings ;;;;;;;;;;;;;;;;;;;;;;
+(put 'narrow-to-region 'disabled nil)
+
 ;;; basic.el ends here

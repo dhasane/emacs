@@ -7,8 +7,6 @@
 
 
 (use-package magit
-  :demand t
-  :defer .1
   :general
   (
    :states '(normal insert)
@@ -53,6 +51,8 @@
   (git-gutter)
   (global-git-gutter-mode +1)
   )
+
+(use-package git-modes)
 
 (use-package magit-todos
   :disabled

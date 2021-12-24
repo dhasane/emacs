@@ -18,7 +18,7 @@
   ;; )
 
 ;; tambien funciona con emacs-ng
-(unless (fboundp 'ng-bootstrap-straight)
+;; (unless (fboundp 'ng-bootstrap-straight)
   (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -30,7 +30,7 @@
            'silent 'inhibit-cookies)
         (goto-char (point-max))
         (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage)))
+    (load bootstrap-file nil 'nomessage)) ;; )
 
 (straight-use-package 'el-patch)
 (straight-use-package 'use-package)

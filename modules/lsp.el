@@ -106,16 +106,6 @@
   :config
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
-  ;; lsp-log-io nil
-
-  ;; (lsp-session-folders-blacklist "~")
-
-  ;; (defun lsp-on-save-operation ()
-  ;;   (when (or (boundp 'lsp-mode)
-  ;;             (bound-p 'lsp-deferred))
-  ;;     (lsp-organize-imports)
-  ;;     (lsp-format-buffer)))
-  ;; (add-hook 'lsp-mode-hook #'lsp-lens-mode)
   )
 
 (use-package lsp-ui
