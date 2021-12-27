@@ -24,14 +24,19 @@
   "Gets FILENAME and inserts it into a list."
   (list (cl/expand-name filename)))
 
-(defun cl/load (filelist &optional comp)
+(defun cl/load (filelist &rest add-filelist)
   "Load FILELIST, list which contains the full path to the files to load.
 The files don't have their extention.
 COMP is to compile the files (not working). "
-  (let ((f (car filelist)) (l (cdr filelist)))
-    (if comp (cl/compile-file f) (cl/clean-compile f)) ;; esto podria ser interesante arreglarlo, pero no afecta mucho
-    (load f)
-    (if l (cl/load l))))
+  (let ((files (if add-filelist
+                   (flatten-tree (list filelist add-filelist))
+                 filelist)))
+    (let ((f (car files)) (l (cdr files)))
+      ;; (if comp (cl/compile-file f) (cl/clean-compile f)) ;; esto podria ser interesante arreglarlo, pero no afecta mucho
+      (load f)
+      (if l (cl/load l)))
+    )
+  )
 
 (defun cl/clean-compile (filename)
   "Remove compiled version of FILENAME."

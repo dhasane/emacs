@@ -54,10 +54,10 @@
 (reql "loadup")
 
 
-(cl/load (cl/file "startup"))
-(cl/load (cl/dir  "modules" '("fira-code")))
-(cl/load (cl/dir  "langs"))
-(cl/load (cl/file "keybinds"))
+(cl/load (cl/file "startup")
+         (cl/dir "modules" '("fira-code"))
+         (cl/dir "langs")
+         (cl/file "keybinds"))
 
 ;; final ------------------------------------------------------
 
