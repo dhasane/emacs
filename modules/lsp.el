@@ -163,8 +163,8 @@
 
   :custom-face
   (lsp-ui-sideline-current-symbol ((t (:foreground "black" :background "#689d6b"))))
-  ;; (lsp-ui-sideline-global
-  ;;  ((t (:box (:line-width (-1 . -1) :color "grey75" :style released-button)))))
+  (lsp-ui-sideline-global
+   ((t (:box (:line-width (-1 . -1) :color "grey75" :style released-button)))))
   )
 
 (use-package lsp-treemacs

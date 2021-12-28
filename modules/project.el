@@ -34,7 +34,7 @@
   ;;                                   :project-file ".project"
   ;;                                   :test-suffix ".spec")
 
-  ;; (add-to-list 'projectile-project-root-files-bottom-up ".project")
+  (add-to-list 'projectile-project-root-files-bottom-up ".project")
 
   (cl-defun get-project-name-except-if-remote (&key pre pos else show-external)
     "Retorna el nombre del proyecto, en caso de no ser remoto.

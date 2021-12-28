@@ -11,6 +11,7 @@ custom.el
 eclipse.jdt.ls
 eln-cache
 elpy
+games
 history
 ido.last
 lsp-cache/
@@ -20,10 +21,11 @@ places
 projectile-bookmarks.eld
 recentf
 semanticdb
+straight/build/
+straight/repos/
 transient
 url
 workspace
-games
 
 # -*- mode: gitignore; -*-
 *~

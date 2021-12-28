@@ -4,14 +4,20 @@
 
 ;;; code:
 
-;; (use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
-
 (use-package lsp-java
   :config
-  ;; (setenv "JAVA_HOME"  "/usr/lib/jvm/java-15-openjdk/")
+  ;; (setenv "JAVA_HOME" "/usr/lib/jvm/java-15-openjdk/")
   ;; (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home")
 
   (require 'dap-java)
+
+  ;; por si acaso no existe
+  (let ((java-style  "~/java-style.xml"))
+    (if (f-exists-p java-style)
+        (setq lsp-java-format-settings-url java-style)))
+
+  (setq-local c-basic-offset 2)
+  (setq-local tab-width 2)
 
   :custom
   (lsp-java-completion-overwrite nil)

@@ -21,13 +21,12 @@
 
 (setq load-prefer-newer t)
 
-
 (setq ns-use-thin-smoothing t
       ns-use-proxy-icon nil
       tab-bar-show nil
       frame-title-format "%b - Emacs"
       frame-resize-pixelwise t
-      default-frame-alist '((ns-transparent-titlebar . t)
+      default-frame-alist '( ;; (ns-transparent-titlebar . t)
                             (width . 170)
                             (height . 50)
                             (fullscreen . maximized)))
