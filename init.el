@@ -33,9 +33,6 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-;;; init ----------------------------------------------------
-;;; Inicio configuracion
-
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
 
@@ -46,20 +43,11 @@
   (write-region "" nil custom-file))
 (load custom-file)
 
-(defun reql (file)
-  "Load FILE relative to 'user-emacs-directory'."
-  (load (expand-file-name file user-emacs-directory)))
-
-(setq package-native-compile t)
-(reql "loadup")
-
+(load (expand-file-name "config-loader.el" user-emacs-directory))
 
 (cl/load (cl/file "startup")
          (cl/dir "modules" '("fira-code"))
          (cl/dir "langs")
          (cl/file "keybinds"))
 
-;; final ------------------------------------------------------
-
-(provide 'init)
 ;;; init.el ends here

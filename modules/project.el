@@ -22,6 +22,8 @@
   ;; (projectile-completion-system 'ivy)
   :config
 
+  (add-to-list 'projectile-project-root-files-bottom-up ".project")
+
   ;; evitar cargar rutas que no existen
   (dolist (path '("~/dev/" "~/work"))
     (if (f-exists-p path)
@@ -33,8 +35,6 @@
   ;; (projectile-register-project-type 'lrn '(".project")
   ;;                                   :project-file ".project"
   ;;                                   :test-suffix ".spec")
-
-  (add-to-list 'projectile-project-root-files-bottom-up ".project")
 
   (cl-defun get-project-name-except-if-remote (&key pre pos else show-external)
     "Retorna el nombre del proyecto, en caso de no ser remoto.

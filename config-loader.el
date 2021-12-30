@@ -34,9 +34,7 @@ COMP is to compile the files (not working). "
     (let ((f (car files)) (l (cdr files)))
       ;; (if comp (cl/compile-file f) (cl/clean-compile f)) ;; esto podria ser interesante arreglarlo, pero no afecta mucho
       (load f)
-      (if l (cl/load l)))
-    )
-  )
+      (if l (cl/load l)))))
 
 (defun cl/clean-compile (filename)
   "Remove compiled version of FILENAME."
@@ -49,15 +47,12 @@ COMP is to compile the files (not working). "
   (let ((file (concat filename ".el"))
         (comfile (concat filename ".elc")))
     (if (or (not (file-exists-p comfile))
-            (file-newer-than-file-p file comfile)
-            )
+            (file-newer-than-file-p file comfile))
         (progn
           (message (concat "compiling: " file))
-          (byte-compile-file file)
-          )
+          (byte-compile-file file))
       ;; (message "all is gud")
-      )
-    )
-  )
+      )))
 
-;;; Loadup ends here
+(provide 'config-loader)
+;;; config-loader.el ends here
