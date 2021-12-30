@@ -64,7 +64,7 @@
 
   ;; organizacion
   (org-startup-indented t)
-  ;; org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+  ;; (org-bullets-bullet-list '(" ")) ;; no bullets, needs org-bullets package
   (org-ellipsis (propertize
                  ;; " ↵ "
                  ;; " ⌄ "
@@ -75,6 +75,7 @@
 
   ;; decoracion
   (org-pretty-entities t)
+  (org-pretty-entities-include-sub-superscripts nil)
   (org-hide-emphasis-markers t)
   ;; show actually italicized text instead of /italicized text/
   (org-agenda-block-separator "")

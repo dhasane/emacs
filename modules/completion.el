@@ -25,11 +25,8 @@
 
 (use-package yasnippet
   :demand t
-  :defer .1
-  :defines
-  (
-   yas-reload-all
-  )
+  :defer t
+  :defines (yas-reload-all)
   :hook ((prog-mode org-mode text-mode) . yas-minor-mode)
   :general
   (yas-minor-mode-map

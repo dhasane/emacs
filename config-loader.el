@@ -8,17 +8,19 @@
 ;; TODO: arreglar para native-compile
 ;; https://stackoverflow.com/questions/20952894/what-emacs-lisp-function-is-to-require-as-autoload-is-to-load
 
+(require 'cl-lib)
+
 (defun cl/expand-name (file)
   "Expands FILE in relation to emacs dir."
   (expand-file-name file user-emacs-directory))
 
-;; me gustaria usar cl-defun, pero por alguna razon da problemas
-(defun cl/dir (dir-name &optional ignore)
+(cl-defun cl/dir (dir-name &key ignore)
   "Get all filenames in DIR-NAME. Ignores files listed in ignore."
   (let ((dir (cl/expand-name (concat dir-name "/")))
         (ignore-exp (mapcar #'(lambda (x) (cl/expand-name (concat dir-name "/" x))) ignore)))
-    (delete-dups (append (mapcar #'file-name-sans-extension (directory-files dir t "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)"))
-                         ignore-exp))))
+    (seq-uniq ;; if a file has been compiled, it will appear 2 times
+     (cl-remove-if (lambda (r) (member r ignore-exp))
+                   (mapcar #'file-name-sans-extension (directory-files dir t "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)"))))))
 
 (defun cl/file (filename)
   "Gets FILENAME and inserts it into a list."
@@ -34,9 +36,7 @@ COMP is to compile the files (not working). "
     (let ((f (car files)) (l (cdr files)))
       ;; (if comp (cl/compile-file f) (cl/clean-compile f)) ;; esto podria ser interesante arreglarlo, pero no afecta mucho
       (load f)
-      (if l (cl/load l)))
-    )
-  )
+      (if l (cl/load l)))))
 
 (defun cl/clean-compile (filename)
   "Remove compiled version of FILENAME."
@@ -49,15 +49,12 @@ COMP is to compile the files (not working). "
   (let ((file (concat filename ".el"))
         (comfile (concat filename ".elc")))
     (if (or (not (file-exists-p comfile))
-            (file-newer-than-file-p file comfile)
-            )
+            (file-newer-than-file-p file comfile))
         (progn
           (message (concat "compiling: " file))
-          (byte-compile-file file)
-          )
+          (byte-compile-file file))
       ;; (message "all is gud")
-      )
-    )
-  )
+      )))
 
-;;; Loadup ends here
+(provide 'config-loader)
+;;; config-loader.el ends here
