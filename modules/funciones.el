@@ -98,21 +98,14 @@
          ;; el segundo valor es para cuando no esta enfocado
          '(95 . 95) '(100 . 100)))))
 
-(defun is-file-remote ()
-  (interactive)
-  (if (file-remote-p default-directory)
-      (message "archivo remoto")
-    (message "archivo local"))
-  )
-
-(require 'notifications)
-(defun send-notification (msg)
-  "Prueba MSG."
-  (notifications-notify
-    :title msg
-    :body "There's 34 mails unread"
-    :urgency 'low)
-  )
+;; (require 'notifications)
+;; (defun send-notification (msg)
+;;   "Prueba MSG."
+;;   (notifications-notify
+;;     :title msg
+;;     :body "There's 34 mails unread"
+;;     :urgency 'low)
+;;   )
 
 (defun print-list (list)
   "Imprimir todos los elementos de la lista LIST."
