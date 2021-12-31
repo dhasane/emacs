@@ -15,23 +15,23 @@
    )
   )
 
-(use-package flycheck-rust
-  :disabled
-  :demand t
-  :hook (flycheck-mode . flycheck-rust-setup))
+;; (use-package flycheck-rust
+;;   :disabled
+;;   :demand t
+;;   :hook (rust-mode . flycheck-rust-setup))
 
-(use-package racer
-  :disabled
-  :hook
-  (
-   (rust-mode)
-   (racer-mode . eldoc-mode)
-   )
-  :custom
-  (racer-rust-src-path
-   ;; "/YOUR/REAL/HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"
-   "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"
-   )
-  )
+;; (use-package racer
+;;   :disabled
+;;   :hook
+;;   (
+;;    (rust-mode)
+;;    (racer-mode . eldoc-mode)
+;;    )
+;;   :custom
+;;   (racer-rust-src-path
+;;    ;; "/YOUR/REAL/HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"
+;;    "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"
+;;    )
+;;   )
 
 ;;; rust.el ends here
