@@ -45,6 +45,7 @@
     cuda-mode
     haskell-mode
     haskell-literate-mode
+    gdscript-mode
     )
    . lsp-deferred
    )

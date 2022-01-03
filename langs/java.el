@@ -5,6 +5,7 @@
 ;;; code:
 
 (use-package lsp-java
+  ;; :hook ((java-mode . lsp-java-boot-lens-mode))
   :config
   ;; (setenv "JAVA_HOME" "/usr/lib/jvm/java-15-openjdk/")
   ;; (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home")
@@ -60,9 +61,5 @@
   )
 
 (use-package gradle-mode)
-;;(use-package gradle-mode
-;;  :custom
-;;  (gradle-executable-path "/Users/dhamiltonsmith/work/learn/bin/gdl")
-;;  )
 
 ;;; java.el ends here
