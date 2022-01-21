@@ -182,6 +182,7 @@
   )
 
 (use-package evil-leader
+  :after evil
   :defer 1
   :demand t
   ;; :config
@@ -197,9 +198,11 @@
   )
 
 (use-package evil-nerd-commenter
+  :after evil
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 (use-package evil-surround
+  :after evil
   :defer 1
   :after (evil)
   :config
@@ -207,6 +210,7 @@
 
 ;; visual hints while editing
 (use-package evil-goggles
+  :after evil
   :delight
   :defer 1
   :after (evil)
@@ -229,6 +233,7 @@
   )
 
 (use-package evil-owl
+  :after evil
   :defer 1
   :delight
   :custom
@@ -243,9 +248,9 @@
   (evil-owl-mode))
 
 (use-package evil-collection
+  :after evil
   :delight
   :demand t
-  :after evil
   :custom
   (warning-suppress-types '((evil-collection)))
   ;; (evil-collection-unimpaired-mode -1)

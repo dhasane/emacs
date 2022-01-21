@@ -35,9 +35,9 @@
 
 (general-define-key
  :keymaps 'override
- :prefix "<SPC>"
- :non-normal-prefix "<M-SPC>"
- :states '(normal motion)
+ :prefix "SPC"
+ :non-normal-prefix "S-SPC"
+ :states '(emacs normal visual motion insert)
 
  [tab] 'hydra-tabs/body
  "TAB" 'hydra-tabs/body
