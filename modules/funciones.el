@@ -195,3 +195,26 @@
 (defun insert-literal-key-pressed (key)
   (interactive "kKey: ")
   (insert (format "(kbd %S)" (key-description key))))
+
+(defun dh/return-first-existing-file (posible-files)
+  (let ((first (car posible-files))
+        (rest (cdr posible-files)))
+    (if (f-exists-p first)
+        first
+      (if rest (dh/return-first-existing-file rest)))))
+
+
+(defun dh/set-by-first-existing-file (var posible-files)
+  (let ((first (car posible-files))
+        (rest (cdr posible-files)))
+    (if (f-exists-p first)
+        (set var first)
+      (if rest (dh/set-by-first-existing-file var rest)))))
+
+(defun dh/set-lang-config-file (var config-filename &optional u-path)
+  (let ((saved-path (expand-file-name "lang-config" user-emacs-directory))
+        (unsaved-path (if u-path u-path "~"))) ;; TODO: maybe it could be a good idea to move it somewhere else than ~
+    (let ((saved (format "%s/%s" saved-path config-filename))
+          (unsaved (format "%s/%s" unsaved-path config-filename)))
+      ;; (message (format "loading from: saved:%s unsaved:%s" saved unsaved))
+      (dh/set-by-first-existing-file var (list unsaved saved)))))

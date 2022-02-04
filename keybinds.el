@@ -36,7 +36,7 @@
 (general-define-key
  :keymaps 'override
  :prefix "SPC"
- :non-normal-prefix "S-SPC"
+ :non-normal-prefix "M-SPC"
  :states '(emacs normal visual motion insert)
 
  [tab] 'hydra-tabs/body
@@ -60,6 +60,7 @@
  "ss" 'consult-line
  "sg" 'consult-git-grep
  "si" 'consult-imenu
+ "sr" 'consult-ripgrep
 
  ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"

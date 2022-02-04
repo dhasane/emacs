@@ -7,8 +7,9 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 (use-package whitespace
+  :disabled ;; TODO: fix this
   :custom
-  (whitespace-line-column 120)   ;; max line length
+  (whitespace-line-column 1000)   ;; max line length
   (whitespace-style
    '(
      face

@@ -62,10 +62,10 @@
   ;; (python-shell-interpreter-args "-i --simple-prompt")
   ;; (elpy-rpc-python-command "python3")
   (elpy-shell-echo-output nil)
-  (elpy-rpc-backend "jedi")
+  ;; (elpy-rpc-backend "jedi")
   ;; (elpy-rpc-python-command)
   :config
-  (let ((prevent-elpy '(elpy-module-highlight-indentation)))
+  (let ((prevent-elpy '(elpy-module-highlight-indentation elpy-module-flymake)))
     (dolist (pe prevent-elpy)
       (setq elpy-modules (delete pe elpy-modules))
       )

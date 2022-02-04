@@ -12,10 +12,8 @@
 
   (require 'dap-java)
 
-  ;; por si acaso no existe
-  (let ((java-style  "~/java-style.xml"))
-    (if (f-exists-p java-style)
-        (setq lsp-java-format-settings-url java-style)))
+  (dh/set-lang-config-file 'lsp-java-format-settings-url
+                           "java-style.xml")
 
   (setq-local c-basic-offset 2)
   (setq-local tab-width 2)
