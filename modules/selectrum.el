@@ -13,6 +13,13 @@
 
 (use-package consult-flycheck)
 
+(use-package consult-lsp
+  :config
+  (consult-lsp-marginalia-mode)
+  ;; :custom
+  ;; (consult-lsp-margina-mode t)
+  )
+
 (use-package orderless
   :custom
   (completion-styles '(orderless))

@@ -177,6 +177,7 @@ por todo el proyecto.
    eshell-kill-on-exit
    )
   :custom
+  (eshell-aliases-file (cl/expand-name "eshell/alias")) ;; TODO: tal vez podria ser mejor definir los alias a traves de elisp en vez de usando este archivo
   (eshell-destroy-buffer-when-process-dies t)
   (eshell-banner-message "")
   (eshell-buffer-maximum-lines 1000)

@@ -96,6 +96,8 @@
  "lfr" 'lsp-ui-peek-find-references
  "lm" 'lsp-ui-imenu
  "le" 'consult-flycheck                 ; "errores"
+ "ls" 'consult-lsp-file-symbols
+ "ld" 'consult-lsp-diagnostics
 
  ;; emacs
  "'rs" 'reload-emacs-config             ; "reload init"

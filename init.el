@@ -36,12 +36,12 @@
 ;; (load "server")
 ;; (unless (server-running-p) (server-start))
 
-(setq file-name-handler-alist nil)
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
 (load custom-file)
+
+(setq file-name-handler-alist nil)
 
 (load (expand-file-name "config-loader.el" user-emacs-directory))
 
