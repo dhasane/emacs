@@ -38,6 +38,7 @@
     rust-mode
     enh-ruby-mode
     java-mode
+    python-mode
     dart-mode
     c-mode
     c++-mode
@@ -111,8 +112,6 @@
 
 (use-package lsp-ui
   :after (lsp-mode evil)
-  :commands lsp-ui-mode
-  ;; :hook (lsp-ui-mode . sideline-mode)
   :general
   (
    :keymap 'prog-mode
@@ -150,7 +149,7 @@
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-code-actions t)
 
-  (lsp-ui-sideline-delay 0.7)
+  (lsp-ui-sideline-delay 1.5) ;;0.7)
   (lsp-ui-sideline-diagnostic-max-lines 10)
 
   ;; signature

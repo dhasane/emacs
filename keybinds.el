@@ -33,11 +33,17 @@
     )
   )
 
+;; (general-evil-setup)
+
 (general-define-key
+;; (general-create-definer dh-leader-def
  :keymaps 'override
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
  :states '(emacs normal visual motion insert)
+;;   )
+;;
+;; (dh-leader-def
 
  [tab] 'hydra-tabs/body
  "TAB" 'hydra-tabs/body
@@ -46,6 +52,7 @@
  "t" 'treemacs ; "tree"
 
  ;; general
+ "X" 'eval-defun
  "x" 'execute-extended-command
  ;; consult-complex-command
  "b" 'consult-buffer  ;'switch-to-buffer
@@ -80,12 +87,15 @@
  ;; "j" 'prev-user-buffer-ring
  ;; "k" 'next-user-buffer-ring
 
+ ;; projectile
+ "p" 'projectile-command-map
+
  ;; lsp
- "rn" 'lsp-rename                       ; "rename"
- "pd" 'lsp-ui-peek-find-definitions
- "pr" 'lsp-ui-peek-find-references
- "pm" 'lsp-ui-imenu
- "pe" 'consult-flycheck                 ; "errores"
+ "lr" 'lsp-rename                       ; "rename"
+ "lfd" 'lsp-ui-peek-find-definitions
+ "lfr" 'lsp-ui-peek-find-references
+ "lm" 'lsp-ui-imenu
+ "le" 'consult-flycheck                 ; "errores"
 
  ;; emacs
  "'rs" 'reload-emacs-config             ; "reload init"

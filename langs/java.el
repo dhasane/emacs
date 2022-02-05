@@ -6,6 +6,12 @@
 
 (use-package lsp-java
   ;; :hook ((java-mode . lsp-java-boot-lens-mode))
+  :hook
+  (java-mode .
+            (lambda ()
+              (setq-local c-basic-offset 2)
+              (setq-local tab-width 2)
+              (setq-local indent-tabs-mode t)))
   :config
   ;; (setenv "JAVA_HOME" "/usr/lib/jvm/java-15-openjdk/")
   ;; (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home")
@@ -14,9 +20,6 @@
 
   (dh/set-lang-config-file 'lsp-java-format-settings-url
                            "java-style.xml")
-
-  (setq-local c-basic-offset 2)
-  (setq-local tab-width 2)
 
   :custom
   (lsp-java-completion-overwrite nil)

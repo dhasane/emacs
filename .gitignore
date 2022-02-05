@@ -19,12 +19,15 @@ nov-places
 org-roam.db
 places
 projectile-bookmarks.eld
+projects
 recentf
 semanticdb
+session*
 straight/build/
 straight/repos/
 transient
 url
+var/
 workspace
 
 # -*- mode: gitignore; -*-

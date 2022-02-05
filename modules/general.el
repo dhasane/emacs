@@ -222,6 +222,7 @@
 (use-package treemacs
   :custom
   (treemacs-width 50)
+  (treemacs-no-png-images t)
   )
 
 (use-package adaptive-wrap

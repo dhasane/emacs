@@ -135,37 +135,36 @@
 
 (use-package company-quickhelp
   :disabled
-  :after (company)
+  :after company
   :init
   (company-quickhelp-mode)
   )
 
 (use-package company-box
-  :disabled
-  :after (company)
+  :after company
   :hook (company-mode . company-box-mode)
-  :config
-  (setq company-box-doc-delay 0
-        company-box-doc-enable t
-        ;;company-box--max 10
-        )
+  :custom
+  (company-box-doc-delay 0
+                         company-box-doc-enable t
+                         ;;company-box--max 10
+                         )
 
-  (setq company-box-backends-colors
-        '(
-          (company-yasnippet :all "lime green"
-                             :selected
-                             (
-                              :background "lime green"
-                              :foreground "black"
-                              ))
-          (company-elisp . (:icon "yellow"
-                                  :selected (
-                                             :background "orange"
-                                             :foreground "black")))
-        (company-dabbrev . "purple")
-        ;;(company-)
-        )
-        )
+  (company-box-backends-colors
+   '(
+     (company-yasnippet :all "lime green"
+                        :selected
+                        (
+                         :background "lime green"
+                         :foreground "black"
+                         ))
+     (company-elisp . (:icon "yellow"
+                             :selected (
+                                        :background "orange"
+                                        :foreground "black")))
+     (company-dabbrev . "purple")
+     ;;(company-)
+     )
+   )
   )
 
 ;;; company.el ends here
