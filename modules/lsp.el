@@ -111,10 +111,10 @@
   )
 
 (use-package lsp-ui
-  :after (lsp-mode evil)
+  :after (lsp-mode)
   :general
   (
-   :keymap 'prog-mode
+   :keymap 'lsp-mode
    :states 'normal
    ;; "K" #'lsp-ui-peek-find-definitions
    "K" #'lsp-ui-doc-show
