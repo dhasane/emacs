@@ -18,6 +18,8 @@
 (if (version<= "27.1" emacs-version)
     (global-so-long-mode 1))
 
+(xterm-mouse-mode 1)
+
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
