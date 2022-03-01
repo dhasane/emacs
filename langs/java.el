@@ -11,7 +11,7 @@
             (lambda ()
               (setq-local c-basic-offset 2)
               (setq-local tab-width 2)
-              (setq-local indent-tabs-mode t)))
+              (setq-local indent-tabs-mode nil)))
   :config
   ;; (setenv "JAVA_HOME" "/usr/lib/jvm/java-15-openjdk/")
   ;; (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home")
