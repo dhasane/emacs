@@ -47,7 +47,7 @@
   ;; (company-tng-auto-configure nil)
   (company-require-match nil)
   (company-dabbrev-downcase nil) ;; Do not downcase completions by default.
-  (company-dabbrev-ignore-case nil)
+  (company-dabbrev-ignore-case t)
 
    ;; Search other buffers for compleition candidates
   ;; (company-dabbrev-other-buffers t)
@@ -141,30 +141,30 @@
   )
 
 (use-package company-box
+  :disabled
   :after company
-  :hook (company-mode . company-box-mode)
+  :hook ((company-mode . company-box-mode))
   :custom
-  (company-box-doc-delay 0
-                         company-box-doc-enable t
-                         ;;company-box--max 10
-                         )
+  (company-box-doc-delay 0.5)
+  (company-box-doc-enable t)
+  ;;company-box--max 10
 
-  (company-box-backends-colors
-   '(
-     (company-yasnippet :all "lime green"
-                        :selected
-                        (
-                         :background "lime green"
-                         :foreground "black"
-                         ))
-     (company-elisp . (:icon "yellow"
-                             :selected (
-                                        :background "orange"
-                                        :foreground "black")))
-     (company-dabbrev . "purple")
-     ;;(company-)
-     )
-   )
+  ;; (company-box-backends-colors
+  ;;  '(
+  ;;    (company-yasnippet :all "lime green"
+  ;;                       :selected
+  ;;                       (
+  ;;                        :background "lime green"
+  ;;                        :foreground "black"
+  ;;                        ))
+  ;;    (company-elisp . (:icon "yellow"
+  ;;                            :selected (
+  ;;                                       :background "orange"
+  ;;                                       :foreground "black")))
+  ;;    (company-dabbrev . "purple")
+  ;;    ;;(company-)
+  ;;    )
+  ;;  )
   )
 
 ;;; company.el ends here

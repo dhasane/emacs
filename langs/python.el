@@ -25,21 +25,22 @@
   :config
   (setq-local default-tab-width 4)
   (setq-local c-basic-offset 4)
-  (message "pythooon modeee")
   ;; pip install python-language-server
   ;; Use IPython when available or fall back to regular Python
-  (cond
-   ((executable-find "ipython")
-    (progn
-      (setq python-shell-buffer-name "IPython")
-      (setq python-shell-interpreter "ipython")
-      (setq python-shell-interpreter-args "-i --simple-prompt")))
-   ((executable-find "python3")
-    (setq python-shell-interpreter "python3"))
-   ((executable-find "python2")
-    (setq python-shell-interpreter "python2"))
-   (t
-    (setq python-shell-interpreter "python"))))
+  ;; (cond
+  ;;  ((executable-find "ipython")
+  ;;   (progn
+  ;;     (setq python-shell-buffer-name "IPython")
+  ;;     (setq python-shell-interpreter "ipython")
+  ;;     (setq python-shell-interpreter-args "-i --simple-prompt")))
+  ;;  ((executable-find "python3")
+  ;;   (setq python-shell-interpreter "python3"))
+  ;;  ((executable-find "python2")
+  ;;   (setq python-shell-interpreter "python2"))
+  ;;  (t
+  ;;   (setq python-shell-interpreter "python")))
+  )
+
 
 
 ;; (use-package anaconda-mode)
@@ -50,14 +51,15 @@
     (setq lsp-pyright-python-executable-cmd "python3"))
   :custom
   (lsp-pyright-auto-search-paths t)
-  (lsp-pyright-extra-paths ["layers/*"])
+  (lsp-pyright-extra-paths ["layers" "tests" "test"])
   (lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
   (lsp-pyright-disable-organize-imports nil)
   (lsp-pyright-auto-import-completions t)
   (lsp-pyright-use-library-code-for-types t)
-  (lsp-pyright-typechecking-mode ;; TODO: eventually find why this gives so many errors because of wrong types
-   "off"
-   ;; "basic" ;; default
+
+  (lsp-pyright-typechecking-mode
+   ;; "off" ;; if turned off it will also stop informing about definition of functions, which can be annoying
+   "basic" ;; default ;; TODO: eventually find why this gives so many errors because of wrong type definitions
    ;; "strict"
    )
   ;; (lsp-pyright-venv-path "~/miniconda3/envs")
@@ -139,5 +141,24 @@
   )
 
 (use-package jupyter)
+
+(use-package python-pytest
+  :after python
+  :custom
+  (python-pytest-arguments
+   '("--color"          ;; colored output in the buffer
+     "--failed-first"   ;; run the previous failed tests first
+     "--maxfail=5"))    ;; exit in 5 continuous failures in a run
+  :config
+  (which-key-declare-prefixes-for-mode 'python-mode "SPC pt" "Testing")
+  (evil-leader/set-key-for-mode 'python-mode
+    "ptp" 'python-pytest-popup
+    "ptt" 'python-pytest
+    "ptf" 'python-pytest-file
+    "ptF" 'python-pytest-file-dwim
+    "ptm" 'python-pytest-function
+    "ptM" 'python-pytest-function-dwim
+    "ptl" 'python-pytest-last-failed)
+  )
 
 ;;; python.el ends here

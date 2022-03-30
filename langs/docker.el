@@ -10,6 +10,8 @@
 (use-package docker
   :bind ("C-c d" . docker)
   ;; :custom
+  ;; (docker-command "podman")
+  ;; (docker-compose-command "docker-compose")
   ;; (docker-container-default-sort-key "Names")
   )
 
