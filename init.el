@@ -23,25 +23,10 @@
 
 ;;; code:
 
-;; medir el tiempo de inico
-;; Use a hook so the message doesn't get clobbered by other messages.
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs ready in %s with %d garbage collections."
-                     (format "%.2f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
-
-;; (load "server")
-;; (unless (server-running-p) (server-start))
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))
 (load custom-file)
-
-(setq file-name-handler-alist nil)
 
 (load (expand-file-name "config-loader.el" user-emacs-directory))
 

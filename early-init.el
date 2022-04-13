@@ -95,4 +95,19 @@
   ;;   (set-frame-font font-and-size))
   )
 
+;; (when (fboundp 'startup-redirect-eln-cache)
+;;   (startup-redirect-eln-cache
+;;    (convert-standard-filename
+;; 	  (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+
+;; medir el tiempo de inico
+;; Use a hook so the message doesn't get clobbered by other messages.
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
 ;;; early-init.el ends here

@@ -17,6 +17,11 @@
     ;; )
   ;; )
 
+;; (load "server")
+;; (unless (server-running-p) (server-start))
+
+(setq file-name-handler-alist nil)
+
 ;; tambien funciona con emacs-ng
 ;; (unless (fboundp 'ng-bootstrap-straight)
   (defvar bootstrap-version)
@@ -78,5 +83,16 @@
   )
 
 (use-package delight)
+
+(use-package no-littering
+  :demand
+  :config
+  (require 'recentf)
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory)
+  :custom
+  (auto-save-file-name-transforms
+   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  )
 
 ;;; startup.el ends here
