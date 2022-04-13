@@ -23,13 +23,12 @@
    "C-q"   'close-except-last-window
    ;; [escape] 'evil-ex-nohighlight
    ;; ","   #'hydra-leader/body
-   ;; "u" 'undo-tree-undo
    ;; "C-_" 'comment-dwim ; cambiar esto desactiva undo-tree
    ;; "C-/" 'comment-dwim
    )
   :general
   (
-   :states '(visual)
+   :states '(insert visual)
    :keymaps 'override
    "C-s" 'save-buffer
    )
@@ -39,7 +38,7 @@
    :keymaps 'override
    "C-s" 'save-buffer
    "C-v" 'evil-paste-before
-   "C-z" 'undo-tree-undo
+   "C-z" 'evil-undo
    )
   ;; :general
   ;; (
@@ -83,7 +82,7 @@
   (evil-symbol-word-search t)
   (evil-indent-convert-tabs t)
 
-  (evil-undo-system 'undo-tree)
+  (evil-undo-system 'undo-fu)
 
   ;; (evil-ex-complete-emacs-commands nil)
   ;; (evil-shift-round nil)

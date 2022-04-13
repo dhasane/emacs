@@ -52,6 +52,8 @@
 
  "v" 'deets/side-window-toggle
 
+ "u" 'vundo
+
  ;; "k" 'kill-buffer
  ;; "t" 'treemacs ; "tree"
  "t" 'dirvish-side ; "tree"
