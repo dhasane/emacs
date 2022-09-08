@@ -22,7 +22,7 @@
   ;; (projectile-completion-system 'ivy)
   :config
 
-  (add-to-list 'projectile-project-root-files-bottom-up ".project")
+  ;; (add-to-list 'projectile-project-root-files-bottom-up ".project")
 
   ;; evitar cargar rutas que no existen
   (dolist (path '("~/dev/" "~/work"))

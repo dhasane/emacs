@@ -31,6 +31,12 @@
   ;; (lsp-java-configuration-runtimes '[(:name "JavaSE-15"
   ;;                                     :path "/usr/lib/jvm/java-15-openjdk"
   ;;                                     :default t)])
+
+  (lsp-java-java-path "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home/bin/java")
+  ;; (lsp-java-configuration-runtimes
+  ;;  '[(:name "java-corretto-11"
+  ;;     :path  "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home/"
+  ;;     :default t)])
   ;; (lsp-java-import-gradle-home "/Users/dhamiltonsmith/work/learn/")
 
   ;; current VSCode defaults
@@ -42,22 +48,32 @@
      ;; "-noverify"
      ;; "--enable-preview"
 
-     "--add-modules=ALL-SYSTEM"
-     "-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true"
-     "-Dosgi.dataAreaRequiresExplicitInit=true"
-     "-Dosgi.instance.area.default=@user.home/eclipse-workspace"
-     "-Dosgi.requiredJavaVersion=11"
-     "-XX:+DoEscapeAnalysis"
-     "-XX:+UseCompressedOops"
-     "-XX:+UseG1GC"
-     "-XX:+UseStringDeduplication"
-     "-server"
+     ;; "--add-modules=ALL-SYSTEM"
+     ;; "-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true"
+     ;; "-Dosgi.dataAreaRequiresExplicitInit=true"
+     ;; "-Dosgi.instance.area.default=@user.home/eclipse-workspace"
+     ;; "-Dosgi.requiredJavaVersion=11"
 
-     ;; "-java.import.gradle.wrapper.enabled=false"
+     ;; "-XX:+DoEscapeAnalysis"
+     ;; "-XX:+UseCompressedOops"
+     ;; "-XX:+UseG1GC"
+     ;; "-XX:+UseStringDeduplication"
+     ;; "-server"
 
-     ;; memory
+     ;; ;; "-java.import.gradle.wrapper.enabled=false"
+
+     ;; ;; memory
      "-Xms1g"                           ; min ;; "-Xms100m"
      "-Xmx5g"                           ; max ;; "-Xmx2G"
+
+
+     ;; "-Xms1g"
+     ;; "-Xmx5g"
+     ;; "-server"
+     ;; "-XX:+DoEscapeAnalysis"
+     ;; "-XX:+UseCompressedOops"
+     ;; "-XX:-UseSplitVerifier"
+     ;; "-Xverify:none"
      ))
   )
 
