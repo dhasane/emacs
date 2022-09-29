@@ -128,6 +128,7 @@
 
 (setq debug-on-error nil)
 
+(setq native-comp-async-report-warnings-errors nil)
                                         ; extra settings ;;;;;;;;;;;;;;;;;;;;;;
 (put 'narrow-to-region 'disabled nil)
 

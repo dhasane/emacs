@@ -142,6 +142,8 @@
 
 (use-package jupyter)
 
+(use-package poetry)
+
 (use-package python-pytest
   :after python
   :custom
