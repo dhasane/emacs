@@ -79,6 +79,7 @@
   (lsp-enable-indentation t)
   ;;;;   (lsp-file-watch-threshold 500)
 
+  (lsp-idle-delay 0.500)
   ;; debug
   ;; (lsp-print-io t)
   ;; (lsp-trace t)
@@ -96,6 +97,7 @@
   (read-process-output-max (* 4 1024 1024))
 
   ;; (lsp-auto-configure nil)
+
   (lsp-eldoc-render-all nil)
   (lsp-completion-enable t)
   (lsp-keep-workspace-alive nil)
@@ -111,6 +113,7 @@
   )
 
 (use-package lsp-ui
+  ; :unless (eq system-type 'windows-nt)
   :after (lsp-mode)
   :general
   (
@@ -142,8 +145,8 @@
   (lsp-ui-doc-border (face-foreground 'default))
 
   ;; sideline
-  (lsp-ui-sideline-enable t)
-  (lsp-ui-sideline-show-symbol t)
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-show-symbol nil)
   (lsp-ui-sideline-show-hover t)
   (lsp-ui-sideline-update-mode 'line) ;; 'point)
   (lsp-ui-sideline-ignore-duplicate t)
