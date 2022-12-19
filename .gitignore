@@ -25,6 +25,7 @@ semanticdb
 session*
 straight/build/
 straight/repos/
+straight/modified/
 transient
 url
 var/
