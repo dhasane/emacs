@@ -31,8 +31,9 @@
 (load (expand-file-name "config-loader.el" user-emacs-directory))
 
 (cl/load (cl/file "startup")
-         (cl/dir "modules" :ignore '("fira-code" "ivy"))
-         (cl/dir "langs")
-         (cl/file "keybinds" t))
+         (cl/dir "modules/conf" :ignore '("ivy"))
+         (cl/dir "modules/langs" :ignore
+                 '("dart" "haskell" "kotlin" "latex" "lisp" "lua" "markdown" "ruby"))
+         (cl/file "keybinds"))
 
 ;;; init.el ends here

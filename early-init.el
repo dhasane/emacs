@@ -52,51 +52,44 @@
 
 (setq package-enable-at-startup nil)
 
-
-(cond
- ((string-equal system-type "gnu/linux")
-  ;; (when (member "DejaVu Sans Mono" (font-family-list))
-  ;;   (set-frame-font "DejaVu Sans Mono 12" t t))
-  (when (member "Symbola" (font-family-list))
-    (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-  ;; specify font for chinese characters using default chinese font on linux
-  ;; (when (member "WenQuanYi Micro Hei" (font-family-list))
-  ;;   (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-  )
-
- ((string-equal system-type "darwin") ; Mac
-  (when (member "Menlo" (font-family-list))
-    (set-frame-font "Menlo-12" t t)))
-
- ((string-equal system-type "windows-nt") ; Windows
-  ;; esto fue necesario para que siquiera sirviera en windows
-  (setq inhibit-compacting-font-caches t)))
-;; specify font for all unicode characters
-
-;; specify font for all unicode characters
-(when (member "Apple Color Emoji" (font-family-list))
-  (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+;; (cond
+;;  ((string-equal system-type "gnu/linux")
+;;   ;; (when (member "DejaVu Sans Mono" (font-family-list))
+;;   ;;   (set-frame-font "DejaVu Sans Mono 12" t t))
+;;   (when (member "Symbola" (font-family-list))
+;;     (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+;;   ;; specify font for chinese characters using default chinese font on linux
+;;   ;; (when (member "WenQuanYi Micro Hei" (font-family-list))
+;;   ;;   (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+;;   )
+;;
+;;  ;; specify font for all unicode characters
+;;  (when (member "Apple Color Emoji" (font-family-list))
+;;    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+;;
+;;  )
 
 ;; fonts ------
 (let ((font (cond
              ((string-equal system-type "gnu/linux")
               (when (member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono"))
+
              ((string-equal system-type "darwin") ; Mac
               (when (member "Menlo" (font-family-list)) "Menlo"))
+
+             ((string-equal system-type "windows-nt") ; Windows
+              ;; esto fue necesario para que siquiera sirviera en windows
+              (setq inhibit-compacting-font-caches t)))
              ))
-      )
+
   ;; set a default font
   (set-face-attribute
    'default nil
    :family font
-   :height 120
+   :height 100
    :weight 'normal
-   :width 'normal)
-
-  ;; (let ((font-and-size (format "%s %s" font size)))
-  ;;   ;; (message font-and-size)
-  ;;   (set-frame-font font-and-size))
-  )
+   :width 'normal
+   ))
 
 ;; (when (fboundp 'startup-redirect-eln-cache)
 ;;   (startup-redirect-eln-cache

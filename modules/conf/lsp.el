@@ -128,6 +128,16 @@
   :config
   (lsp-ui-doc-mode nil)
   (lsp-ui-doc-hide)
+
+  (with-eval-after-load 'lsp-mode
+    (defun my/lsp-execute-code-action ()
+      (interactive)
+      (->> (lsp-code-actions-at-point)
+           (seq-filter (-lambda ((&CodeAction :kind?))
+                         (or (not kind?)
+                             (s-match "quickfix.*\\|refactor.*" kind?))))
+           (lsp--select-action)
+           (lsp-execute-code-action))))
   :init
   (lsp-ui-mode)
   :custom
@@ -145,9 +155,9 @@
   (lsp-ui-doc-border (face-foreground 'default))
 
   ;; sideline
-  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-enable t)
   (lsp-ui-sideline-show-symbol nil)
-  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-sideline-show-hover nil)
   (lsp-ui-sideline-update-mode 'line) ;; 'point)
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-code-actions t)
@@ -167,7 +177,10 @@
   :custom-face
   (lsp-ui-sideline-current-symbol ((t (:foreground "black" :background "#689d6b"))))
   (lsp-ui-sideline-global
-   ((t (:box (:line-width (-1 . -1) :color "grey75" :style released-button)))))
+   ((t
+     (:box (:line-width (-1 . -1) :color "grey75" :style released-button))
+     ;; (:line-width (-1 . -1) :color "grey75" :style released-button)
+     )))
   )
 
 (use-package lsp-treemacs
