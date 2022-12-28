@@ -14,7 +14,7 @@
   "Expands FILE in relation to emacs dir."
   (expand-file-name file user-emacs-directory))
 
-(cl-defun cl/dir (dir-name &key ignore compile)
+(cl-defun cl/dir (dir-name &key ignore)
   "Get all filenames in DIR-NAME. Ignores files listed in ignore."
   (let ((dir (cl/expand-name (concat dir-name "/"))))
     ;; (cl/comp-dir dir compile)
@@ -24,7 +24,7 @@
                      (mapcar #'file-name-sans-extension (directory-files dir t "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)")))))
     ))
 
-(defun cl/file (filename &optional compile)
+(defun cl/file (filename)
   "Gets FILENAME and inserts it into a list."
   (let ((file (cl/expand-name filename)))
     ;; (cl/comp-file file compile)
