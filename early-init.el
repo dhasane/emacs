@@ -52,11 +52,22 @@
 
 (setq package-enable-at-startup nil)
 
-(when (member "Symbola" (font-family-list))
-  (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-;; specify font for all unicode characters
-(when (member "Apple Color Emoji" (font-family-list))
-  (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+;; (cond
+;;  ((string-equal system-type "gnu/linux")
+;;   ;; (when (member "DejaVu Sans Mono" (font-family-list))
+;;   ;;   (set-frame-font "DejaVu Sans Mono 12" t t))
+;;   (when (member "Symbola" (font-family-list))
+;;     (set-fontset-font t 'unicode "Symbola" nil 'prepend))
+;;   ;; specify font for chinese characters using default chinese font on linux
+;;   ;; (when (member "WenQuanYi Micro Hei" (font-family-list))
+;;   ;;   (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
+;;   )
+;;
+;;  ;; specify font for all unicode characters
+;;  (when (member "Apple Color Emoji" (font-family-list))
+;;    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+;;
+;;  )
 
 ;; fonts ------
 (let ((font (cond
