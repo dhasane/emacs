@@ -94,6 +94,7 @@
  "lr" 'lsp-rename                       ; "rename"
  "lfd" 'lsp-ui-peek-find-definitions
  "lfr" 'lsp-ui-peek-find-references
+ "lh" 'lsp-treemacs-call-hierarchy
  "lm" 'lsp-ui-imenu
  "le" 'consult-flycheck                 ; "errores"
  "ls" 'consult-lsp-file-symbols

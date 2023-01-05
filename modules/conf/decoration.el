@@ -5,6 +5,7 @@
 ;;; code:
 
 (setq-default indicate-empty-lines t)
+(setq-default global-visual-line-mode nil) ;; search something like this
 ;; (setq indicate-buffer-boundaries t)
 
 (use-package dashboard

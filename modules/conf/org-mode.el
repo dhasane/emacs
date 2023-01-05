@@ -48,7 +48,7 @@
   (org-verbatim ((t (:inherit (shadow fixed-pitch)))))
   :custom
   ;; ubicacion
-  (org-agenda-files '("~/org"))
+  (org-agenda-files '("c:/Users/dhamil52/Documents/org" "~/org"))
   (org-default-notes-file (concat org-directory "/capture.org"))
 
   ;; imagenes

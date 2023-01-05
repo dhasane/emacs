@@ -172,7 +172,7 @@
   (lsp-auto-execute-action nil)
 
   ;; imenu
-  (lsp-ui-imenu-window-width 30)
+  (lsp-ui-imenu-window-width 0)
 
   :custom-face
   (lsp-ui-sideline-current-symbol ((t (:foreground "black" :background "#689d6b"))))

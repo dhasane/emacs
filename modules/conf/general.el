@@ -216,6 +216,7 @@
   )
 
 (use-package direnv
+  :disabled
   :init
   (direnv-mode))
 

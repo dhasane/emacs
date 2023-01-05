@@ -82,6 +82,8 @@
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
+  (evil-want-minibuffer t)
+
   :config
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
@@ -253,6 +255,7 @@
   :demand t
   :custom
   (warning-suppress-types '((evil-collection)))
+  (evil-collection-setup-minibuffer t)
   ;; (evil-collection-unimpaired-mode -1)
   :general
   (
@@ -294,6 +297,35 @@
    "M-j" 'magit-section-forward-sibling
    "M-k" 'magit-section-backward-sibling
    )
+
+  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "k") 'previous-complete-history-element)
+  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'next-complete-history-element)
+  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "k") 'previous-history-element)
+  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'next-history-element)
+  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'vertico-next)
+  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "k") 'vertico-previous)
+  ;; (general-define-key
+  ;;  :states '(normal override)
+  ;;  :keymaps 'evil-ex-map
+  ;;  "j" 'vertico-next
+  ;;  "k" 'vertico-previous
+  ;;  )
+
+
+  ;; (dolist (map '(minibuffer-local-map
+  ;;                minibuffer-local-ns-map
+  ;;                minibuffer-local-completion-map
+  ;;                minibuffer-local-must-match-map
+  ;;                minibuffer-local-isearch-map))
+  ;;   (evil-collection-define-key 'normal map (kbd "<escape>") 'abort-recursive-edit)
+  ;;   (evil-collection-define-key 'normal map (kbd "RET") 'exit-minibuffer)
+  ;;   (evil-collection-define-key 'normal map (kbd "j") 'vertico-next)
+  ;;   (evil-collection-define-key 'normal map (kbd "k") 'vertico-previous)
+  ;;   )
+
+  ;; (add-hook 'minibuffer-setup-hook 'evil-collection-minibuffer-insert)
+  ;; ;; Because of the above minibuffer-setup-hook, some evil-ex bindings need be reset.
+  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "<escape>") 'abort-recursive-edit)
   ;; (general-define-key
   ;;  :state '(evil-collection-magit-state normal)
   ;;  :mode 'magit-mode-map
