@@ -5,7 +5,14 @@
 ;;; code:
 
 (setq-default indicate-empty-lines t)
+
 (setq-default global-visual-line-mode nil) ;; search something like this
+(setq visual-line-fringe-indicators
+      '(
+        nil ;; left-curly-arrow
+        right-curly-arrow
+        ))
+
 ;; (setq indicate-buffer-boundaries t)
 
 (use-package dashboard

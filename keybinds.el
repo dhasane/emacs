@@ -46,7 +46,7 @@
 ;; (dh-leader-def
 
  [tab] 'hydra-tabs/body
- "TAB" 'hydra-tabs/body
+ "TAB" '(hydra-tabs/body :which-key "tabs")
 
  ;; "k" 'kill-buffer
  "t" 'treemacs ; "tree"
@@ -58,12 +58,13 @@
  "b" 'consult-buffer  ;'switch-to-buffer
  "o" 'hydra-org/body
  "g" 'magit
- "w" 'evil-window-map
+ "w" '(:keymap evil-window-map :wk "evil window prefix")
  "y" 'yas-insert-snippet
 
  "d" 'dired
 
  ;; buscar
+ "s" '(:ignore t :which-key "search")
  "ss" 'consult-line
  "sg" 'consult-git-grep
  "si" 'consult-imenu
@@ -71,13 +72,12 @@
 
  ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
- ;; "2" '(lambda () (interactive) (call-interactively 'evil-execute-macro))
- "2" '(lambda () (interactive) (call-interactively 'evil-owl-execute-macro))
+ "2" '((lambda () (interactive) (call-interactively 'evil-owl-execute-macro)) :which-key "execute macro")
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell
- "." 'dh/create-new-eshell-buffer       ; "terminal"
- "," 'dh/select-eshell                  ; "seleccionar terminal"
+ "." '(dh/create-new-eshell-buffer :which-key "new eshell")     ; "terminal"
+ "," '(dh/select-eshell :which-key "select eshell")             ; "seleccionar terminal"
 
  ;; move to files
  "e" 'find-file                         ; buscar solo en el mismo directorio
@@ -91,7 +91,9 @@
  "p" 'projectile-command-map
 
  ;; lsp
+ "l" '(:ignore t :which-key "lsp")
  "lr" 'lsp-rename                       ; "rename"
+ "lf" '(:ignore t :which-key "find")
  "lfd" 'lsp-ui-peek-find-definitions
  "lfr" 'lsp-ui-peek-find-references
  "lh" 'lsp-treemacs-call-hierarchy
@@ -101,8 +103,12 @@
  "ld" 'consult-lsp-diagnostics
 
  ;; emacs
+ "'" '(:ignore t :which-key "system")
  "'rs" 'reload-emacs-config             ; "reload init"
  "'e"  'open-emacs-config               ; "edit init"
+
+
+ "'p" '(:ignore t :which-key "profiler")
  "'ps" 'profiler-start
  "'pS" 'profiler-stop
  "'pr" 'profiler-report
