@@ -10,13 +10,16 @@
 ;;(defun always-use-fancy-splash-screens-p () 1)
   ;;(defalias 'use-fancy-splash-screens-p 'always-use-fancy-splash-screens-p)
 
+(setq inhibit-startup-screen t
+      initial-buffer-choice  nil)
 
 (setq-default bidi-paragraph-direction 'left-to-right)
 (if (version<= "27.1" emacs-version)
-    (setq bidi-inhibit-bpa t))
-
-(if (version<= "27.1" emacs-version)
-    (global-so-long-mode 1))
+    (progn
+      (setq bidi-inhibit-bpa t)
+      (global-so-long-mode 1)
+      )
+  )
 
 (xterm-mouse-mode 1)
 
@@ -131,5 +134,10 @@
 (setq native-comp-async-report-warnings-errors nil)
                                         ; extra settings ;;;;;;;;;;;;;;;;;;;;;;
 (put 'narrow-to-region 'disabled nil)
+
+;; (add-hook 'emacs-startup-hook
+;;           (lambda ()
+;;             (when (get-buffer-window "*scratch*")
+;;               (bury-buffer "*scratch*"))))
 
 ;;; basic.el ends here
