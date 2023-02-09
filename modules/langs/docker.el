@@ -15,7 +15,4 @@
   ;; (docker-container-default-sort-key "Names")
   )
 
-(use-package docker-tramp
-  )
-
 ;;; docker.el ends here

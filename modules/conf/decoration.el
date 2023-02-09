@@ -16,6 +16,7 @@
 ;; (setq indicate-buffer-boundaries t)
 
 (use-package dashboard
+  :disabled t
   :demand t
   :defines
   (

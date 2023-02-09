@@ -38,6 +38,12 @@
    "C-v" 'evil-paste-before
    "C-z" 'undo-tree-undo
    )
+  (
+   :states '(normal motion override)
+   :keymaps 'minibuffer-local-map
+            "k" 'vertico-next
+            "j" 'vertico-previous
+   )
 
   ;; :bind
   ;; (:map

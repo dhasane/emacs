@@ -13,6 +13,15 @@
 (use-package vertico
   :init
   (vertico-mode)
+  :custom
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
+
+  (completion-styles '(basic substring partial-completion flex))
+
+  ;; modify completion-at-point
+  (completion-in-region-function 'consult-completion-in-region)
 
   ;; Different scroll margin
   ;; (setq vertico-scroll-margin 0)
@@ -24,7 +33,7 @@
   ;; (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
+  (vertico-cycle t)
   )
 
 ;; A few more useful configurations...
@@ -126,7 +135,9 @@
   ;; (company-prescient-sort-length-enable)
   )
 
+
 (use-package selectrum-prescient
+  :disabled t
   :demand t
   :config
   ;; to make sorting and filtering more intelligent
