@@ -23,7 +23,7 @@
 (cl/load (cl/file "startup")
          (cl/dir "modules/conf" :ignore '("ivy"))
          (cl/dir "modules/langs" :ignore
-                 '("dart" "haskell" "kotlin" "latex" "lisp" "lua" "markdown" "ruby"))
+                 '("dart" "haskell" "kotlin" "latex" "lisp" "lua" "markdown"))
          (cl/file "keybinds"))
 
 ;;; init.el ends here

@@ -61,6 +61,8 @@
  "w" '(:keymap evil-window-map :wk "evil window prefix")
  "y" 'yas-insert-snippet
 
+ "j" 'evil-collection-consult-jump-list
+
  "d" 'dired
 
  ;; buscar
@@ -92,11 +94,14 @@
 
  ;; lsp
  "l" '(:ignore t :which-key "lsp")
+
  "lr" 'lsp-rename                       ; "rename"
+
  "lf" '(:ignore t :which-key "find")
- "lfd" 'lsp-ui-peek-find-definitions
- "lfr" 'lsp-ui-peek-find-references
- "lh" 'lsp-treemacs-call-hierarchy
+ "lfd" '(lsp-ui-peek-find-definitions :which-key "definitions")
+ "lfr" '(lsp-ui-peek-find-references :which-key "references")
+ "lfh" '(lsp-treemacs-call-hierarchy :which-key "call hierarchy")
+
  "lm" 'lsp-ui-imenu
  "le" 'consult-flycheck                 ; "errores"
  "ls" 'consult-lsp-file-symbols
