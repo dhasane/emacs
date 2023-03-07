@@ -36,7 +36,7 @@
   (
    (
     rust-mode
-    enh-ruby-mode
+    ruby-mode
     java-mode
     python-mode
     dart-mode

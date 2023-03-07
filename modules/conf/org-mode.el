@@ -10,7 +10,10 @@
   :defer .1
   :general
   (org-mode-map
-   "C-c c" #'insert-org-mode-src-structure-template
+   "C-c c" #'(lambda ()
+               (interactive)
+               (org-insert-structure-template "src")
+               )
    )
   (org-mode-map
    :states '(normal)
@@ -114,11 +117,6 @@
 
   ;; (org-display-inline-images t)
 
-  (defun insert-org-mode-src-structure-template ()
-    (interactive)
-    (org-insert-structure-template "src")
-    )
-
   ;; (add-to-list 'org-structure-template-alist
              ;; '("s" "#+NAME: ?\n#+BEGIN_SRC \n\n#+END_SRC"))
 
@@ -149,6 +147,7 @@
   ; ("m"   org-roam-graph         "map")
   ("m"   org-roam-ui-mode       "map")
   ("k"   kill-org-buffers       "kill")
+  ("t"   org-todo-list          "todo list")
   )
 ;; (defhydra hydra-org (:color red :columns 3)
 ;;   "Org Mode Movements"

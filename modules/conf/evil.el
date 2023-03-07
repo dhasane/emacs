@@ -38,12 +38,6 @@
    "C-v" 'evil-paste-before
    "C-z" 'undo-tree-undo
    )
-  (
-   :states '(normal motion override)
-   :keymaps 'minibuffer-local-map
-            "k" 'vertico-next
-            "j" 'vertico-previous
-   )
 
   ;; :bind
   ;; (:map
@@ -88,6 +82,7 @@
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
+  ;; minibuffer
   (evil-want-minibuffer t)
 
   :config
@@ -104,42 +99,7 @@
     (advice-add 'evil-window-vsplit :after after-fn)
     (advice-add 'evil-window-split :before after-fn)
     (advice-add 'evil-window-split :after after-fn)
-    ;; etc...
     )
-
-  ;; Esto en teoria ya es manejado por evil-collection
-  ;; (cl-loop for (mode . state) in
-  ;;          '(
-  ;;            ;; insert
-  ;;            (shell-mode . insert)
-  ;;            ;; (dashboard-mode . insert)
-  ;;            (git-commit-mode . insert)
-  ;;            (nrepl-mode . insert)
-
-  ;;            ;; normal
-  ;;            (debugger-mode . normal)
-  ;;            (pylookup-mode . normal)
-  ;;            (inferior-python-mode . normal)
-  ;;            (comint-mode . normal)
-  ;;            (dired-mode . normal)
-  ;;            (wdired-mode . normal)
-  ;;            (nrepl-mode . normal)
-
-  ;;            ;; emacs
-  ;;            (term-mode . emacs)
-  ;;            (rdictcc-buffer-mode . emacs)
-
-  ;;            ;; motion
-  ;;            ;; (debugger-mode . motion)
-  ;;            ;; (inferior-emacs-lisp-mode . motion)
-  ;;            ;; (package-menu-mode . motion)
-  ;;            ;; (help-mode . motion)
-  ;;            ;; (grep-mode . motion)
-  ;;            ;; (special-mode . motion)
-  ;;            ;; (bc-menu-mode . motion)
-  ;;            ;; (Custom-mode . motion)
-  ;;            )
-  ;;          do (evil-set-initial-state mode state))
 
   (defun close-except-last-window ()
     "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
@@ -190,6 +150,7 @@
   )
 
 (use-package evil-leader
+  :disabled t
   :after evil
   :defer 1
   :demand t
@@ -308,26 +269,6 @@
   ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'next-complete-history-element)
   ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "k") 'previous-history-element)
   ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'next-history-element)
-  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'vertico-next)
-  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "k") 'vertico-previous)
-  ;; (general-define-key
-  ;;  :states '(normal override)
-  ;;  :keymaps 'evil-ex-map
-  ;;  "j" 'vertico-next
-  ;;  "k" 'vertico-previous
-  ;;  )
-
-
-  ;; (dolist (map '(minibuffer-local-map
-  ;;                minibuffer-local-ns-map
-  ;;                minibuffer-local-completion-map
-  ;;                minibuffer-local-must-match-map
-  ;;                minibuffer-local-isearch-map))
-  ;;   (evil-collection-define-key 'normal map (kbd "<escape>") 'abort-recursive-edit)
-  ;;   (evil-collection-define-key 'normal map (kbd "RET") 'exit-minibuffer)
-  ;;   (evil-collection-define-key 'normal map (kbd "j") 'vertico-next)
-  ;;   (evil-collection-define-key 'normal map (kbd "k") 'vertico-previous)
-  ;;   )
 
   ;; (add-hook 'minibuffer-setup-hook 'evil-collection-minibuffer-insert)
   ;; ;; Because of the above minibuffer-setup-hook, some evil-ex bindings need be reset.

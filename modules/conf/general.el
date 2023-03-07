@@ -217,7 +217,8 @@
 (use-package treemacs
   :custom
   (treemacs-width 50)
-  (treemacs-no-png-images t)
+  (treemacs-no-png-images nil)
+  (treemacs-follow-mode t)
   )
 
 (use-package adaptive-wrap

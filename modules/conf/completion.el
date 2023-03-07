@@ -51,6 +51,19 @@
 (use-package vertico
   :init
   (vertico-mode)
+  :general
+  (:states '(normal insert motion emacs) :keymaps 'vertico-map
+   "C-j"      #'vertico-next
+   "C-k"      #'vertico-previous
+   )
+  (:states '(normal) :keymaps 'vertico-map
+   ;; "<escape>" #'minibuffer-keyboard-quit
+   ;;"C-J"      #'vertico-next-group
+   ;;"C-K"      #'vertico-previous-group
+   "j"      #'vertico-next
+   "k"      #'vertico-previous
+   ;; "M-RET"    #'vertico-exit
+   )
   :custom
   (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)

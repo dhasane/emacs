@@ -14,6 +14,15 @@
   (require 'dap-ruby)
   )
 
+(use-package rvm
+  )
+
+(use-package robe
+  :after (ruby-mode)
+  :config
+  (push 'company-robe company-backends)
+  )
+
 (use-package inf-ruby
   :after ruby-mode
   ;; :hook (ruby-mode . 'inf-ruby-keys)
@@ -32,7 +41,7 @@
             "C-M-x" 'ruby-send-block
             "C-c C-c" 'ruby-send-buffer-or-create-inf-ruby-buffer
    )
-  :custom
+  :config
   (defun ruby-send-buffer-or-create-inf-ruby-buffer ()
     "Crea un buffer para inf-ruby, en caso de no existir, y manda la definicion actual."
     (interactive)
@@ -46,12 +55,6 @@
         (inf-ruby)
         ;; TODO: buffer is not being sent
         (ruby-send-buffer))))
-  )
-
-(use-package robe
-  :after (ruby-mode)
-  :config
-  (push 'company-robe company-backends)
   )
 
 (use-package enh-ruby-mode
@@ -84,6 +87,14 @@
          (ruby-mode . ruby-electric-mode)
          (enh-ruby-mode . ruby-electric-mode)
          )
+  )
+
+(use-package rake
+  :general
+  (
+   :keymaps '(ruby-mode-map enh-ruby-mode-map)
+            "C-!" 'rake
+   )
   )
 
 ;;; ruby.el ends here
