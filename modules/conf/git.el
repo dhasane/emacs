@@ -1,10 +1,9 @@
 ;;; package --- Summary -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;; COnfiguracion para la integracion entre Emacs y git
+;;; Configuracion para la integracion entre Emacs y git
 
 ;;; code:
-
 
 (use-package magit
   :general
