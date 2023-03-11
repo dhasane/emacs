@@ -139,8 +139,14 @@
 
 (setq debug-on-error nil)
 
+;; TODO: temp solution
+(defvar native-comp-deferred-compilation-deny-list nil)
 (setq native-comp-async-report-warnings-errors nil)
-                                        ; extra settings ;;;;;;;;;;;;;;;;;;;;;;
+(setq native-compile-prune-cache t)
+(setq native-comp-deferred-compilation t)
+
+
+                                        ; extra settings ;;;;;;;;;;;;;;;;;;;;;
 (put 'narrow-to-region 'disabled nil)
 
 ;; (add-hook 'emacs-startup-hook
