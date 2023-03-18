@@ -18,6 +18,9 @@
   (write-region "" nil custom-file))
 (load custom-file)
 
+;; TODO: temp solution
+(defvar native-comp-deferred-compilation-deny-list nil)
+
 (load (expand-file-name "config-loader.el" user-emacs-directory))
 
 (cl/load (cl/file "startup")

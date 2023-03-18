@@ -29,12 +29,12 @@
   (
    :states '(visual)
    :keymaps 'override
-   "C-s" 'save-and-exit-evil
+   "C-s" 'save-buffer
    )
   (
    :states '(insert)
    :keymaps 'override
-   "C-s" 'save-and-exit-evil
+   "C-s" 'save-buffer
    "C-v" 'evil-paste-before
    "C-z" 'undo-tree-undo
    )
@@ -112,12 +112,8 @@
       )
     )
 
-  (defun save-and-exit-evil ()
-    "Salir de modo de insert y guardar el archivo."
-    (interactive)
-    (evil-force-normal-state)
-    (save-buffer)
-    )
+  ;; siempre antes de guardar ir a estado normal
+  (advice-add #'save-buffer :before #'evil-force-normal-state)
 
   (evil-make-intercept-map company-active-map 'insert)
 
