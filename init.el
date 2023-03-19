@@ -25,8 +25,35 @@
 
 (cl/load (cl/file "startup")
          (cl/dir "modules/conf" :ignore '("ivy"))
-         (cl/dir "modules/langs" :ignore
-                 '("dart" "haskell" "kotlin" "latex" "lisp" "lua" "markdown"))
+         (cl/dir "modules/langs"
+                 :ignore '("lisp")
+                 :lazy
+                 '(
+                   (".dart" . "dart")
+                   (".lua" . "lua")
+                   (".java" . "java")
+                   (".rs" . "rust")
+                   (".rb" . "ruby")
+                   (".py" . "python")
+                   (".gd" . "godot")
+                   (".js" . "web")
+                   (".html" . "web")
+                   (".sql" . "sql")
+                   (".xml" . "xml")
+                   (".yaml" . "yaml")
+                   (".c" . "c-based")
+                   (".cxx" . "c-based")
+                   (".cpp" . "c-based")
+                   (".cs" . "c-based")
+                   (".hs" . "haskell")
+                   (".kt" . "kotlin")
+                   (".md" . "markdown")
+                   (".tex" . "latex")
+                   ;; docker.el
+                   ;; lisp.el
+                   )
+
+                 )
          (cl/file "keybinds"))
 
 ;;; init.el ends here

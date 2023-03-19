@@ -4,7 +4,7 @@
 
 ;;; code:
 
-(desktop-save-mode 1)
+(desktop-save-mode -1)
 (setq desktop-restore-eager nil)
 
 (push '(foreground-color . :never) frameset-filter-alist)
@@ -139,8 +139,6 @@
 
 (setq debug-on-error nil)
 
-;; TODO: temp solution
-(defvar native-comp-deferred-compilation-deny-list nil)
 (setq native-comp-async-report-warnings-errors nil)
 (setq native-compile-prune-cache t)
 (setq native-comp-deferred-compilation t)
