@@ -61,24 +61,37 @@ COMP is to compile the files (not working). "
   (message (concat "removed hook for " ext))
   (remove-hook 'find-file-hook #'(lambda () (cl/add-check-extension ext))))
 
+(defun cl/load-extension-files (ext)
+  "Load files for extension EXT.  Usefull for force loading EXT."
+  (cl/remove-hook-for-extension ext)
+  (message "loading config for %s" ext)
+
+  (cl/load
+   (flatten-tree
+    (mapcar (lambda (elem)
+              (mapcar
+               #'(lambda (to-load-file)
+                   ;; (message "(%s)" to-load-file)
+                   (cl/modify-var ext (car elem))
+                   (let ((filepath (format "%s/%s" (car elem) to-load-file)))
+                     (cl/file filepath)))
+               (flatten-tree (cdr elem))))
+            (cl/get-in-var ext)))))
+
+(defun cl/force-load-ext ()
+  (interactive)
+  (let ((force-load-e (completing-read
+                       "Select: "
+                       config-loader-lazy
+                       nil t)))
+    (if (not (null force-load-e))
+        (cl/load-extension-files force-load-e))))
+
 (defun cl/add-check-extension (ext)
+  "Check if current file has extension EXT.  If so, the files for the EXT are loaded."
   (when (and (stringp buffer-file-name)
              (string-match (concat "\\" ext "\\'") buffer-file-name))
-
-    (cl/remove-hook-for-extension ext)
-    (message "loading config for %s" ext)
-
-    (cl/load
-     (flatten-tree
-      (mapcar (lambda (elem)
-                (mapcar
-                 #'(lambda (to-load-file)
-                     ;; (message "(%s)" to-load-file)
-                     (cl/modify-var ext (car elem))
-                     (let ((filepath (format "%s/%s" (car elem) to-load-file)))
-                       (cl/file filepath)))
-                 (flatten-tree (cdr elem))))
-              (cl/get-in-var ext))))))
+    (cl/load-extension-files ext)))
 
 (defun cl/add-to-var (ext dir-name to-load)
   ""
@@ -112,6 +125,10 @@ COMP is to compile the files (not working). "
   "Changes the list of files to load to t, to represent they have been loaded."
   (setcdr (assoc dir-name (cdr (assoc ext config-loader-lazy))) nil)
   )
+
+(defun cl/get-exts-in-var ()
+  "Get car from all values in list."
+  (mapcar (lambda (x) (car x)) config-loader-lazy))
 
 (defun cl/lazy-load-if-not-in-var (ext dir-name to-load)
   ""
