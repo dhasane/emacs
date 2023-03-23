@@ -1,10 +1,4 @@
 
-(use-package pdf-tools
-  :config
-  (pdf-tools-install)
-  (pdf-loader-install)
-  )
-
 (use-package nov
   ;; :mode ("\\.epub\\'" . nov-mode)
   :mode "\\.epub\\'"
