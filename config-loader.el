@@ -87,10 +87,15 @@ COMP is to compile the files (not working). "
     (if (not (null force-load-e))
         (cl/load-extension-files force-load-e))))
 
+(defun cl/check-extension (ext)
+  (if (and (stringp buffer-file-name)
+       (string-match (concat "\\." ext "\\'") buffer-file-name))
+      t
+    nil))
+
 (defun cl/add-check-extension (ext)
   "Check if current file has extension EXT.  If so, the files for the EXT are loaded."
-  (when (and (stringp buffer-file-name)
-             (string-match (concat "\\" ext "\\'") buffer-file-name))
+  (if (cl/check-extension ext)
     (cl/load-extension-files ext)))
 
 (defun cl/add-to-var (ext dir-name to-load)
