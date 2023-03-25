@@ -2,8 +2,6 @@
 
 ;;; Code:
 
-(use-package nix-mode)
-
 ;; (use-package rainbow-blocks
   ;; )
 

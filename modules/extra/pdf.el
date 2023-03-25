@@ -65,6 +65,7 @@
   )
 
 (use-package org-noter
+  :after org
   :custom
   (org-noter-notes-search-path '("~/org/noter"))
   )
