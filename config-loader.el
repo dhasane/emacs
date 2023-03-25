@@ -154,10 +154,12 @@ COMP is to compile the files (not working). "
   ""
   (flatten-tree
    (mapcar (lambda (elem)
-            (let ((dir (car elem))
-                  (to-load (cdr elem)))
-              (message "%s::%s" dir to-load)
-              (cl/lazy-load-if-not-in-var dir dir-name to-load)))
+            (let ((exts (flatten-tree (car elem)))
+                  (to-load (flatten-tree (cdr elem))))
+              (mapcar (lambda (ext)
+                        (message "%s::%s" ext to-load)
+                        (cl/lazy-load-if-not-in-var ext dir-name to-load))
+                      exts)))
           lazy))
   )
 
