@@ -16,6 +16,9 @@
   ("m"   org-roam-ui-mode       "map")
   ("k"   kill-org-buffers       "kill")
   ("t"   org-todo-list          "todo list")
+
+  ("dd"   org-roam-dailies-capture-today         "daily capture")
+  ("dt"   org-roam-dailies-goto-today         "show daily capture")
   )
 
 ;; (defhydra hydra-org (:color red :columns 3)

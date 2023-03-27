@@ -4,4 +4,4 @@
 
 (use-package nix-mode)
 
-;;; general end here
+;;; nix.el ends here
