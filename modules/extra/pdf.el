@@ -61,11 +61,11 @@
 
 ;;;###autoload
   (add-hook 'pdf-view-mode-hook 'evil-pdf-tools-mode)
-
   )
 
 (use-package org-noter
   :after org
   :custom
   (org-noter-notes-search-path '("~/org/noter"))
+  (org-noter-always-create-frame 0)
   )

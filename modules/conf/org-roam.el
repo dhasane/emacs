@@ -5,6 +5,12 @@
 
 ;;; code:
 
+
+(defhydra hydra-roam (:color blue :columns 3)
+  ("cn" org-id-get-create "create node")
+  ("s" org-roam-db-sync)
+)
+
 (use-package org-roam
   :delight
   :bind (:map org-roam-mode-map
