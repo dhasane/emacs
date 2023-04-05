@@ -97,4 +97,6 @@
    )
   )
 
+(use-package rbenv)
+
 ;;; ruby.el ends here

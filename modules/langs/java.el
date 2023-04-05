@@ -12,7 +12,7 @@
               ; (setq-local c-basic-offset 2)
               ; (setq-local tab-width 2)
               ; (setq-local indent-tabs-mode nil)
-              (setq-local indent-tabs-mode t)
+              (setq-local indent-tabs-mode nil)
               ))
   :config
 

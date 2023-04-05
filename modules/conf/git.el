@@ -18,6 +18,7 @@
    "C-j" 'evil-window-down
    "M-j" 'magit-section-forward-sibling
    "M-k" 'magit-section-backward-sibling
+   "C-p" 'magit-process-buffer
    )
   ;; :hook (evil-collection-setup-hook
   ;;        .

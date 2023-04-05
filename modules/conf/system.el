@@ -81,12 +81,19 @@
   )
 
 (use-package exec-path-from-shell
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-  (when (daemonp)
-    (exec-path-from-shell-initialize))
-  )
+  :if (memq window-system '(mac ns))
+  ;; :if (or
+  ;;      (memq window-system '(mac ns))
+  ;;      (daemonp)
+  ;;      )
+  ;; :init
+  ;; (when (memq window-system '(mac ns x))
+  ;;   (exec-path-from-shell-initialize))
+  ;; (when (daemonp)
+  ;;   (exec-path-from-shell-initialize))
+  ;; )
+  :config
+  (exec-path-from-shell-initialize))
 
 (use-package direnv
   :disabled
@@ -105,11 +112,9 @@
     (add-hook 'visual-line-mode-hook 'my-activate-adaptive-wrap-prefix-mode))
   )
 
-(use-package logview
-  )
+(use-package logview)
 
 (use-package eldoc
-  :delight
-  )
+  :delight)
 
 ;;; system end here

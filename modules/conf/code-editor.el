@@ -68,7 +68,6 @@
   (tree-sitter-after-on-hook . (lambda () (font-lock-mode -1)))
 
   :init
-  (use-package tree-sitter-langs)
   (require 'tree-sitter)
   (require 'tree-sitter-hl)
   (require 'tree-sitter-langs)
@@ -77,5 +76,8 @@
 
   (global-tree-sitter-mode)
   )
+
+(use-package tree-sitter-langs
+  :after tree-sitter)
 
 ;;; code-editor end here
