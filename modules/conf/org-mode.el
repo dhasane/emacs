@@ -7,18 +7,22 @@
 
 (defhydra hydra-org (:color blue :columns 3)
   ("a"   org-agenda             "agenda")
-  ("l s" org-store-link         "store link")
-  ("l i" org-insert-link        "insert link")
+  ;; ("l s" org-store-link         "store link")
+  ;; ("l i" org-insert-link        "insert link")
   ("o"   org-roam-buffer-toggle "roam")
   ("f"   org-roam-node-find     "find")
   ("i"   org-roam-node-insert   "insert")
   ; ("m"   org-roam-graph         "map")
   ("m"   org-roam-ui-mode       "map")
   ("k"   kill-org-buffers       "kill")
-  ("t"   org-todo-list          "todo list")
+  ("td"   org-todo-list          "todo list")
 
   ("dd"   org-roam-dailies-capture-today         "daily capture")
   ("dt"   org-roam-dailies-goto-today         "show daily capture")
+
+  ("ta"   org-roam-tag-add         "daily capture")
+  ("tr"   org-roam-tag-remove         "show daily capture")
+
   )
 
 ;; (defhydra hydra-org (:color red :columns 3)

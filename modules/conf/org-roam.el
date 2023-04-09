@@ -30,6 +30,7 @@
    ;; "twopi"
    ;; "circo"
    )
+  (org-roam-node-display-template "${title} ${tags}")
   :init
   (org-roam-db-autosync-mode)
   )
