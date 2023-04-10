@@ -20,8 +20,10 @@
   ("dd"   org-roam-dailies-capture-today         "daily capture")
   ("dt"   org-roam-dailies-goto-today         "show daily capture")
 
-  ("ta"   org-roam-tag-add         "daily capture")
-  ("tr"   org-roam-tag-remove         "show daily capture")
+  ("ta"   org-roam-tag-add              "tag add")
+  ("tr"   org-roam-tag-remove           "tag remove")
+
+  ("ci" #'citar-insert-citation "insert citation")
 
   )
 

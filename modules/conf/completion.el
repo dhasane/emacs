@@ -55,6 +55,10 @@
   (:states '(normal insert motion emacs) :keymaps 'vertico-map
    "C-j"      #'vertico-next
    "C-k"      #'vertico-previous
+   "C-c"      #'vertico-exit
+   "?" #'minibuffer-completion-help
+   "RET" #'minibuffer-force-complete-and-exit
+   "TAB" #'minibuffer-complete
    )
   (:states '(normal) :keymaps 'vertico-map
    ;; "<escape>" #'minibuffer-keyboard-quit
@@ -69,7 +73,8 @@
   (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
 
-  (completion-styles '(basic substring partial-completion flex))
+  (completion-styles '(substring orderless basic))
+  ;; (completion-styles '(basic substring partial-completion flex))
 
   ;; modify completion-at-point
   (completion-in-region-function 'consult-completion-in-region)
@@ -147,15 +152,14 @@
   (marginalia-mode))
 
 (use-package embark
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-S-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
-  :init
+  ;; :bind
+  ;; (("C-." . embark-act)         ;; pick some comfortable binding
+  ;;  ("C-;" . embark-dwim)        ;; good alternative: M-.
+  ;;  ("C-S-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :custom
 
   ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
+  (prefix-help-command #'embark-prefix-help-command)
 
   :config
 

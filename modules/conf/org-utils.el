@@ -82,27 +82,31 @@
                 (kbd "|") 'org-table-goto-column
                 (kbd "M-o") (evil-org-define-eol-command org-insert-heading)
                 (kbd "M-t") (evil-org-define-eol-command org-insert-todo))
-
               )
+
+            )
+          )
 
 (use-package org-bullets
   ;; :commands org-bullets-mode
   :hook (org-mode . org-bullets-mode))
 
+(use-package org-download
+  :custom
+  (org-download-image-dir "~/org/imagenes")
+  )
 
-            ;; Configure leader key
-            ;; (evil-leader/set-key-for-mode 'org-mode
-            ;;                               "." 'hydra-org-state/body
-            ;;                               "t" 'org-todo
-            ;;                               "T" 'org-show-todo-tree
-            ;;                               "v" 'org-mark-element
-            ;;                               "a" 'org-agenda
-            ;;                               "c" 'org-archive-subtree
-            ;;                               "l" 'evil-org-open-links
-            ;;                               "C" 'org-resolve-clocks)
+(use-package citar
+  :custom
+  (citar-bibliography '("~/org/references.bib"))
+  :hook
+  (LaTeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup))
 
-            )
-          )
+(use-package citar-embark
+  :after citar embark
+  :no-require
+  :config (citar-embark-mode))
 
 ;; Define a transient state for quick navigation
 ;; (defhydra hydra-org-state ()
