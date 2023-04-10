@@ -2,6 +2,12 @@
 
 ;;; Code:
 
+(use-package emacs
+  :custom
+  (enable-recursive-minibuffers t)
+  (indent-tabs-mode nil)
+  )
+
 (use-package origami
   :demand t
   :config

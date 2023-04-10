@@ -37,8 +37,8 @@
                    ("cs" . "c-sharp")
                    ("lua" . "lua")
                    ("gd" . "godot")
-                   (("js" "ts" "html") . "web")
-                   (("js" "ts") . "javascript")
+                   (("sass" "html") . "web")
+                   (("js" "jsx" "ts") . "javascript")
                    ("php" . "php")
                    ("xml" . "xml")
                    ("yaml" . "yaml")
@@ -48,6 +48,7 @@
                    ("tex" . "latex")
                    ("nix" . "nix")
                    ("dart" . "dart")
+                   ("tf" . "terraform")
                    ;; docker.el
                    ;; lisp.el
                    )
