@@ -52,21 +52,23 @@
   :init
   (vertico-mode)
   :general
+  (:keymaps 'vertico-map
+   "<escape>"       #'minibuffer-keyboard-quit ; Close minibuffer
+   "<tab>"          #'vertico-insert  ; Insert selected candidate into text area
+   "C-<return>"     #'vertico-exit
+   "C-K" #'vertico-next-group
+   "C-J" #'vertico-previous-group
+   )
   (:states '(normal insert motion emacs) :keymaps 'vertico-map
    "C-j"      #'vertico-next
    "C-k"      #'vertico-previous
-   "C-c"      #'vertico-exit
    "?" #'minibuffer-completion-help
-   "RET" #'minibuffer-force-complete-and-exit
-   "TAB" #'minibuffer-complete
+   ;; "M-RET" #'minibuffer-force-complete-and-exit
+   ;"TAB" #'minibuffer-complete
    )
   (:states '(normal) :keymaps 'vertico-map
-   ;; "<escape>" #'minibuffer-keyboard-quit
-   ;;"C-J"      #'vertico-next-group
-   ;;"C-K"      #'vertico-previous-group
    "j"      #'vertico-next
    "k"      #'vertico-previous
-   ;; "M-RET"    #'vertico-exit
    )
   :custom
   (read-file-name-completion-ignore-case t)
@@ -133,23 +135,41 @@
 (use-package orderless
   :custom
   (completion-styles '(orderless))
+  (completion-category-defaults nil)    ; I want to be in control!
+  (completion-category-overrides
+   '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
+                   orderless))))
   ;; (completion-styles '(basic substring partial-completion flex))
   (orderless-component-separator "[ &]")
+  (orderless-matching-styles
+   '(orderless-literal
+     orderless-prefixes
+     orderless-initialism
+     orderless-regexp
+     ;; orderless-flex                       ; Basically fuzzy finding
+     ;; orderless-strict-leading-initialism
+     ;; orderless-strict-initialism
+     ;; orderless-strict-full-initialism
+     ;; orderless-without-literal          ; Recommended for dispatches instead
+     )
+   )
   )
 
-;; Enable richer annotations using the Marginalia package
 (use-package marginalia
-  ;; Either bind `marginalia-cycle` globally or only in the minibuffer
-  ;; :bind (("M-A" . marginalia-cycle)
-  ;;        :map minibuffer-local-map
-  ;;        ("M-A" . marginalia-cycle))
-
-  ;; The :init configuration is always executed (Not lazy!)
+  :general
+  (:keymaps 'minibuffer-local-map
+   "M-A" 'marginalia-cycle)
+  :custom
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'right)
   :init
-
-  ;; Must be in the :init section of use-package such that the mode gets
-  ;; enabled right away. Note that this forces loading the package.
   (marginalia-mode))
+
+(use-package all-the-icons-completion
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
 
 (use-package embark
   ;; :bind
