@@ -206,11 +206,29 @@
     ;;TODO: identificar el sistema para actualizar
     )
 
+  (cl-defun eshell/test (&optional params)
+    "test alias"
+    ;; TODO: mover los alias de eshell/alias a funciones
+    (message (format "%s" params))
+    )
+
+  (defun eshell/mk ()
+    "Update system"
+
+    )
+
   (defun pcomplete/mk ()
     "Completion rules for the `make' command."
+    ;; alias mk make $*
     ;; mk esta definido en eshell/alias
     (pcomplete/make)
     )
+
+  (defun eshell/v (file)
+    (find-file file))
+
+  (defun eshell/e (file)
+    (find-file file))
 
   ;; https://www.emacswiki.org/emacs/EshellCompletion
 ;;;; sudo completion
@@ -407,50 +425,6 @@
   (setq eshell-default-completion-function 'eshell-bash-completion)
   )
 
-(use-package vterm
-  )
-
-;; comint
-
-(defun comint-jump-to-input-ring ()
-  "Jump to the buffer containing the input history."
-  (interactive)
-  (progn
-    (comint-dynamic-list-input-ring)
-    (other-window 1)))
-
-(setq comint-prompt-read-only t)    ; "Make the prompt read only."
-;; (setq comint-buffer-maximum-size 2000)
-
-(general-define-key
- :states 'normal
- :keymaps 'comint-mode-map
- "] ]" 'comint-next-prompt
- "[ [" 'comint-previous-prompt
- )
-(general-define-key
- :states 'insert
- :keymaps 'comint-mode-map
- [up] 'comint-previous-input
- [down] 'comint-next-input
- )
-
-(add-hook 'comint-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-<f7>") 'comint-jump-to-input-ring)
-            ))
-
-;; proced (top)
-;; (defun proced-settings ()
-;;   (proced-toggle-auto-update))
-;;
-;; (add-hook 'proced-mode-hook 'proced-settings)
-
-(defun shell-command-on-buffer ()
-  "Asks for a command and execute it in inferior shell with current buffer as input."
-  (interactive)
-  (shell-command-on-region
-   (point-min) (point-max)
-   (read-shell-command "Shell command on buffer: ")))
+(use-package vterm)
 
 ;;; term.el ends here

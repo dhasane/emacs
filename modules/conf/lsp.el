@@ -38,6 +38,8 @@
     rust-mode
     ruby-mode
     java-mode
+    js-mode
+    ts-mode
     python-mode
     dart-mode
     c-mode
