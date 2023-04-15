@@ -36,13 +36,10 @@
     ;; (cl/comp-file file compile)
     (list file)))
 
-(defun cl/load (filelist &rest add-filelist)
-  "Load FILELIST, list which contains the full path to the files to load.
-The files don't have their extension.
-COMP is to compile the files (not working). "
-  (let* ((files (if add-filelist
-                   (flatten-tree (list filelist add-filelist))
-                  filelist))
+(defun cl/load (&rest filelist)
+  "Load FILELIST, it may be a list, or a list of lists.
+Elements contained in these lists represent full paths to files to load."
+  (let* ((files (flatten-tree filelist))
          (f (car files)) (l (cdr files)))
     (load f)
     (if l (cl/load l))))
