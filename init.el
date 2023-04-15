@@ -23,7 +23,7 @@
 
 (load (expand-file-name "config-loader.el" user-emacs-directory))
 (cl/load (cl/file "startup")
-         (cl/dir "modules/conf" :ignore '("ivy"))
+         (cl/dir "modules/conf" :ignore '("ivy" "company"))
          (cl/dir "modules/langs"
                  :ignore '("lisp")
                  :lazy

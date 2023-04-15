@@ -202,14 +202,6 @@
   :demand t
   )
 
-(use-package company-prescient
-  :demand t
-  :config
-  (company-prescient-mode t)
-  ;; :custom
-  ;; (company-prescient-sort-length-enable)
-  )
-
 (use-package selectrum
   :disabled t
   :init

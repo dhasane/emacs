@@ -5,15 +5,7 @@
 ;;; code:
 
 
-(use-package vertico
-  :init
-  (vertico-mode)
-  :custom
-  (vertico-cycle t)
-  )
-
 (use-package corfu
-  :if (not (featurep 'vertico))
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   ;; (corfu-auto t)                 ;; Enable auto completion
@@ -21,11 +13,12 @@
   (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
   (corfu-quit-no-match t)        ;; Automatically quit if there is no match
   (corfu-echo-documentation 0) ;; Do not show documentation in the echo area
+  (corfu-auto nil)
 
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
   :general
   (
-   :keymap '(prog-mode override)
+   ;; :keymap '(prog-mode override)
    :states '(insert)
    "TAB" 'basic-tab-indent-or-complete
    )
@@ -36,7 +29,7 @@
          "S-TAB"   'corfu-previous
          [backtab] 'corfu-previous
 
-         [escape]  'corfu-quit-no-match
+         [escape]  'corfu-quit
          "C-s"     'corfu-quit
    )
   ;; :bind (:map corfu-map
@@ -87,7 +80,7 @@
       )
     )
   :init
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 ;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
 ;; in the Consult wiki for an advanced Orderless style dispatcher.

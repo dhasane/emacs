@@ -137,16 +137,16 @@
 
 ;;(use-package readline-complete
 ;;)
+
 (use-package company-prescient
   :disabled t
-  :after prescient
+  :after (company prescient)
   :demand t
   :config
   (company-prescient-mode t)
   ;; :custom
   ;; (company-prescient-sort-length-enable)
   )
-
 
 (use-package company-quickhelp
   :disabled

@@ -79,7 +79,7 @@
   )
 
 (use-package elpy
-  :disabled
+  :disabled t
   :hook (python-mode . elpy-enable)
   :custom
   (elpy-shell-starting-directory 'current-directory)

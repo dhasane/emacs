@@ -11,7 +11,6 @@
  ("cfrs" . "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121")
  ("citar" . "ed53e67bee517ae37198a10b40515201460b87f4")
  ("citeproc-el" . "290320fc579f886255f00d7268600df7fa5cc7e8")
- ("company-mode" . "b3b9fa37ef9fd02471779130a0b53d87fa726ac1")
  ("compat" . "9d2a293dca90e70a8bcd963682e8b7122371595b")
  ("consult" . "fd00979d2fbfad66960c621e9fc140eb8c6a06f3")
  ("consult-flycheck" . "c371996c571b7139ef4d9a8db142bf37a7ee826b")
