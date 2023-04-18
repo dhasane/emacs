@@ -4,8 +4,9 @@
 
 ;;; code:
 
-
 (use-package corfu
+  :straight (corfu :files (:defaults "extensions/*")
+                   :includes (corfu-info corfu-history))
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   ;; (corfu-auto t)                 ;; Enable auto completion
@@ -15,10 +16,19 @@
   (corfu-echo-documentation 0) ;; Do not show documentation in the echo area
   (corfu-auto nil)
 
+  (corfu-min-width 80)
+  (corfu-max-width corfu-min-width)
+
+  (corfu-popupinfo-delay 0.5)
+
+  ;; (tab-always-indent 'complete)
+  ;; (corfu-separator ?\s)            ; Use space
+  ;; (corfu-quit-no-match 'separator) ; Don't quit if there is `corfu-separator' inserted
+
   ;; Optionally use TAB for cycling, default is `corfu-complete'.
   :general
   (
-   ;; :keymap '(prog-mode override)
+   :keymap '(prog-mode)
    :states '(insert)
    "TAB" 'basic-tab-indent-or-complete
    )
@@ -31,24 +41,14 @@
 
          [escape]  'corfu-quit
          "C-s"     'corfu-quit
+
+         "SPC" #'corfu-insert-separator
    )
-  ;; :bind (:map corfu-map
-  ;;        ("TAB" . corfu-next)
-  ;;        ([tab] . corfu-next)
-  ;;        ("S-TAB" . corfu-previous)
-  ;;        ([backtab] . corfu-previous)
-
-  ;;        ([escape] . corfu-quit-no-match)
-  ;;        ("C-s" . corfu-quit)
-  ;;        )
-
   ;; You may want to enable Corfu only for certain modes.
-  ;; :hook ((prog-mode . corfu-mode)
+  :hook ((prog-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.
-  ;; This is recommended since dabbrev can be used globally (M-/).
+  ;;        (eshell-mode . corfu-mode)
+         )
   :config
   (with-eval-after-load "evil"
     (evil-make-intercept-map corfu-map 'insert)
@@ -80,7 +80,8 @@
       )
     )
   :init
-  (global-corfu-mode))
+  ;; (global-corfu-mode)
+  (corfu-popupinfo-mode))
 
 ;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
 ;; in the Consult wiki for an advanced Orderless style dispatcher.
@@ -105,7 +106,7 @@
 (use-package emacs
   :init
   ;; TAB cycle if there are only few candidates
-  (setq completion-cycle-threshold 3)
+  ;; (setq completion-cycle-threshold 3)
 
   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
   ;; Corfu commands are hidden, since they are not supposed to be used via M-x.

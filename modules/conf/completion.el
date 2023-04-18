@@ -137,7 +137,7 @@
   (completion-styles '(orderless))
   (completion-category-defaults nil)    ; I want to be in control!
   (completion-category-overrides
-   '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
+   '((file (styles ;; basic-remote ; For `tramp' hostname completion with `vertico'
                    orderless))))
   ;; (completion-styles '(basic substring partial-completion flex))
   (orderless-component-separator "[ &]")
