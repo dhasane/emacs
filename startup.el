@@ -59,6 +59,7 @@
   )
 
 (use-package use-package-ensure-system-package)
+
 (use-package general :demand t)
 (use-package hydra :demand t)
 (use-package benchmark-init
@@ -70,7 +71,9 @@
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
 (custom-set-variables '(load-prefer-newer nil))
+
 (use-package auto-compile
+  :disabled t
   :defer nil
   :config (auto-compile-on-load-mode))
 
@@ -79,7 +82,7 @@
   :init
   (gcmh-mode 1)
   :custom
-  (gcmh-verbose t)
+  (gcmh-verbose nil)
   )
 
 (use-package delight)

@@ -49,11 +49,20 @@
   (highlight-indent-guides-responsive ;;'top
                                       'stack
                                       )
-  :config
+  ;; :config
   ;; (set-face-background 'highlight-indent-guides-odd-face "blue")
   ;; (set-face-background 'highlight-indent-guides-even-face "green")
   ;; (set-face-foreground 'highlight-indent-guides-character-face "red")
 
+  )
+
+(use-package nhexl-mode
+  :custom
+  (nhexl-display-unprintables t)
+  (nhexl-line-width t)
+  (nhexl-obey-font-lock nil)
+  (nhexl-separate-line nil)
+  (nhexl-silently-convert-to-unibyte t)
   )
 
 (use-package indent-guide
@@ -86,4 +95,4 @@
 (use-package tree-sitter-langs
   :after tree-sitter)
 
-;;; code-editor end here
+;;; code-editor.el ends here

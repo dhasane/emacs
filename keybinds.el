@@ -118,6 +118,11 @@
  "'pS" 'profiler-stop
  "'pr" 'profiler-report
  "'s"  'proced
+
+
+ "c" '(:ignore t :which-key "config")
+ "cl" 'global-display-line-numbers-mode
+ ;; "clg" 'global-display-line-numbers-mode
  )
 
 (define-key minibuffer-local-map (kbd "<C-up>" )

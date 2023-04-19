@@ -12,6 +12,7 @@
   )
 
 (use-package js
+  :demand t
   ;; :mode ("\\.js\\'")
   ;; :hook (js-mode . js-web-mode-init-hook)
   :custom
@@ -57,7 +58,8 @@
   )
 
 (use-package typescript-mode
-  :mode "\\.ts\\'"
+  :demand t
+  :mode ("\\.ts\\'" "\\.tsx\\'")
   :custom
   (typescript-indent-level       2)
   (typescript-expr-indent-offset 2)

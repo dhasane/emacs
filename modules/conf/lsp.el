@@ -39,7 +39,7 @@
     ruby-mode
     java-mode
     js-mode
-    ts-mode
+    typescript-mode
     python-mode
     dart-mode
     c-mode

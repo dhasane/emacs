@@ -38,7 +38,7 @@
                    ("lua" . "lua")
                    ("gd" . "godot")
                    (("sass" "html") . "web")
-                   (("js" "jsx" "ts") . "javascript")
+                   (("js" "jsx" "ts" "tsx") . "javascript")
                    ("php" . "php")
                    ("xml" . "xml")
                    ("yaml" . "yaml")
