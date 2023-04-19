@@ -4,6 +4,61 @@
 
 ;;; code:
 
+;; Add extensions
+(use-package cape
+  ;; Bind dedicated completion commands
+  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p \\" . cape-tex)
+         ("C-c p _" . cape-tex)
+         ("C-c p ^" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345))
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  ;; NOTE: The order matters!
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  ;;(add-to-list 'completion-at-point-functions #'cape-history)
+  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+  ;;(add-to-list 'completion-at-point-functions #'cape-line)
+
+  ;; (setq-local completion-at-point-functions
+  ;;             (mapcar #'cape-company-to-capf
+  ;;                     (list #'company-files #'company-ispell #'company-dabbrev)))
+
+  (defun my/ignore-elisp-keywords (cand)
+    (or (not (keywordp cand))
+        (eq (char-after (car completion-in-region--data)) ?:)))
+
+  (defun my/setup-elisp ()
+    (setq-local completion-at-point-functions
+                `(,(cape-super-capf
+                    (cape-capf-predicate
+                     #'elisp-completion-at-point
+                     #'my/ignore-elisp-keywords)
+                    #'cape-dabbrev)
+                  cape-file)
+                cape-dabbrev-min-length 5))
+  (add-hook 'emacs-lisp-mode-hook #'my/setup-elisp)
+)
+
 (use-package flycheck
   :demand t
   ;; :hook (prog-mode . flycheck-mode)

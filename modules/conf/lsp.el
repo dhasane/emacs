@@ -109,6 +109,8 @@
   ;;    ".bzr" "_darcs" ".tox" ".svn" ".stack-work"
   ;;    "build"))
 
+  (lsp-completion-provider :capf) ;; we use Corfu!
+
   :config
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
