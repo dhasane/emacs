@@ -94,8 +94,21 @@
   ;;(kaolin-treemacs-theme))
 
 (use-package all-the-icons
-  :defer .1
+  :demand t
   )
+
+(use-package all-the-icons-completion
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
+
+(use-package kind-icon
+  ;; :after (corfu)
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :init
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package rainbow-mode
   :defer 1
