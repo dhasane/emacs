@@ -169,6 +169,23 @@
   ;; (org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
   ;; (org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
   ;; (org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))
+
+  (with-eval-after-load 'ox-latex
+    ;; Set up org-mode export stuff
+    (unless (boundp 'org-latex-classes)
+      (setq org-latex-classes nil))
+    (add-to-list 'org-latex-classes
+                 '("apa6"
+                   "\\documentclass{apa6}"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
+  ;; (setq org-latex-pdf-process
+  ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+
   )
 
 ;; Define a transient state for quick navigation

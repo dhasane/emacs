@@ -99,6 +99,9 @@
 (use-package citar
   :custom
   (citar-bibliography '("~/org/references.bib"))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
   :hook
   (LaTeX-mode . citar-capf-setup)
   (org-mode . citar-capf-setup))
