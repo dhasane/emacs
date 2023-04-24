@@ -45,6 +45,7 @@
                                   ;; 'column
                                   )
   (highlight-indent-guides-character ?║ ;; U+2551
+  ;; (highlight-indent-guides-character "|" ;; U+2551
                                      )
   (highlight-indent-guides-responsive ;;'top
                                       'stack
@@ -56,6 +57,16 @@
 
   )
 
+(use-package indent-guide
+  :disabled t
+  :unless '(highlight-indent-guides)
+  :init
+  ;; (add-hook 'yaml-mode-hook 'indent-guide-mode)
+  (indent-guide-global-mode)
+  :custom
+  (indent-guide-char "|")
+  )
+
 (use-package nhexl-mode
   :custom
   (nhexl-display-unprintables t)
@@ -64,10 +75,6 @@
   (nhexl-separate-line nil)
   (nhexl-silently-convert-to-unibyte t)
   )
-
-(use-package indent-guide
-  :disabled t
-  :init (add-hook 'yaml-mode-hook 'indent-guide-mode))
 
 (use-package highlight-indentation
   :disabled t
@@ -78,6 +85,7 @@
   )
 
 (use-package tree-sitter
+  :demand t
   :hook
   (tree-sitter-after-on-hook . tree-sitter-hl-mode)
   (tree-sitter-after-on-hook . (lambda () (font-lock-mode -1)))

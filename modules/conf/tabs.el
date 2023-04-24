@@ -9,7 +9,7 @@
 ;; parecen mas a tmu, lo cual es genial, pero hay unos detalles que no
 ;; me gustan tanto, como que este en el modeline)
 
-(defcustom dh/min-tab-size 10
+(defcustom dh/min-tab-size 15
   "Minimum width of a tab in characters."
   :type 'integer
   :group 'tab-bar)
@@ -47,19 +47,25 @@
     "Muestra el nombre del tab, en caso de exceder los MAX caracteres,
 muestra solo el nombre del proyecto y los caracteres sobrantes del
 nombre del tab."
-    (let ((nombre (tab-bar-tab-name-current)))
-      (let ((final-name (concat
-                         (if (< dh/max-tab-size (length nombre))
-                             (substring nombre (- dh/max-tab-size))
-                           nombre))))
-        (format "%s%s"
-                (get-project-name-except-if-remote
-                 :show-external t
-                 :pre "["
-                 :pos "] "
-                 )
-                final-name)
-        )))
+    (let* ((nombre (tab-bar-tab-name-current))
+           ;; project
+           (project-name (get-project-name-except-if-remote
+                          :show-external t
+                          :pre "["
+                          :pos "] "))
+           ;; max
+           (nombre (concat (if (< dh/max-tab-size (length nombre))
+                               (substring nombre (- dh/max-tab-size))
+                             nombre
+                             )))
+           ;; min
+           (nombre (concat (if (< (length (concat nombre project-name)) dh/min-tab-size)
+                               (concat (make-string (- dh/min-tab-size (length nombre)) ?\s ) nombre)
+                             nombre)
+                           ))
+           )
+      (format "%s%s" project-name nombre)))
+
   (setq tab-bar-tab-name-function 'dh/set-tabs-name)
   :config
   ;; esto tal vez lo podria usar para cambiar tab-bar

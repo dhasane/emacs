@@ -43,20 +43,20 @@
   ;;             (mapcar #'cape-company-to-capf
   ;;                     (list #'company-files #'company-ispell #'company-dabbrev)))
 
-  (defun my/ignore-elisp-keywords (cand)
-    (or (not (keywordp cand))
-        (eq (char-after (car completion-in-region--data)) ?:)))
+  ;;(defun my/ignore-elisp-keywords (cand)
+  ;;  (or (not (keywordp cand))
+  ;;      (eq (char-after (car completion-in-region--data)) ?:)))
 
-  (defun my/setup-elisp ()
-    (setq-local completion-at-point-functions
-                `(,(cape-super-capf
-                    (cape-capf-predicate
-                     #'elisp-completion-at-point
-                     #'my/ignore-elisp-keywords)
-                    #'cape-dabbrev)
-                  cape-file)
-                cape-dabbrev-min-length 5))
-  (add-hook 'emacs-lisp-mode-hook #'my/setup-elisp)
+  ;;(defun my/setup-elisp ()
+  ;;  (setq-local completion-at-point-functions
+  ;;              `(,(cape-super-capf
+  ;;                  (cape-capf-predicate
+  ;;                   #'elisp-completion-at-point
+  ;;                   #'my/ignore-elisp-keywords)
+  ;;                  #'cape-dabbrev)
+  ;;                cape-file)
+  ;;              cape-dabbrev-min-length 5))
+  ;;(add-hook 'emacs-lisp-mode-hook #'my/setup-elisp)
 )
 
 (use-package flycheck

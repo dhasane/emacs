@@ -125,11 +125,6 @@
  ;; "clg" 'global-display-line-numbers-mode
  )
 
-(define-key minibuffer-local-map (kbd "<C-up>" )
-  'previous-history-element)
-(define-key minibuffer-local-map (kbd "<C-down>" )
-  'next-history-element)
-
 ;; the hydra to rule them all buahaha
 ;; (defhydra hydra-leader (:color blue :idle 1.0 :hint nil)
 ;;   "

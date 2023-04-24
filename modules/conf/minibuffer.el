@@ -21,7 +21,18 @@
 
 (global-set-key "\C-co" 'switch-to-minibuffer) ;; Bind to `C-c o'
 
+(define-key minibuffer-local-map (kbd "<S-up>" )
+  'previous-history-element)
+(define-key minibuffer-local-map (kbd "<S-up>" )
+  'previous-history-element)
+(define-key minibuffer-local-map (kbd "<S-down>" )
+  'next-history-element)
+(define-key minibuffer-local-map (kbd "<S-down>" )
+  'next-history-element)
+
 ;; minibuffer, stop cursor going into prompt
 (customize-set-variable
  'minibuffer-prompt-properties
  (quote (read-only t cursor-intangible t face minibuffer-prompt)))
+
+;;; minibuffer.el ends here

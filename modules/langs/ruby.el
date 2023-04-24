@@ -19,8 +19,14 @@
 
 (use-package robe
   :after (ruby-mode)
+  :hook ((ruby-mode-hook)
+         (ruby-ts-mode-hook))
   :config
-  (push 'company-robe company-backends)
+  ;; (push 'company-robe company-backends)
+  ;; (add-to-list 'completion-at-point-functions #'company-robe)
+  (setq-local completion-at-point-functions
+              (mapcar #'cape-company-to-capf
+                      (list #'company-robe)))
   )
 
 (use-package inf-ruby

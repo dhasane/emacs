@@ -21,16 +21,19 @@
    "C-j"   'evil-window-down
    "C-M-q" 'ido-kill-buffer ;'evil-quit
    "C-q"   'close-except-last-window
+   ;; [escape] 'evil-ex-nohighlight
    ;; ","   #'hydra-leader/body
    ;; "u" 'undo-tree-undo
    ;; "C-_" 'comment-dwim ; cambiar esto desactiva undo-tree
    ;; "C-/" 'comment-dwim
    )
+  :general
   (
    :states '(visual)
    :keymaps 'override
    "C-s" 'save-buffer
    )
+  :general
   (
    :states '(insert)
    :keymaps 'override
@@ -38,6 +41,13 @@
    "C-v" 'evil-paste-before
    "C-z" 'undo-tree-undo
    )
+  ;; :general
+  ;; (
+  ;;  :states '(normal override)
+  ;;  :keymaps minibuffer-local-map
+  ;;  "j"     'previous-line-or-history-element
+  ;;  "k"     'next-line-or-history-element
+  ;;  )
 
   ;; :bind
   ;; (:map

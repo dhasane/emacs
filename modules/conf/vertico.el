@@ -47,7 +47,7 @@
   ;; (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (vertico-cycle t)
+  (vertico-cycle nil)
   )
 
 ;; A few more useful configurations...
