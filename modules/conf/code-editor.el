@@ -93,14 +93,15 @@
   :init
   (require 'tree-sitter)
   (require 'tree-sitter-hl)
-  (require 'tree-sitter-langs)
   (require 'tree-sitter-debug)
   (require 'tree-sitter-query)
+
+  ;; (require 'tree-sitter-langs)
+  ;; (use-package tree-sitter-langs
+  ;;   :after tree-sitter)
 
   (global-tree-sitter-mode)
   )
 
-(use-package tree-sitter-langs
-  :after tree-sitter)
 
 ;;; code-editor.el ends here

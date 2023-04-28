@@ -106,6 +106,8 @@
   (LaTeX-mode . citar-capf-setup)
   (org-mode . citar-capf-setup))
 
+(use-package org-ref)
+
 (use-package citar-embark
   :after citar embark
   :no-require

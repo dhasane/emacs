@@ -23,6 +23,7 @@ projects
 recentf
 semanticdb
 session*
+straight/build-cache.el
 straight/build/
 straight/repos/
 straight/modified/

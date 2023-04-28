@@ -122,6 +122,8 @@
   (org-log-done t)
 
   (org-special-ctrl-a/e nil)
+
+  (org-cite-csl-styles-dir "~/Zotero/styles")
   :config
 
   (org-babel-do-load-languages
@@ -182,6 +184,8 @@
                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
+  ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 
   ;; (setq org-latex-pdf-process
   ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
