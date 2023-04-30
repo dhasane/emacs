@@ -50,12 +50,12 @@ Elements contained in these lists represent full paths to files to load."
 
 (defun cl/add-hook-for-extension (ext)
   ""
-  (message (concat "added hook for " ext))
+  ;; (message (concat "added hook for " ext))
   (add-hook 'find-file-hook #'(lambda () (cl/add-check-extension ext))))
 
 (defun cl/remove-hook-for-extension (ext)
   ""
-  (message (concat "removed hook for " ext))
+  ;; (message (concat "removed hook for " ext))
   (remove-hook 'find-file-hook #'(lambda () (cl/add-check-extension ext))))
 
 (defun cl/load-extension-files (ext)
@@ -97,7 +97,7 @@ Elements contained in these lists represent full paths to files to load."
 
 (defun cl/add-to-var (ext dir-name to-load)
   ""
-  (message "adding %s::%s::%s" ext dir-name to-load)
+  ;; (message "adding %s::%s::%s" ext dir-name to-load)
   ;; (if (null (boundp 'config-loader-lazy))
   ;;     (defvar config-loader-lazy nil))
 
@@ -154,7 +154,7 @@ Elements contained in these lists represent full paths to files to load."
             (let ((exts (flatten-tree (car elem)))
                   (to-load (flatten-tree (cdr elem))))
               (mapcar (lambda (ext)
-                        (message "%s::%s" ext to-load)
+                        ;; (message "%s::%s" ext to-load)
                         (cl/lazy-load-if-not-in-var ext dir-name to-load))
                       exts)))
           lazy))
