@@ -41,7 +41,13 @@
 Elements contained in these lists represent full paths to files to load."
   (let* ((files (flatten-tree filelist))
          (f (car files)) (l (cdr files)))
-    (load f)
+
+    (condition-case err
+        (load f)
+      (error (message "Error loading %s: \"%s\"" f
+                      (error-message-string err))
+             nil))
+
     (if l (cl/load l))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
