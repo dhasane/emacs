@@ -236,6 +236,31 @@
    "C-k" 'evil-window-up
    "C-j" 'evil-window-down
    )
+  (
+   :states '(normal)
+   :keymaps 'evil-collection-magit-mode-map
+   "C-l" 'evil-window-right
+   "C-h" 'evil-window-left
+   "C-k" 'evil-window-up
+   "C-j" 'evil-window-down
+   "M-j" 'magit-section-forward-sibling
+   "M-k" 'magit-section-backward-sibling
+   )
+  (
+   :states '(normal override)
+   :keymaps 'evil-collection-pdf-mode-map
+   "k" 'pdf-view-previous-line-or-previous-page
+   "j" 'pdf-view-next-line-or-next-page
+   "l" 'image-forward-hscroll
+   "h" 'image-backward-hscroll
+   (kbd "C-f") 'pdf-view-scroll-up-or-next-page
+   (kbd "C-b") 'pdf-view-scroll-down-or-previous-page
+   "gg" 'pdf-view-first-page
+   "G" 'pdf-view-last-page
+   "r" 'revert-buffer
+   ":" 'evil-ex
+   "/" 'isearch-forward
+   )
   :config
   ;; (evil-collection-init)
 
@@ -256,32 +281,6 @@
   ;;   (message "%s" dd)
   ;;   )
 
-  (general-define-key
-   :states '(normal)
-   :keymaps 'evil-collection-magit-mode-map
-   "C-l" 'evil-window-right
-   "C-h" 'evil-window-left
-   "C-k" 'evil-window-up
-   "C-j" 'evil-window-down
-   "M-j" 'magit-section-forward-sibling
-   "M-k" 'magit-section-backward-sibling
-   )
-
-  (general-define-key
-   :states '(normal override)
-   :keymaps 'evil-collection-pdf-mode-map
-   "k" 'pdf-view-previous-line-or-previous-page
-   "j" 'pdf-view-next-line-or-next-page
-   "l" 'image-forward-hscroll
-   "h" 'image-backward-hscroll
-   (kbd "C-f") 'pdf-view-scroll-up-or-next-page
-   (kbd "C-b") 'pdf-view-scroll-down-or-previous-page
-   "gg" 'pdf-view-first-page
-   "G" 'pdf-view-last-page
-   "r" 'revert-buffer
-   ":" 'evil-ex
-   "/" 'isearch-forward
-   )
   (evil-define-key 'normal pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
   (evil-define-key 'normal pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page)
 

@@ -23,6 +23,11 @@ projects
 recentf
 semanticdb
 session*
+elpaca/build-cache.el
+elpaca/cache/
+elpaca/builds/
+elpaca/repos/
+elpaca/modified/
 straight/build-cache.el
 straight/build/
 straight/repos/

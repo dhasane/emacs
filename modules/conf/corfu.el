@@ -50,7 +50,7 @@
   ;;        (eshell-mode . corfu-mode)
          )
   :config
-  (with-eval-after-load "evil"
+  (with-eval-after-load 'evil
     (evil-make-intercept-map corfu-map 'insert)
     )
 
