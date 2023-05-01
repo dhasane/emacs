@@ -91,27 +91,6 @@
   ;; :commands org-bullets-mode
   :hook (org-mode . org-bullets-mode))
 
-(use-package org-download
-  :custom
-  (org-download-image-dir "~/org/imagenes")
-  )
-
-(use-package citar
-  :custom
-  (citar-bibliography '("~/org/references.bib"))
-  (org-cite-insert-processor 'citar)
-  (org-cite-follow-processor 'citar)
-  (org-cite-activate-processor 'citar)
-  :hook
-  (LaTeX-mode . citar-capf-setup)
-  (org-mode . citar-capf-setup))
-
-(use-package org-ref)
-
-(use-package citar-embark
-  :after citar embark
-  :no-require
-  :config (citar-embark-mode))
 
 ;; Define a transient state for quick navigation
 ;; (defhydra hydra-org-state ()
