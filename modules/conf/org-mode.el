@@ -5,40 +5,6 @@
 
 ;;; code:
 
-(defhydra hydra-org (:color blue :columns 3)
-  ("g"   org-agenda                         "agenda")
-  ;; ("l s" org-store-link         "store link")
-  ;; ("l i" org-insert-link        "insert link")
-  ("o"   org-roam-buffer-toggle             "roam")
-  ("f"   org-roam-node-find                 "find")
-  ("i"   org-roam-node-insert               "insert")
-
-  ("z"   switch-zettelkasten                "switch zettelkasten")
-
-  ; ("m"   org-roam-graph         "map")
-  ("m"   org-roam-ui-mode                   "map")
-  ("k"   kill-org-buffers                   "kill")
-  ("t"   org-todo-list                      "todo list")
-
-  ("dd"   org-roam-dailies-capture-today    "daily capture")
-  ("dt"   org-roam-dailies-goto-today       "show daily capture")
-
-  ("at"   org-roam-tag-add                  "add tag")
-  ("rt"   org-roam-tag-remove               "remove tag")
-
-  ("c" 'hydra-org-cite/body                 "citations")
-  )
-
-;; (defhydra hydra-org (:color red :columns 3)
-;;   "Org Mode Movements"
-;;   ("n" outline-next-visible-heading "next heading")
-;;   ("p" outline-previous-visible-heading "prev heading")
-;;   ("N" org-forward-heading-same-level "next heading at same level")
-;;   ("P" org-backward-heading-same-level "prev heading at same level")
-;;   ("u" outline-up-heading "up heading")
-;;   ("g" org-goto "goto" :exit t) ;; y esto como que no sirve :v
-;;   )
-
 (use-package org
   :straight (:type built-in)
   :defer .1
@@ -191,6 +157,18 @@
 
   ;; (setq org-latex-pdf-process
   ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+
+  (defhydra+ hydra-org ()
+    ("g"   org-agenda                         "agenda" :column "planning")
+    ;; ("l s" org-store-link         "store link")
+    ;; ("l i" org-insert-link        "insert link")
+
+
+                                        ; ("m"   org-roam-graph         "map")
+    ;; ("k"   kill-org-buffers                   "kill" )
+    ("t"   org-todo-list                      "todo list" :column "planning")
+    )
+
 
   )
 

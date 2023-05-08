@@ -114,6 +114,10 @@
   :config
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
+
+  (defhydra+ hydra-lsp ()
+    ("r" lsp-rename  "rename" :column "actions")                     ; "rename"
+    )
   )
 
 (use-package lsp-ui
@@ -142,6 +146,12 @@
                              (s-match "quickfix.*\\|refactor.*" kind?))))
            (lsp--select-action)
            (lsp-execute-code-action))))
+
+  (defhydra+ hydra-lsp ()
+    ("fd" lsp-ui-peek-find-definitions "definitions" :column "find")
+    ("fr" lsp-ui-peek-find-references "references":column "find")
+    ("lm" lsp-ui-imenu "imenu" :column "menu")
+    )
   :init
   (lsp-ui-mode)
   :custom
@@ -190,6 +200,10 @@
 (use-package lsp-treemacs
   :defer t
   :commands lsp-treemacs-errors-list
+  :config
+  (defhydra+ hydra-lsp ()
+    ("fh" lsp-treemacs-call-hierarchy "call hierarchy" :column "find")
+    )
   )
 
 (use-package lsp-origami )

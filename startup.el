@@ -83,4 +83,22 @@
    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   )
 
+;; TODO: revisar si se puede definiendo un nuevo keybind map
+
+(defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
+  "Tab management"
+  )
+
+(defhydra hydra-search ( :color blue :idle 1.0 )
+  "Search functions"
+  )
+
+(defhydra hydra-lsp ( :color blue :idle 1.0 )
+  "lsp"
+  )
+
+(defhydra hydra-org (:color blue)
+  "Org"
+  )
+
 ;;; startup.el ends here

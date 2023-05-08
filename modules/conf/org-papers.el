@@ -5,10 +5,6 @@
 
 ;;; code:
 
-(defhydra hydra-org-cite (:color blue :columns 3)
-  ("i" #'citar-insert-citation "insert citation")
-  )
-
 (use-package citar
   :custom
   (citar-bibliography '("~/org/references.bib"))
@@ -17,7 +13,12 @@
   (org-cite-activate-processor 'citar)
   :hook
   (LaTeX-mode . citar-capf-setup)
-  (org-mode . citar-capf-setup))
+  (org-mode . citar-capf-setup)
+  :init
+  (defhydra+ hydra-org ()
+    ("ci" citar-insert-citation "insert citation" :column "papers")
+    )
+  )
 
 (use-package org-ref)
 

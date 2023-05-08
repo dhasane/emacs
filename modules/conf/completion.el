@@ -103,13 +103,32 @@
   (yas-reload-all)
   )
 
-(use-package consult)
+(use-package consult
+  :init
+  (defhydra+ hydra-search ()
+    ("s" consult-line       "line")
+    ("g" consult-git-grep   "git grep")
+    ("i" consult-imenu      "imenu")
+    ("r" consult-ripgrep    "ripgrep")
+    )
+  )
 
-(use-package consult-flycheck)
+(use-package consult-flycheck
+  :after (consult)
+  :init
+  (defhydra+ hydra-lsp ()
+    ("e" consult-flycheck         "errors" :column "errors")        ; "errores"
+    )
+  )
 
 (use-package consult-lsp
+  :after (consult lsp-mode)
+  :hook (lsp-mode)
   :config
-  (consult-lsp-marginalia-mode)
+  (defhydra+ hydra-lsp ()
+    ("s" consult-lsp-file-symbols "find"        :column "errors")
+    ("d" consult-lsp-diagnostics  "diagnostics" :column "errors")
+    )
   ;; :custom
   ;; (consult-lsp-margina-mode t)
   )

@@ -39,8 +39,11 @@
  :non-normal-prefix "M-SPC"
  :states '(emacs normal visual motion insert)
 
- [tab] '(hydra-tabs/body :which-key "tabs")
- "TAB" '(hydra-tabs/body :which-key "tabs")
+ [tab] '(hydra-tabs/body    :wk "tabs")
+ "TAB" '(hydra-tabs/body    :wk "tabs")
+ "o"   '(hydra-org/body     :wk "org")
+ "s"   '(hydra-search/body  :wk "search")
+ "l"   '(hydra-lsp/body     :wk "lsp")
 
  ;; "k" 'kill-buffer
  "t" 'treemacs ; "tree"
@@ -57,16 +60,6 @@
  "j" 'evil-collection-consult-jump-list
 
  "d" 'dired
-
- ;; ORG
- "o" 'hydra-org/body
-
- ;; buscar
- "s" '(:ignore t :which-key "search")
- "ss" 'consult-line
- "sg" 'consult-git-grep
- "si" 'consult-imenu
- "sr" 'consult-ripgrep
 
  ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
@@ -88,21 +81,6 @@
  ;; projectile
  "p" 'projectile-command-map
 
- ;; lsp
- "l" '(:ignore t :which-key "lsp")
-
- "lr" 'lsp-rename                       ; "rename"
-
- "lf" '(:ignore t :which-key "find")
- "lfd" '(lsp-ui-peek-find-definitions :which-key "definitions")
- "lfr" '(lsp-ui-peek-find-references :which-key "references")
- "lfh" '(lsp-treemacs-call-hierarchy :which-key "call hierarchy")
-
- "lm" 'lsp-ui-imenu
- "le" 'consult-flycheck                 ; "errores"
- "ls" 'consult-lsp-file-symbols
- "ld" 'consult-lsp-diagnostics
-
  ;; emacs
  "'" '(:ignore t :which-key "system")
  "'rs" 'reload-emacs-config             ; "reload init"
@@ -120,44 +98,5 @@
  "cg" 'global-display-line-numbers-mode
  "cl" 'display-line-numbers-mode
  )
-
-;; the hydra to rule them all buahaha
-;; (defhydra hydra-leader (:color blue :idle 1.0 :hint nil)
-;;   "
-;; actuar como leader en vim :
-;;
-;; ^Config^       |    ^Buffers^       |  ^Edit^
-;; ^^^^^^^^-------------------------------------------------
-;; _rs_: reload   |   _l_: jet-pack    |   _m_: magit
-;; _re_: edit     |   _j_: previous    |   _o_: org
-;; ^ ^            |   _k_: next        |   _e_: errores
-;; ^ ^            |   _._: terminal    |   _SPC_: execute macro
-;; ^ ^            |   _?_: marks       |   _rn_: rename
-;; ^ ^            |   ^ ^              |   _s_: search text
-;;
-;; "
-;;   ( "rs" reload-emacs-config "reload init" )
-;;   ( "re" open-emacs-config "edit init" )
-;;   ( "l" #'dh/jet-pack  "jet pack" )
-;;   ( "s" swiper "swiper" )
-;;   ;;( "." toggle-terminal "terminal" )
-;;   ;; ( "." eshell-new "terminal" )
-;;   ;; ( "." (dh/open-create-eshell-buffer) "terminal" )
-;;   ( "." (dh/create-new-eshell-buffer) "terminal" )
-;;   ( "/" (dh/select-eshell) "seleccionar terminal" )
-;;   ( "e" counsel-flycheck "errores" )
-;;
-;;   ;;( "j" previous-buffer "next" )
-;;   ;;( "k" next-buffer "next" )
-;;   ( "j" (prev-user-buffer-ring) "prev" )
-;;   ( "k" (next-user-buffer-ring) "next" )
-;;
-;;   ( "SPC" (evil-execute-macro 1 (evil-get-register ?q t)) "execute macro" )
-;;   ( "m" (magit) "magit" )
-;;   ( "o" (hydra-org/body) "org" )
-;;   ( "rn" lsp-rename "rename")
-;;   ( "?" evil-show-marks "marks")
-;;   ( "t" treemacs "tree")
-;;   )
 
 ;;; keybinds.el ends here
