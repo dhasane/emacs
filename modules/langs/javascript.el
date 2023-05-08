@@ -28,6 +28,16 @@
   (add-hook 'js-mode-hook 'js-web-mode-init-hook)
   )
 
+(use-package prettier-js
+  :hook
+  (
+   (typescript-mode . prettier-js-mode)
+   (js-mode . prettier-js-mode)
+   (js2-mode . prettier-js-mode)
+   (web-mode / prettier-js-mode)
+   )
+  )
+
 (use-package nvm)
 
 (use-package js2-mode

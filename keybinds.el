@@ -33,19 +33,13 @@
     )
   )
 
-;; (general-evil-setup)
-
 (general-define-key
-;; (general-create-definer dh-leader-def
  :keymaps 'override
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
  :states '(emacs normal visual motion insert)
-;;   )
-;;
-;; (dh-leader-def
 
- [tab] 'hydra-tabs/body
+ [tab] '(hydra-tabs/body :which-key "tabs")
  "TAB" '(hydra-tabs/body :which-key "tabs")
 
  ;; "k" 'kill-buffer
@@ -56,7 +50,6 @@
  "x" 'execute-extended-command
  ;; consult-complex-command
  "b" 'consult-buffer  ;'switch-to-buffer
- "o" 'hydra-org/body
  "g" 'magit
  "w" '(:keymap evil-window-map :wk "evil window prefix")
  "y" 'yas-insert-snippet
@@ -64,6 +57,9 @@
  "j" 'evil-collection-consult-jump-list
 
  "d" 'dired
+
+ ;; ORG
+ "o" 'hydra-org/body
 
  ;; buscar
  "s" '(:ignore t :which-key "search")
@@ -121,8 +117,8 @@
 
 
  "c" '(:ignore t :which-key "config")
- "cl" 'global-display-line-numbers-mode
- ;; "clg" 'global-display-line-numbers-mode
+ "cg" 'global-display-line-numbers-mode
+ "cl" 'display-line-numbers-mode
  )
 
 ;; the hydra to rule them all buahaha

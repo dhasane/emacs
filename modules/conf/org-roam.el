@@ -33,6 +33,19 @@
   (org-roam-node-display-template "${title} ${tags}")
   :init
   (org-roam-db-autosync-mode)
+  :config
+  (setq zettlekasten-paths-alist `(("Main" . ,org-roam-directory)
+                                   ("Work" . "~/docs")))
+
+  (defun switch-zettelkasten ()
+    (interactive)
+    (let* ((keys (mapcar #'car zettlekasten-paths-alist))
+           (prompt (format "Select Zettlekasten:"))
+           (key (completing-read prompt keys))
+           (chosen-zettlekasten-path (cdr (assoc key zettlekasten-paths-alist))))
+      (setq org-roam-directory chosen-zettlekasten-path)
+      (setq org-roam-db-location (concat chosen-zettlekasten-path "org-roam.db"))
+      (org-roam-db-sync)))
   )
 
 (use-package org-roam-ui

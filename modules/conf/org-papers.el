@@ -5,6 +5,10 @@
 
 ;;; code:
 
+(defhydra hydra-org-cite (:color blue :columns 3)
+  ("i" #'citar-insert-citation "insert citation")
+  )
+
 (use-package citar
   :custom
   (citar-bibliography '("~/org/references.bib"))

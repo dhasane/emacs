@@ -124,34 +124,33 @@
   )
 
 (use-package display-line-numbers
-  :disabled
-  :hook (
-         (prog-mode . display-line-numbers)
-         )
-  :init
+  ;; :hook (
+  ;;        (prog-mode . display-line-numbers)
+  ;;        )
+  :custom
+  ; (display-line-numbers-type 'relative)
+  (display-line-numbers-type t)
+  (display-line-numbers 'visual)
+  (display-line-numbers nil)
+  (display-line-numbers-widen t)
+  (display-line-numbers-current-absolute t)
+
+  :config
   (defun relative-line-numbers ()
-    (interactive)
+    ;; (interactive)
     (setq-local display-line-numbers 'visual)
     )
 
   (defun absolute-line-numbers ()
-    (interactive)
+    ;; (interactive)
     (setq-local display-line-numbers t)
     )
 
-  :config
-  (setq display-line-numbers-type 'relative)
-  ;;(setq-default
-  (setq
-   display-line-numbers 'visual
-   display-line-numbers-widen t
-   ;; this is the default
-   display-line-numbers-current-absolute t)
-
-  (add-hook 'prog-mode-hook (lambda ()
-                              (add-hook 'evil-insert-state-exit-hook #'relative-line-numbers)
-                              (add-hook 'evil-insert-state-entry-hook #'absolute-line-numbers)
-                              ))
+  ;; (add-hook 'prog-mode-hook
+  ;;           (lambda ()
+  ;;             (add-hook 'evil-insert-state-exit-hook #'relative-line-numbers)
+  ;;             (add-hook 'evil-insert-state-entry-hook #'absolute-line-numbers)
+  ;;             ))
 
   ;; example of customizing colors
   ;;(custom-set-faces '(line-number-current-line ((t :weight bold

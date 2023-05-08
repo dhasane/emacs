@@ -62,6 +62,8 @@ Elements contained in these lists represent full paths to files to load."
 (defun cl/remove-hook-for-extension (ext)
   ""
   ;; (message (concat "removed hook for " ext))
+  ;; TODO: maybe change this to an advice
+  ;; first file that loads an extension doesnt load the desired config, since mode appears to work only afterwards
   (remove-hook 'find-file-hook #'(lambda () (cl/add-check-extension ext))))
 
 (defun cl/load-extension-files (ext)

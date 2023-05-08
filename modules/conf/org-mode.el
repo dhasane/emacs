@@ -6,25 +6,27 @@
 ;;; code:
 
 (defhydra hydra-org (:color blue :columns 3)
-  ("a"   org-agenda             "agenda")
+  ("g"   org-agenda                         "agenda")
   ;; ("l s" org-store-link         "store link")
   ;; ("l i" org-insert-link        "insert link")
-  ("o"   org-roam-buffer-toggle "roam")
-  ("f"   org-roam-node-find     "find")
-  ("i"   org-roam-node-insert   "insert")
+  ("o"   org-roam-buffer-toggle             "roam")
+  ("f"   org-roam-node-find                 "find")
+  ("i"   org-roam-node-insert               "insert")
+
+  ("z"   switch-zettelkasten                "switch zettelkasten")
+
   ; ("m"   org-roam-graph         "map")
-  ("m"   org-roam-ui-mode       "map")
-  ("k"   kill-org-buffers       "kill")
-  ("td"   org-todo-list          "todo list")
+  ("m"   org-roam-ui-mode                   "map")
+  ("k"   kill-org-buffers                   "kill")
+  ("t"   org-todo-list                      "todo list")
 
-  ("dd"   org-roam-dailies-capture-today         "daily capture")
-  ("dt"   org-roam-dailies-goto-today         "show daily capture")
+  ("dd"   org-roam-dailies-capture-today    "daily capture")
+  ("dt"   org-roam-dailies-goto-today       "show daily capture")
 
-  ("ta"   org-roam-tag-add              "tag add")
-  ("tr"   org-roam-tag-remove           "tag remove")
+  ("at"   org-roam-tag-add                  "add tag")
+  ("rt"   org-roam-tag-remove               "remove tag")
 
-  ("ci" #'citar-insert-citation "insert citation")
-
+  ("c" 'hydra-org-cite/body                 "citations")
   )
 
 ;; (defhydra hydra-org (:color red :columns 3)
@@ -83,7 +85,7 @@
   (org-verbatim ((t (:inherit (shadow fixed-pitch)))))
   :custom
   ;; ubicacion
-  (org-agenda-files '("c:/Users/dhamil52/Documents/org" "~/org"))
+  (org-agenda-files '("~/org"))
   (org-default-notes-file (concat org-directory "/capture.org"))
 
   ;; imagenes

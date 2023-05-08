@@ -36,7 +36,7 @@
   (
    (
     rust-mode
-    ruby-mode
+    ;; ruby-mode
     java-mode
     js-mode
     typescript-mode
