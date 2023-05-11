@@ -46,7 +46,8 @@
  "l"   '(hydra-lsp/body     :wk "lsp")
 
  ;; "k" 'kill-buffer
- "t" 'treemacs ; "tree"
+ ;; "t" 'treemacs ; "tree"
+ "t" 'dirvish-side ; "tree"
 
  ;; general
  "X" 'eval-defun

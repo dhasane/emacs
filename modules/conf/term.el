@@ -69,6 +69,8 @@
   ;;                            ((inhibit-same-window . t)))))
   :config
 
+  (advice-add 'eshell-interrupt-process :after 'end-of-buffer)
+
   ;; (setq ivy-do-completion-in-region t) ; this is the default
 
   ;; (defun setup-eshell-ivy-completion ()

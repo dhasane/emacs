@@ -115,6 +115,7 @@
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
 
+  :init
   (defhydra+ hydra-lsp ()
     ("r" lsp-rename  "rename" :column "actions")                     ; "rename"
     )
@@ -147,13 +148,13 @@
            (lsp--select-action)
            (lsp-execute-code-action))))
 
+  :init
+  (lsp-ui-mode)
   (defhydra+ hydra-lsp ()
     ("fd" lsp-ui-peek-find-definitions "definitions" :column "find")
     ("fr" lsp-ui-peek-find-references "references":column "find")
     ("lm" lsp-ui-imenu "imenu" :column "menu")
     )
-  :init
-  (lsp-ui-mode)
   :custom
 
   ;; debug

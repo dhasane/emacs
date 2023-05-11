@@ -123,8 +123,7 @@
 
 (use-package consult-lsp
   :after (consult lsp-mode)
-  :hook (lsp-mode)
-  :config
+  :init
   (defhydra+ hydra-lsp ()
     ("s" consult-lsp-file-symbols "find"        :column "errors")
     ("d" consult-lsp-diagnostics  "diagnostics" :column "errors")

@@ -143,6 +143,12 @@
 (setq native-compile-prune-cache t)
 (setq native-comp-deferred-compilation t)
 
+;; (advice-add 'windmove-left  :before 'save-buffer)
+;; (advice-add 'windmove-right :before 'save-buffer)
+;; (advice-add 'windmove-up    :before 'save-buffer)
+;; (advice-add 'windmove-down  :before 'save-buffer)
+
+;; (advice-add 'split-window   :after 'save-buffer)
 
                                         ; extra settings ;;;;;;;;;;;;;;;;;;;;;
 (put 'narrow-to-region 'disabled nil)

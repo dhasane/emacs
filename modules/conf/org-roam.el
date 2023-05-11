@@ -49,9 +49,10 @@
     ("dd" org-roam-dailies-capture-today    "daily capture"       :column "daily")
     ("dt" org-roam-dailies-goto-today       "show daily capture"  :column "daily")
 
+    ("at" org-roam-tag-add                  "add tag"             :column "tags")
+    ("rt" org-roam-tag-remove               "remove tag"          :column "tags")
+
     ("o"  org-roam-buffer-toggle            "roam buffer"         :column "roam")
-    ("at" org-roam-tag-add                  "add tag"             :column "roam")
-    ("rt" org-roam-tag-remove               "remove tag"          :column "roam")
     ("cn" org-id-get-create                 "create node"         :column "roam")
     ("s"  org-roam-db-sync                  "sync db"             :column "roam")
 

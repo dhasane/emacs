@@ -15,6 +15,7 @@
   )
 
 (use-package treemacs
+  :disabled t
   :custom
   (treemacs-width 50)
   (treemacs-no-png-images nil)
