@@ -7,28 +7,7 @@
 
 (setq file-name-handler-alist nil)
 
-;; tambien funciona con emacs-ng
-;; (unless (fboundp 'ng-bootstrap-straight)
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage)) ;; )
-
-(straight-use-package 'el-patch)
-(straight-use-package 'use-package)
-
 (eval-when-compile (require 'use-package))
-
-(use-package straight
-  :custom (straight-use-package-by-default t))
 
 (eval-and-compile
   ;; siempre instalar lo que no se tenga
@@ -47,6 +26,7 @@
 
 (use-package general :demand t)
 (use-package hydra :demand t)
+
 (use-package benchmark-init
   :disabled
   :init
@@ -82,6 +62,9 @@
   (auto-save-file-name-transforms
    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   )
+
+(if (featurep 'elpaca)
+    (elpaca-wait))
 
 ;; TODO: revisar si se puede definiendo un nuevo keybind map
 

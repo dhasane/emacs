@@ -22,7 +22,9 @@
 (defvar native-comp-deferred-compilation-deny-list nil)
 
 (load (expand-file-name "config-loader.el" user-emacs-directory))
-(cl/load (cl/file "startup")
+(cl/load (cl/dir "modules/package"
+                 :ignore '( "elpaca" ))
+         (cl/file "modules/startup")
          (cl/dir "modules/conf" :ignore '("ivy" "company" "org-papers"))
          (cl/dir "modules/langs"
                  :ignore '("lisp")
