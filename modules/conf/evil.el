@@ -122,8 +122,14 @@
       )
     )
 
+  ;; (defun normal-if-in-insert (a)
+  ;;   (if (eq evil-state 'insert)
+  ;;       (evil-force-normal-state)))
+
   ;; siempre antes de guardar ir a estado normal
   (advice-add #'save-buffer :before #'evil-force-normal-state)
+  ;; (advice-add #'save-buffer :before #'normal-if-in-insert)
+  ;; (advice-remove #'save-buffer #'evil-force-normal-state)
 
  ;;; esc quits
   (define-key evil-normal-state-map [escape] 'keyboard-quit)

@@ -37,13 +37,14 @@
  :keymaps 'override
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
- :states '(emacs normal visual motion insert)
+ :states '(emacs normal visual motion)
 
- [tab] '(hydra-tabs/body    :wk "tabs")
- "TAB" '(hydra-tabs/body    :wk "tabs")
- "o"   '(hydra-org/body     :wk "org")
- "s"   '(hydra-search/body  :wk "search")
- "l"   '(hydra-lsp/body     :wk "lsp")
+ [tab] '(hydra-tabs/body        :wk "tabs")
+ "TAB" '(hydra-tabs/body        :wk "tabs")
+ "o"   '(hydra-org/body         :wk "org")
+ "s"   '(hydra-search/body      :wk "search")
+ "l"   '(hydra-lsp/body         :wk "lsp")
+ "p"   '(projectile-command-map :wk "projectile")
 
  ;; "k" 'kill-buffer
  ;; "t" 'treemacs ; "tree"
@@ -68,19 +69,16 @@
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell
- "." '(dh/create-new-eshell-buffer :which-key "new eshell")     ; "terminal"
- "," '(dh/select-eshell :which-key "select eshell")             ; "seleccionar terminal"
+ "." '(dh/create-new-eshell-buffer  :which-key "new eshell")     ; "terminal"
+ "," '(dh/select-eshell             :which-key "select eshell")             ; "seleccionar terminal"
 
  ;; move to files
- "e" 'find-file                         ; buscar solo en el mismo directorio
+ "e" 'find-file                         ; buscar en el mismo directorio
  "E" 'dh/jet-pack                       ; buscar en todo el proyecto
 
  ;; TODO: arreglar esto
  ;; "j" 'prev-user-buffer-ring
  ;; "k" 'next-user-buffer-ring
-
- ;; projectile
- "p" 'projectile-command-map
 
  ;; emacs
  "'" '(:ignore t :which-key "system")
