@@ -30,6 +30,18 @@
 
 ;; (add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
 
+(defhydra+ hydra-lsp ()
+  ("r" lsp-rename  "rename"                             :column "actions")                     ; "rename"
+  )
+(defhydra+ hydra-lsp ()
+  ("fd" lsp-ui-peek-find-definitions "definitions"      :column "find")
+  ("fr" lsp-ui-peek-find-references "references"        :column "find")
+  ("lm" lsp-ui-imenu "imenu"                            :column "menu")
+  )
+(defhydra+ hydra-lsp ()
+  ("fh" lsp-treemacs-call-hierarchy "call hierarchy"    :column "find")
+  )
+
 (use-package lsp-mode
   :demand t
   :hook
@@ -115,10 +127,6 @@
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
 
-  :init
-  (defhydra+ hydra-lsp ()
-    ("r" lsp-rename  "rename" :column "actions")                     ; "rename"
-    )
   )
 
 (use-package lsp-ui
@@ -150,11 +158,6 @@
 
   :init
   (lsp-ui-mode)
-  (defhydra+ hydra-lsp ()
-    ("fd" lsp-ui-peek-find-definitions "definitions" :column "find")
-    ("fr" lsp-ui-peek-find-references "references":column "find")
-    ("lm" lsp-ui-imenu "imenu" :column "menu")
-    )
   :custom
 
   ;; debug
@@ -201,10 +204,6 @@
 (use-package lsp-treemacs
   :defer t
   :commands lsp-treemacs-errors-list
-  :config
-  (defhydra+ hydra-lsp ()
-    ("fh" lsp-treemacs-call-hierarchy "call hierarchy" :column "find")
-    )
   )
 
 (use-package lsp-origami )

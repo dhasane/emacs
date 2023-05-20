@@ -29,7 +29,8 @@
   (org-roam-db-autosync-mode)
 
   (setq zettlekasten-paths-alist `(("Main" . ,org-roam-directory)
-                                   ("Work" . "~/docs")))
+                                   ("Work" . "~/docs")
+                                   ("Tesis" . "~/tesis")))
 
   (defun switch-zettelkasten ()
     (interactive)

@@ -49,8 +49,8 @@
          )
   )
 
-(defvar dh/history-directory (expand-file-name "undo_history" user-emacs-directory))
-(unless (file-directory-p dh/history-directory) (make-directory dh/history-directory))
+;; (defvar dh/history-directory (expand-file-name "undo_history" user-emacs-directory))
+;; (unless (file-directory-p dh/history-directory) (make-directory dh/history-directory))
 
 (use-package undo-tree
   :delight
@@ -63,7 +63,7 @@
   (global-undo-tree-mode t)
   ;; guardar el historial
   (undo-tree-auto-save-history t)
-  (undo-tree-history-directory-alist `(("." . ,dh/history-directory)))
+  ;; (undo-tree-history-directory-alist `(("." . ,dh/history-directory)))
   ;; hacer cabios en areas particulares
   (undo-tree-enable-undo-in-region t)
   ;; desactivar undo-tree en modos especificos
