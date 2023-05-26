@@ -159,17 +159,15 @@
   ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
   (defhydra+ hydra-org ()
-    ("g"   org-agenda                         "agenda" :column "planning")
+    ("g" org-agenda          "agenda"    :column "planning")
+    ("t" org-todo-list       "todo list" :column "planning")
+
+    ("e" org-export-dispatch "export"    :column "action")
     ;; ("l s" org-store-link         "store link")
     ;; ("l i" org-insert-link        "insert link")
-
-
-                                        ; ("m"   org-roam-graph         "map")
+    ;: ("m"   org-roam-graph         "map")
     ;; ("k"   kill-org-buffers                   "kill" )
-    ("t"   org-todo-list                      "todo list" :column "planning")
     )
-
-
   )
 
 ;; Define a transient state for quick navigation
