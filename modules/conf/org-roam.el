@@ -43,19 +43,20 @@
       (org-roam-db-sync)))
 
   (defhydra+ hydra-org (:color blue :columns 3)
-    ("f"  org-roam-node-find                "find"                :column "action")
-    ("i"  org-roam-node-insert              "insert"              :column "action")
-    ("z"   switch-zettelkasten              "switch zettelkasten" :column "action")
+    ("f"  org-roam-node-find                "find"                 :column "action")
+    ("i"  org-roam-node-insert              "insert"               :column "action")
+    ("z"   switch-zettelkasten              "switch zettelkasten"  :column "action")
 
-    ("dd" org-roam-dailies-capture-today    "daily capture"       :column "daily")
-    ("dt" org-roam-dailies-goto-today       "show daily capture"  :column "daily")
+    ("dd" org-roam-dailies-capture-today    "daily capture"        :column "daily")
+    ("dt" org-roam-dailies-goto-today       "show today's capture" :column "daily")
+    ;; ("ds" org-roam-dailies-goto-date        "show all captures"    :column "daily")
 
-    ("at" org-roam-tag-add                  "add tag"             :column "tags")
-    ("rt" org-roam-tag-remove               "remove tag"          :column "tags")
+    ("at" org-roam-tag-add                  "add tag"              :column "tags")
+    ("rt" org-roam-tag-remove               "remove tag"           :column "tags")
 
-    ("o"  org-roam-buffer-toggle            "roam buffer"         :column "roam")
-    ("cn" org-id-get-create                 "create node"         :column "roam")
-    ("s"  org-roam-db-sync                  "sync db"             :column "roam")
+    ("o"  org-roam-buffer-toggle            "roam buffer"          :column "roam")
+    ("cn" org-id-get-create                 "create node"          :column "roam")
+    ("s"  org-roam-db-sync                  "sync db"              :column "roam")
 
     ;; ("m" org-roam-graph     "map" :column "ui")
     )

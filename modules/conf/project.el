@@ -82,6 +82,34 @@ conectado a una maquina externa.
             ;; (setq-local compilation-read-command nil)
             (call-interactively 'compile))
    )
+  :config
+  (setq switch-to-buffer-obey-display-actions t)
+  ;; Introduce a bottom side window that catches
+  ;; compilations, deadgreps etc.
+  (add-to-list 'display-buffer-alist
+               '("\\*deadgrep.*\\|\\*Compilation\\*"
+                 (display-buffer-in-side-window)
+                 (side . bottom)
+                 (slot . 0)
+                 (window-parameters
+                  (no-delete-other-windows . t))))
+
+  (defun deets/side-window-resize (enlarge)
+    (let ((bottom-windows (window-at-side-list (window-normalize-frame nil) 'bottom)))
+      (dolist (window bottom-windows)
+        (when (symbolp (window-parameter window 'window-side))
+          (if enlarge
+              (window-resize window (window-height window))
+            (window-resize window (- (/ (window-height window) 2))))))))
+
+  (defun deets/side-window-toggle (arg)
+    (interactive "P")
+    (cond ((null arg) (window-toggle-side-windows))
+          ((listp arg) (deets/side-window-resize t))
+          ((symbolp arg) (deets/side-window-resize nil))))
+
+  ;; Remove our side-windows
+  ;; (global-set-key (read-kbd-macro "C-x w") 'deets/side-window-toggle)
   )
 
 (use-package gud

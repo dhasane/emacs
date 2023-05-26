@@ -165,7 +165,7 @@
     ("e" org-export-dispatch "export"    :column "action")
     ;; ("l s" org-store-link         "store link")
     ;; ("l i" org-insert-link        "insert link")
-    ;: ("m"   org-roam-graph         "map")
+    ;; ("m"   org-roam-graph         "map")
     ;; ("k"   kill-org-buffers                   "kill" )
     )
   )

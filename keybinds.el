@@ -46,13 +46,21 @@
  "l"   '(hydra-lsp/body         :wk "lsp")
  "p"   '(projectile-command-map :wk "projectile")
 
+ ;; find files
+ "e" 'find-file                         ; buscar en el mismo directorio
+ "E" 'dh/jet-pack                       ; buscar en todo el proyecto
+
+ "v" 'deets/side-window-toggle
+
  ;; "k" 'kill-buffer
  ;; "t" 'treemacs ; "tree"
  "t" 'dirvish-side ; "tree"
 
  ;; general
+ ;; TODO: buscar una mejor forma de organizar esto
  "X" 'eval-defun
  "x" 'execute-extended-command
+
  ;; consult-complex-command
  "b" 'consult-buffer  ;'switch-to-buffer
  "g" 'magit
@@ -71,10 +79,6 @@
  ;; eshell
  "." '(dh/create-new-eshell-buffer  :which-key "new eshell")     ; "terminal"
  "," '(dh/select-eshell             :which-key "select eshell")             ; "seleccionar terminal"
-
- ;; move to files
- "e" 'find-file                         ; buscar en el mismo directorio
- "E" 'dh/jet-pack                       ; buscar en todo el proyecto
 
  ;; TODO: arreglar esto
  ;; "j" 'prev-user-buffer-ring

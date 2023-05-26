@@ -16,6 +16,8 @@
   (corfu-echo-documentation 0) ;; Do not show documentation in the echo area
   (corfu-auto nil)
 
+  (corfu-preselect 'prompt)
+
   (corfu-min-width 80)
   (corfu-max-width corfu-min-width)
 
