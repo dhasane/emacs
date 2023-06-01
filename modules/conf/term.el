@@ -22,19 +22,10 @@
         (eshell-mode . visual-line-mode)
         (eshell-output-filter-functions . #'eshell-truncate-buffer)
          )
-  :defines
+  :general
   (
-   eshell
-   eshell-visual-commands
-   eshell-visual-subcommands
-   eshell-mode-map
-   eshell-prompt-function
-   eshell-highlight-prompt
-   eshell-kill-on-exit
-   )
-  :functions
-  (
-   eshell-kill-on-exit
+   :states '(normal insert)
+   "C-d" 'eshell-send-eof-to-process
    )
   :custom
   (eshell-aliases-file (cl/expand-name "eshell/alias")) ;; TODO: tal vez podria ser mejor definir los alias a traves de elisp en vez de usando este archivo
@@ -84,18 +75,6 @@
   ;;                     ivy-display-functions-alist)))
 
   ;; (add-hook 'eshell-mode-hook #'setup-eshell-ivy-completion)
-
-;;   (defun check-gitconfig-create ()
-;;     (interactive)
-;;     (shell-command
-;;      "[ ! -f ~/.gitconfig ] && echo '
-;; [user]
-;;     email = danihas@live.com
-;;     name = dhasane
-;; ' > ~/.gitconfig"
-;;      ;;(magit-status)
-;;      )
-;;     )
 
   (add-hook 'eshell-directory-change-hook
             (lambda ()
@@ -313,6 +292,38 @@
      ((pcomplete-match "checkout" 1)
       (pcomplete-here* (pcmpl-git-get-refs "heads")))))
 
+  )
+
+(use-package eat
+  :demand t
+  :straight (eat :type git
+                 :host codeberg
+                 :repo "akib/emacs-eat"
+                 :files ("*.el" ("term" "term/*.el") "*.texi"
+                         "*.ti" ("terminfo/e" "terminfo/e/*")
+                         ("terminfo/65" "terminfo/65/*")
+                         ("integration" "integration/*")
+                         (:exclude ".dir-locals.el" "*-tests.el")))
+  ;; :custom
+  ;; (eat-eshell-mode t)
+  ;; :hook (
+  ;;        ;; For `eat-eshell-mode'.
+  ;;        (eshell-load . eat-eshell-mode)
+  ;;        ;; For `eat-eshell-visual-command-mode'.
+  ;;        (eshell-load . eat-eshell-visual-command-mode)
+  ;;        )
+  ;; :init
+  ;; ;; For `eat-eshell-mode'.
+  ;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
+
+  ;; ;; For `eat-eshell-visual-command-mode'.
+  ;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+  :hook (
+         ;; For `eat-eshell-mode'.
+         (eshell-load . eat-eshell-mode)
+         ;; For `eat-eshell-visual-command-mode'.
+         (eshell-load . eat-eshell-visual-command-mode)
+         )
   )
 
 (use-package xterm-color
