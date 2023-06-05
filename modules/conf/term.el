@@ -312,18 +312,18 @@
   ;;        ;; For `eat-eshell-visual-command-mode'.
   ;;        (eshell-load . eat-eshell-visual-command-mode)
   ;;        )
-  ;; :init
-  ;; ;; For `eat-eshell-mode'.
-  ;; (add-hook 'eshell-load-hook #'eat-eshell-mode)
+  :init
+  ;; For `eat-eshell-mode'.
+  (add-hook 'eshell-load-hook #'eat-eshell-mode)
 
-  ;; ;; For `eat-eshell-visual-command-mode'.
-  ;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-  :hook (
-         ;; For `eat-eshell-mode'.
-         (eshell-load . eat-eshell-mode)
-         ;; For `eat-eshell-visual-command-mode'.
-         (eshell-load . eat-eshell-visual-command-mode)
-         )
+  ;; For `eat-eshell-visual-command-mode'.
+  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+  ;; :hook (
+  ;;        ;; For `eat-eshell-mode'.
+  ;;        (eshell-load . #'eat-eshell-mode)
+  ;;        ;; For `eat-eshell-visual-command-mode'.
+  ;;        (eshell-load . #'eat-eshell-visual-command-mode)
+  ;;        )
   )
 
 (use-package xterm-color

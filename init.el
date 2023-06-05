@@ -51,6 +51,7 @@
                    ("nix" . "nix")
                    ("dart" . "dart")
                    ("tf" . "terraform")
+                   ("ino" . "arduino")
                    ;; docker.el
                    ;; lisp.el
                    )

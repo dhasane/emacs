@@ -8,6 +8,7 @@
   :mode (
          ("\\.h\\'"   . c-mode)
          ("\\.cpp\\'" . c++-mode)
+         ("\\.ino\\'" . c++-mode)
   )
   :custom
   (ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
@@ -19,6 +20,7 @@
   ;; (ccls-sem-highlight-method 'overlay)
   :config
 
+  (setq-default indent-tabs-mode nil)
 
   ;; For rainbow semantic highlighting
   (ccls-use-default-rainbow-sem-highlight)
