@@ -67,14 +67,6 @@
   (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
   )
 
-(use-package typescript-mode
-  :demand t
-  :mode ("\\.ts\\'" "\\.tsx\\'")
-  :custom
-  (typescript-indent-level       2)
-  (typescript-expr-indent-offset 2)
-  )
-
 (use-package tide                              ; https://github.com/ananthakumaran/tide
   :disabled
   :after (typescript-mode flycheck)
