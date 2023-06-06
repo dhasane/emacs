@@ -127,6 +127,7 @@
 
 (use-package consult-lsp
   :after (consult lsp-mode)
+  :requires lsp-mode
   :general
   (dahas-lsp-map
    "s" 'consult-lsp-file-symbols
