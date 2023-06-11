@@ -101,5 +101,9 @@
   (global-tree-sitter-mode)
   )
 
+(use-package smart-tabs-mode
+  :ensure t
+  :config
+  (progn (smart-tabs-insinuate 'c 'c++)))
 
 ;;; code-editor.el ends here
