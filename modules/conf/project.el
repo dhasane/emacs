@@ -5,10 +5,12 @@
 
 ;;; code:
 
+(use-package project)
+
 (use-package projectile
   :delight '(:eval (format "[%s]" (projectile-project-name)))
   :demand t
-  :defer .1
+  :defer 1
   :bind
   (
    :map
@@ -26,7 +28,7 @@
 
   ;; evitar cargar rutas que no existen
   (dolist (path '("~/dev/" "~/work"))
-    (if (f-exists-p path)
+    (if (file-exists-p path)
         (add-to-list 'projectile-project-search-path path)))
 
   (projectile-mode +1)

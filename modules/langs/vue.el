@@ -8,8 +8,8 @@
 ;;   :disabled t
 ;;   )
 
-(define-derived-mode dh-vue-mode web-mode "Vue"
+(define-derived-mode web-vue-mode web-mode "Vue"
   "A major mode derived from web-mode, for editing .vue files with LSP support.")
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . dh-vue-mode))
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-vue-mode))
 
 ;;; vue.el ends here
