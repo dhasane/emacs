@@ -77,8 +77,10 @@
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell
- "." '(dh/create-new-eshell-buffer  :which-key "new eshell")     ; "terminal"
- "," '(dh/select-eshell             :which-key "select eshell")             ; "seleccionar terminal"
+ "." '(dh/create-new-eshell-buffer  :which-key "new eshell")
+ "," '(dh/select-eshell             :which-key "select eshell")
+ "/" '(project-eshell               :which-key "project eshell")
+ "-" '(project-eshell               :which-key "project eshell")
 
  ;; TODO: arreglar esto
  ;; "j" 'prev-user-buffer-ring
