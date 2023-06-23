@@ -3,7 +3,20 @@
 ;;; Code:
 
 (setq enable-recursive-minibuffers t)
-(setq indent-tabs-mode nil)
+
+(use-package prog
+  :straight (:type built-in)
+  :init
+  (setq-default c-basic-offset 4
+                tab-width 4
+                indent-tabs-mode nil)
+  (setq-default indent-tabs-mode nil)
+  :config
+  (setq-local indent-tabs-mode nil)
+  :custom
+  (indent-tabs-mode nil)
+  )
+
 
 (use-package origami
   :demand t

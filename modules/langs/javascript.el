@@ -17,7 +17,6 @@
   ;; :hook (js-mode . js-web-mode-init-hook)
   :custom
   (js-indent-level 2)
-  (indent-tabs-mode nil)
 
   (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
   (flycheck-auto-change-delay           1.5)

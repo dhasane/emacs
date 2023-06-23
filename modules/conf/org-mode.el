@@ -160,9 +160,12 @@
 
   (defhydra+ hydra-org ()
     ("g" org-agenda          "agenda"    :column "planning")
-    ("t" org-todo-list       "todo list" :column "planning")
+    ("tl" org-todo-list       "todo list" :column "planning")
 
-    ("e" org-export-dispatch "export"    :column "action")
+    ("ea" org-export-dispatch "export action"    :column "action")
+
+    ("ti" org-insert-structure-template "structure template" :column "action")
+
     ;; ("l s" org-store-link         "store link")
     ;; ("l i" org-insert-link        "insert link")
     ;; ("m"   org-roam-graph         "map")

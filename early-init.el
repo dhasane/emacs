@@ -96,6 +96,14 @@
 ;;    (convert-standard-filename
 ;; 	  (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 
+(push '(foreground-color . :never) frameset-filter-alist)
+(push '(background-color . :never) frameset-filter-alist)
+(push '(font . :never) frameset-filter-alist)
+(push '(cursor-color . :never) frameset-filter-alist)
+(push '(background-mode . :never) frameset-filter-alist)
+(push '(ns-appearance . :never) frameset-filter-alist)
+(push '(background-mode . :never) frameset-filter-alist)
+
 ;; medir el tiempo de inico
 ;; Use a hook so the message doesn't get clobbered by other messages.
 (add-hook 'emacs-startup-hook

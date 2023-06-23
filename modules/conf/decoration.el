@@ -15,6 +15,9 @@
 
 ;; (setq indicate-buffer-boundaries t)
 
+(setq inhibit-startup-screen t
+      initial-buffer-choice  nil)
+
 (use-package dashboard
   :disabled t
   :demand t
@@ -25,6 +28,8 @@
   :custom
 
   (inhibit-startup-screen t)
+  (initial-buffer-choice nil)
+
   ;; (initial-buffer-choice "~/.emacs")
   ;; (initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   ;; (setq dashboard-startup-banner 'logo)

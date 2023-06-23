@@ -7,19 +7,8 @@
 (desktop-save-mode -1)
 (setq desktop-restore-eager nil)
 
-(push '(foreground-color . :never) frameset-filter-alist)
-(push '(background-color . :never) frameset-filter-alist)
-(push '(font . :never) frameset-filter-alist)
-(push '(cursor-color . :never) frameset-filter-alist)
-(push '(background-mode . :never) frameset-filter-alist)
-(push '(ns-appearance . :never) frameset-filter-alist)
-(push '(background-mode . :never) frameset-filter-alist)
-
 ;;(defun always-use-fancy-splash-screens-p () 1)
   ;;(defalias 'use-fancy-splash-screens-p 'always-use-fancy-splash-screens-p)
-
-(setq inhibit-startup-screen t
-      initial-buffer-choice  nil)
 
 (setq-default bidi-paragraph-direction 'left-to-right)
 (if (version<= "27.1" emacs-version)
@@ -75,10 +64,6 @@
 ;;(setq-default tab-always-indent 'complete)
 ;;
 (setq c-default-style "linux")
-(setq-default c-basic-offset 4
-              tab-width 4
-              indent-tabs-mode nil)
-(setq indent-tabs-mode nil)
 
 ;; que no pregunte cuando me quiero salir
 (setq use-dialog-box nil)

@@ -17,6 +17,7 @@
   :init
   (defhydra+ hydra-org ()
     ("ci" citar-insert-citation "insert citation" :column "papers")
+    ("ep" org-latex-export-to-pdf "export pdf" :column "papers")
     )
   )
 
