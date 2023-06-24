@@ -11,6 +11,9 @@
   :type 'list
   :group 'config-loader)
 
+(savehist-mode 1)
+(add-to-list 'savehist-additional-variables 'config-loader-lazy)
+
 (require 'cl-lib)
 
 (defun cl/expand-name (file)
@@ -76,12 +79,10 @@ Elements contained in these lists represent full paths to files to load."
     (mapcar (lambda (elem)
               (mapcar
                #'(lambda (to-load-file)
-                   ;; (message "(%s)" to-load-file)
-                   (cl/modify-var ext (car elem))
                    (let ((filepath (format "%s/%s" (car elem) to-load-file)))
                      (cl/file filepath)))
                (flatten-tree (cdr elem))))
-            (cl/get-in-var ext)))))
+            (cl/remove-var-and-return ext)))))
 
 (defun cl/force-load-ext ()
   (interactive)
@@ -102,6 +103,16 @@ Elements contained in these lists represent full paths to files to load."
   "Check if current file has extension EXT.  If so, the files for the EXT are loaded."
   (if (cl/check-extension ext)
     (cl/load-extension-files ext)))
+
+(defun cl/remove-var (ext)
+  "Remove list related to EXT."
+  (delete (assoc ext config-loader-lazy) config-loader-lazy))
+
+(defun cl/remove-var-and-return (ext)
+  ""
+  (let ((val (cl/get-in-var ext)))
+    (cl/remove-var ext)
+    val))
 
 (defun cl/add-to-var (ext dir-name to-load)
   ""
@@ -130,11 +141,6 @@ Elements contained in these lists represent full paths to files to load."
    (if dir-name
        (assoc dir-name (cdr (assoc ext config-loader-lazy)))
      (assoc ext config-loader-lazy))))
-
-(defun cl/modify-var (ext dir-name)
-  "Changes the list of files to load to t, to represent they have been loaded."
-  (setcdr (assoc dir-name (cdr (assoc ext config-loader-lazy))) nil)
-  )
 
 (defun cl/get-exts-in-var ()
   "Get car from all values in list."
