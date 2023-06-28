@@ -5,6 +5,7 @@
 ;;; code:
 
 (use-package lsp-java
+  :after (lsp-mode)
   ;; :hook ((java-mode . lsp-java-boot-lens-mode))
   :hook
   (java-mode .

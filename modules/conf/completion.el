@@ -137,6 +137,8 @@
   ;;   ("s" consult-lsp-file-symbols "find"        :column "errors")
   ;;   ("d" consult-lsp-diagnostics  "diagnostics" :column "errors")
   ;;   )
+  :config
+  (consult-lsp-marginalia-mode)
   ;; :custom
   ;; (consult-lsp-margina-mode t)
   )

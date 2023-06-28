@@ -121,8 +121,7 @@
   :disabled t
   :config
   (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
-  (with-eval-after-load 'typescript-mode
-    (add-hook 'typescript-mode-hook #'lsp)))
+  )
 
 (use-package rjsx-mode
   :disabled t

@@ -11,6 +11,14 @@
   :config
   (add-hook 'ruby-mode-hook 'robe-mode)
   (add-hook 'ruby-ts-mode-hook 'robe-mode)
+  ;; :general
+  ;; (
+  ;;  :keymaps '(ruby-mode-map)
+  ;;           ;; :states '(normal insert)
+  ;;  )
+  )
+
+(use-package rvm
   )
 
 (use-package robe
