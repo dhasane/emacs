@@ -274,6 +274,7 @@
                       racer
                       flycheck
                       flymake
+                      robe
                       ;; compile
                       )))
     (dolist (pe prevent-ec)
