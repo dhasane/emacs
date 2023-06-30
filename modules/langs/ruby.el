@@ -5,6 +5,7 @@
 ;;; code:
 
 (use-package ruby-mode
+  :elpaca nil
   :custom
   (ruby-insert-encoding-magic-comment nil)
   :config

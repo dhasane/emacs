@@ -12,6 +12,7 @@
   )
 
 (use-package js
+  :elpaca nil
   :demand t
   ;; :mode ("\\.js\\'")
   ;; :hook (js-mode . js-web-mode-init-hook)
