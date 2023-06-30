@@ -5,8 +5,8 @@
 ;;; code:
 
 (use-package corfu
-  :straight (corfu :files (:defaults "extensions/*")
-                   :includes (corfu-info corfu-history))
+  :elpaca (corfu :files (:defaults "extensions/*")
+                 :includes (corfu-info corfu-history))
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   ;; (corfu-auto t)                 ;; Enable auto completion
@@ -107,6 +107,7 @@
 
 ;; Dabbrev works with Corfu
 (use-package dabbrev
+  :elpaca nil
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand)))

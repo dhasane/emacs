@@ -129,6 +129,7 @@
   )
 
 (use-package display-line-numbers
+  :elpaca nil
   ;; :hook (
   ;;        (prog-mode . display-line-numbers)
   ;;        )

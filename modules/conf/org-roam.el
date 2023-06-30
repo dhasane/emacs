@@ -63,7 +63,7 @@
   )
 
 (use-package org-roam-ui
-  :straight
+  :elpaca
   (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
   :after org-roam
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have

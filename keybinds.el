@@ -3,6 +3,9 @@
 ;;; Commentary:
 ;;; code:
 
+(if (featurep 'elpaca)
+    (elpaca-wait))
+
 (defun comment-or-uncomment-line-or-region ()
   "Comments or uncomments the current line or region."
   (interactive)

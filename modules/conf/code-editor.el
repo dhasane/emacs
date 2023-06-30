@@ -5,7 +5,8 @@
 (setq enable-recursive-minibuffers t)
 
 (use-package prog
-  :straight (:type built-in)
+  :elpaca nil
+  ;; :straight (:type built-in)
   :init
   (setq-default c-basic-offset 4
                 tab-width 4
@@ -39,6 +40,7 @@
   )
 
 (use-package hl-line
+  :elpaca nil
   :defer 1
   :hook (prog-mode . hl-line-mode)
   ;; :config
