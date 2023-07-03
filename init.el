@@ -23,9 +23,11 @@
 
 (load (expand-file-name "config-loader.el" user-emacs-directory))
 (cl/load (cl/dir "modules/package"
-                 :ignore '( "elpaca" ))
+                 :alt '((0 . ("straight" "elpaca"))))
          (cl/file "modules/startup")
-         (cl/dir "modules/conf" :ignore '("ivy" "company" "org-papers"))
+         (cl/dir "modules/conf"
+                 :alt '((1 . ("company" "corfu"))
+                        (0 . ("completion" "ivy"))))
          (cl/dir "modules/langs"
                  :ignore '("lisp")
                  :lazy
@@ -59,7 +61,7 @@
                    )
                  )
          (cl/dir "modules/extra"
-                 :ignore '("email" "epub" "fira-code" "games" "telegram")
+                 :ignore '("email" "epub" "fira-code" "games" "telegram" "org-papers")
                  :lazy
                  '(("pdf" . "pdf"))
                  )

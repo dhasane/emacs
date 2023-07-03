@@ -11,8 +11,8 @@
   :type 'list
   :group 'config-loader)
 
-(savehist-mode 1)
-(add-to-list 'savehist-additional-variables 'config-loader-lazy)
+;; (savehist-mode 1)
+;; (add-to-list 'savehist-additional-variables 'config-loader-lazy)
 
 (require 'cl-lib)
 
@@ -20,18 +20,29 @@
   "Expands FILE in relation to emacs dir."
   (expand-file-name file user-emacs-directory))
 
-(cl-defun cl/dir (dir-name &key ignore lazy)
+(defun remove-nth (n list)
+  "Remove the nth element of a list."
+  (if (> n (length list))
+      list
+    (append (cl-subseq list 0 n)
+            (cl-subseq list (1+ n)))))
+
+(cl-defun cl/dir (dir-name &key alt ignore lazy)
   "Get all filenames in DIR-NAME. Ignores files listed in ignore."
 
   (let* ((dir (cl/expand-name (concat dir-name "/")))
-         (ignore-exp (mapcar #'(lambda (x) (concat dir x))
-                             (flatten-tree (list ignore
-                                                 (if lazy (cl/lazy-load dir-name lazy)))))))
-                     ;; (cl/comp-dir dir compile)
-                     (seq-uniq ;; if a file has been compiled, it will appear 2 times
-                      (cl-remove-if (lambda (r) (member r ignore-exp))
-                                    (mapcar #'file-name-sans-extension (directory-files dir t "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)")))))
-         )
+         (lazy-to-ignore (if lazy (cl/lazy-load dir-name lazy)))
+         (alt-to-ignore (flatten-tree
+                      (mapcar #'(lambda (x) (remove-nth (car x) (cdr x)))
+                              alt)))
+         (all-to-ignore (flatten-tree (list ignore lazy-to-ignore alt-to-ignore)))
+         (ignore-exp (mapcar #'(lambda (x) (concat dir x)) all-to-ignore)))
+    (message "ignored: %s" all-to-ignore)
+    ;; (cl/comp-dir dir compile)
+    (seq-uniq ;; if a file has been compiled, it will appear 2 times
+     (cl-remove-if (lambda (r) (member r ignore-exp))
+                   (mapcar #'file-name-sans-extension (directory-files dir t "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)")))))
+  )
 
 (defun cl/file (filename)
   "Gets FILENAME and inserts it into a list."
