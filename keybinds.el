@@ -3,6 +3,13 @@
 ;;; Commentary:
 ;;; code:
 
+(defun comment-or-uncomment-line-or-region ()
+  "Comments or uncomments the current line or region."
+  (interactive)
+  (if (region-active-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position))))
+
 (general-define-key
  :keymaps 'override
  "C-+"   'text-scale-increase
@@ -10,7 +17,7 @@
  "C-S-h" 'help-command
  "C-S-s" 'save-all-buffers
  "C-S-q" 'kill-other-buffers ; tambien esta clean-buffer-list
- "M-/"   'comment-dwim
+ "C-/"   'comment-or-uncomment-line-or-region
  )
 
 (general-define-key
@@ -60,8 +67,8 @@
 
  ;; general
  ;; TODO: buscar una mejor forma de organizar esto
- "X" 'eval-defun
- "x" 'execute-extended-command
+ ;; "X" 'eval-defun
+ ;; "x" 'execute-extended-command
 
  ;; consult-complex-command
  "b" 'consult-buffer  ;'switch-to-buffer
@@ -92,14 +99,12 @@
  "'" '(:ignore t :which-key "system")
  "'rs" 'reload-emacs-config             ; "reload init"
  "'e"  'open-emacs-config               ; "edit init"
-
+ "'s"  'proced
 
  "'p" '(:ignore t :which-key "profiler")
  "'ps" 'profiler-start
  "'pS" 'profiler-stop
  "'pr" 'profiler-report
- "'s"  'proced
-
 
  "c" '(:ignore t :which-key "config")
  "cg" 'global-display-line-numbers-mode

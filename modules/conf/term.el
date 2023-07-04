@@ -23,7 +23,7 @@
         (eshell-output-filter-functions . #'eshell-truncate-buffer)
          )
   :general
-  (
+  (eshell-mode-map
    :states '(normal insert)
    "C-d" 'eshell-send-eof-to-process
    )
