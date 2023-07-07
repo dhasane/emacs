@@ -52,6 +52,7 @@
  "s"   '(hydra-search/body      :wk "search")
  "l"   '(hydra-lsp/body         :wk "lsp")
  "p"   '(projectile-command-map :wk "projectile")
+ "m"   '(hydra-manage/body      :wk "manage")
 
  ;; find files
  "e" 'find-file                         ; buscar en el mismo directorio

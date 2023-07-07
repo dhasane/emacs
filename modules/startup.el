@@ -84,4 +84,8 @@
   "Org"
   )
 
+(defhydra hydra-manage (:color blue)
+  "Manage"
+  )
+
 ;;; startup.el ends here
