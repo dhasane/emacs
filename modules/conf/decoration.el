@@ -109,7 +109,7 @@
   (all-the-icons-completion-mode))
 
 (use-package kind-icon
-  ;; :after (corfu)
+  :after (corfu)
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   :init

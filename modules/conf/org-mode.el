@@ -6,7 +6,7 @@
 ;;; code:
 
 (use-package org
-  ;; :straight (:type built-in)
+  :straight (:type built-in)
   :elpaca nil
   :defer .1
   :general

@@ -7,6 +7,8 @@
 (use-package corfu
   :elpaca (corfu :files (:defaults "extensions/*")
                  :includes (corfu-info corfu-history))
+  :straight (corfu :files (:defaults "extensions/*")
+                   :includes (corfu-info corfu-history))
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   ;; (corfu-auto t)                 ;; Enable auto completion

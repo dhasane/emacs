@@ -25,6 +25,7 @@
 (cl/load (cl/dir "modules/package"
                  :alt '((1 . ("straight" "elpaca"))))
          (cl/file "modules/startup")
+         (cl/file "modules/pack")
          (cl/dir "modules/conf"
                  :alt '((1 . ("company" "corfu"))
                         (0 . ("completion" "ivy"))))
