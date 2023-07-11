@@ -10,6 +10,7 @@
 ;;   )
 
 (use-package ispell
+  :elpaca nil
   :disabled
   :config
   ;; Configure `LANG`, otherwise ispell.el cannot find a 'default

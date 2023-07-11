@@ -20,6 +20,7 @@
   :group 'tab-bar)
 
 (use-package tab-bar
+  :elpaca nil
   :demand t
   :general
   (:states '(normal motion)

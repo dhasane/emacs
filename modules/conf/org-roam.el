@@ -63,6 +63,8 @@
   )
 
 (use-package org-roam-ui
+  :elpaca
+  (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
   :straight
   (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
   :after org-roam

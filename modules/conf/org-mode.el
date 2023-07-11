@@ -7,6 +7,7 @@
 
 (use-package org
   :straight (:type built-in)
+  :elpaca nil
   :defer .1
   :general
   (org-mode-map

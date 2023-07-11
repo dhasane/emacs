@@ -67,6 +67,7 @@ conectado a una maquina externa.
 ;;   :load-path "~/.emacs.d/elisp/code-compass/" )
 
 (use-package compile
+  :elpaca nil
   :hook
   (
    ;; Add color formatting to *compilation* buffer
@@ -113,6 +114,7 @@ conectado a una maquina externa.
   )
 
 (use-package gud
+  :elpaca nil
   :custom
   (gdb-many-windows t) ;; use gdb-many-windows by default
   (gdb-show-main t)    ;; Non-nil means display source file containing the main routine at startup

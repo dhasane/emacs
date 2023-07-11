@@ -5,6 +5,7 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 (use-package midnight
+  :elpaca nil
   ;; :after
   :demand t
   :config
@@ -46,6 +47,7 @@
   )
 
 (use-package proced
+  :elpaca nil
   :custom
   (proced-auto-update-flag t)
   )

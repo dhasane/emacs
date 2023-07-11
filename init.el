@@ -23,8 +23,9 @@
 
 (load (expand-file-name "config-loader.el" user-emacs-directory))
 (cl/load (cl/dir "modules/package"
-                 :alt '((0 . ("straight" "elpaca"))))
+                 :alt '((1 . ("straight" "elpaca"))))
          (cl/file "modules/startup")
+         (cl/file "modules/pack")
          (cl/dir "modules/conf"
                  :alt '((1 . ("company" "corfu"))
                         (0 . ("completion" "ivy"))))
