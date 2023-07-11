@@ -72,7 +72,7 @@
   (dashboard-setup-startup-hook))
 
 (use-package gruvbox-theme
-  ;; :disabled
+  :disabled t
   :demand t
   :config
   (load-theme
@@ -82,21 +82,34 @@
    )
   )
 
-;; (use-package ample-theme
-;;   ;; https://github.com/jordonbiondo/ample-theme
-;;   :init
-;;
-;;   ;; (load-theme 'ample t t)
-;;   ;;(load-theme 'ample-flat t t)
-;;   ;; (load-theme 'ample-light t t) ;; no
-;;   (load-theme 'ample)
-;;   :defer t
-;;   )
-;;(use-package kaolin-themes
-  ;;;; https://github.com/ogdenwebb/emacs-kaolin-themes
-  ;;:config
-  ;;(load-theme 'kaolin-temple t)
-  ;;(kaolin-treemacs-theme))
+(use-package doom-themes
+  ;; :disabled t
+  :demand t
+  :custom
+  (doom-themes-enable-bold t)    ; if nil, bold is universally disabled
+  (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  :config
+  ;; Global settings (defaults)
+  (load-theme 'doom-gruvbox t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  ;; (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(use-package solaire-mode
+  :demand t
+  :after (doom-themes)
+  :config
+  (solaire-global-mode +1)
+  ;; (dolist (face '(mode-line mode-line-inactive))
+  ;;   (setf (alist-get face solaire-mode-remap-modeline) nil))
+  )
 
 (use-package all-the-icons
   :demand t
