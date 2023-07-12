@@ -156,21 +156,6 @@
   :init
   (direnv-mode))
 
-(use-package adaptive-wrap
-  :custom
-  (adaptive-wrap-extra-indent 4)
-  :config
-  ;; https://stackoverflow.com/questions/13559061/emacs-how-to-keep-the-indentation-level-of-a-very-long-wrapped-line/13561223
-  (when (fboundp 'adaptive-wrap-prefix-mode)
-    (defun my-activate-adaptive-wrap-prefix-mode ()
-      "Toggle `visual-line-mode' and `adaptive-wrap-prefix-mode' simultaneously."
-      (adaptive-wrap-prefix-mode (if visual-line-mode 1 -1)))
-    (add-hook 'visual-line-mode-hook 'my-activate-adaptive-wrap-prefix-mode))
-  )
-
 (use-package logview)
-
-(use-package eldoc
-  :delight)
 
 ;;; system end here

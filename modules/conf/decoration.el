@@ -6,12 +6,32 @@
 
 (setq-default indicate-empty-lines t)
 
-(setq-default global-visual-line-mode nil) ;; search something like this
+;; (setq-default global-visual-line-mode t) ;; search something like this
+;; (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
 (setq visual-line-fringe-indicators
       '(
         nil ;; left-curly-arrow
         right-curly-arrow
         ))
+
+(use-package adaptive-wrap
+  :hook ((prog-mode . adaptive-wrap-prefix-mode))
+  :custom
+  (adaptive-wrap-extra-indent 4)
+  ;; :config
+  ;; https://stackoverflow.com/questions/13559061/emacs-how-to-keep-the-indentation-level-of-a-very-long-wrapped-line/13561223
+  ;; (when (fboundp 'adaptive-wrap-prefix-mode)
+  ;;   (defun my-activate-adaptive-wrap-prefix-mode ()
+  ;;     "Toggle `visual-line-mode' and `adaptive-wrap-prefix-mode' simultaneously."
+  ;;     (adaptive-wrap-prefix-mode (if visual-line-mode 1 -1)))
+  ;;   (add-hook 'visual-line-mode-hook 'my-activate-adaptive-wrap-prefix-mode))
+  )
+
+(use-package visual-line-mode
+  :elpaca nil
+  :hook ((prog-mode . visual-line-mode)
+	 (org-mode . visual-line-mode))
+  )
 
 ;; (setq indicate-buffer-boundaries t)
 

@@ -18,6 +18,8 @@
   (indent-tabs-mode nil)
   )
 
+(use-package eldoc
+  :delight)
 
 (use-package origami
   :demand t

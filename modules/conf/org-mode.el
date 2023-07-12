@@ -28,14 +28,10 @@
                         (make-local-variable 'right-margin-width)
                         (setq line-spacing 0
                               left-margin-width 2
-                              right-margin-width 2
-
-                              )
+                              right-margin-width 2)
                         ;; (set-window-buffer nil (current-buffer))
                         )))
-        (org-mode . visual-line-mode)
-        (org-mode . org-indent-mode)
-        )
+        (org-mode . org-indent-mode))
   :custom-face
   (org-ellipsis ((t (:foreground "red"))))
   (org-block ((t (:inherit fixed-pitch))))
