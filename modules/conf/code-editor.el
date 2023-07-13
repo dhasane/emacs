@@ -6,7 +6,7 @@
 
 (use-package prog
   :elpaca nil
-  :straight (:type built-in)
+  ;; :straight (:type built-in)
   :init
   (setq-default c-basic-offset 4
                 tab-width 4
