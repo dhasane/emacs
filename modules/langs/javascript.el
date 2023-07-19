@@ -38,7 +38,29 @@
    )
   )
 
-(use-package nvm)
+(use-package nvm
+  :demand t
+  :config
+
+  (defun do-nvm-use (version)
+    (interactive "sVersion: ")
+    (nvm-use version)
+    (exec-path-from-shell-copy-env "PATH"))
+
+  (defun run-node (cwd)
+    (interactive "DDirectory: ")
+    (unless (executable-find "node")
+      (call-interactively 'do-nvm-use))
+    (let ((default-directory cwd))
+      (pop-to-buffer (make-comint (format "node-repl-%s" cwd) "node" nil "--interactive"))))
+
+   (defun nvm (version)
+      (interactive (list
+		    (completing-read "Node version: "
+		     (mapcar #'car
+			     (nvm--installed-versions)))))
+      (nvm-use version))
+  )
 
 (use-package js2-mode
   :disabled t
