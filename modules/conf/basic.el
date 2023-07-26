@@ -114,7 +114,7 @@
     (setq buffer-read-only t)
     (buffer-disable-undo)
     (fundamental-mode)
-    (linum-mode -1)
+    ;; (linum-mode -1)
     (font-lock-mode -1)
     )
   )

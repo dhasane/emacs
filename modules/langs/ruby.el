@@ -62,11 +62,10 @@
   )
 
 (use-package enh-ruby-mode
+  :disabled t
   :hook
-  (
-   (ruby-mode)
-   (enh-ruby-mode . 'yard-mode)
-   )
+  ((ruby-mode)
+   (enh-ruby-mode . 'yard-mode))
 
   ;; :ensure-system-package
   ;; ((ruby-lint   . "gem install ruby-lint")
@@ -88,21 +87,17 @@
 ;;   )
 
 (use-package ruby-electric
-  :hook (
-         (ruby-mode . ruby-electric-mode)
-         (enh-ruby-mode . ruby-electric-mode)
-         )
-  )
+  :hook ((ruby-mode . ruby-electric-mode)
+         (enh-ruby-mode . ruby-electric-mode)))
 
 (use-package rake
   :general
   (
    :keymaps '(ruby-mode-map enh-ruby-mode-map)
-            "C-!" 'rake
-   )
-  )
+            "C-!" 'rake))
 
 (use-package rbenv)
+
 (use-package rvm
   :init
   (advice-add 'inf-ruby-console-auto :before #'rvm-activate-corresponding-ruby)

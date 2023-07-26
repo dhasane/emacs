@@ -18,6 +18,7 @@
   ;; :hook (js-mode . js-web-mode-init-hook)
   :custom
   (js-indent-level 2)
+  (tab-width 2)
 
   (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
   (flycheck-auto-change-delay           1.5)
@@ -29,6 +30,7 @@
   )
 
 (use-package prettier-js
+  :disabled t
   :hook
   (
    (typescript-mode . prettier-js-mode)
