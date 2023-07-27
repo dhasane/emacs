@@ -71,4 +71,6 @@
   (magit-todos-mode)
   )
 
+(use-package forge)
+
 ;;; git.el ends here

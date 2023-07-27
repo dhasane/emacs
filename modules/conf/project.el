@@ -76,7 +76,8 @@ conectado a una maquina externa.
    (compilation-filter . comint-truncate-buffer)
    )
   :custom
-  (compilation-scroll-output t)
+  ;; (compilation-scroll-output t)
+  (compilation-scroll-output 'first-error)
   :general
   ("<f5>" (lambda ()
             (interactive)

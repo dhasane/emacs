@@ -13,7 +13,7 @@
   :custom
   ;; (docker-show-messages t)
   (docker-run-async-with-buffer-function 'docker-run-async-with-compile-buffer)
-  :config t
+  :config
   (defhydra+ hydra-manage ()
     ("d" docker "docker" :column "containers"))
   :init

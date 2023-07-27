@@ -104,4 +104,7 @@
   :config
   (progn (smart-tabs-insinuate 'c 'c++)))
 
+(use-package realgud)
+(use-package realgud-pry)
+
 ;;; code-editor.el ends here
