@@ -109,9 +109,20 @@
   (doom-themes-enable-bold t)    ; if nil, bold is universally disabled
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+
+
+  (doom-gruvbox-brighter-comments t)
+  (doom-gruvbox-dark-variant
+   "soft"
+   )
   :config
   ;; Global settings (defaults)
-  (load-theme 'doom-gruvbox t)
+  (load-theme
+   'doom-gruvbox
+   ;; 'doom-gruvbox-light
+   ;; 'doom-solarized-light
+   ;; 'doom-pine
+   t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
