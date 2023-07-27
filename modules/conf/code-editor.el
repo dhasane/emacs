@@ -99,25 +99,6 @@
   ;; (set-face-background 'highlight-indentation-current-column-face "#c334b3")
   )
 
-(use-package tree-sitter
-  :demand t
-  :hook
-  (tree-sitter-after-on-hook . tree-sitter-hl-mode)
-  (tree-sitter-after-on-hook . (lambda () (font-lock-mode -1)))
-
-  :init
-  (require 'tree-sitter)
-  (require 'tree-sitter-hl)
-  (require 'tree-sitter-debug)
-  (require 'tree-sitter-query)
-
-  ;; (require 'tree-sitter-langs)
-  ;; (use-package tree-sitter-langs
-  ;;   :after tree-sitter)
-
-  (global-tree-sitter-mode)
-  )
-
 (use-package smart-tabs-mode
   :ensure t
   :config

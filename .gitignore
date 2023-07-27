@@ -33,6 +33,7 @@ straight/build/
 straight/repos/
 straight/modified/
 transient
+tree-sitter/
 url
 var/
 workspace
