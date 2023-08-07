@@ -155,19 +155,30 @@
   ;; (setq org-latex-pdf-process
   ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-  (defhydra+ hydra-org ()
-    ("g" org-agenda          "agenda"    :column "planning")
-    ("tl" org-todo-list       "todo list" :column "planning")
+  ;; (defhydra+ hydra-org ()
+  ;;   ("g" org-agenda          "agenda"    :column "planning")
+  ;;   ("tl" org-todo-list       "todo list" :column "planning")
 
-    ("ea" org-export-dispatch "export action"    :column "action")
+  ;;   ("ea" org-export-dispatch "export action"    :column "action")
 
-    ("ti" org-insert-structure-template "structure template" :column "action")
+  ;;   ("ti" org-insert-structure-template "structure template" :column "action")
 
-    ;; ("l s" org-store-link         "store link")
-    ;; ("l i" org-insert-link        "insert link")
-    ;; ("m"   org-roam-graph         "map")
-    ;; ("k"   kill-org-buffers                   "kill" )
-    )
+  ;;   ;; ("l s" org-store-link         "store link")
+  ;;   ;; ("l i" org-insert-link        "insert link")
+  ;;   ;; ("m"   org-roam-graph         "map")
+  ;;   ;; ("k"   kill-org-buffers                   "kill" )
+  ;;   )
+  :general
+  (dahas-org-map
+   "g"  '(org-agenda :wk "agenda")
+   "l" '(org-todo-list :wk "todo list")
+
+   "e" '(:ignore t :which-key "export")
+   "ea" '(org-export-dispatch :wk "export action")
+
+   "x" '(:ignore t :which-key "extra")
+   "xi" '(org-insert-structure-template :wk "structure template")
+   )
   )
 
 ;; Define a transient state for quick navigation

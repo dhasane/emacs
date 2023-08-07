@@ -115,9 +115,13 @@
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
 
-  (defhydra+ hydra-lsp ()
-    ("r" lsp-rename  "rename"                             :column "actions")                     ; "rename"
-    )
+  ;; (defhydra+ hydra-lsp ()
+  ;;   ("r" lsp-rename  "rename"                             :column "actions")                     ; "rename"
+  ;;   )
+  :general
+  (dahas-lsp-map
+   "r" 'lsp-rename ;; "rename"                             :column "actions")                     ; "rename"
+   )
   )
 
 (use-package lsp-ui
@@ -147,11 +151,18 @@
            (lsp--select-action)
            (lsp-execute-code-action))))
 
-  (defhydra+ hydra-lsp ()
-    ("fd" lsp-ui-peek-find-definitions "definitions"      :column "find")
-    ("fr" lsp-ui-peek-find-references "references"        :column "find")
-    ("lm" lsp-ui-imenu "imenu"                            :column "menu")
-    )
+  ;; (defhydra+ hydra-lsp ()
+  ;;   ("fd" lsp-ui-peek-find-definitions "definitions"      :column "find")
+  ;;   ("fr" lsp-ui-peek-find-references "references"        :column "find")
+  ;;   ("lm" lsp-ui-imenu "imenu"                            :column "menu")
+  ;;   )
+  :general
+  (:keymaps 'dahas-lsp-map
+   "f"  '(:ignore t :which-key "find")
+   "fd" '(lsp-ui-peek-find-definitions  :which-key "definitions")
+   "fr" '(lsp-ui-peek-find-references   :which-key "references")
+   "m"  '(lsp-ui-imenu :which-key "imenu")                  ;; "imenu"                            :column "menu")
+   )
 
   :init
   (lsp-ui-mode)

@@ -63,29 +63,28 @@
    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   )
 
+(use-package which-key
+  :delight
+  :demand t
+  :defer .1
+  :custom
+  ;; (which-key-max-description-length 27)
+  (which-key-unicode-correction 3)
+  (which-key-show-prefix 'left)
+  (which-key-side-window-max-width 0.33)
+  ;; (which-key-popup-type 'side-window)
+  ;; (which-key-popup-type 'frame)
+  ;; ;; max width of which-key frame: number of columns (an integer)
+  ;; (which-key-frame-max-width 60)
+  ;;
+  ;; ;; max height of which-key frame: number of lines (an integer)
+  ;; (which-key-frame-max-height 20)
+  :config
+  (which-key-setup-side-window-right-bottom)
+  (which-key-mode)
+  )
+
 (if (featurep 'elpaca)
     (elpaca-wait))
-
-;; TODO: revisar si se puede definiendo un nuevo keybind map
-
-(defhydra hydra-tabs ( global-map "C-SPC" :color blue :idle 1.0 )
-  "Tab management"
-  )
-
-(defhydra hydra-search ( :color blue :idle 1.0 )
-  "Search functions"
-  )
-
-(defhydra hydra-lsp ( :color blue :idle 1.0 )
-  "lsp"
-  )
-
-(defhydra hydra-org (:color blue)
-  "Org"
-  )
-
-(defhydra hydra-manage (:color blue)
-  "Manage"
-  )
 
 ;;; startup.el ends here

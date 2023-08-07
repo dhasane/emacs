@@ -51,11 +51,11 @@
 
  [tab] '(hydra-tabs/body        :wk "tabs")
  "TAB" '(hydra-tabs/body        :wk "tabs")
- "o"   '(hydra-org/body         :wk "org")
+ "o"   '(dahas-org-map          :wk "org")
  "s"   '(hydra-search/body      :wk "search")
- "l"   '(hydra-lsp/body         :wk "lsp")
+ "l"   '(dahas-lsp-map          :wk "lsp")
  "p"   '(projectile-command-map :wk "projectile")
- "m"   '(hydra-manage/body      :wk "manage")
+ "m"   '(dahas-manage-map       :wk "manage")
 
  ;; find files
  "e" 'find-file                         ; buscar en el mismo directorio

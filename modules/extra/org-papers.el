@@ -14,12 +14,15 @@
   :hook
   (LaTeX-mode . citar-capf-setup)
   (org-mode . citar-capf-setup)
-  :init
-  (defhydra+ hydra-org ()
-    ("ci" citar-insert-citation "insert citation" :column "papers")
-    ("ep" org-latex-export-to-pdf "export pdf" :column "papers")
-    )
-  )
+  ;; :init
+  ;; (defhydra+ hydra-org ()
+  ;;   ("ci" citar-insert-citation "insert citation" :column "papers")
+  ;;   ("ep" org-latex-export-to-pdf "export pdf" :column "papers")
+  ;;   )
+  :general
+  (dahas-org-map
+   "ci" '(citar-insert-citation :wk "insert citation")
+   "ep" '(org-latex-export-to-pdf "export pdf")))
 
 (use-package org-ref)
 

@@ -6,14 +6,6 @@
 ;;; code:
 
 (use-package org-roam
-  ;; :delight
-  ;; :bind (:map org-roam-mode-map
-  ;;             (("C-c n l" . org-roam)
-  ;;              ("C-c n f" . org-roam-find-file)
-  ;;              ("C-c n g" . org-roam-graph))
-  ;;             :map org-mode-map
-  ;;             (("C-c n i" . org-roam-insert))
-  ;;             (("C-c n I" . org-roam-insert-immediate)))
   :custom
   (org-roam-directory "~/org")
   (org-roam-graph-viewer #'eww-open-file)
@@ -42,24 +34,43 @@
       (setq org-roam-db-location (concat chosen-zettlekasten-path "org-roam.db"))
       (org-roam-db-sync)))
 
-  (defhydra+ hydra-org (:color blue :columns 3)
-    ("f"  org-roam-node-find                "find"                 :column "action")
-    ("i"  org-roam-node-insert              "insert"               :column "action")
-    ("z"   switch-zettelkasten              "switch zettelkasten"  :column "action")
+  ;; (defhydra+ hydra-org (:color blue :columns 3)
+  ;;   ("f"  org-roam-node-find                "find"                 :column "action")
+  ;;   ("i"  org-roam-node-insert              "insert"               :column "action")
+  ;;   ("z"   switch-zettelkasten              "switch zettelkasten"  :column "action")
 
-    ("dd" org-roam-dailies-capture-today    "daily capture"        :column "daily")
-    ("dt" org-roam-dailies-goto-today       "show today's capture" :column "daily")
-    ;; ("ds" org-roam-dailies-goto-date        "show all captures"    :column "daily")
+  ;;   ("dd" org-roam-dailies-capture-today    "daily capture"        :column "daily")
+  ;;   ("dt" org-roam-dailies-goto-today       "show today's capture" :column "daily")
+  ;;   ;; ("ds" org-roam-dailies-goto-date        "show all captures"    :column "daily")
 
-    ("at" org-roam-tag-add                  "add tag"              :column "tags")
-    ("rt" org-roam-tag-remove               "remove tag"           :column "tags")
+  ;;   ("at" org-roam-tag-add                  "add tag"              :column "tags")
+  ;;   ("rt" org-roam-tag-remove               "remove tag"           :column "tags")
 
-    ("o"  org-roam-buffer-toggle            "roam buffer"          :column "roam")
-    ("cn" org-id-get-create                 "create node"          :column "roam")
-    ("s"  org-roam-db-sync                  "sync db"              :column "roam")
+  ;;   ("o"  org-roam-buffer-toggle            "roam buffer"          :column "roam")
+  ;;   ("cn" org-id-get-create                 "create node"          :column "roam")
+  ;;   ("s"  org-roam-db-sync                  "sync db"              :column "roam")
 
-    ;; ("m" org-roam-graph     "map" :column "ui")
-    )
+  ;;   ;; ("m" org-roam-graph     "map" :column "ui")
+  ;;   )
+  :general
+  (dahas-org-map
+   "f"   '(org-roam-node-find :wk "find")
+   "i"   '(org-roam-node-insert :wk "insert")
+   "z"   '(switch-zettelkasten :wk "switch zettelkasten")
+
+   "d" '(:ignore t :which-key "daily")
+   "dd" '(org-roam-dailies-capture-today :wk "daily capture")
+   "dt" '(org-roam-dailies-goto-today :wk "show today's capture")
+   ;; ("ds" org-roam-dailies-goto-date      ;;   "show all captures"    :column "daily")
+
+   "t" '(:ignore t :which-key "tag")
+   "ta" '(org-roam-tag-add :wk "add tag")
+   "tr" '(org-roam-tag-remove :wk "remove tag")
+
+   "o"  '(org-roam-buffer-toggle :wk "roam buffer")
+   "n" '(org-id-get-create :wk "create node")
+   "s"  '(org-roam-db-sync :wk "sync db")
+   )
   )
 
 (use-package org-roam-ui
@@ -77,10 +88,14 @@
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start t)
   (org-roam-ui-sync-theme t)
-  :init
-  (defhydra+ hydra-org (:color blue :columns 3)
-    ("m"   org-roam-ui-mode  "map" :column "ui")
-    )
+  ;; :init
+  ;; (defhydra+ hydra-org (:color blue :columns 3)
+  ;;   ("m"   org-roam-ui-mode  "map" :column "ui")
+  ;;   )
+  :general
+  (dahas-org-map
+   "m" '(org-roam-ui-mode :wk "map")
+   )
   )
 
 

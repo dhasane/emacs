@@ -115,19 +115,28 @@
 
 (use-package consult-flycheck
   :after (consult)
-  :init
-  (defhydra+ hydra-lsp ()
-    ("e" consult-flycheck         "errors" :column "errors")        ; "errores"
-    )
+  :general
+  (dahas-lsp-map
+   "e" 'consult-flycheck
+   )
+  ;; :init
+  ;; (defhydra+ hydra-lsp ()
+  ;;   ("e" consult-flycheck         "errors" :column "errors")        ; "errores"
+  ;;   )
   )
 
 (use-package consult-lsp
   :after (consult lsp-mode)
-  :init
-  (defhydra+ hydra-lsp ()
-    ("s" consult-lsp-file-symbols "find"        :column "errors")
-    ("d" consult-lsp-diagnostics  "diagnostics" :column "errors")
-    )
+  :general
+  (dahas-lsp-map
+   "s" 'consult-lsp-file-symbols
+   "d" 'consult-lsp-diagnostics
+   )
+  ;; :init
+  ;; (defhydra+ hydra-lsp ()
+  ;;   ("s" consult-lsp-file-symbols "find"        :column "errors")
+  ;;   ("d" consult-lsp-diagnostics  "diagnostics" :column "errors")
+  ;;   )
   ;; :custom
   ;; (consult-lsp-margina-mode t)
   )
