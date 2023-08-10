@@ -181,7 +181,7 @@
   (lsp-ui-doc-border (face-foreground 'default))
 
   ;; sideline
-  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-enable nil)
   (lsp-ui-sideline-show-symbol nil)
   (lsp-ui-sideline-show-hover nil)
   (lsp-ui-sideline-update-mode 'line) ;; 'point)
@@ -218,7 +218,7 @@
     )
   )
 
-(use-package lsp-origami )
+(use-package lsp-origami)
 
 ;; optionally if you want to use debugger
 (use-package dap-mode
@@ -239,4 +239,4 @@
   )
 ;; TODO: mirar como funciona lo de dap-mode
 
-;;; lsp ends here
+;;; lsp.el ends here

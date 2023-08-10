@@ -18,6 +18,53 @@
   (indent-tabs-mode nil)
   )
 
+(use-package sideline
+  :demand t
+  :hook ((flycheck-mode . sideline-mode)   ; for `sideline-flycheck`
+         (flymake-mode  . sideline-mode)   ; for `sideline-flymake`
+         )
+  :custom
+  (sideline-backends-left-skip-current-line t)    ; don't display on current line (left)
+  (sideline-backends-right-skip-current-line t)   ; don't display on current line (right)
+  (sideline-order-left 'down)                     ; or 'up
+  (sideline-order-right 'up)                      ; or 'down
+  (sideline-format-left "%s   ")                  ; format for left aligment
+  (sideline-format-right "   %s")                 ; format for right aligment
+  (sideline-priority 100)                         ; overlays' priority
+  (sideline-display-backend-name t)               ; display the backend name
+
+  ;; (sideline-backends-left '(sideline-flycheck))
+  ;; (sideline-backends-right '(sideline-lsp))
+  (sideline-delay 0.5) ;;0.7)
+  (sideline-display-backend-type 'inner)
+
+
+  (sideline-backends-right '((sideline-lsp      . up)
+                             (sideline-flycheck . down)
+                             (sideline-flymake . down)
+                             ))
+  )
+
+(use-package sideline-flycheck
+  :hook (flycheck-mode . sideline-flycheck-setup))
+
+(use-package sideline-flymake
+  :hook (flymake-mode . sideline-flymake-setup)
+  :custom
+  (sideline-flymake-display-mode 'point)
+  )
+
+(use-package sideline-lsp
+  :hook (lsp-mode . sideline-mode)
+  :custom
+  (sideline-lsp-code-actions-prefix "")
+  :custom-face
+  (sideline-lsp-code-action
+   ((((background light)) :foreground "DarkOrange")
+    (t :foreground "red"))
+   )
+  )
+
 (use-package eldoc
   :delight)
 
