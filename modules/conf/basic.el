@@ -98,7 +98,11 @@
   scroll-preserve-screen-position 1)
 
 ;; scrolling
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+
+(setq pixel-scroll-precision-mode t)
+
+;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq pixel-scroll-precision-large-scroll-height 40.0)
 (setq mouse-wheel-follow-mouse t)
 (setq scroll-step 1)
 

@@ -118,10 +118,12 @@
   :config
   ;; Global settings (defaults)
   (load-theme
+   ;; dark
    'doom-gruvbox
-   ;; 'doom-gruvbox-light
-   ;; 'doom-solarized-light
-   ;; 'doom-pine
+
+   ;; light
+   ;; 'doom-tomorrow-day
+   ;; 'doom-one-light
    t)
 
   ;; Enable flashing mode-line on errors

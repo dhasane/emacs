@@ -31,9 +31,4 @@
   :no-require
   :config (citar-embark-mode))
 
-(use-package org-download
-  :custom
-  (org-download-image-dir "~/org/imagenes")
-  )
-
 ;;; org-papers.el ends here

@@ -86,7 +86,7 @@
   (set-face-attribute
    'default nil
    :family font
-   :height 100
+   :height 130
    :weight 'normal
    :width 'normal
    ))

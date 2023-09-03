@@ -210,6 +210,7 @@
   )
 
 (use-package lsp-treemacs
+  :after 'treemacs
   :defer t
   :commands lsp-treemacs-errors-list
   :config

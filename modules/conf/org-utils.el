@@ -134,6 +134,19 @@ With optional JUST-MARGINS, just set the margins."
           (get-buffer-window-list (current-buffer))))
   )
 
+(use-package org-download
+  :hook
+  (org-mode . org-download-enable)
+  :custom
+  (org-download-image-dir "~/org/imagenes")
+  :general
+  (dahas-org-map
+   "p"  '(:ignore t :which-key "paste")
+   "pi" '(org-download-clipboard :wk "paste image")
+   "pt" '(org-toggle-inline-images :wk "toggle inline image")
+   )
+  )
+
 ;; Define a transient state for quick navigation
 ;; (defhydra hydra-org-state ()
 ;;   ;; basic navigation
