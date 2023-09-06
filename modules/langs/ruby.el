@@ -19,6 +19,8 @@
   )
 
 (use-package rvm
+  :init
+  (advice-add 'inf-ruby-console-auto :before #'rvm-activate-corresponding-ruby)
   )
 
 (use-package robe
@@ -105,10 +107,5 @@
             "C-!" 'rake))
 
 (use-package rbenv)
-
-(use-package rvm
-  :init
-  (advice-add 'inf-ruby-console-auto :before #'rvm-activate-corresponding-ruby)
-  )
 
 ;;; ruby.el ends here

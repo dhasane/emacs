@@ -1,5 +1,9 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; Paquetes adicionales para org
 
+;;; code:
 
 (use-package eglot
   :after (project)
@@ -11,7 +15,9 @@
          ) . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs '(web-vue-mode "vls"))
-  (add-to-list 'eglot-server-programs '(typescriptreact-mode ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(typescriptreact-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
+
 
   ;; (cl-pushnew '(
   ;;               (js-mode typescript-mode typescriptreact-mode) . ("typescript-language-server" "--stdio")
@@ -19,3 +25,5 @@
   ;;             eglot-server-programs
   ;;             :test #'equal))
   )
+
+;;; eglot.el ends here

@@ -46,9 +46,12 @@
   )
 
 (use-package sideline-flycheck
-  :hook (flycheck-mode . sideline-flycheck-setup))
+  :after '(sideline)
+  ;; :hook (flycheck-mode . sideline-flycheck-setup)
+  )
 
 (use-package sideline-flymake
+  :after '(sideline)
   :hook (flymake-mode . sideline-flymake-setup)
   :custom
   (sideline-flymake-display-mode 'point)
@@ -91,7 +94,8 @@
 (use-package hl-line
   :elpaca nil
   :defer 1
-  :hook (prog-mode . hl-line-mode)
+  :hook ((prog-mode . hl-line-mode)
+         (yaml-mode . hl-line-mode))
   ;; :config
   ;; (global-hl-line-mode +1)
 )
@@ -99,9 +103,8 @@
 (use-package highlight-indent-guides
   :defer 1
   :delight
-  :hook (
-         (prog-mode . highlight-indent-guides-mode)
-         )
+  :hook ((prog-mode . highlight-indent-guides-mode)
+         (yaml-mode . highlight-indent-guides-mode))
   :custom
   (highlight-indent-guides-method 'character
                                   ;; 'column

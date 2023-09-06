@@ -41,18 +41,15 @@
   ;;   (setq python-shell-interpreter "python")))
   )
 
-
-
-;; (use-package anaconda-mode)
-
 (use-package lsp-pyright
+  :disabled t
   :config
   (when (executable-find "python3")
     (setq lsp-pyright-python-executable-cmd "python3"))
   :custom
   (lsp-pyright-auto-search-paths t)
-  (lsp-pyright-extra-paths ["layers" "tests" "test"])
-  (lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
+  ;; (lsp-pyright-extra-paths ["layers" "tests" "test"])
+  ;; (lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
   (lsp-pyright-disable-organize-imports nil)
   (lsp-pyright-auto-import-completions t)
   (lsp-pyright-use-library-code-for-types t)
@@ -79,8 +76,9 @@
   )
 
 (use-package elpy
-  :disabled t
-  :hook (python-mode . elpy-enable)
+  ;; :disabled t
+  :hook ((python-mode . elpy-enable)
+         (elpy-mode . flycheck-mode))
   :custom
   (elpy-shell-starting-directory 'current-directory)
   ;; (python-shell-interpreter "ipython") ;require pip install ipython
