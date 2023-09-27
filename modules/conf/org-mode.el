@@ -148,7 +148,53 @@
                    ("\\subsection{%s}" . "\\subsection*{%s}")
                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+    ;; (add-to-list 'org-latex-classes
+    ;;              '("report"
+    ;;                "\\documentclass{report}"
+    ;;                ("\\chapter{%s}" . "\\chapter*{%s}")
+    ;;                ("\\section{%s}" . "\\section*{%s}")
+    ;;                ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+
+    (add-to-list 'org-latex-classes
+                 '("elsevier"
+                   "\\documentclass[11pt]{elsarticle}"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                 )
+
+    (add-to-list 'org-latex-classes
+                 '("memoria"
+                   "\\documentclass[11pt, titlepage]{report}"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                 )
+
+    (add-to-list 'org-latex-packages-alist '("" "listings"))
+    (setq org-latex-listings-options '(("breaklines" "true")))
+
+    (setq org-latex-listings t)
+    ;; (setq org-latex-listings 'minted)
+
+    (setq org-latex-pdf-process
+          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((R . t)
+       (latex . t)))
+
+    )
+
 
   ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 
@@ -170,7 +216,7 @@
   ;;   )
   :general
   (dahas-org-map
-   "g"  '(org-agenda :wk "agenda")
+   "g" '(org-agenda :wk "agenda")
    "l" '(org-todo-list :wk "todo list")
 
    "e" '(:ignore t :which-key "export")

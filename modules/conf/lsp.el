@@ -32,26 +32,26 @@
 
 (use-package lsp-mode
   :demand t
-  :hook
-  (
-   (
-    rust-mode
-    ;; ruby-mode
-    java-mode
-    js-mode
-    typescript-mode
-    python-mode
-    dart-mode
-    c-mode
-    c++-mode
-    objc-mode
-    cuda-mode
-    haskell-mode
-    haskell-literate-mode
-    gdscript-mode
-    )
-   . lsp-deferred
-   )
+  ;; :hook
+  ;; (
+  ;;  (
+  ;;   rust-mode
+  ;;   ;; ruby-mode
+  ;;   java-mode
+  ;;   js-mode
+  ;;   typescript-mode
+  ;;   python-mode
+  ;;   dart-mode
+  ;;   c-mode
+  ;;   c++-mode
+  ;;   objc-mode
+  ;;   cuda-mode
+  ;;   haskell-mode
+  ;;   haskell-literate-mode
+  ;;   gdscript-mode
+  ;;   )
+  ;;  . lsp-deferred
+  ;;  )
   :defines
   (
    lsp-modeline-diagnostics-scope

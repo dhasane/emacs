@@ -140,7 +140,10 @@
 
 (use-package jupyter)
 
-(use-package poetry)
+(use-package poetry
+  :custom
+  (poetry-tracking-mode t)
+  )
 
 (use-package python-pytest
   :after python

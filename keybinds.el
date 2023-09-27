@@ -56,12 +56,16 @@
  "l"   '(dahas-lsp-map          :wk "lsp")
  "p"   '(projectile-command-map :wk "projectile")
  "m"   '(dahas-manage-map       :wk "manage")
+ "c"   '(dahas-comp-map         :wk "compilation")
 
+ ;; "v" '
+
+ ";" '(:ignore t :which-key "config")
+ ";g" 'global-display-line-numbers-mode
+ ";l" 'display-line-numbers-mode
  ;; find files
  "e" 'find-file                         ; buscar en el mismo directorio
  "E" 'dh/jet-pack                       ; buscar en todo el proyecto
-
- "v" 'deets/side-window-toggle
 
  "u" 'vundo
 
@@ -109,10 +113,6 @@
  "'ps" 'profiler-start
  "'pS" 'profiler-stop
  "'pr" 'profiler-report
-
- "c" '(:ignore t :which-key "config")
- "cg" 'global-display-line-numbers-mode
- "cl" 'display-line-numbers-mode
  )
 
 ;;; keybinds.el ends here

@@ -86,6 +86,14 @@ conectado a una maquina externa.
             ;; (setq-local compilation-read-command nil)
             (call-interactively 'compile))
    )
+  (dahas-comp-map
+   "s" '(deets/side-window-toggle :wk "side window")
+   "c" '((lambda ()
+            (interactive)
+            ;; (setq-local compilation-read-command nil)
+            (call-interactively 'compile))
+         :wk "compile")
+   )
   :config
   (setq switch-to-buffer-obey-display-actions t)
   ;; Introduce a bottom side window that catches

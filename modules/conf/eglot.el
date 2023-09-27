@@ -12,11 +12,13 @@
          tsx-ts-mode
          typescript-ts-mode
          web-vue-mode
+         python-mode
          ) . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs '(web-vue-mode "vls"))
   (add-to-list 'eglot-server-programs '(typescriptreact-mode . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
+  (add-to-list 'eglot-server-programs '(arduino-mode . ("arduino-language-server")))
 
 
   ;; (cl-pushnew '(
