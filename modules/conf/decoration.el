@@ -14,6 +14,14 @@
         right-curly-arrow
         ))
 
+(defun disable-all-themes ()
+  "disable all active themes."
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+
+(defadvice load-theme (before disable-themes-first activate)
+  (disable-all-themes))
+
 (use-package adaptive-wrap
   :hook ((prog-mode . adaptive-wrap-prefix-mode))
   :custom
@@ -120,6 +128,8 @@
   (load-theme
    ;; dark
    'doom-gruvbox
+   ;; 'doom-material
+   ;; 'doom-dracula
 
    ;; light
    ;; 'doom-tomorrow-day
