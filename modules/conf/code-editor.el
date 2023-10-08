@@ -43,6 +43,41 @@
                              (sideline-flycheck . down)
                              (sideline-flymake . down)
                              ))
+  :config
+  (defvar-local sideline-eglot--async-candidates-timer nil)
+  (defvar-local sideline-eglot--ht-candidates nil)
+
+  (defun sideline-eglot--async-candidates (callback &rest _)
+    (when sideline-eglot--async-candidates-timer
+      (cancel-timer sideline-eglot--async-candidates-timer)
+      (setq sideline-eglot--async-candidates-timer nil))
+    (let ((p (point)))
+      (setq sideline-eglot--async-candidates-timer
+            (run-with-idle-timer
+             0.3 nil
+             (lambda ()
+               (setq sideline-eglot--ht-candidates (ht-create))
+               (dolist (row (eglot-code-actions p))
+                 (ht-set! sideline-eglot--ht-candidates (getf row :title) row))
+               (funcall callback (ht-keys sideline-eglot--ht-candidates)))))))
+
+  (defun sideline-eglot (command)
+    "Eglot backend for sideline."
+    (cl-case command
+      (`candidates
+       (cons :async #'sideline-eglot--async-candidates))
+      (`action
+       (lambda (candidate &rest _)
+         (let ((matching-code-action (ht-get sideline-eglot--ht-candidates candidate)))
+           (unless matching-code-action
+             (error "Failed to find candidate: %s" candidate))
+           (let ((command (getf matching-code-action :command))
+                 (server (eglot-current-server)))
+             (unless server
+               (error "Server disappeared"))
+             (eglot-execute-command server
+                                    (getf command :command)
+                                    (getf command :arguments))))))))
   )
 
 (use-package sideline-flycheck
