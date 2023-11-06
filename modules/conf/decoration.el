@@ -6,14 +6,6 @@
 
 (setq-default indicate-empty-lines t)
 
-;; (setq-default global-visual-line-mode t) ;; search something like this
-;; (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-(setq visual-line-fringe-indicators
-      '(
-        nil ;; left-curly-arrow
-        right-curly-arrow
-        ))
-
 (defun disable-all-themes ()
   "disable all active themes."
   (dolist (i custom-enabled-themes)
@@ -37,14 +29,28 @@
 
 (use-package visual-line-mode
   :elpaca nil
+  :custom
+  (
+   (global-visual-line-mode t)
+   (visual-line-fringe-indicators
+    '(
+      nil ;; left-curly-arrow
+      right-curly-arrow
+      ))
+   )
   :hook ((prog-mode . visual-line-mode)
 	 (org-mode . visual-line-mode))
+  ;; (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
+  ;; :init
+  ;; (setq-default global-visual-line-mode t)
   )
 
 ;; (setq indicate-buffer-boundaries t)
 
 (setq inhibit-startup-screen t
-      initial-buffer-choice  nil)
+      initial-buffer-choice nil
+      initial-scratch-message nil
+      )
 
 (use-package dashboard
   :disabled t

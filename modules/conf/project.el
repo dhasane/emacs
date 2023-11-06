@@ -74,7 +74,6 @@ conectado a una maquina externa.
   (
    ;; Add color formatting to *compilation* buffer
    (compilation-filter . (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
-   (compilation-mode . visual-line-mode)
    (compilation-filter . comint-truncate-buffer)
    )
   :custom

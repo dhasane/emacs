@@ -2,9 +2,6 @@
 (use-package nov
   ;; :mode ("\\.epub\\'" . nov-mode)
   :mode "\\.epub\\'"
-  :hook (
-         (nov-mode . visual-line-mode)
-         )
   :config
   (cond
    ((string-equal system-type "windows-nt") ; Windows

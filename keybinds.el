@@ -79,7 +79,8 @@
  ;; "x" 'execute-extended-command
 
  ;; consult-complex-command
- "b" 'consult-buffer  ;'switch-to-buffer
+ ;; "b" 'consult-buffer  ;'switch-to-buffer
+ "b" 'bufler-switch-buffer
  "g" 'magit
  "w" '(:keymap evil-window-map :wk "evil window prefix")
  "y" 'yas-insert-snippet

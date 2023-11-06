@@ -20,10 +20,7 @@
 
 (use-package eshell
   :elpaca nil
-  :hook (
-        (eshell-mode . visual-line-mode)
-        (eshell-output-filter-functions . #'eshell-truncate-buffer)
-         )
+  :hook ((eshell-output-filter-functions . #'eshell-truncate-buffer))
   :general
   (eshell-mode-map
    :states '(normal insert)
