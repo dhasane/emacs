@@ -27,9 +27,17 @@
    "g b" 'tab-bar-switch-to-prev-tab
    )
   :custom-face
-  (tab-bar              ((t (:background "#282828" :foreground "#fdf4c2"))))
-  (tab-bar-tab          ((t (:background "#282828" :foreground "#fdf4c2"))))
-  (tab-bar-tab-inactive ((t (:background "#504945" :foreground "#fdf4c2"))))
+  ;; (tab-bar              ((t (:background "#282828" :foreground "#fdf4c2"))))
+  ;; (tab-bar-tab          ((t (:background "#282828" :foreground "#fdf4c2"))))
+  ;; (tab-bar-tab-inactive ((t (:background "#504945" :foreground "#fdf4c2"))))
+
+  (tab-bar              ((t (:inherit
+                             default
+                             ;; 'hl-line
+                             ;; mode-line
+                             ))))
+  (tab-bar-tab          ((t (:inherit default))))
+  (tab-bar-tab-inactive ((t (:inherit mode-line-inactive))))
   :custom
 
   ;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))

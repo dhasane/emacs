@@ -26,6 +26,8 @@
 ;;               (set-face-foreground 'mode-line (cdr color)))))
 ;;   ;; )
 
+(setq mode-line-compact 'long)
+
 (use-package nyan-mode
   :disabled
   ;; :demand t
