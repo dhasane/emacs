@@ -22,7 +22,7 @@
   :general
   (dahas-org-map
    "ci" '(citar-insert-citation :wk "insert citation")
-   "ep" '(org-latex-export-to-pdf "export pdf")))
+   "ep" '(org-latex-export-to-pdf :wk "export pdf")))
 
 (use-package org-ref)
 

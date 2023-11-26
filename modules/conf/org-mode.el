@@ -181,6 +181,7 @@
     (setq org-latex-listings-options '(("breaklines" "true")))
 
     (setq org-latex-listings t)
+    (setq org-export-preserve-breaks nil)
     ;; (setq org-latex-listings 'minted)
 
     (setq org-latex-pdf-process

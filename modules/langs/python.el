@@ -128,7 +128,7 @@
   :hook (python-mode . pyenv-mode)
   :config
   ;;  ;; Setting work on to easily switch between environments
-  ;;  (setenv "WORKON_HOME" (expand-file-name "~/miniconda3/envs/"))
+  ;;  (setenv "WORKON_HOME" (env "WORKON_HOME" (expand-file-name "~/miniconda3/envs/"))
   ;;  ;; Restart the python process when switching environments
   ;;  (add-hook 'pyvenv-post-activate-hooks (lambda ()
   ;;					                      (pyvenv-restart-python)))
@@ -142,7 +142,7 @@
 
 (use-package poetry
   :custom
-  (poetry-tracking-mode t)
+  (poetry-tracking-mode nil)
   )
 
 (use-package python-pytest

@@ -4,13 +4,6 @@
 
 ;;; Code:
 
-(use-package bufler
-  :disabled
-  :delight
-  :config
-  ;; (bufler-workspace-mode t)
-  )
-
 (use-package polymode
   :disabled
   :mode ("\\.md\\'" "\\.org\\'" )

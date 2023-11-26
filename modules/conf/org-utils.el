@@ -9,6 +9,35 @@
 ;;   :hook (org-mode . flyspell-mode)
 ;;   )
 
+(use-package org-appear
+  :after (org)
+  :hook ((org-mode . org-appear)
+         ;; (org-mode . (lambda ()
+         ;;               (add-hook 'evil-insert-state-entry-hook
+         ;;                         #'org-appear-manual-start
+         ;;                         nil
+         ;;                         t)
+         ;;               (add-hook 'evil-insert-state-exit-hook
+         ;;                         #'org-appear-manual-stop
+         ;;                         nil
+         ;;                         t)))
+         )
+  :custom
+  (org-appear-autolinks t)
+  (org-appear-trigger 'always)
+  ;; (org-appear-trigger 'manual)
+  ;; :config
+  ;; (add-hook 'org-mode-hook (lambda ()
+  ;;                            (add-hook 'evil-insert-state-entry-hook
+  ;;                                      #'org-appear-manual-start
+  ;;                                      nil
+  ;;                                      t)
+  ;;                            (add-hook 'evil-insert-state-exit-hook
+  ;;                                      #'org-appear-manual-stop
+  ;;                                      nil
+  ;;                                      t)))
+  )
+
 (use-package poly-org
   :disabled
   :after (polymode org)
@@ -19,7 +48,6 @@
 
 (use-package babel
   ;; :hook (org-mode . babel-mode)
-  :config
   )
 
 (use-package evil-org
@@ -77,6 +105,7 @@
   )
 
 (use-package darkroom
+  :disabled t
   :hook (org-mode . darkroom-tentative-mode)
   :custom
   (darkroom-text-scale-increase 0)
