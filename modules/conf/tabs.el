@@ -31,17 +31,10 @@
   ;; (tab-bar-tab          ((t (:background "#282828" :foreground "#fdf4c2"))))
   ;; (tab-bar-tab-inactive ((t (:background "#504945" :foreground "#fdf4c2"))))
 
-  (tab-bar              ((t (:inherit
-                             default
-                             ;; 'hl-line
-                             ;; mode-line
-                             ))))
-  (tab-bar-tab          ((t (:inherit default))))
-  (tab-bar-tab-inactive ((t (:inherit mode-line-inactive))))
+  (tab-bar              ((t (:inherit default))))
+  (tab-bar-tab          ((t (:inherit default :underline t))))
+  (tab-bar-tab-inactive ((t (:inherit region))))
   :custom
-
-  ;;(setq tab-bar-tab ((t (:background "#fdf4c1" :foreground "#504945"))))
-  ;;(setq tab-bar-tab-inactive ((t (:background "#fdf4c1" :foreground "#282828"))))
   (tab-bar-close-button-show nil)
   (tab-bar-tab-hints t)
   (tab-bar-tab-name-truncated-max 1)

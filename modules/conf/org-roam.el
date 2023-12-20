@@ -57,6 +57,7 @@
    "f"   '(org-roam-node-find :wk "find")
    "i"   '(org-roam-node-insert :wk "insert")
    "z"   '(switch-zettelkasten :wk "switch zettelkasten")
+   "a"   '(org-roam-capture :wk "capture")
 
    "d" '(:ignore t :which-key "daily")
    "dd" '(org-roam-dailies-capture-today :wk "daily capture")
