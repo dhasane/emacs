@@ -275,6 +275,7 @@
                       flycheck
                       flymake
                       robe
+                      eglot
                       ;; compile
                       )))
     (dolist (pe prevent-ec)

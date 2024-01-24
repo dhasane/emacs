@@ -104,7 +104,19 @@
   )
 
 (use-package eldoc
-  :delight)
+  :elpaca nil
+  )
+
+(use-package eldoc-box
+  :after eldoc
+  :demand t
+  :general
+  (
+   :keymap '(prog-mode override)
+   :states '(normal)
+   "K"   'eldoc-box-help-at-point
+   )
+  )
 
 (use-package origami
   :demand t

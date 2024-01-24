@@ -33,7 +33,7 @@
 
   (tab-bar              ((t (:inherit default))))
   (tab-bar-tab          ((t (:inherit default :underline t))))
-  (tab-bar-tab-inactive ((t (:inherit region))))
+  (tab-bar-tab-inactive ((t (:inherit ansi-color-inverse))))
   :custom
   (tab-bar-close-button-show nil)
   (tab-bar-tab-hints t)
