@@ -6,6 +6,7 @@
 ;;; code:
 
 (use-package eglot
+  :elpaca nil
   :after (project)
   :hook ((
          js-ts-mode

@@ -84,6 +84,13 @@
   (which-key-mode)
   )
 
+(use-package seq
+  :elpaca nil
+  )
+
+(use-package transient
+  :elpaca nil)
+
 (if (featurep 'elpaca)
     (elpaca-wait))
 
