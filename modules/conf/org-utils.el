@@ -10,18 +10,17 @@
 ;;   )
 
 (use-package org-appear
-  :after (org)
-  :hook ((org-mode . org-appear)
-         ;; (org-mode . (lambda ()
-         ;;               (add-hook 'evil-insert-state-entry-hook
-         ;;                         #'org-appear-manual-start
-         ;;                         nil
-         ;;                         t)
-         ;;               (add-hook 'evil-insert-state-exit-hook
-         ;;                         #'org-appear-manual-stop
-         ;;                         nil
-         ;;                         t)))
-         )
+  ;; :hook ((org-mode . org-appear)
+  ;;        ;; (org-mode . (lambda ()
+  ;;        ;;               (add-hook 'evil-insert-state-entry-hook
+  ;;        ;;                         #'org-appear-manual-start
+  ;;        ;;                         nil
+  ;;        ;;                         t)
+  ;;        ;;               (add-hook 'evil-insert-state-exit-hook
+  ;;        ;;                         #'org-appear-manual-stop
+  ;;        ;;                         nil
+  ;;        ;;                         t)))
+  ;;        )
   :custom
   (org-appear-autolinks t)
   (org-appear-trigger 'always)

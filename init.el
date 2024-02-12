@@ -29,40 +29,9 @@
                         (0 . ("completion" "ivy"))))
          (cl/dir "modules/langs"
                  :ignore '("lisp")
-                 :lazy
-                 '(
-                   ("rs" . "rust")
-                   ("rb" . "ruby")
-                   ("py" . "python")
-                   ("java" . "java")
-                   ("sql" . "sql")
-                   (("c" "cxx" "cpp" "hpp" "hxx") . "c-based")
-                   ("cs" . "c-sharp")
-                   ("lua" . "lua")
-                   ("gd" . "godot")
-                   (("sass" "html") . "web")
-                   (("js" "jsx") . ("javascript"))
-                   (("ts" "tsx") . ("web" "typescript" "javascript"))
-                   ("vue" . ("web" "vue"))
-                   ("php" . "php")
-                   ("xml" . "xml")
-                   ("yaml" . "yaml")
-                   ("hs" . "haskell")
-                   ("kt" . "kotlin")
-                   ("md" . "markdown")
-                   ("tex" . "latex")
-                   ("nix" . "nix")
-                   ("dart" . "dart")
-                   ("tf" . "terraform")
-                   ("ino" . ("c-based" "arduino"))
-                   ;; docker.el
-                   ;; lisp.el
-                   )
                  )
          (cl/dir "modules/extra"
-                 :ignore '("email" "epub" "fira-code" "games" "telegram" "org-papers")
-                 :lazy
-                 '(("pdf" . "pdf"))
+                 :ignore '("email" "epub" "fira-code" "games" "telegram" "org-papers" "pdf")
                  )
          (cl/file "keybinds"))
 
