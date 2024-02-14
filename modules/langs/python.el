@@ -27,18 +27,18 @@
   (setq-local c-basic-offset 4)
   ;; pip install python-language-server
   ;; Use IPython when available or fall back to regular Python
-  ;; (cond
-  ;;  ((executable-find "ipython")
-  ;;   (progn
-  ;;     (setq python-shell-buffer-name "IPython")
-  ;;     (setq python-shell-interpreter "ipython")
-  ;;     (setq python-shell-interpreter-args "-i --simple-prompt")))
-  ;;  ((executable-find "python3")
-  ;;   (setq python-shell-interpreter "python3"))
-  ;;  ((executable-find "python2")
-  ;;   (setq python-shell-interpreter "python2"))
-  ;;  (t
-  ;;   (setq python-shell-interpreter "python")))
+  (cond
+   ((executable-find "ipython")
+    (progn
+      (setq python-shell-buffer-name "IPython")
+      (setq python-shell-interpreter "ipython")
+      (setq python-shell-interpreter-args "-i --simple-prompt")))
+   ((executable-find "python3")
+    (setq python-shell-interpreter "python3"))
+   ((executable-find "python2")
+    (setq python-shell-interpreter "python2"))
+   (t
+    (setq python-shell-interpreter "python")))
   )
 
 (use-package lsp-pyright
