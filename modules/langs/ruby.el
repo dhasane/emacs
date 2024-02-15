@@ -108,4 +108,6 @@
 
 (use-package rbenv)
 
+(use-package slim-mode)
+
 ;;; ruby.el ends here

@@ -6,6 +6,11 @@
 
 (setq-default indicate-empty-lines t)
 
+(use-package fira-code-mode
+  :if (display-graphic-p)
+  :custom (fira-code-mode-disabled-ligatures '()) ;; List of ligatures to turn off
+  :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
+
 (defun disable-all-themes ()
   "disable all active themes."
   (dolist (i custom-enabled-themes)
@@ -124,8 +129,7 @@
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
 
-
-  (doom-gruvbox-brighter-comments t)
+  (doom-gruvbox-brighter-comments nil)
   (doom-gruvbox-dark-variant
    "soft"
    )
@@ -161,6 +165,7 @@
   )
 
 (use-package all-the-icons
+  :if (display-graphic-p)
   :demand t
   )
 

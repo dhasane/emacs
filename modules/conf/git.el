@@ -55,6 +55,7 @@
   )
 
 (use-package git-gutter-fringe
+  :if (display-graphic-p)
   :demand t
   :after (git-gutter)
   :config
