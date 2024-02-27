@@ -8,7 +8,7 @@
 
 (use-package fira-code-mode
   :if (display-graphic-p)
-  :custom (fira-code-mode-disabled-ligatures '()) ;; List of ligatures to turn off
+  :custom (fira-code-mode-disabled-ligatures '(":" "x" "+")) ;; List of ligatures to turn off
   :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
 
 (defun disable-all-themes ()
@@ -197,9 +197,7 @@
 
 (use-package display-line-numbers
   :elpaca nil
-  ;; :hook (
-  ;;        (prog-mode . display-line-numbers)
-  ;;        )
+  :hook ((prog-mode . #'display-line-numbers))
   :custom
   ; (display-line-numbers-type 'relative)
   (display-line-numbers-type t)
