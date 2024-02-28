@@ -38,10 +38,18 @@
   "Saltar a cualquier parte del proyecto."
   (interactive)
   (if (projectile-project-p)
-      (call-interactively 'projectile-find-file)
+      (call-interactively 'project-find-file)
     (call-interactively 'find-file)
     )
   )
+
+
+(general-define-key
+ ;; :keymaps 'override
+ :states '(normal)
+ "s" 'avy-goto-char-2
+ ;; "S" 'avy-goto-char-2
+ )
 
 (general-define-key
  :keymaps 'override

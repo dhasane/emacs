@@ -11,7 +11,12 @@
   (setq-local indent-tabs-mode nil)
   )
 
+(define-derived-mode web-js-mode web-mode "JS"
+  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-js-mode))
+
 (use-package js
+  :disabled t
   :elpaca nil
   :demand t
   ;; :mode ("\\.js\\'")

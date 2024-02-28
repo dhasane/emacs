@@ -8,13 +8,7 @@
 (use-package eglot
   :elpaca nil
   :after (project)
-  :hook ((
-         js-ts-mode
-         tsx-ts-mode
-         typescript-ts-mode
-         web-vue-mode
-         python-mode
-         ) . eglot-ensure)
+  :hook (prog-mode . eglot-ensure)
   :general
   (
    :keymap 'eglot-mode
@@ -30,21 +24,27 @@
    "fr" '(eglot-find-declaration     :which-key "references")
    "a" 'eglot-code-actions
    )
+  :custom
+  (eglot-events-buffer-size 0)
+  (eglot-autoshutdown t)
+  (eldoc-echo-area-use-multiline-p nil)
+  (eglot-send-changes-idle-time 3)
+  (flymake-no-changes-timeout 3)
   :config
   (add-to-list 'eglot-server-programs '(web-vue-mode "vls"))
-  (add-to-list 'eglot-server-programs '(typescriptreact-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(web-js-mode . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
   (add-to-list 'eglot-server-programs '(arduino-mode . ("arduino-language-server")))
+  (add-to-list 'eglot-server-programs '(javascript-mode . ("javascript-typescript-langserver")))
 
+  (fset #'jsonrpc--log-event #'ignore)
 
   ;; (cl-pushnew '(
   ;;               (js-mode typescript-mode typescriptreact-mode) . ("typescript-language-server" "--stdio")
   ;;               ((web-vue-mode) . ("vls"))
   ;;             eglot-server-programs
   ;;             :test #'equal))
-  :config
-
-  (setq eldoc-echo-area-use-multiline-p nil)
   )
 
 ;;; eglot.el ends here

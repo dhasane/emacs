@@ -55,7 +55,6 @@
 
          "SPC" #'corfu-insert-separator
    )
-  ;; You may want to enable Corfu only for certain modes.
   :hook ((prog-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode)
