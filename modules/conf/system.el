@@ -46,6 +46,19 @@
   ;;           )))
   )
 
+(use-package helpful
+  :demand t
+  :general
+  (
+   :keymaps 'override
+   "C-S-h" 'help-command
+   "C-S-h f" #'helpful-callable
+   "C-S-h v" #'helpful-variable
+   "C-S-h k" #'helpful-key
+   "C-S-h x" #'helpful-command
+   )
+  )
+
 (use-package proced
   :elpaca nil
   :custom

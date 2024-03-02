@@ -17,7 +17,7 @@
  :keymaps 'override
  "C-+"   'text-scale-increase
  "C--"   'text-scale-decrease
- "C-S-h" 'help-command
+ ;; "C-S-h" 'help-command
  "C-S-s" 'save-all-buffers
  "C-/"   'comment-or-uncomment-line-or-region
  )
