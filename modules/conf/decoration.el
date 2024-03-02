@@ -128,6 +128,7 @@
   (doom-themes-enable-bold t)    ; if nil, bold is universally disabled
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-gruvbox-padded-modeline t)
 
   (doom-gruvbox-brighter-comments nil)
   (doom-gruvbox-dark-variant

@@ -58,6 +58,16 @@
   (telephone-line-evil-inactive ((t (:foreground "#3e4249" :background "#006fa0" :inherit mode-line-inactive))))
 )
 
+(use-package awesome-tray
+  :disabled t
+  :elpaca
+  (:host github :repo "manateelazycat/awesome-tray" :branch "master" :files ("*.el" "out"))
+  :custom
+  (awesome-tray-evil-show-mode t)
+  :init
+  (awesome-tray-mode 1)
+  )
+
 ;; https://emacs.stackexchange.com/questions/5529/how-to-right-align-some-items-in-the-modeline/37270#37270
 (defun simple-mode-line-render (left right)
   "Return a string of `window-width' length.

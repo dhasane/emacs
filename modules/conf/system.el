@@ -95,6 +95,9 @@
 
   ;; (setq dirvish-preview-dispatchers (remove 'image dirvish-preview-dispatchers))
 
+  (dirvish-mode-line-height 15)
+  (dirvish-header-line-height 15)
+
   ;; (setq dired-listing-switches
   ;;       "-l --almost-all --human-readable --group-directories-first --no-group")
   :general ; Bind `dirvish|dirvish-side|dirvish-dwim' as you see fit
