@@ -19,7 +19,6 @@
  "C--"   'text-scale-decrease
  "C-S-h" 'help-command
  "C-S-s" 'save-all-buffers
- "C-S-q" 'kill-other-buffers ; tambien esta clean-buffer-list
  "C-/"   'comment-or-uncomment-line-or-region
  )
 
@@ -42,7 +41,6 @@
     (call-interactively 'find-file)
     )
   )
-
 
 (general-define-key
  ;; :keymaps 'override

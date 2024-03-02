@@ -8,26 +8,6 @@
   (mapc 'save-buffer (buffer-list) )
   (message "Se han guardado todos los buffers") )
 
-(defun kill-other-buffers ()
-  "Kill all other buffers, except the current buffer and Emacs' 'system' buffers."
-  (interactive)
-  (save-all-buffers)
-  (mapc
-   (lambda (x)
-     (let ((name (buffer-name x) ) )
-       (unless (eq ?\s (aref name 0) )
-         (kill-buffer x) ) ) )
-   (delq (current-buffer) (buffer-list) ) )
-  (message "Se han cerrado los demas buffers")
-  )
-
-(defun dahas/refresh-package-database ()
-  "Refresh melpa contents."
-  (interactive)
-  (package-refresh-contents 'ASYNC)
-  ;; (auto-package-update-now)
-  )
-
 (defun reload-emacs-config ()
   "Reload your init.el file without restarting Emacs."
   (interactive)
@@ -47,19 +27,6 @@
     (if mark-active
         (buffer-substring (region-beginning) (region-end))
       (read-string "Google: ")))))
-
-(defun nmap (key function)
-  "Define mapping in evil normal mode.  FUNCTION in KEY."
-  (define-key evil-motion-state-map (kbd key) function) )
-
-(defun imap (key function)
-  "Define mapping in evil insert mode.  FUNCTION in KEY."
-  (define-key evil-insert-state-map (kbd key) function) )
-
-(defun amap (key function)
-  "Define mapping in evil normal and insert mode.  FUNCTION in KEY."
-  (nmap key function)
-  (imap key function) )
 
 (defun show-file-name ()
   "Show the full path file name in the minibuffer."
@@ -97,39 +64,6 @@
               100)
          ;; el segundo valor es para cuando no esta enfocado
          '(95 . 95) '(100 . 100)))))
-
-;; (require 'notifications)
-;; (defun send-notification (msg)
-;;   "Prueba MSG."
-;;   (notifications-notify
-;;     :title msg
-;;     :body "There's 34 mails unread"
-;;     :urgency 'low)
-;;   )
-
-(defun print-list (list)
-  "Imprimir todos los elementos de la lista LIST."
-  (dolist (el list)
-    (print el)
-    )
-  )
-
-(defun kill-org-buffers ()
-  "Kill all org buffers."
-  (interactive)
-  (dolist (x (buffer-list))
-    (let ((name (buffer-name x) ) )
-      ;; (message name)
-      (if (string-match "\\.org\\'" name)
-          (progn
-            (message (concat ">> " name))
-            (save-buffer x)
-            (kill-buffer x)
-            )
-        )
-      )
-    )
-  )
 
 (defun dahas/insert-relative-file-name (filename &optional args)
   "Insert name of file FILENAME into buffer after point.
@@ -176,20 +110,13 @@
 
 (global-set-key "\C-c\C-i" 'my-insert-file-name)
 
-
 (defun dh/fill-column ()
   "Para que no se me olvide."
   (interactive)
-  (setq fill-column 80)
+  (setq fill-column 120)
   (display-fill-column-indicator-mode)
   ;; (global-display-fill-column-indicator-mode)
   ;; (set-face-attribute 'fill-column-indicator nil :foreground "grey90")
-  )
-
-(defun dahas/prt-list (list)
-  (dolist (val list)
-    (message val)
-    )
   )
 
 (defun insert-literal-key-pressed (key)
