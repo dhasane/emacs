@@ -6,11 +6,11 @@
 
 (use-package ruby-mode
   :elpaca nil
+  :hook ((ruby-mode . robe-mode)
+         (ruby-ts-mode . robe-mode))
   :custom
   (ruby-insert-encoding-magic-comment nil)
-  :config
-  (add-hook 'ruby-mode-hook 'robe-mode)
-  (add-hook 'ruby-ts-mode-hook 'robe-mode)
+  ;; :config
   ;; :general
   ;; (
   ;;  :keymaps '(ruby-mode-map)
@@ -19,12 +19,16 @@
   )
 
 (use-package rvm
+  :disabled t
+  :after '(robe)
   :init
   (advice-add 'inf-ruby-console-auto :before #'rvm-activate-corresponding-ruby)
   )
 
+(use-package rbenv)
+
 (use-package robe
-  :after (ruby-mode)
+  :after '(ruby-mode)
   ;; :hook ((ruby-mode-hook)
   ;;        (ruby-ts-mode-hook))
   ;; :config
@@ -105,8 +109,6 @@
   (
    :keymaps '(ruby-mode-map enh-ruby-mode-map)
             "C-!" 'rake))
-
-(use-package rbenv)
 
 (use-package slim-mode)
 

@@ -43,7 +43,7 @@
   (telephone-line-evil-config)
   :custom
   (telephone-line-primary-left-separator 'telephone-line-tan-left)
-  ;; (telephone-line-secondary-left-separator 'telephone-line-halfsin-left)
+  (telephone-line-secondary-left-separator 'telephone-line-abs-hollow-left)
 
   (telephone-line-primary-right-separator 'telephone-line-tan-right)
   (telephone-line-secondary-right-separator 'telephone-line-tan-right)

@@ -4,8 +4,7 @@
 
 ;;; code:
 
-(use-package dockerfile-mode
-  )
+(use-package dockerfile-mode)
 
 (use-package docker
   :demand t

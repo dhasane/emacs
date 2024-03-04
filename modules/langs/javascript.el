@@ -15,6 +15,9 @@
   "A major mode derived from web-mode, for editing .vue files with LSP support.")
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-js-mode))
 
+(use-package npm
+  :ensure t)
+
 (use-package js
   :disabled t
   :elpaca nil

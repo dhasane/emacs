@@ -58,7 +58,6 @@
       )
 
 (use-package dashboard
-  :disabled t
   :demand t
   :defines
   (
@@ -94,19 +93,8 @@
      (registers . 5)
      )
    )
+  (dashboard-footer-messages '())
   :config
-  (setq dashboard-footer-messages
-        '(
-          "Free as free speech, free as free Beer"
-          "Richard Stallman is proud of you"
-          "Happy coding!"
-          "I showed you my source code, pls respond"
-          "Yeeeee boiii"
-          "Gotta go fast"
-          "Stonks"
-          "Para la gente que piensa que ya no hay razon para vivir y nada mas para esperar, la cuestion es lograr que entiendan que la vida espera algo de ellos -Victor Frankel"
-          )
-        )
 
   (dashboard-setup-startup-hook))
 
