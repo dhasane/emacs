@@ -143,15 +143,47 @@ conectado a una maquina externa.
   (setq skeletor-project-directory "~/dev")
   )
 
-(use-package hl-todo
-  :custom
-  (hl-todo-keyword-faces
-   '(("TODO"   . "#FF0000")
-     ("FIXME"  . "#FF0000")
-     ("DEBUG"  . "#A020F0")
-     ("GOTCHA" . "#FF4500")
-     ("STUB"   . "#1E90FF")))
-  :init
-  (global-hl-todo-mode))
+(use-package prodigy
+  :general
+  (dahas-manage-map
+   "p" '(prodigy :wk "prodigy"))
+
+  :config
+  (prodigy-define-status :id 'working :face 'prodigy-yellow-face)
+  (defvar my-prodigy-service-counts nil "Map of status ID to number of Prodigy processes with that status")
+  (advice-add
+   'prodigy-set-status
+   :before
+   (lambda (service new-status)
+     (let* ((old-status (plist-get service :status))
+            (old-status-count (or 0 (alist-get old-status my-prodigy-service-counts)))
+            (new-status-count (or 0 (alist-get new-status my-prodigy-service-counts))))
+       (when old-status
+         (setf (alist-get old-status my-prodigy-service-counts) (max 0 (- old-status-count 1))))
+       (setf (alist-get new-status my-prodigy-service-counts) (+ 1 new-status-count))
+       (force-mode-line-update t))))
+
+  (defun my-prodigy-working-count ()
+    "Number of services with the 'working' status."
+    (let ((count (alist-get 'working my-prodigy-service-counts 0)))
+      (when (> count 0)
+        (format "W:%d" count))))
+
+  (defun my-prodigy-failed-count ()
+    "Number of services with the 'failed' status."
+    (let ((count (alist-get 'failed my-prodigy-service-counts 0)))
+      (if (> count 0)
+          (format "F:%d" count)
+        "")))
+
+  ;; (prodigy-define-service
+  ;;   :name "Python http server"
+  ;;   :command "python3"
+  ;;   :args '("-m" "http.server" "8000")
+  ;;   ;; :cwd "."
+  ;;   :tags '(python web)
+  ;;   :stop-signal 'sigkill
+  ;;   :kill-process-buffer-on-stop t)
+  )
 
 ;;; project.el ends here

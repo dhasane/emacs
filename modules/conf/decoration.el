@@ -224,6 +224,17 @@
   ;; :hook (prog-mode . display-line-numbers)
   )
 
+(use-package hl-todo
+  :custom
+  (hl-todo-keyword-faces
+   '(("TODO"   . "#FF0000")
+     ("FIXME"  . "#FF0000")
+     ("DEBUG"  . "#A020F0")
+     ("GOTCHA" . "#FF4500")
+     ("STUB"   . "#1E90FF")))
+  :init
+  (global-hl-todo-mode))
+
 ;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
 ;; (set-window-parameter (selected-window) 'alpha '(85 . 50))
 ;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))

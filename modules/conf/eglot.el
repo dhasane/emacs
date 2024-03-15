@@ -28,8 +28,8 @@
   (eglot-events-buffer-size 0)
   (eglot-autoshutdown t)
   (eldoc-echo-area-use-multiline-p nil)
-  (eglot-send-changes-idle-time 3)
-  (flymake-no-changes-timeout 3)
+  (eglot-send-changes-idle-time 0.5)
+  (flymake-no-changes-timeout 0.5)
   :config
   (add-to-list 'eglot-server-programs '(web-vue-mode "vls"))
   (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
@@ -45,6 +45,11 @@
   ;;               ((web-vue-mode) . ("vls"))
   ;;             eglot-server-programs
   ;;             :test #'equal))
+  )
+
+(use-package breadcrumb
+  :config
+  (breadcrumb-mode)
   )
 
 ;;; eglot.el ends here

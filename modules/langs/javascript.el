@@ -16,7 +16,8 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-js-mode))
 
 (use-package npm
-  :ensure t)
+  :hook ((typescript-mode js-mode web-mode))
+  )
 
 (use-package js
   :disabled t
@@ -75,8 +76,7 @@
 (use-package js2-mode
   :disabled t
   :mode (("\\.js\\'" . js2-mode)
-         ("\\.jsx?\\'" . js2-jsx-mode)
-         )
+         ("\\.jsx?\\'" . js2-jsx-mode))
   ;; en teoria esto es mejor como minor-mode desde emacs 27, pero como que me funciona mejor como principal
   ;; :hook ((js-mode . js2-minor-mode))
   :custom
