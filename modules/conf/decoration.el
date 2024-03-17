@@ -33,7 +33,7 @@
   )
 
 (use-package visual-line-mode
-  :elpaca nil
+  :ensure nil
   :custom
   (
    (global-visual-line-mode t)
@@ -185,7 +185,7 @@
   )
 
 (use-package display-line-numbers
-  :elpaca nil
+  :ensure nil
   :hook ((prog-mode . #'display-line-numbers))
   :custom
   ; (display-line-numbers-type 'relative)

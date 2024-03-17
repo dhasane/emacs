@@ -11,7 +11,7 @@
 
 (eval-and-compile
   ;; siempre instalar lo que no se tenga
-  (setq use-package-always-ensure nil)
+  (setq use-package-always-ensure t)
   ;; siempre diferir el inicio de paquetes
   (setq use-package-always-defer t)
   ;; (setq use-package-expand-minimally t)
@@ -25,6 +25,7 @@
 (use-package use-package-ensure-system-package)
 
 (use-package general :demand t)
+
 (use-package hydra :demand t)
 
 (use-package benchmark-init
@@ -85,11 +86,10 @@
   )
 
 (use-package seq
-  :elpaca nil
+  :ensure nil
   )
 
-(use-package transient
-  :elpaca nil)
+(use-package transient)
 
 (if (featurep 'elpaca)
     (elpaca-wait))

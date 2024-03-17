@@ -5,7 +5,7 @@
 ;;; code:
 
 (use-package corfu
-  :elpaca (corfu :files (:defaults "extensions/*")
+  :ensure (corfu :files (:defaults "extensions/*")
                  :includes (corfu-info corfu-history))
   ;; :straight (corfu :files (:defaults "extensions/*")
   ;;                  :includes (corfu-info corfu-history))
@@ -108,7 +108,7 @@
 
 ;; Dabbrev works with Corfu
 (use-package dabbrev
-  :elpaca nil
+  :ensure nil
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand)))

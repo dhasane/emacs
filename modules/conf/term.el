@@ -12,14 +12,14 @@
   )
 
 (use-package pcomplete
-  :elpaca nil
+  :ensure nil
   :demand t
   :custom
   (pcomplete-ignore-case t)
   )
 
 (use-package eshell
-  :elpaca nil
+  :ensure nil
   :hook ((eshell-output-filter-functions . #'eshell-truncate-buffer))
   :general
   (eshell-mode-map
@@ -295,15 +295,7 @@
 
 (use-package eat
   :demand t
-  ;; :straight (eat :type git
-  ;;                :host codeberg
-  ;;                :repo "akib/emacs-eat"
-  ;;                :files ("*.el" ("term" "term/*.el") "*.texi"
-  ;;                        "*.ti" ("terminfo/e" "terminfo/e/*")
-  ;;                        ("terminfo/65" "terminfo/65/*")
-  ;;                        ("integration" "integration/*")
-  ;;                        (:exclude ".dir-locals.el" "*-tests.el")))
-  :elpaca (eat :type git
+  :ensure (eat :type git
                :host codeberg
                :repo "akib/emacs-eat"
                :files ("*.el" ("term" "term/*.el") "*.texi"

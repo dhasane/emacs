@@ -5,7 +5,7 @@
 ;;; code:
 
 (use-package nxml
-  :elpaca nil
+  :ensure nil
   :hook ((nxml-mode . adaptive-wrap-prefix-mode))
   )
 

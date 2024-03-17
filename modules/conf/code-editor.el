@@ -5,8 +5,8 @@
 (setq enable-recursive-minibuffers t)
 
 (use-package prog
-  :elpaca nil
-  ;; :straight (:type built-in)
+  :ensure nil
+  :straight (:type built-in)
   :init
   (setq-default c-basic-offset 4
                 tab-width 4
@@ -104,7 +104,7 @@
   )
 
 (use-package eldoc
-  :elpaca nil
+  :ensure nil
   )
 
 (use-package eldoc-box
@@ -139,7 +139,7 @@
   )
 
 (use-package hl-line
-  :elpaca nil
+  :ensure nil
   :defer 1
   :hook ((prog-mode . hl-line-mode)
          (yaml-mode . hl-line-mode))
@@ -197,7 +197,6 @@
   )
 
 (use-package smart-tabs-mode
-  :ensure t
   :config
   (progn (smart-tabs-insinuate 'c 'c++)))
 

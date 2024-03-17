@@ -5,7 +5,7 @@
   ;;            :type git
   ;;            :host github
   ;;            :repo "godotengine/emacs-gdscript-mode")
-  :elpaca (gdscript-mode
+  :ensure (gdscript-mode
            :type git
            :host github
            :repo "godotengine/emacs-gdscript-mode")

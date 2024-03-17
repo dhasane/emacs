@@ -6,8 +6,8 @@
 ;;; code:
 
 (use-package org
-  ;; :straight (:type built-in)
-  :elpaca nil
+  :straight (:type built-in)
+  :ensure nil
   :defer .1
   :general
   (org-mode-map

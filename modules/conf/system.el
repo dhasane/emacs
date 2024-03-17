@@ -5,8 +5,7 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 (use-package midnight
-  :elpaca nil
-  ;; :after
+  :ensure nil
   :demand t
   :config
   (midnight-delay-set 'midnight-delay "5:30am")
@@ -60,7 +59,7 @@
   )
 
 (use-package proced
-  :elpaca nil
+  :ensure nil
   :custom
   (proced-auto-update-flag t)
   )

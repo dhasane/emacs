@@ -6,7 +6,7 @@
 ;;; code:
 
 (use-package eglot
-  :elpaca nil
+  :ensure nil
   :after (project)
   :hook (prog-mode . eglot-ensure)
   :general

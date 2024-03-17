@@ -5,7 +5,7 @@
 ;;; code:
 
 (use-package ruby-mode
-  :elpaca nil
+  :ensure nil
   :hook ((ruby-mode . robe-mode)
          (ruby-ts-mode . robe-mode))
   :custom

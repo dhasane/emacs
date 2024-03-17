@@ -46,8 +46,7 @@
   )
 
 (use-package vundo
-  :elpaca (vundo :type git :host github :repo "casouri/vundo")
-  ;; :straight (vundo :type git :host github :repo "casouri/vundo")
+  :ensure (vundo :type git :host github :repo "casouri/vundo")
   :general
   (
    :states '(motion override)

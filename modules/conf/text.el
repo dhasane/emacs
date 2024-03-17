@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package ispell
-  :elpaca nil
+  :ensure nil
   :hook ((org-mode . flyspell-mode)
          (git-commit-mode . flyspell-mode))
   :custom

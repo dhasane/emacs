@@ -23,7 +23,7 @@
   )
 
 (use-package treesit
-  :elpaca nil
+  :ensure nil
   :custom
   (treesit-font-lock-level 4)
   (treesit-language-source-alist
@@ -55,7 +55,7 @@
 
 
 (use-package combobulate
-  :elpaca (combobulate :type git :host github :repo "mickeynp/combobulate")
+  :ensure (combobulate :type git :host github :repo "mickeynp/combobulate")
   :preface
   ;; You can customize Combobulate's key prefix here.
   ;; Note that you may have to restart Emacs for this to take effect!

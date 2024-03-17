@@ -7,6 +7,7 @@
 (use-package virtualenvwrapper)
 
 (use-package python
+  :ensure nil
   :demand t
   :mode ("\\.py\\'" . python-mode)
   :hook
