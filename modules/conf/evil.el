@@ -40,32 +40,6 @@
    "C-v" 'evil-paste-before
    "C-z" 'evil-undo
    )
-  ;; :general
-  ;; (
-  ;;  :states '(normal override)
-  ;;  :keymaps minibuffer-local-map
-  ;;  "j"     'previous-line-or-history-element
-  ;;  "k"     'next-line-or-history-element
-  ;;  )
-
-  ;; :bind
-  ;; (:map
-  ;;  evil-normal-state-map
-  ;;  ;("ESC" . evil-ex-nohighlight)
-  ;; ;;("g t" . 'tab-next )
-  ;; ;;("g b" . 'tab-previous )
-  ;;  ;; ("TAB" . evil-window-map )
-  ;;  ;; ("TAB q" . #'close-except-last-window )
-  ;;  ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
-  ;;  ;;("C-z" . undo-tree-undo )
-  ;;  :map
-  ;;  evil-motion-state-map
-  ;;  ;; ("TAB" . evil-window-map )
-  ;;  ;; ("TAB q" . #'close-except-last-window )
-  ;;  ;; ("C-w q" . 'evil-quit ) ; 'kill-this-buffer )
-  ;; :map
-
-  ;; :functions
   :init
   ;; por alguna razon estas variables no funcionaban en caso de ser
   ;; definidas en custom
@@ -158,23 +132,6 @@
   ;;       )
   )
 
-(use-package evil-leader
-  :disabled t
-  :after evil
-  :defer 1
-  :demand t
-  ;; :config
-  ;; (global-evil-leader-mode)
-  ;; (evil-leader/set-leader "<SPC>")
-  ;; (evil-leader/set-key
-  ;;   "e" 'find-file
-  ;;   "b" 'switch-to-buffer
-  ;;   "k" 'kill-buffer
-  ;;   "w" 'evil-window-map
-  ;;   "t" 'hydra-tabs/body
-  ;;   )
-  )
-
 (use-package evil-nerd-commenter
   :after evil
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
@@ -188,16 +145,13 @@
 
 ;; visual hints while editing
 (use-package evil-goggles
+  :demand t
   :after evil
-  :delight
-  :defer 1
-  :after (evil)
-  :functions evil-googles-use-diff-faces
   :custom
-  (evil-goggles-duration 0.250) ;; default is 0.200
-  :config
-  ;; (evil-goggles-use-diff-faces)
+  (evil-goggles-duration 0.200) ;; default is 0.200
+  :init
   (evil-goggles-mode)
+  (evil-goggles-use-diff-faces)
   :custom-face
   (evil-goggles-change-face ((t (:inherit diff-removed))))
   (evil-goggles-delete-face ((t (:inherit diff-removed))))
@@ -212,8 +166,6 @@
 
 (use-package evil-owl
   :after evil
-  :defer 1
-  :delight
   :custom
   (evil-owl-max-string-length 500)
   :config

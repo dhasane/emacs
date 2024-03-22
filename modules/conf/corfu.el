@@ -108,15 +108,14 @@
 
          "SPC" #'corfu-insert-separator
    )
-  :config
-  ;; enable corfu-candidate-overlay mode globally
-  ;; this relies on having corfu-auto set to nil
+  :custom
   (corfu-candidate-overlay-mode +1)
+  :config
   ;; bind Ctrl + Shift + Tab to trigger completion of the first candidate
   ;; (keybing <iso-lefttab> may not work for your keyboard model)
   ;; (global-set-key (kbd "C-<iso-lefttab>") 'corfu-candidate-overlay-complete-at-point)
+  (custom-set-faces '(corfu-candidate-overlay-face ((t (:inherit 'font-lock-comment-face)))))
   :custom-face
-  (corfu-candidate-overlay-face ((t (:inherit font-lock-comment-face))))
   (corfu-candidate-overlay-face-exact-match ((t (:inherit corfu-candidate-overlay-face :underline t))))
   )
 

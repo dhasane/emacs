@@ -1,2 +1,3 @@
 
 arreglar lazy en config-loader
+evil-goggles no cambia los faces

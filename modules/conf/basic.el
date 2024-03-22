@@ -57,6 +57,10 @@
 ;; set highlighting brackets
 (show-paren-mode 1)
 (electric-pair-mode 1)
+(setq-default
+ electric-pair-skip-whitespace-chars '(9 32)
+ )
+;; (setq electric-pair-delete-adjacent-pairs nil)
 
 (setq show-paren-delay 0
       show-paren-style 'parenthesis)
