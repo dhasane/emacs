@@ -2,16 +2,25 @@
 
 ;;; Code:
 
-(setq enable-recursive-minibuffers t)
+(use-package emacs :ensure nil
+  :demand t
+  :custom
+  (enable-recursive-minibuffers t)
+  :mode
+  ("\\.env.test$" . conf-mode)
+  ("\\.env.local$" . conf-mode)
+  ("\\.env.example$" . conf-mode)
+  ("\\.env.sample$" . conf-mode)
+  ("\\.env$" . conf-mode))
 
 (use-package prog
+  :demand t
   :ensure nil
   :straight (:type built-in)
   :init
   (setq-default c-basic-offset 4
                 tab-width 4
                 indent-tabs-mode nil)
-  (setq-default indent-tabs-mode nil)
   :config
   (setq-local indent-tabs-mode nil)
   :custom
@@ -116,7 +125,26 @@
    :states '(normal)
    "K"   'eldoc-box-help-at-point
    )
-  )
+  :config
+  (defun rex/eldoc-box-scroll-up ()
+    "Scroll up in `eldoc-box--frame'"
+    (interactive)
+    (with-current-buffer eldoc-box--buffer
+      (with-selected-frame eldoc-box--frame
+	(scroll-down 3))))
+  (defun rex/eldoc-box-scroll-down ()
+    "Scroll down in `eldoc-box--frame'"
+    (interactive)
+    (with-current-buffer eldoc-box--buffer
+      (with-selected-frame eldoc-box--frame
+	(scroll-up 3))))
+  ;; this won't work without installing general; I include it as an example
+  ;; see: https://github.com/skyler544/rex/blob/main/config/rex-keybindings.el
+  :general
+  (:keymaps 'eglot-mode-map
+	    "S-k" 'rex/eldoc-box-scroll-up
+	    "S-j" 'rex/eldoc-box-scroll-down
+	    "M-h" 'eldoc-box-help-at-point))
 
 (use-package origami
   :demand t

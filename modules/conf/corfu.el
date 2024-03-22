@@ -93,6 +93,33 @@
   ;; (global-corfu-mode)
   (corfu-popupinfo-mode))
 
+(use-package corfu-candidate-overlay
+  :after corfu
+  :general
+  (
+   :keymaps 'corfu-map
+         "TAB"     'corfu-next
+         [tab]     'corfu-next
+         "S-TAB"   'corfu-previous
+         [backtab] 'corfu-previous
+
+         [escape]  'corfu-quit
+         "C-s"     'corfu-quit
+
+         "SPC" #'corfu-insert-separator
+   )
+  :config
+  ;; enable corfu-candidate-overlay mode globally
+  ;; this relies on having corfu-auto set to nil
+  (corfu-candidate-overlay-mode +1)
+  ;; bind Ctrl + Shift + Tab to trigger completion of the first candidate
+  ;; (keybing <iso-lefttab> may not work for your keyboard model)
+  ;; (global-set-key (kbd "C-<iso-lefttab>") 'corfu-candidate-overlay-complete-at-point)
+  :custom-face
+  (corfu-candidate-overlay-face ((t (:inherit font-lock-comment-face))))
+  (corfu-candidate-overlay-face-exact-match ((t (:inherit corfu-candidate-overlay-face :underline t))))
+  )
+
 ;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
 ;; in the Consult wiki for an advanced Orderless style dispatcher.
 ;; Enable `partial-completion' for files to allow path expansion.

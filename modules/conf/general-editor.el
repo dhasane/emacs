@@ -28,4 +28,14 @@
          )
   )
 
+(use-package flymake
+  :ensure nil
+  :init
+  (setq-default flymake-no-changes-timeout 1)
+  :config
+  (setq flymake-mode-line-format
+	;; the default mode line lighter takes up an unnecessary amount of
+	;; space, so make it shorter
+	'(" " flymake-mode-line-exception flymake-mode-line-counters)))
+
 ;;; general-editor end here

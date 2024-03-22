@@ -8,7 +8,13 @@
 (use-package eglot
   :ensure nil
   :after (project)
-  :hook (prog-mode . eglot-ensure)
+  :hook
+  ((js-mode
+    tsx-mode
+    typescript-mode
+    web-vue-mode
+    python-mode)
+   . eglot-ensure)
   :general
   (
    :keymap 'eglot-mode
@@ -30,6 +36,8 @@
   (eldoc-echo-area-use-multiline-p nil)
   (eglot-send-changes-idle-time 0.5)
   (flymake-no-changes-timeout 0.5)
+  (eglot-confirm-server-initiated-edits nil)
+  (eglot-sync-connect 0)
   :config
   (add-to-list 'eglot-server-programs '(web-vue-mode "vls"))
   (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
@@ -48,7 +56,7 @@
   )
 
 (use-package breadcrumb
-  :config
+  :init
   (breadcrumb-mode)
   )
 
