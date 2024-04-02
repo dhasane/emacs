@@ -49,6 +49,9 @@
  ;; "S" 'avy-goto-char-2
  )
 
+(fset 'project-prefix-map project-prefix-map)
+(fset 'tab-prefix-map tab-prefix-map)
+
 (general-define-key
  :keymaps 'override
  :prefix "SPC"
@@ -60,7 +63,8 @@
  "o"   '(dahas-org-map          :wk "org")
  "s"   '(hydra-search/body      :wk "search")
  "l"   '(dahas-lsp-map          :wk "lsp")
- "p"   '(projectile-command-map :wk "projectile")
+ ;; "p"   '(projectile-command-map :wk "projectile")
+ "p"   '(project-prefix-map     :wk "project")
  "m"   '(dahas-manage-map       :wk "manage")
  "c"   '(dahas-comp-map         :wk "compilation")
 
@@ -77,7 +81,8 @@
 
  ;; "k" 'kill-buffer
  ;; "t" 'treemacs ; "tree"
- "t" 'dirvish-side ; "tree"
+ ;; "t" 'dirvish-side ; "tree"
+ "t"   '(tab-prefix-map     :wk "tabs")
 
  ;; general
  ;; TODO: buscar una mejor forma de organizar esto
