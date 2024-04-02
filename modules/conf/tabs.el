@@ -68,7 +68,10 @@ nombre del tab."
            )
       (format "%s%s" project-name nombre)))
 
-  (setq tab-bar-tab-name-function 'dh/set-tabs-name)
+  ; (setq tab-bar-tab-name-function 'dh/set-tabs-name)
+
+  (setq tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
+  (setq tab-bar-tab-name-function 'tab-bar-tab-name-current)
   :config
   ;; esto tal vez lo podria usar para cambiar tab-bar
   ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows

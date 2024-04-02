@@ -9,6 +9,12 @@
   :ensure nil
   )
 
+(use-package project-tab-groups
+  :demand t
+  :config
+  (project-tab-groups-mode 1)
+  )
+
 (use-package projectile
   :delight '(:eval (format "[%s]" (projectile-project-name)))
   :demand t

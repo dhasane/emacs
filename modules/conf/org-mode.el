@@ -6,9 +6,9 @@
 ;;; code:
 
 (use-package org
+  :demand t
   :straight (:type built-in)
   :ensure nil
-  :defer .1
   :general
   (org-mode-map
    "C-c c" #'(lambda ()
