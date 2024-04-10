@@ -13,7 +13,9 @@
     tsx-mode
     typescript-mode
     web-vue-mode
-    python-mode)
+    python-mode
+    python-ts-mode
+    )
    . eglot-ensure)
   :general
   (
@@ -53,11 +55,6 @@
   ;;               ((web-vue-mode) . ("vls"))
   ;;             eglot-server-programs
   ;;             :test #'equal))
-  )
-
-(use-package breadcrumb
-  :init
-  (breadcrumb-mode)
   )
 
 ;;; eglot.el ends here

@@ -27,6 +27,11 @@
   (indent-tabs-mode nil)
   )
 
+(use-package breadcrumb
+  :init
+  (breadcrumb-mode)
+  )
+
 (use-package sideline
   :demand t
   :hook ((flycheck-mode . sideline-mode)   ; for `sideline-flycheck`

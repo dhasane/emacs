@@ -32,15 +32,16 @@
 
 (use-package lsp-mode
   :demand t
-  ;; :hook
-  ;; (
-  ;;  (
+  :hook
+  (
+   (
   ;;   rust-mode
   ;;   ;; ruby-mode
   ;;   java-mode
   ;;   js-mode
   ;;   typescript-mode
-  ;;   python-mode
+    python-mode
+    python-ts-mode
   ;;   dart-mode
   ;;   c-mode
   ;;   c++-mode
@@ -49,9 +50,9 @@
   ;;   haskell-mode
   ;;   haskell-literate-mode
   ;;   gdscript-mode
-  ;;   )
-  ;;  . lsp-deferred
-  ;;  )
+    )
+   . lsp-deferred
+   )
   :defines
   (
    lsp-modeline-diagnostics-scope
@@ -87,12 +88,13 @@
   ;; (lsp-trace t)
   ;; (lsp-print-performance t)
 
+  (lsp-lens-enable t)
   ;; general
   (lsp-log-io nil)
   (lsp-enable-snippet nil)
   (lsp-enable-completion-at-point t)
   ;; (lsp-auto-guess-root nil)
-  (lsp-headerline-breadcrumb-enable t)
+  (lsp-headerline-breadcrumb-enable nil)
   ;;;;   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
   ;;;;   (lsp-response-timeout 10)
 

@@ -7,7 +7,7 @@
 
 (use-package org
   :demand t
-  :straight (:type built-in)
+  ;; :straight (:type built-in)
   :ensure nil
   :general
   (org-mode-map

@@ -77,7 +77,7 @@
   )
 
 (use-package elpy
-  ;; :disabled t
+  :disabled t
   :hook ((python-mode . elpy-enable)
          (elpy-mode . flycheck-mode))
   :custom
