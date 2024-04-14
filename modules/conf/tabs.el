@@ -31,18 +31,48 @@
   ;; (tab-bar-tab          ((t (:background "#282828" :foreground "#fdf4c2"))))
   ;; (tab-bar-tab-inactive ((t (:background "#504945" :foreground "#fdf4c2"))))
 
-  (tab-bar              ((t (:inherit default))))
-  (tab-bar-tab          ((t (:inherit default :underline t))))
-  (tab-bar-tab-inactive ((t (:inherit ansi-color-inverse))))
+  ;; (tab-bar              ((t (:inherit ansi-color-inverse))))
+  ;; (tab-bar-tab          ((t (:inherit default :underline t))))
+  ;; (tab-bar-tab-inactive ((t (:inherit ansi-color-inverse))))
+
+  ;; The tab bar's appearance
+  (tab-bar
+   ((t (:inherit region
+        ;; :foreground region
+        ;; :box (:line-width 0 :style nil)
+        ))))
+  ;; Inactive tabs
+  (tab-bar-tab-inactive
+   ((t (:inherit region
+        ;; :foreground region
+        ;; :box (:line-width 3 :color (face-attribute 'region :background) :style nil)
+        ))))
+  ;; Active tab
+  (tab-bar-tab
+   ((t (:inherit default
+        :underline t
+        ;;:foreground default
+        ;; :box (:line-width 3 :color (face-attribute 'default :background) :style nil)
+        ))))
   :custom
   (tab-bar-close-button-show nil)
-  (tab-bar-tab-hints t)
+  (tab-bar-new-button-show nil)
+  (tab-bar-tab-hints nil)
+  (tab-bar-separator "\u200B")  ;; Zero width space to fix color bleeding
   (tab-bar-tab-name-truncated-max 1)
   ;; (tab-bar-tab-name-function 'dh/set-tabs-name)
   ;; (tab-bar-tab-name-function 'set-name-if-in-project)
   ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
   ;; (tab-bar-tab-name-function)
   (tab-bar-show 1)
+  (tab-bar-format
+   '(
+     tab-bar-format-history
+     tab-bar-format-tabs-groups
+     tab-bar-separator
+     tab-bar-format-add-tab
+     ))
+  (tab-bar-tab-name-function 'tab-bar-tab-name-current)
   :init
   (setq-default tab-bar-show 1)
   (defun dh/set-tabs-name ()
@@ -69,14 +99,7 @@ nombre del tab."
       (format "%s%s" project-name nombre)))
 
   ; (setq tab-bar-tab-name-function 'dh/set-tabs-name)
-
-  (setq tab-bar-format '(tab-bar-format-history tab-bar-format-tabs-groups tab-bar-separator tab-bar-format-add-tab))
-  (setq tab-bar-tab-name-function 'tab-bar-tab-name-current)
   :config
-  ;; esto tal vez lo podria usar para cambiar tab-bar
-  ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
-
-
   (defun close-tab-configuration ()
     (interactive)
     (tab-bar-close-tab)

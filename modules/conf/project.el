@@ -9,10 +9,35 @@
   :ensure nil
   )
 
+(use-package tab-bar-groups
+  :demand t
+  :hook (tab-bar-groups-tab-post-change-group-functions . #'tab-bar-groups-regroup-tabs)
+  :config
+  ; (add-hook 'tab-bar-groups-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
+  (add-hook 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
+  (add-hook 'tab-bar-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
+  ;; (add-to-list 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
+  )
+
 (use-package project-tab-groups
   :demand t
   :config
   (project-tab-groups-mode 1)
+  :custom-face
+  (tab-bar-tab-group-current
+   ((t (:inherit tab-bar-tab
+	:underline nil
+        ;; :foreground region
+        :box (:line-width -1 :style nil)
+        ))))
+  (tab-bar-tab-group-inactive
+   ((t (:inherit tab-bar-tab-inactive
+	:underline nil
+	:background "#504945"
+        :box (:line-width -1 :style nil)
+	; :strike-through t
+	;; :inverse-video t
+        ))))
   )
 
 (use-package projectile
