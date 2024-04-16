@@ -36,7 +36,16 @@
 
   ;;          ))
   :custom
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  (magit-display-buffer-function
+   ;; #'magit-display-buffer-fullframe-status-v1
+
+   ; #'magit-display-buffer-traditional
+   ; #'magit-display-buffer-same-window-except-diff-v1
+   ; #'magit-display-buffer-fullframe-status-v1
+   ; #'magit-display-buffer-fullframe-status-topleft-v1
+   #'magit-display-buffer-fullcolumn-most-v1
+   ; #'display-buffer
+   )
   (magit-bury-buffer-function #'magit-restore-window-configuration)
   ;; highlight word/letter changes in hunk diffs
   (magit-diff-refine-hunk t)

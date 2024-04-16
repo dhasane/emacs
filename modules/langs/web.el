@@ -16,9 +16,9 @@
          "\\.erb\\'"
          "\\.mustache\\'"
          "\\.djhtml\\'"
-         "\\.tsx\\'"
+         ;; "\\.tsx\\'"
          "\\.jsx\\'"
-         "\\.js\\'"
+         ;; "\\.js\\'"
          )
   :custom
   (web-mode-code-indent-offset 2)

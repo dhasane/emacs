@@ -94,6 +94,7 @@
   (corfu-popupinfo-mode))
 
 (use-package corfu-candidate-overlay
+  :disabled t
   :after corfu
   :general
   (

@@ -58,15 +58,16 @@
  :non-normal-prefix "M-SPC"
  :states '(emacs normal visual motion)
 
- [tab] '(hydra-tabs/body        :wk "tabs")
- "TAB" '(hydra-tabs/body        :wk "tabs")
- "o"   '(dahas-org-map          :wk "org")
- "s"   '(hydra-search/body      :wk "search")
- "l"   '(dahas-lsp-map          :wk "lsp")
+ [tab] '(hydra-tabs/body         :wk "tabs")
+ "TAB" '(hydra-tabs/body         :wk "tabs")
+ "o"   '(dahas-org-map           :wk "org")
+ "s"   '(hydra-search/body       :wk "search")
+ "l"   '(dahas-lsp-map           :wk "lsp")
  ;; "p"   '(projectile-command-map :wk "projectile")
- "p"   '(project-prefix-map     :wk "project")
- "m"   '(dahas-manage-map       :wk "manage")
- "c"   '(dahas-comp-map         :wk "compilation")
+ "p"   '(project-prefix-map      :wk "project")
+ "m"   '(dahas-manage-map        :wk "manage")
+ "c"   '(dahas-comp-map          :wk "compilation")
+ "w"   '(:keymap evil-window-map :wk "evil window prefix")
 
  ;; "v" '
 
@@ -82,7 +83,8 @@
  ;; "k" 'kill-buffer
  ;; "t" 'treemacs ; "tree"
  ;; "t" 'dirvish-side ; "tree"
- "t"   '(tab-prefix-map     :wk "tabs")
+ ;; "t"   '(tab-prefix-map     :wk "tabs")
+ "t"   '(project-dired     :wk "files")
 
  ;; general
  ;; TODO: buscar una mejor forma de organizar esto
@@ -93,7 +95,6 @@
  "B" 'consult-buffer  ;'switch-to-buffer
  "b" 'consult-project-buffer
  "g" 'magit
- "w" '(:keymap evil-window-map :wk "evil window prefix")
  "y" 'yas-insert-snippet
 
  "j" 'evil-collection-consult-jump-list

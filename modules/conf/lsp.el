@@ -4,32 +4,6 @@
 
 ;;; code:
 
-;; (defcustom lsp-ignore-modes
-;;   '(
-;;     emacs-lisp-mode
-;;     ;; typescript-mode
-;;     ;; ng2-ts-mode
-;;     csharp-mode
-;;     makefile-mode
-;;     shell-script-mode
-;;     )
-;;   "Modes to prevent Emacs from loading lsp-mode."
-;;   :type 'list
-;;   :group 'lsp-mode-ignore
-;;   )
-;;
-;; (defun dh/lsp-enable-mode ()
-;;   "Activar lsp solo si no es un modo a ignorar."
-;;   (interactive)
-;;   ;; (if (not (member major-mode '(emacs-lisp-mode)))
-;;   (if (not (member major-mode lsp-ignore-modes))
-;;       (lsp-deferred)
-;;     ;;(message "lsp no activado")
-;;     )
-;;   )
-
-;; (add-hook 'prog-mode-hook 'dh/lsp-enable-mode)
-
 (use-package lsp-mode
   :demand t
   :hook
@@ -38,8 +12,9 @@
   ;;   rust-mode
   ;;   ;; ruby-mode
   ;;   java-mode
-  ;;   js-mode
-  ;;   typescript-mode
+    js-mode
+    typescript-mode
+    tsx-mode
     python-mode
     python-ts-mode
   ;;   dart-mode
@@ -68,6 +43,8 @@
   ;;        ;; (lsp-mode . #'lsp-lens-mode)
   ;;        )
   :custom
+  (indent-tabs-mode nil)
+
   (lsp-keymap-prefix "C-c l")
 
   (lsp-enable-on-type-formatting nil)
@@ -111,18 +88,17 @@
   ;;    ".bzr" "_darcs" ".tox" ".svn" ".stack-work"
   ;;    "build"))
 
-  (lsp-completion-provider :capf) ;; we use Corfu!
+  (lsp-completion-provider ;; :capf
+			   :none) ;; we use Corfu!
 
   :config
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
 
-  ;; (defhydra+ hydra-lsp ()
-  ;;   ("r" lsp-rename  "rename"                             :column "actions")                     ; "rename"
-  ;;   )
   :general
   (dahas-lsp-map
-   "r" 'lsp-rename ;; "rename"                             :column "actions")                     ; "rename"
+   "r" '(lsp-rename               :wk "rename") ;; :column "actions")
+	 "a" '(lsp-execute-code-action  :wk "code action")
    )
   )
 
