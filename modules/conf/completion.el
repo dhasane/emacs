@@ -150,7 +150,9 @@
   (completion-category-defaults nil)    ; I want to be in control!
   (completion-category-overrides
    '((file (styles ;; basic-remote ; For `tramp' hostname completion with `vertico'
-                   orderless))))
+            orderless))
+     (eglot (styles orderless))
+     (eglot-capf (styles orderless))))
   ;; (completion-styles '(basic substring partial-completion flex))
   (orderless-component-separator "[ &]")
   (orderless-matching-styles

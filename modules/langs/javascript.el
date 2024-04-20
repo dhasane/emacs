@@ -16,7 +16,6 @@
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-js-mode))
 
 (use-package npm
-  :hook ((typescript-mode js-mode web-mode))
   :general
   (dahas-comp-map
    "c" '(npm :wk "npm")
@@ -24,7 +23,7 @@
   )
 
 (use-package js
-  :elpaca nil
+  :ensure nil
   :demand t
   ;; :mode ("\\.js\\'")
   ;; :hook (js-mode . js-web-mode-init-hook)

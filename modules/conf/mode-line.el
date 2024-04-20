@@ -60,7 +60,7 @@
 
 (use-package awesome-tray
   :disabled t
-  :elpaca
+  :ensure
   (:host github :repo "manateelazycat/awesome-tray" :branch "master" :files ("*.el" "out"))
   :custom
   (awesome-tray-evil-show-mode t)
