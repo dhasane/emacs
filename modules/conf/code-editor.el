@@ -5,7 +5,7 @@
 (use-package emacs :ensure nil
   :demand t
   :custom
-  (enable-recursive-minibuffers t)
+  (enable-recursive-minibuffers nil)
   :mode
   ("\\.env.test$" . conf-mode)
   ("\\.env.local$" . conf-mode)
@@ -49,8 +49,8 @@
 
   ;; (sideline-backends-left '(sideline-flycheck))
   ;; (sideline-backends-right '(sideline-lsp))
-  (sideline-delay 0.5) ;;0.7)
-  (sideline-display-backend-type 'inner)
+  (sideline-delay 0.2) ;;0.7)
+  ;; (sideline-display-backend-type 'inner)
 
 
   (sideline-backends-right '((sideline-lsp      . up)

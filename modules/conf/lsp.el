@@ -98,7 +98,7 @@
   :general
   (dahas-lsp-map
    "r" '(lsp-rename               :wk "rename") ;; :column "actions")
-	 "a" '(lsp-execute-code-action  :wk "code action")
+   "a" '(lsp-execute-code-action  :wk "code action")
    )
   )
 

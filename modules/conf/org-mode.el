@@ -169,7 +169,9 @@
 
     (add-to-list 'org-latex-classes
                  '("memoria"
-                   "\\documentclass[11pt, titlepage]{report}"
+                   "\\documentclass[11pt, titlepage]{report}
+\\usepackage[a4paper, total={6in, 8in}]{geometry}
+"
                    ("\\section{%s}" . "\\section*{%s}")
                    ("\\subsection{%s}" . "\\subsection*{%s}")
                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
