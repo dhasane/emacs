@@ -28,8 +28,8 @@
   (dahas-lsp-map
    "r" 'eglot-rename ;; "rename"                             :column "actions")                     ; "rename"
    "f"  '(:ignore t :which-key "find")
-   "fd" '(eglot-find-typeDefinition  :which-key "definitions")
-   "fr" '(eglot-find-declaration     :which-key "references")
+   ;; "fd" '(eglot-find-typeDefinition  :which-key "definitions")
+   ;; "fr" '(eglot-find-declaration     :which-key "references")
    "a" 'eglot-code-actions
    )
   :custom

@@ -143,6 +143,8 @@
 
 ;; (advice-add 'split-window   :after 'save-buffer)
 
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
                                         ; extra settings ;;;;;;;;;;;;;;;;;;;;;
 (put 'narrow-to-region 'disabled nil)
 

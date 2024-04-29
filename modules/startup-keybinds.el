@@ -15,6 +15,13 @@
 (defvar-keymap dahas-lsp-map :full t)
 (fset 'dahas-lsp-map dahas-lsp-map)
 
+(general-define-key
+ :keymaps 'dahas-lsp-map
+ "f"  '(:ignore t :which-key "find")
+ "fd" '(xref-find-definitions  :which-key "definitions")
+ "fr" '(xref-find-references   :which-key "references")
+ )
+
 (defvar dahas-org-map (let ((map (make-sparse-keymap))) map))
 (fset 'dahas-org-map dahas-org-map)
 

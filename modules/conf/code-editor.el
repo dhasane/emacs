@@ -28,6 +28,8 @@
   )
 
 (use-package breadcrumb
+  :custom
+  (breadcrumb-idle-time 100)
   :init
   (breadcrumb-mode)
   )

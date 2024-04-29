@@ -32,6 +32,8 @@
            (chosen-zettlekasten-path (cdr (assoc key zettlekasten-paths-alist))))
       (setq org-roam-directory chosen-zettlekasten-path)
       (setq org-roam-db-location (concat chosen-zettlekasten-path "org-roam.db"))
+      (setq org-roam-db-location (concat chosen-zettlekasten-path "org-roam.db"))
+      (setq org-download-image-dir (expand-file-name (concat chosen-zettlekasten-path "/imagenes/")))
       (org-roam-db-sync)))
 
   ;; (defhydra+ hydra-org (:color blue :columns 3)
@@ -57,7 +59,7 @@
    "f"   '(org-roam-node-find :wk "find")
    "i"   '(org-roam-node-insert :wk "insert")
    "z"   '(switch-zettelkasten :wk "switch zettelkasten")
-   "a"   '(org-roam-capture :wk "capture")
+   ;; "a"   '(org-roam-capture :wk "capture")
 
    "d" '(:ignore t :which-key "daily")
    "dd" '(org-roam-dailies-capture-today :wk "daily capture")
