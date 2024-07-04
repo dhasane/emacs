@@ -43,6 +43,12 @@
      (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
      (yaml "https://github.com/ikatyang/tree-sitter-yaml")
      (php "https://github.com/tree-sitter/tree-sitter-php")
+     (tsx        "https://github.com/tree-sitter/tree-sitter-typescript"
+		 "v0.20.3"
+		 "tsx/src")
+     (typescript "https://github.com/tree-sitter/tree-sitter-typescript"
+		 "v0.20.3"
+		 "typescript/src")
      ))
   )
 

@@ -21,11 +21,6 @@
 (use-package eshell
   :ensure nil
   :hook ((eshell-output-filter-functions . #'eshell-truncate-buffer))
-  :general
-  (eshell-mode-map
-   :states '(normal insert)
-   "C-d" 'eshell-send-eof-to-process
-   )
   :custom
   (eshell-aliases-file (cl/expand-name "eshell/alias")) ;; TODO: tal vez podria ser mejor definir los alias a traves de elisp en vez de usando este archivo
   (eshell-destroy-buffer-when-process-dies t)
@@ -91,6 +86,8 @@
                 :keymaps 'eshell-mode-map
                 :states '(insert)
                 "TAB" 'completion-at-point
+								;; "C-d" '(lambda () (throw 'eshell-terminal t))
+								;; "C-d" 'eshell/exit
                )
               )
             )

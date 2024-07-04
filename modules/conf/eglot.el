@@ -17,6 +17,7 @@
     python-ts-mode
     )
    . eglot-ensure)
+  (eglot-managed-mode . #'eglot-inlay-hints-mode)
   :general
   (
    :keymap 'eglot-mode
@@ -40,6 +41,7 @@
   (flymake-no-changes-timeout 0.5)
   (eglot-confirm-server-initiated-edits nil)
   (eglot-sync-connect 0)
+  (eglot-extend-to-xref t)
   :config
   (add-to-list 'eglot-server-programs '(web-vue-mode "vls"))
   (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
