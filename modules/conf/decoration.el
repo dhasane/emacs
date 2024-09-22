@@ -11,13 +11,27 @@
   :custom (fira-code-mode-disabled-ligatures '(":" "x" "+")) ;; List of ligatures to turn off
   :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
 
+(defvar before-load-theme-hook nil
+  "Hook run before a color theme is loaded using `load-theme'.")
+
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using `load-theme'.")
+
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+
+(defadvice load-theme (before disable-themes-first activate)
+  "Run `before-load-theme-hook'."
+  (run-hooks 'before-load-theme-hook))
+
+
 (defun disable-all-themes ()
   "disable all active themes."
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(defadvice load-theme (before disable-themes-first activate)
-  (disable-all-themes))
+(add-hook 'before-load-theme-hook 'disable-all-themes)
 
 (use-package adaptive-wrap
   :hook ((prog-mode . adaptive-wrap-prefix-mode))

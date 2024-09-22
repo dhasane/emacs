@@ -10,7 +10,8 @@
   )
 
 (use-package tab-bar-groups
-  :demand t
+  :disabled t
+  ; :demand t
   :hook (tab-bar-groups-tab-post-change-group-functions . #'tab-bar-groups-regroup-tabs)
   :config
   ; (add-hook 'tab-bar-groups-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
@@ -20,7 +21,8 @@
   )
 
 (use-package project-tab-groups
-  :demand t
+  :disabled t
+  ;; :demand t
   :config
   (project-tab-groups-mode 1)
   :custom-face

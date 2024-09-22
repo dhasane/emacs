@@ -36,29 +36,50 @@
   ;; (tab-bar-tab-inactive ((t (:inherit ansi-color-inverse))))
 
   ;; The tab bar's appearance
-  (tab-bar
-   ((t (:inherit region
-        ;; :foreground region
-        ;; :box (:line-width 0 :style nil)
-        ))))
-  ;; Inactive tabs
-  (tab-bar-tab-inactive
-   ((t (:inherit region
-        ;; :foreground region
-        ;; :box (:line-width 3 :color (face-attribute 'region :background) :style nil)
-        ))))
-  ;; Active tab
-  (tab-bar-tab
-   ((t (:inherit default
-        :underline t
-        ;;:foreground default
-        ;; :box (:line-width 3 :color (face-attribute 'default :background) :style nil)
-        ))))
+  ;; (tab-bar
+  ;;  ((t (:inherit region
+  ;;       ;; :background ,(face-attribute 'region :background)
+  ;;       ;; :foreground region
+  ;;       ))))
+  ;; ;; Inactive tabs
+  ;; (tab-bar-tab-inactive
+  ;;  ((t (:inherit region
+  ;;       ;; :background ,(face-attribute 'region :background)
+  ;;       ;; :foreground region
+  ;;       ;; :box (:line-width 1 :color ,(face-attribute 'region :background) :style nil)
+  ;;       ))))
+  ;; ;; Active tab
+  ;; (tab-bar-tab
+  ;;  ((t (:inherit default
+  ;;       ;; :underline t
+  ;;       :background ,(face-attribute 'region :background)
+  ;;       ;;:foreground default
+  ;;       ;; :box (:line-width 3 :color (face-attribute 'default :background) :style nil)
+  ;;       ; :box (:line-width -1 :color ,(face-attribute 'default :foreground) :style nil)
+  ;;       ))))
   :custom
   (tab-bar-close-button-show nil)
   (tab-bar-new-button-show nil)
   (tab-bar-tab-hints nil)
-  (tab-bar-separator "\u200B")  ;; Zero width space to fix color bleeding
+  ;; (tab-bar-separator "\u200B")  ;; Zero width space to fix color bleeding
+  ;; (tab-bar-separator "")
+  (tab-bar-separator
+   (propertize " " 'face
+               `(
+                 :background ,(face-attribute 'region :background)
+                 ;; :foreground ,(face-attribute 'region :background)
+                 )
+               'display '(space :width (4))
+               ))
+  ;; (tab-bar-separator
+  ;;       (concat
+  ;;        (propertize " " 'face `(:background ,(face-attribute 'region :background))
+  ;;                    'display '(space :width (1)))
+  ;;        (propertize " " 'face `(:underline (:position t) :foreground ,(face-attribute 'region :background) :inherit tab-bar))
+  ;;        (propertize " " 'face `(:background ,(face-attribute 'region :background))
+  ;;                    'display '(space :width (1)))))
+
+
   (tab-bar-tab-name-truncated-max 1)
   ;; (tab-bar-tab-name-function 'dh/set-tabs-name)
   ;; (tab-bar-tab-name-function 'set-name-if-in-project)
@@ -67,13 +88,39 @@
   (tab-bar-show 1)
   (tab-bar-format
    '(
-     tab-bar-format-history
-     tab-bar-format-tabs-groups
+     tab-bar-format-tabs
+     ;; tab-bar-format-history
+     ;; tab-bar-format-tabs-groups
      tab-bar-separator
      tab-bar-format-add-tab
+     tab-bar-format-align-right
      ))
-  (tab-bar-tab-name-function 'tab-bar-tab-name-current)
+
+  (tab-bar-auto-width-max '(330 30))
+  ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
+  :hook (after-load-theme . dh/set-tab-faces)
   :init
+  (defun dh/set-tab-faces ()
+    (let ((active-color (face-attribute 'region :background)))
+      (custom-set-faces
+       ;; Tab bar general appearance
+       '(tab-bar ((t (:inherit region))))
+
+       ;; Inactive tabs
+       '(tab-bar-tab-inactive ((t (:inherit region))))
+
+       ;; Active tab appearance
+       `(tab-bar-tab
+         ((t (:inherit default :background ,active-color))))
+       )
+
+      ;; Set the tab bar separator
+      (setq-default tab-bar-separator
+                    (propertize " " 'face `(:background ,active-color)
+                                'display '(space :width (4)))
+                    )
+      )
+    )
   (setq-default tab-bar-show 1)
   (defun dh/set-tabs-name ()
     "Muestra el nombre del tab, en caso de exceder los MAX caracteres,
@@ -98,7 +145,7 @@ nombre del tab."
            )
       (format "%s%s" project-name nombre)))
 
-  ; (setq tab-bar-tab-name-function 'dh/set-tabs-name)
+  (setq tab-bar-tab-name-function 'dh/set-tabs-name)
   :config
   (defun close-tab-configuration ()
     (interactive)
