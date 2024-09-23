@@ -89,6 +89,21 @@
   (org-special-ctrl-a/e nil)
 
   (org-cite-csl-styles-dir "~/Zotero/styles")
+  (org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "BLOCK(b)" "DONE(d)")))
+  (org-agenda-custom-commands
+        '(("n" "My Weekly Agenda"
+           ((agenda "" nil)
+            (todo "TODO" nil)
+            (todo "WORK" nil)
+            (todo "BLOCK" nil)
+            (todo "DONE" nil))
+           nil)))
+  (org-todo-keyword-faces
+   '(
+     ("WORK" . (:foreground "yellow" :weight bold))
+     ("BLOCK" . (:foreground "red" :weight bold))
+     )
+   )
   :config
 
   (org-babel-do-load-languages
