@@ -435,6 +435,16 @@
   (setq eshell-default-completion-function 'eshell-bash-completion)
   )
 
-(use-package vterm)
+(use-package vterm
+  :general
+  (
+   :states '(normal insert)
+   :keymaps 'vterm-mode-map
+   "C-l" 'evil-window-right
+   "C-h" 'evil-window-left
+   "C-k" 'evil-window-up
+   "C-j" 'evil-window-down
+   )
+  )
 
 ;;; term.el ends here
