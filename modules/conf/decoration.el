@@ -137,17 +137,27 @@
    "soft"
    )
   :config
-  ;; Global settings (defaults)
-  (load-theme
-   ;; dark
-   'doom-gruvbox
-   ;; 'doom-material
-   ;; 'doom-dracula
+  (let ((dark-mode-set t))
+    (defun dh/switch-light-dark-mode ()
+      (interactive)
+      (if dark-mode-set
+          (load-theme ;; dark
+           'doom-gruvbox
+           ;; 'doom-material
+           ;; 'doom-dracula
+           t)
 
-   ;; light
-   ;; 'doom-tomorrow-day
-   ;; 'doom-one-light
-   t)
+        (load-theme ;; light
+         'doom-tomorrow-day
+         ;; 'doom-one-light
+         t)
+
+        )
+      (setq dark-mode-set (if dark-mode-set nil t))
+      )
+    )
+
+  (dh/switch-light-dark-mode)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
