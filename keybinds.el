@@ -128,4 +128,10 @@
  "'pr" 'profiler-report
  )
 
+(general-define-key
+ :keymaps 'override
+ :states '(visual)
+ "Q" 'apply-macro-to-region-lines
+ )
+
 ;;; keybinds.el ends here

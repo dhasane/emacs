@@ -221,4 +221,10 @@ conectado a una maquina externa.
   ;;   :kill-process-buffer-on-stop t)
   )
 
+(use-package wgrep)
+
+(use-package rg
+  :config
+  (rg-enable-menu))
+
 ;;; project.el ends here

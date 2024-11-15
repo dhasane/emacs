@@ -101,22 +101,34 @@
   :hook (after-load-theme . dh/set-tab-faces)
   :init
   (defun dh/set-tab-faces ()
-    (let ((active-color (face-attribute 'region :background)))
+    (let ((active-color (face-attribute 'region :background))
+          (background-color (face-attribute 'default :foreground))
+          )
       (custom-set-faces
        ;; Tab bar general appearance
        '(tab-bar ((t (:inherit region))))
 
        ;; Inactive tabs
-       '(tab-bar-tab-inactive ((t (:inherit region))))
+       `(tab-bar-tab-inactive ((t
+                                (
+                                 :inherit region
+                                 :box (:line-width 1 :color ,background-color :style nil)
+                                 ))))
 
        ;; Active tab appearance
        `(tab-bar-tab
-         ((t (:inherit default :background ,active-color))))
+         ((t (
+              :inherit default
+              :background ,active-color
+              ))))
        )
 
       ;; Set the tab bar separator
       (setq-default tab-bar-separator
-                    (propertize " " 'face `(:background ,active-color)
+                    (propertize
+                     ;; " "
+                     "\u200B"
+                     'face `(:background ,background-color)
                                 'display '(space :width (4)))
                     )
       )
