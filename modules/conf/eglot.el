@@ -49,6 +49,7 @@
   (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
   (add-to-list 'eglot-server-programs '(arduino-mode . ("arduino-language-server")))
   (add-to-list 'eglot-server-programs '(javascript-mode . ("javascript-typescript-langserver")))
+  (add-to-list 'eglot-server-programs '((rust-ts-mode rust-mode) . ("rustup" "run" "stable" "rust-analyzer")))
 
   (fset #'jsonrpc--log-event #'ignore)
 

@@ -8,7 +8,7 @@
 
 (use-package fira-code-mode
   :if (display-graphic-p)
-  :custom (fira-code-mode-disabled-ligatures '(":" "x" "+")) ;; List of ligatures to turn off
+  :custom (fira-code-mode-disabled-ligatures '(":" "x" "+" "<<" ">>")) ;; List of ligatures to turn off
   :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
 
 (defvar before-load-theme-hook nil

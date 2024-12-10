@@ -66,7 +66,9 @@
  ;; "p"   '(projectile-command-map :wk "projectile")
  "p"   '(project-prefix-map      :wk "project")
  "m"   '(dahas-manage-map        :wk "manage")
- "c"   '(dahas-comp-map          :wk "compilation")
+
+ "c"   '(compile-multi           :wk "compilation")
+ ; "c"   '(dahas-comp-map          :wk "compilation")
  "w"   '(:keymap evil-window-map :wk "evil window prefix")
 
  ;; "v" '

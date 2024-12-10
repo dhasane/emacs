@@ -157,6 +157,58 @@ conectado a una maquina externa.
   ;; Remove our side-windows
   ;; (global-set-key (read-kbd-macro "C-x w") 'deets/side-window-toggle)
   )
+(defun byte-compile-this-file+ ()
+  (byte-compile-file (buffer-file-name)))
+
+
+;; TODO: arreglar esto
+(defun parse-package_json-scripts ()
+  (interactive)
+  (let ((pkg (json-parse-string (buffer-substring-no-properties (point-min) (point-max)))))
+    (mapcar
+     (lambda (key value)
+       (message "%s %s" key value)
+       ((concat "npm:" key) . value)
+       )
+     (gethash "scripts" pkg))
+    ))
+
+(use-package compile-multi
+  :custom
+  (compile-multi-default-directory #'projectile-project-root)
+
+  (compile-multi-config
+   `(
+     (emacs-lisp-mode
+      ("emacs:bytecompile" . ,#'byte-compile-this-file+))
+
+     (rust-ts-mode
+      ("rust:debug" . "cargo run")
+      ("rust:release" . "cargo run --release")
+      ("rust:test" . "cargo test"))
+
+     (python-mode
+      ("python:pylint" "python3" "-m" "pylint" (buffer-file-name)))
+
+     (javascript-mode
+      )
+
+     ((file-exists-p ".snyk")
+      ("snyk:test" . "snyk test"))
+
+     )))
+
+(use-package consult-compile-multi
+  :ensure t
+  :after compile-multi
+  :demand t
+  :config (consult-compile-multi-mode))
+
+(use-package compile-multi-all-the-icons
+  :ensure t
+  :after all-the-icons-completion
+  :after compile-multi
+  :demand t)
 
 (use-package gud
   :ensure nil

@@ -14,7 +14,7 @@
   :type 'integer
   :group 'tab-bar)
 
-(defcustom dh/max-tab-size 30
+(defcustom dh/max-tab-size 25
  "Maximum width of a tab in characters."
   :type 'integer
   :group 'tab-bar)
