@@ -16,10 +16,10 @@
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-js-mode))
 
 (use-package npm
-  :general
-  (dahas-comp-map
-   "c" '(npm :wk "npm")
-   )
+  ; :general
+  ; (dahas-comp-map
+  ;  "n" '(npm :wk "npm")
+  ;  )
   )
 
 (use-package js
