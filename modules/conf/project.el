@@ -173,12 +173,18 @@ conectado a una maquina externa.
      (gethash "scripts" pkg))
     ))
 
+(use-package load-env-vars)
+
 (use-package compile-multi
   :custom
   (compile-multi-default-directory #'projectile-project-root)
 
   (compile-multi-config
    `(
+     (t ; siempre
+      ("general:pwd" . "pwd")
+      )
+
      (emacs-lisp-mode
       ("emacs:bytecompile" . ,#'byte-compile-this-file+))
 
@@ -190,12 +196,28 @@ conectado a una maquina externa.
      (python-mode
       ("python:pylint" "python3" "-m" "pylint" (buffer-file-name)))
 
-     (javascript-mode
+     ((file-exists-p "package-lock.json")
+      ("npm:update" . ,#'(lambda () (call-interactively 'npm-update)))
+      ("npm:install" . ,#'(lambda () (call-interactively 'npm-install)))
+      ("npm:run" . ,#'(lambda () (call-interactively 'npm-run)))
+      )
+
+     ((file-exists-p "node_modules")
+      ("npm:clean" . "rm -rf ./node_modules")
+      )
+
+     ((file-exists-p "Gemfile")
+      ("Gem:install" . "bundle install")
+      ("Gem:test" . "bundle exec rspec")
+      )
+
+     ((file-exists-p ".env")
+      ("env:load env" . ,#'(lambda () (call-interactively 'load-env-vars)))
       )
 
      ((file-exists-p ".snyk")
-      ("snyk:test" . "snyk test"))
-
+      ("snyk:test" . "snyk test")
+      )
      )))
 
 (use-package consult-compile-multi

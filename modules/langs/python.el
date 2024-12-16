@@ -139,7 +139,9 @@
   :hook (python-mode . auto-virtualenv-set-virtualenv)
   )
 
-(use-package jupyter)
+(use-package jupyter
+  :disabled t
+  )
 
 (use-package poetry
   :custom
