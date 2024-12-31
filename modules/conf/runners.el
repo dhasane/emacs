@@ -102,6 +102,7 @@
       ("npm:update" . ,#'(lambda () (call-interactively 'npm-update)))
       ("npm:install" . ,#'(lambda () (call-interactively 'npm-install)))
       ("npm:run" . ,#'(lambda () (call-interactively 'npm-run)))
+      ("npm:outdated" . "npm outdated")
       )
 
      ((file-exists-p "node_modules")
@@ -113,7 +114,7 @@
       ("Gem:test" . "bundle exec rspec")
       )
 
-     ((file-exists-p ".env")
+     ((directory-files "." t "^.env")
       ("env:load env" . ,#'(lambda () (call-interactively 'load-env-vars)))
       )
 

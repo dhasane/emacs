@@ -1,12 +1,12 @@
 ;;; package --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;; Paquetes adicionales para org
+;; Configuracion de eglot para conexion con lsp
 
 ;;; code:
 
 (use-package eglot
-  :ensure nil
+  ;; :ensure nil
   :after (project)
   :hook
   ((js-mode
@@ -17,7 +17,6 @@
     python-ts-mode
     )
    . eglot-ensure)
-  (eglot-managed-mode . #'eglot-inlay-hints-mode)
   :general
   (
    :keymap 'eglot-mode

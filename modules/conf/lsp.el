@@ -28,6 +28,7 @@
     )
    . lsp-deferred
    )
+  (lsp-mode . sideline-mode)
   :defines
   (
    lsp-modeline-diagnostics-scope

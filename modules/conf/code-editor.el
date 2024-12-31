@@ -35,10 +35,8 @@
   )
 
 (use-package sideline
-  :demand t
   :hook ((flycheck-mode . sideline-mode)   ; for `sideline-flycheck`
-         (flymake-mode  . sideline-mode)   ; for `sideline-flymake`
-         )
+         (flymake-mode  . sideline-mode))  ; for `sideline-flymake`
   :custom
   (sideline-backends-left-skip-current-line t)    ; don't display on current line (left)
   (sideline-backends-right-skip-current-line t)   ; don't display on current line (right)
@@ -49,64 +47,29 @@
   (sideline-priority 100)                         ; overlays' priority
   (sideline-display-backend-name t)               ; display the backend name
 
-  ;; (sideline-backends-left '(sideline-flycheck))
-  ;; (sideline-backends-right '(sideline-lsp))
-  (sideline-delay 0.2) ;;0.7)
-  ;; (sideline-display-backend-type 'inner)
+  (sideline-delay 0.2)
 
-
+  (sideline-backends-left '(sideline-flycheck))
   (sideline-backends-right '((sideline-lsp      . up)
                              (sideline-flycheck . down)
                              (sideline-flymake . down)
                              ))
-  ;; :config
-  ;; (defvar-local sideline-eglot--async-candidates-timer nil)
-  ;; (defvar-local sideline-eglot--ht-candidates nil)
-
-  ;; (defun sideline-eglot--async-candidates (callback &rest _)
-  ;;   (when sideline-eglot--async-candidates-timer
-  ;;     (cancel-timer sideline-eglot--async-candidates-timer)
-  ;;     (setq sideline-eglot--async-candidates-timer nil))
-  ;;   (let ((p (point)))
-  ;;     (setq sideline-eglot--async-candidates-timer
-  ;;           (run-with-idle-timer
-  ;;            0.3 nil
-  ;;            (lambda ()
-  ;;              (setq sideline-eglot--ht-candidates (ht-create))
-  ;;              (dolist (row (eglot-code-actions p))
-  ;;                (ht-set! sideline-eglot--ht-candidates (getf row :title) row))
-  ;;              (funcall callback (ht-keys sideline-eglot--ht-candidates)))))))
-
-  ;; (defun sideline-eglot (command)
-  ;;   "Eglot backend for sideline."
-  ;;   (cl-case command
-  ;;     (`candidates
-  ;;      (cons :async #'sideline-eglot--async-candidates))
-  ;;     (`action
-  ;;      (lambda (candidate &rest _)
-  ;;        (let ((matching-code-action (ht-get sideline-eglot--ht-candidates candidate)))
-  ;;          (unless matching-code-action
-  ;;            (error "Failed to find candidate: %s" candidate))
-  ;;          (let ((command (getf matching-code-action :command))
-  ;;                (server (eglot-current-server)))
-  ;;            (unless server
-  ;;              (error "Server disappeared"))
-  ;;            (eglot-execute-command server
-  ;;                                   (getf command :command)
-  ;;                                   (getf command :arguments))))))))
+  :config
+  (add-hook 'ts-fold-on-fold-hook #'sideline-render-this)
   )
 
 (use-package sideline-flycheck
-  :after '(sideline)
-  ;; :hook (flycheck-mode . sideline-flycheck-setup)
-  )
+  :hook
+  (flycheck-mode . sideline-mode)
+  (flycheck-mode . sideline-flycheck-setup)
+  :custom
+  (sideline-flycheck-display-mode 'line)
+  (sideline-flycheck-max-lines 1)
+  (sideline-backends-right '(sideline-flycheck)))
 
 (use-package sideline-flymake
-  :after '(sideline)
-  :hook (flymake-mode . sideline-flymake-setup)
   :custom
-  (sideline-flymake-display-mode 'point)
-  )
+  (sideline-flymake-display-mode 'line))
 
 (use-package sideline-lsp
   :hook (lsp-mode . sideline-mode)
@@ -121,6 +84,10 @@
 
 (use-package eldoc
   :ensure nil
+  :custom
+  (eldoc-idle-delay 0.2)
+  :config
+  (remove-hook 'eldoc-display-functions 'eldoc-display-in-echo-area)
   )
 
 (use-package eldoc-box
@@ -132,39 +99,29 @@
    :states '(normal)
    "K"   'eldoc-box-help-at-point
    )
+  (:keymaps 'eglot-mode-map
+	    "K" 'rex/eldoc-box-scroll-up
+	    "J" 'rex/eldoc-box-scroll-down
+      )
   :config
   (defun rex/eldoc-box-scroll-up ()
     "Scroll up in `eldoc-box--frame'"
     (interactive)
     (with-current-buffer eldoc-box--buffer
       (with-selected-frame eldoc-box--frame
-	(scroll-down 3))))
+        (scroll-down 3))))
   (defun rex/eldoc-box-scroll-down ()
     "Scroll down in `eldoc-box--frame'"
     (interactive)
     (with-current-buffer eldoc-box--buffer
       (with-selected-frame eldoc-box--frame
-	(scroll-up 3))))
-  ;; this won't work without installing general; I include it as an example
-  ;; see: https://github.com/skyler544/rex/blob/main/config/rex-keybindings.el
-  :general
-  (:keymaps 'eglot-mode-map
-	    "S-k" 'rex/eldoc-box-scroll-up
-	    "S-j" 'rex/eldoc-box-scroll-down
-	    "M-h" 'eldoc-box-help-at-point))
+        (scroll-up 3))))
+  )
 
 (use-package origami
   :demand t
   :config
   (global-origami-mode)
-  )
-
-(use-package treemacs
-  :disabled t
-  :custom
-  (treemacs-width 50)
-  (treemacs-no-png-images nil)
-  (treemacs-follow-mode t)
   )
 
 (use-package rainbow-delimiters
@@ -204,16 +161,6 @@
 
   )
 
-(use-package indent-guide
-  :disabled t
-  :unless '(highlight-indent-guides)
-  :init
-  ;; (add-hook 'yaml-mode-hook 'indent-guide-mode)
-  (indent-guide-global-mode)
-  :custom
-  (indent-guide-char "|")
-  )
-
 (use-package nhexl-mode
   :custom
   (nhexl-display-unprintables t)
@@ -221,14 +168,6 @@
   (nhexl-obey-font-lock nil)
   (nhexl-separate-line nil)
   (nhexl-silently-convert-to-unibyte t)
-  )
-
-(use-package highlight-indentation
-  :disabled t
-  :delight
-  :config
-  ;; (set-face-background 'highlight-indentation-face "lightgray")
-  ;; (set-face-background 'highlight-indentation-current-column-face "#c334b3")
   )
 
 (use-package smart-tabs-mode

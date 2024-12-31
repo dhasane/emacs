@@ -4,8 +4,6 @@
 
 ;;; code:
 
-(use-package virtualenvwrapper)
-
 (use-package python
   :ensure nil
   :demand t
@@ -42,6 +40,8 @@
     (setq python-shell-interpreter "python")))
   )
 
+(use-package virtualenvwrapper)
+
 (use-package lsp-pyright
   :disabled t
   :config
@@ -74,38 +74,6 @@
 (use-package yapfify
   :if (executable-find "yapf")
   :hook (python-mode . yapf-mode)
-  )
-
-(use-package elpy
-  :disabled t
-  :hook ((python-mode . elpy-enable)
-         (elpy-mode . flycheck-mode))
-  :custom
-  (elpy-shell-starting-directory 'current-directory)
-  ;; (python-shell-interpreter "ipython") ;require pip install ipython
-  ;; (python-shell-interpreter-args "-i --simple-prompt")
-  ;; (elpy-rpc-python-command "python3")
-  (elpy-shell-echo-output nil)
-  ;; (elpy-rpc-backend "jedi")
-  ;; (elpy-rpc-python-command)
-  :config
-  (let ((prevent-elpy '(elpy-module-highlight-indentation elpy-module-flymake)))
-    (dolist (pe prevent-elpy)
-      (setq elpy-modules (delete pe elpy-modules))
-      )
-    )
-  ;; (elpy-modules
-  ;;  'elpy-module-sane-defaults
-  ;;  'elpy-module-company
-  ;;  'elpy-module-eldoc
-  ;;  'elpy-module-flymake
-  ;;  ;; ' ;; la indentacion la muestro con otro paquete
-  ;;  'elpy-module-pyvenv
-  ;;  'elpy-module-yasnippet
-  ;;  'elpy-module-django
-  ;;  )
-  ;; (elpy-enable)
-  ;; (setq elpy-shell-use-project-root nil)
   )
 
 (use-package pyvenv
