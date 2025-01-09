@@ -95,14 +95,16 @@
   :demand t
   :general
   (
-   :keymap '(prog-mode override)
-   :states '(normal)
-   "K"   'eldoc-box-help-at-point
+   ;; :keymap '(prog-mode override)
+   :keymap 'eglot-mode
+   :states 'normal
+   "K"   #'eldoc-box-help-at-point ; eldoc-box-eglot-help-at-point
+   "M-K" #'eldoc-doc-buffer
    )
-  (:keymaps 'eglot-mode-map
-	    "K" 'rex/eldoc-box-scroll-up
-	    "J" 'rex/eldoc-box-scroll-down
-      )
+  ;; (:keymaps 'eglot-mode-map
+	;;     "K" 'rex/eldoc-box-scroll-up
+	;;     "J" 'rex/eldoc-box-scroll-down
+  ;;     )
   :config
   (defun rex/eldoc-box-scroll-up ()
     "Scroll up in `eldoc-box--frame'"

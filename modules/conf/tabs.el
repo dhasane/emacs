@@ -61,16 +61,6 @@
   (tab-bar-close-button-show nil)
   (tab-bar-new-button-show nil)
   (tab-bar-tab-hints nil)
-  ;; (tab-bar-separator "\u200B")  ;; Zero width space to fix color bleeding
-  ;; (tab-bar-separator "")
-  (tab-bar-separator
-   (propertize " " 'face
-               `(
-                 :background ,(face-attribute 'region :background)
-                 ;; :foreground ,(face-attribute 'region :background)
-                 )
-               'display '(space :width (4))
-               ))
   ;; (tab-bar-separator
   ;;       (concat
   ;;        (propertize " " 'face `(:background ,(face-attribute 'region :background))
@@ -101,19 +91,29 @@
   :hook (after-load-theme . dh/set-tab-faces)
   :init
   (defun dh/set-tab-faces ()
+    (interactive)
     (let ((active-color (face-attribute 'region :background))
           (background-color (face-attribute 'default :foreground))
           )
       (custom-set-faces
        ;; Tab bar general appearance
-       '(tab-bar ((t (:inherit region))))
+       `(tab-bar
+         ((t
+           (
+            :inherit region
+            :background ,background-color
+            :foreground ,active-color
+            ))))
 
        ;; Inactive tabs
-       `(tab-bar-tab-inactive ((t
-                                (
-                                 :inherit region
-                                 :box (:line-width 1 :color ,background-color :style nil)
-                                 ))))
+       `(tab-bar-tab-inactive
+         ((t
+           (
+            :inherit region
+            ;; :box (:line-width 1 :color ,background-color :style nil)
+            :background ,background-color
+            :foreground ,active-color
+            ))))
 
        ;; Active tab appearance
        `(tab-bar-tab
@@ -128,8 +128,8 @@
                     (propertize
                      ;; " "
                      "\u200B"
-                     'face `(:background ,background-color)
-                                'display '(space :width (4)))
+                     'face `(:background ,active-color)
+                     'display '(space :width (2)))
                     )
       )
     )

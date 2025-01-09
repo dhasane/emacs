@@ -10,6 +10,8 @@
   :hook
   (
    ;; Add color formatting to *compilation* buffer
+   (compilation . (lambda () (setenv "TERM" "dumb")))
+
    (compilation-filter . (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
    (compilation-filter . comint-truncate-buffer)
    )
@@ -112,6 +114,10 @@
      ((file-exists-p "Gemfile")
       ("Gem:install" . "bundle install")
       ("Gem:test" . "bundle exec rspec")
+      )
+
+     ((file-exists-p ".nvmrc")
+      ("nvm:nvm use" . ,#'nvm-use-for)
       )
 
      ((directory-files "." t "^.env")

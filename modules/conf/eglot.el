@@ -18,13 +18,6 @@
     )
    . eglot-ensure)
   :general
-  (
-   :keymap 'eglot-mode
-   :states 'normal
-   "K" #'eldoc-box-help-at-point ; eldoc-box-eglot-help-at-point
-   "M-K" #'eldoc-doc-buffer
-   ;; "=" #'eglot-format
-   )
   (dahas-lsp-map
    "r" 'eglot-rename ;; "rename"                             :column "actions")                     ; "rename"
    "f"  '(:ignore t :which-key "find")
