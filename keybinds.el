@@ -61,6 +61,7 @@
  [tab] '(hydra-tabs/body         :wk "tabs")
  "TAB" '(hydra-tabs/body         :wk "tabs")
  "o"   '(dahas-org-map           :wk "org")
+ "a"   '(dahas-agenda-map        :wk "agenda")
  "s"   '(hydra-search/body       :wk "search")
  "l"   '(dahas-lsp-map           :wk "lsp")
  ;; "p"   '(projectile-command-map :wk "projectile")

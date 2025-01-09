@@ -48,7 +48,7 @@
   (org-verbatim ((t (:inherit (shadow fixed-pitch)))))
   :custom
   ;; ubicacion
-  (org-agenda-files '("~/org"))
+  (org-agenda-files '("~/org/capture.org"))
   (org-default-notes-file (concat org-directory "/capture.org"))
 
   ;; imagenes
@@ -89,19 +89,36 @@
   (org-special-ctrl-a/e nil)
 
   (org-cite-csl-styles-dir "~/Zotero/styles")
-  (org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "BLOCK(b)" "DONE(d)")))
+  (org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "WAIT(a)" "BLOCK(b)" "DONE(d)")))
   (org-agenda-custom-commands
         '(("n" "My Weekly Agenda"
            ((agenda "" nil)
             (todo "TODO" nil)
             (todo "WORK" nil)
+            (todo "WAIT" nil)
             (todo "BLOCK" nil)
             (todo "DONE" nil))
            nil)))
   (org-todo-keyword-faces
    '(
-     ("WORK" . (:foreground "yellow" :weight bold))
+     ("WORK" . (:foreground "orange" :weight bold))
      ("BLOCK" . (:foreground "red" :weight bold))
+     ("WAIT" . (:foreground "purple" :weight bold))
+     )
+   )
+  (org-capture-templates
+   '(("t" "Todo" entry (file org-default-notes-file)
+      "* TODO %?\n%u\n" :clock-in t :clock-resume t)
+     ("c" "Check" entry (file org-default-notes-file)
+      "* TODO check %?\n%u\n%a\n" :clock-in t :clock-resume t)
+     ("m" "Meeting" entry (file org-default-notes-file)
+      "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
+     ;; ("d" "Diary" entry (file+datetree "~/org/diary.org")
+     ;;  "* %?\n%U\n" :clock-in t :clock-resume t)
+     ("i" "Idea" entry (file org-default-notes-file)
+      "* %? :IDEA: \n%t" :clock-in t :clock-resume t)
+     ;; ("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
+     ;;  "** NEXT %? \nDEADLINE: %t")
      )
    )
   :config
@@ -234,16 +251,15 @@
   ;;   )
   :general
   (dahas-org-map
-   "a"   '(org-capture :wk "capture")
-
-   "g" '(org-agenda :wk "agenda")
-   "l" '(org-todo-list :wk "todo list")
-
-   "e" '(:ignore t :which-key "export")
+   "e"  '(:ignore t :which-key "export")
    "ea" '(org-export-dispatch :wk "export action")
 
-   "x" '(:ignore t :which-key "extra")
+   "x"  '(:ignore t :which-key "extra")
    "xi" '(org-insert-structure-template :wk "structure template")
+   )
+  (dahas-agenda-map
+   "c" '(org-capture :wk "capture")
+   "a" '(org-agenda  :wk "agenda")
    )
   )
 

@@ -25,14 +25,11 @@
 (defvar dahas-org-map (let ((map (make-sparse-keymap))) map))
 (fset 'dahas-org-map dahas-org-map)
 
+(defvar dahas-agenda-map (let ((map (make-sparse-keymap))) map))
+(fset 'dahas-agenda-map dahas-agenda-map)
+
 (defvar dahas-comp-map (let ((map (make-sparse-keymap))) map))
 (fset 'dahas-comp-map dahas-comp-map)
-
-(general-define-key
- :keymaps 'dahas-org-map
- "e" '(:ignore t :which-key "export")
- )
-
 
 ;; (defhydra hydra-org (:color blue)
 ;;   "Org"
