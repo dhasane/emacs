@@ -248,6 +248,17 @@
   ;; :hook (prog-mode . display-line-numbers)
   )
 
+(use-package ultra-scroll
+  :ensure
+  (:host github :repo "jdtsmith/ultra-scroll" :branch "main" :files ("*.el" "out"))
+  :demand t
+  :custom
+  (scroll-conservatively 101) ; important!
+  (scroll-margin 0)
+  (scroll-preserve-screen-position 1)
+  :config
+  (ultra-scroll-mode 1))
+
 (use-package hl-todo
   :custom
   (hl-todo-keyword-faces

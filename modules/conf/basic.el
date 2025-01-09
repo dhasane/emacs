@@ -95,12 +95,6 @@
 
 (blink-cursor-mode 0)
 
-;; hacer que el movimiento de la pantalla sea suave
-(setq
-  scroll-margin 10
-  scroll-conservatively 10000
-  scroll-preserve-screen-position 1)
-
 ;; scrolling
 
 (setq pixel-scroll-precision-mode t)
