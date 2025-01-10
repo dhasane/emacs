@@ -54,49 +54,41 @@
   "Conseguir el nombre de una terminal.
 Se tiene en cuenta la carpeta actual, el proyecto y la cantidad de
 terminales en esta ubicacion."
-  (let (
-        (nombre-base (concat "*eshell*"
-                             (get-project-name-except-if-remote
+  (interactive)
+  (let* (
+         (buffer-base "eshell")
+         (project-name (get-project-name-except-if-remote
                               :pre "["
-                              :pos "]")
-                             "<"
-                             (if (get-buffer-process
-                                  (current-buffer))
-                                 (format "%s" (get-buffer-process
-                                               (current-buffer)))
-                                 default-directory)
-                             ">"))
-        (extra ""))
-    ;; TODO: en caso de que empiece un proceso largo, encontrar como llamar esta funcion
+                              :pos "]"))
+         (process-name (format "<%s>"
+                               (if (get-buffer-process (current-buffer))
+                                   (get-buffer-process (current-buffer))
+                                 
+                                 (file-name-nondirectory
+                                  (directory-file-name
+                                   (file-name-directory default-directory)))
 
-    ;; si ya existe, agregarle un numero al final
-    (if (member nombre-base (mapcar (lambda (buf)
-                                      (buffer-name buf))
-                                    (buffer-list)))
-        (let ((buffers-mismo-nombre (seq-filter
-                                     (lambda (buf)
-                                       (string-prefix-p nombre-base (buffer-name buf)))
-                                     (buffer-list)))
-              (i 1))
-          ;; (message (format "%s" buffers-mismo-nombre))
-          ;; (message (format "%s %s" (concat nombre-base extra) buffers-mismo-nombre))
-          ;; (message (format "%s" (member (concat nombre-base extra) buffers-mismo-nombre)))
+                                 )))
+         (nombre-base (concat "*" buffer-base project-name process-name))
+         (num-buffers (dh/count-buffers-by-name nombre-base))
+         (extra (if (= 0 num-buffers) "" (format " %s" num-buffers)))
+         (final-name (concat nombre-base extra "*"))
+        )
+    final-name))
 
-          ;; puede no ser lo mas eficiente, pero funciona
-          (while (member (concat nombre-base extra)
-                         (mapcar (lambda (buf)
-                                   (buffer-name buf))
-                                 buffers-mismo-nombre))
-            ;; (message (format "i: %s" i))
-            (setq extra (format "%s" i))
-            (setq i (+ i 1)))))
-    (concat nombre-base extra)))
+(defun dh/count-buffers-by-name (nombre-base)
+  ""
+  (length
+   (seq-filter
+    (lambda (buf)
+      (string-prefix-p nombre-base (buffer-name buf)))
+    (buffer-list))))
 
 (defun dh/create-new-eshell-buffer ()
   (interactive)
-  (let* ((nombre (dh/eshell-buffer-name)))
-    (eshell 99)
-    (rename-buffer nombre)))
+  (eshell 99)
+  (rename-buffer (dh/eshell-buffer-name))
+  )
 
 (add-hook 'eshell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
 (add-hook 'shell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
