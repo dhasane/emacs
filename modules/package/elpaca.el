@@ -50,6 +50,8 @@
   (setq elpaca-use-package-by-default t) ;; Assume :elpaca t unless otherwise specified.
   )
 
+(setq elpaca-queue-limit 10)
+
 (with-eval-after-load 'evil
   (with-eval-after-load 'elpaca-ui   (evil-make-intercept-map elpaca-ui-mode-map))
   (with-eval-after-load 'elpaca-info (evil-make-intercept-map elpaca-info-mode-map)))

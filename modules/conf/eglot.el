@@ -28,7 +28,6 @@
   :custom
   (eglot-events-buffer-size 0)
   (eglot-autoshutdown t)
-  (eldoc-echo-area-use-multiline-p nil)
   (eglot-send-changes-idle-time 0.5)
   (flymake-no-changes-timeout 0.5)
   (eglot-confirm-server-initiated-edits nil)

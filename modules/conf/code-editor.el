@@ -86,6 +86,7 @@
   :ensure nil
   :custom
   (eldoc-idle-delay 0.2)
+  (eldoc-echo-area-use-multiline-p nil)
   :config
   (remove-hook 'eldoc-display-functions 'eldoc-display-in-echo-area)
   )
