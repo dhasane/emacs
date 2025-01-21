@@ -27,7 +27,8 @@
          (cl/dir "modules/conf"
                  :alt '((1 . ("company" "corfu"))
                         (0 . ("completion" "ivy"))
-                        (1 . ("lsp" "eglot"))))
+                        ;; (1 . ("lsp" "eglot"))
+                        ))
          (cl/dir "modules/langs"
                  :ignore '("lisp")
                  )

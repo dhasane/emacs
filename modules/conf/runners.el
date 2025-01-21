@@ -11,13 +11,13 @@
   (
    ;; Add color formatting to *compilation* buffer
    (compilation . (lambda () (setenv "TERM" "dumb")))
-
-   (compilation-filter . (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
+   (compilation-filter . #'ansi-color-compilation-filter)
    (compilation-filter . comint-truncate-buffer)
    )
   :custom
   (compilation-scroll-output t)
   ;; (compilation-scroll-output 'first-error)
+  ;; (compilation-ask-about-save nil)
   :general
   ;; ("<f5>" (lambda ()
   ;;           (interactive)
