@@ -76,7 +76,6 @@
 (use-package git-modes)
 
 (use-package magit-todos
-  :disabled
   :init
   (magit-todos-mode)
   )

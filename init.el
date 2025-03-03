@@ -30,7 +30,7 @@
                         ;; (1 . ("lsp" "eglot"))
                         ))
          (cl/dir "modules/langs"
-                 :ignore '("lisp")
+                 :ignore '("lisp" "java" "haskell" "c-sharp" "dart" "kotlin" "latex" "godot")
                  )
          (cl/dir "modules/extra"
                  :ignore '("email" "epub" "games" "telegram" "org-papers" "pdf")

@@ -77,6 +77,8 @@
  ";" '(:ignore t :which-key "config")
  ";g" 'global-display-line-numbers-mode
  ";l" 'display-line-numbers-mode
+ ";v" 'dh/switch-light-dark-mode
+
  ;; find files
  "e" 'find-file                         ; buscar en el mismo directorio
  "E" 'dh/jet-pack                       ; buscar en todo el proyecto

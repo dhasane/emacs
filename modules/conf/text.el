@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package ispell
+  :disabled t
   :ensure nil
   :hook ((org-mode . flyspell-mode)
          (git-commit-mode . flyspell-mode))
@@ -51,3 +52,7 @@
 
   ;; (flyspell-mode 1)
   )
+
+(use-package jinx
+  :custom
+  (jinx-languages "en_US es_CO"))

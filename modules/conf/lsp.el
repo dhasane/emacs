@@ -53,6 +53,8 @@
   (lsp-enable-xref t)
   (lsp-enable-completion-at-point t)
 
+  (lsp-headerline-breadcrumb-mode nil)
+
   ;; :project/:workspace/:file
   ;; (lsp-modeline-diagnostics-scope :project)
   (lsp-ui-peek-enable t)
@@ -106,13 +108,13 @@
 (use-package lsp-ui
   ; :unless (eq system-type 'windows-nt)
   :after (lsp-mode)
-  :general
-  (
-   :keymap 'lsp-mode
-   :states 'normal
-   ;; "K" #'lsp-ui-peek-find-definitions
-   "K" #'lsp-ui-doc-show
-   )
+  ;; :general
+  ;; (
+  ;;  :keymap 'lsp-mode
+  ;;  :states 'normal
+  ;;  ;; "K" #'lsp-ui-peek-find-definitions
+  ;;  "K" #'lsp-ui-doc-show
+  ;;  )
    ;; lsp-ui-mode-map
    ;; ("S-k" . #'lsp-ui-peek-find-definitions)
    ;; ("" . #'lsp-ui-peek-find-references)
@@ -136,11 +138,11 @@
   ;;   ("lm" lsp-ui-imenu "imenu"                            :column "menu")
   ;;   )
   :general
-  (:keymaps 'dahas-lsp-map
-   "f"  '(:ignore t :which-key "find")
-   "fd" '(lsp-ui-peek-find-definitions  :which-key "definitions")
-   "fr" '(lsp-ui-peek-find-references   :which-key "references")
-   "m"  '(lsp-ui-imenu :which-key "imenu")                  ;; "imenu"                            :column "menu")
+  ;; (:keymaps 'dahas-lsp-map
+  ;;  "f"  '(:ignore t :which-key "find")
+  ;;  "fd" '(lsp-ui-peek-find-definitions  :which-key "definitions")
+  ;;  "fr" '(lsp-ui-peek-find-references   :which-key "references")
+  ;;  "m"  '(lsp-ui-imenu :which-key "imenu")                  ;; "imenu"                            :column "menu")
    )
 
   :init

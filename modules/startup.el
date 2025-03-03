@@ -22,7 +22,7 @@
   (setq use-package-verbose nil)
   )
 
-(use-package use-package-ensure-system-package)
+(use-package use-package-ensure-system-package :ensure nil)
 
 (use-package general :demand t)
 
@@ -35,8 +35,6 @@
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
-
-(custom-set-variables '(load-prefer-newer nil))
 
 (use-package auto-compile
   :disabled t
