@@ -15,8 +15,8 @@
     js-mode
     typescript-mode
     tsx-mode
-    python-mode
-    python-ts-mode
+    ;; python-mode
+    ;; python-ts-mode
   ;;   dart-mode
   ;;   c-mode
   ;;   c++-mode
@@ -98,12 +98,12 @@
   (lsp-enable-which-key-integration t)
   (lsp-modeline-diagnostics-mode t)
 
-  :general
-  (dahas-lsp-map
-   "r" '(lsp-rename               :wk "rename") ;; :column "actions")
-   "a" '(lsp-execute-code-action  :wk "code action")
-   )
-  )
+  ;; :general
+  ;; (dahas-lsp-map
+  ;;  "r" '(lsp-rename               :wk "rename") ;; :column "actions")
+  ;;  "a" '(lsp-execute-code-action  :wk "code action")
+  ;;  )
+  ;; )
 
 (use-package lsp-ui
   ; :unless (eq system-type 'windows-nt)
@@ -145,8 +145,8 @@
   ;;  "m"  '(lsp-ui-imenu :which-key "imenu")                  ;; "imenu"                            :column "menu")
    )
 
-  :init
-  (lsp-ui-mode)
+  ;; :init
+  ;; (lsp-ui-mode)
   :custom
 
   ;; debug

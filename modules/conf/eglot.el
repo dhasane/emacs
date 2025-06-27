@@ -12,6 +12,9 @@
   ((js-mode
     tsx-mode
     typescript-mode
+    typescript-ts-mode
+    javascript-mode
+    javascript-ts-mode
     web-vue-mode
     python-mode
     python-ts-mode
