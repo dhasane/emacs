@@ -40,6 +40,10 @@
     (setq python-shell-interpreter "python")))
   )
 
+(use-package flymake-ruff
+  :ensure t
+  :hook (python-mode . flymake-ruff-load))
+
 (use-package virtualenvwrapper)
 
 (use-package lsp-pyright
