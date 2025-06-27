@@ -203,6 +203,26 @@
 
 (use-package lsp-origami)
 
+(use-package consult-lsp
+  :disabled
+  :after (consult lsp-mode)
+  :requires lsp-mode
+  :general
+  (dahas-lsp-map
+   "s" 'consult-lsp-file-symbols
+   "d" 'consult-lsp-diagnostics
+   )
+  ;; :init
+  ;; (defhydra+ hydra-lsp ()
+  ;;   ("s" consult-lsp-file-symbols "find"        :column "errors")
+  ;;   ("d" consult-lsp-diagnostics  "diagnostics" :column "errors")
+  ;;   )
+  :config
+  (consult-lsp-marginalia-mode)
+  ;; :custom
+  ;; (consult-lsp-margina-mode t)
+  )
+
 ;; optionally if you want to use debugger
 (use-package dap-mode
   :after lsp-mode

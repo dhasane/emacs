@@ -219,8 +219,6 @@
    "/" 'isearch-forward
    )
   :config
-  ;; (evil-collection-init)
-
   (let ((prevent-ec '(
                       company
                       racer

@@ -9,39 +9,6 @@
   :ensure nil
   )
 
-(use-package tab-bar-groups
-  :disabled t
-  ; :demand t
-  :hook (tab-bar-groups-tab-post-change-group-functions . #'tab-bar-groups-regroup-tabs)
-  :config
-  ; (add-hook 'tab-bar-groups-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
-  (add-hook 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
-  (add-hook 'tab-bar-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
-  ;; (add-to-list 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
-  )
-
-(use-package project-tab-groups
-  :disabled t
-  ;; :demand t
-  :config
-  (project-tab-groups-mode 1)
-  :custom-face
-  (tab-bar-tab-group-current
-   ((t (:inherit tab-bar-tab
-	:underline nil
-        ;; :foreground region
-        :box (:line-width -1 :style nil)
-        ))))
-  (tab-bar-tab-group-inactive
-   ((t (:inherit tab-bar-tab-inactive
-	:underline nil
-	:background "#504945"
-        :box (:line-width -1 :style nil)
-	; :strike-through t
-	;; :inverse-video t
-        ))))
-  )
-
 (use-package projectile
   :delight '(:eval (format "[%s]" (projectile-project-name)))
   :demand t
@@ -57,6 +24,11 @@
   ;; (projectile-project-search-path '("~/dev/" "~/work"))
   (projectile-sort-order 'recently-active)
   ;; (projectile-completion-system 'ivy)
+  (projectile-globally-ignored-files
+   '(
+     "TAGS"
+     ;; "*.svg"
+     ))
   :config
 
   ;; (add-to-list 'projectile-project-root-files-bottom-up ".project")

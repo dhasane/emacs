@@ -94,6 +94,7 @@
   )
 
 (use-package pyenv-mode
+  :disabled t
   :hook (python-mode . pyenv-mode)
   :config
   ;;  ;; Setting work on to easily switch between environments
@@ -104,6 +105,7 @@
   )
 
 (use-package auto-virtualenv
+  :disabled t
   :hook (python-mode . auto-virtualenv-set-virtualenv)
   )
 

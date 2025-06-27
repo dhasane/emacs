@@ -64,6 +64,18 @@
   (proced-auto-update-flag t)
   )
 
+(use-package dired
+  :ensure nil
+  :init
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+          insert-directory-program "/opt/homebrew/bin/gls"
+          ))
+  :custom
+  (dired-listing-switches
+      "-l --almost-all --human-readable --group-directories-first --no-group")
+  )
+
 (use-package dirvish
   :init
   (dirvish-override-dired-mode)
@@ -96,9 +108,6 @@
 
   (dirvish-mode-line-height 15)
   (dirvish-header-line-height 15)
-
-  ;; (setq dired-listing-switches
-  ;;       "-l --almost-all --human-readable --group-directories-first --no-group")
   :general ; Bind `dirvish|dirvish-side|dirvish-dwim' as you see fit
   (
    ;;("C-c f" . dirvish-fd)

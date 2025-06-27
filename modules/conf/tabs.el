@@ -71,10 +71,6 @@
 
 
   (tab-bar-tab-name-truncated-max 1)
-  ;; (tab-bar-tab-name-function 'dh/set-tabs-name)
-  ;; (tab-bar-tab-name-function 'set-name-if-in-project)
-  ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
-  ;; (tab-bar-tab-name-function)
   (tab-bar-show 1)
   (tab-bar-format
    '(
@@ -86,8 +82,12 @@
      tab-bar-format-align-right
      ))
 
-  (tab-bar-auto-width-max '(330 30))
+  (tab-bar-tab-name-function 'dh/set-tabs-name)
   ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
+  ;; (tab-bar-tab-name-function 'set-name-if-in-project)
+
+
+  (tab-bar-auto-width-max '(330 30))
   :hook (after-load-theme . dh/set-tab-faces)
   :init
   (defun dh/set-tab-faces ()
@@ -157,7 +157,6 @@ nombre del tab."
            )
       (format "%s%s" project-name nombre)))
 
-  (setq tab-bar-tab-name-function 'dh/set-tabs-name)
   :config
   (defun close-tab-configuration ()
     (interactive)
@@ -189,6 +188,141 @@ nombre del tab."
     ;; ("9" (lambda () (interactive) (tab-bar-select-tab 9)))
     )
   )
+
+;; (use-package tab-bar-groups
+;;   :disabled t
+;;   :demand t
+;;   :hook (tab-bar-groups-tab-post-change-group-functions . #'tab-bar-groups-regroup-tabs)
+;;   :config
+;;   (add-hook 'tab-bar-groups-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
+;;   (add-hook 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
+;;   (add-hook 'tab-bar-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
+;;   ;; (add-to-list 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
+;;   (add-hook 'find-file-hook #'tab-bar-groups-regroup-tabs)
+;;   )
+
+
+(use-package project-tab-groups
+  :disabled t
+  :after tab-bar
+  :demand t
+  :config
+  (project-tab-groups-mode 1)
+  :custom
+  (tab-bar-tab-name-function 'tab-bar-tab-name-current)
+
+  ;; Switch tab-bar-format-tabs to tab-bar-format-tabs-groups
+  (tab-bar-format
+   '(
+     tab-bar-format-history
+     tab-bar-format-tabs-groups
+     tab-bar-separator
+     tab-bar-format-add-tab
+     ))
+
+  :custom-face
+  (tab-bar-tab-group-current
+   ((t (:inherit tab-bar-tab
+                 :underline nil
+                 ;; :foreground region
+                 :box (:line-width 1 :style nil)
+                 ))))
+  (tab-bar-tab-group-inactive
+   ((t (:inherit tab-bar-tab-inactive
+                 :underline nil
+                 :background "#504945"
+                 :box (:line-width 1 :style nil)
+                                        ; :strike-through t
+                 ;; :inverse-video t
+                 ))))
+  :config
+
+  (defun tab-bar-groups-current-tab ()
+    "Retrieve original data about the current tab."
+    (assq 'current-tab (funcall tab-bar-tabs-function)))
+
+  (defun tab-bar-groups-tab-group-name (&optional tab)
+    "The group name of the given TAB (or the current tab)."
+    (alist-get 'group (or tab (tab-bar-groups-current-tab))))
+
+
+  ;; (defun tab-bar-groups-parse-groups ()
+  ;;   "Build an alist of tabs grouped by their group name.
+  ;;
+  ;; Successive tabs that don't belong to a group are grouped under
+  ;; intermitting nil keys.
+  ;;
+  ;; For example, consider this list of tabs: groupA:foo, groupB:bar,
+  ;; baz, qux, groupC:quux, quuz, groupB:corge, groupA:grault.
+  ;;
+  ;; Calling this function would yield this result:
+  ;;
+  ;; '((groupA (foo grault))
+  ;;   (groupB (bar corge))
+  ;;   (nil (baz qux))
+  ;;   (groupC (grault))
+  ;;   (nil (quuz)))"
+  ;;   (interactive)
+  ;;   (let* ((tabs (frame-parameter (selected-frame) 'tabs))
+  ;;          (result '()))
+  ;;     (dolist (tab tabs)
+  ;;       (let* ((group-name (tab-bar-groups-tab-group-name tab))
+  ;;              (group (and group-name (intern group-name)))
+  ;;              (new-named-group-p (and group (null (assq group result))))
+  ;;              (in-nil-group-p (and (consp (car result)) (null (caar result))))
+  ;;              (new-nil-group-p (not (or group in-nil-group-p))))
+  ;;         (if (or new-named-group-p new-nil-group-p)
+  ;;             (push (cons group (list tab)) result)
+  ;;           (nconc (alist-get group result) (list tab)))))
+  ;;     ;; (reverse result)
+  ;;     result
+  ;;     ))
+
+  (message "::
+%s
+::" (tab-bar-groups-parse-groups))
+
+
+  (defun tab-bar-groups-parse-groups ()
+    (interactive)
+    (let* ((tabs (frame-parameter (selected-frame) 'tabs))
+           (result '()))
+      (dolist (tab tabs)
+        (let* ((group-name (tab-bar-groups-tab-group-name tab))
+               ;; (group-name (if group-name-or-nil group-name-or-nil ">"))
+               (group (and group-name (intern group-name)))
+               (new-named-group-p (and group (null (assq group result))))
+               (in-nil-group-p (and (consp (car result)) (null (caar result))))
+               (new-nil-group-p (not (or group in-nil-group-p))))
+
+          (if (or new-named-group-p new-nil-group-p)
+              (push (cons group (list tab)) result)
+            (nconc (alist-get group result) (list tab)))
+
+          (message ">>\t%s:\t%s:\t%s:\t%s:" group-name new-named-group-p in-nil-group-p new-nil-group-p)
+          )
+        )
+      ;; (pp result)
+      result
+      ))
+
+  (tab-bar-groups-parse-groups)
+
+  (seq-map #'car (tab-bar-groups-parse-groups))
+
+  (defun tab-bar-groups-regroup-tabs (&rest _)
+    "Re-order tabs so that all tabs of each group are next to each other.
+
+Accepts, but ignores any arguments so it can be used as-is in the
+`tab-bar-groups-tab-post-change-group-functions' abnormal
+hook in order to keep tabs grouped at all times."
+    (interactive)
+    (let* ((tabs (apply #'append (seq-map #'cdr (tab-bar-groups-parse-groups)))))
+      (dotimes (index (length tabs))
+        (let ((tab (elt tabs index)))
+          (tab-bar-move-tab-to (1+ index) (1+ (tab-bar--tab-index tab)))))))
+  )
+
 
 ;; (use-package eyebrowse
 ;;   :if (version< emacs-version "27.0" )

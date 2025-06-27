@@ -54,7 +54,6 @@
   "Conseguir el nombre de una terminal.
 Se tiene en cuenta la carpeta actual, el proyecto y la cantidad de
 terminales en esta ubicacion."
-  (interactive)
   (let* (
          (buffer-base "eshell")
          (project-name (get-project-name-except-if-remote

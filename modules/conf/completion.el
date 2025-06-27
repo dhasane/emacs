@@ -125,25 +125,6 @@
   ;;   )
   )
 
-(use-package consult-lsp
-  :after (consult lsp-mode)
-  :requires lsp-mode
-  :general
-  (dahas-lsp-map
-   "s" 'consult-lsp-file-symbols
-   "d" 'consult-lsp-diagnostics
-   )
-  ;; :init
-  ;; (defhydra+ hydra-lsp ()
-  ;;   ("s" consult-lsp-file-symbols "find"        :column "errors")
-  ;;   ("d" consult-lsp-diagnostics  "diagnostics" :column "errors")
-  ;;   )
-  :config
-  (consult-lsp-marginalia-mode)
-  ;; :custom
-  ;; (consult-lsp-margina-mode t)
-  )
-
 (use-package orderless
   :custom
   (completion-styles '(orderless))
@@ -208,26 +189,6 @@
 
 (use-package prescient
   :demand t
-  )
-
-(use-package selectrum
-  :disabled t
-  :init
-  (selectrum-mode +1)
-  )
-
-(use-package selectrum-prescient
-  :disabled t
-  :demand t
-  :config
-  ;; to make sorting and filtering more intelligent
-  (selectrum-prescient-mode t)
-  ;; to save your command history on disk, so the sorting gets more
-  ;; intelligent over time
-  (prescient-persist-mode t)
-  ;; :custom
-  ;; (selectrum-prescient-enable-filtering)
-  ;; (selectrum-prescient-enable-sorting)
   )
 
 ;;; completion.el ends here
