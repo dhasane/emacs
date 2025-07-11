@@ -58,30 +58,30 @@
  :non-normal-prefix "M-SPC"
  :states '(emacs normal visual motion)
 
- [tab] '(hydra-tabs/body         :wk "tabs")
- "TAB" '(hydra-tabs/body         :wk "tabs")
- "o"   '(dahas-org-map           :wk "org")
- "a"   '(dahas-agenda-map        :wk "agenda")
- "s"   '(hydra-search/body       :wk "search")
- "l"   '(dahas-lsp-map           :wk "lsp")
+ [tab] '(hydra-tabs/body         :wk "Tabs")
+ ;; "TAB" '(hydra-tabs/body         :wk "Tabs")
+ "o"   '(dahas-org-map           :wk "Org")
+ "a"   '(dahas-agenda-map        :wk "Agenda")
+ "s"   '(hydra-search/body       :wk "Search")
+ "l"   '(dahas-lsp-map           :wk "LSP")
  ;; "p"   '(projectile-command-map :wk "projectile")
- "p"   '(project-prefix-map      :wk "project")
- "m"   '(dahas-manage-map        :wk "manage")
+ "p"   '(project-prefix-map      :wk "Project")
+ "m"   '(dahas-manage-map        :wk "Manage")
 
- "c"   '(compile-multi           :wk "compilation")
+ "c"   '(compile-multi           :wk "Compilation")
  ; "c"   '(dahas-comp-map          :wk "compilation")
- "w"   '(:keymap evil-window-map :wk "evil window prefix")
+ "w"   '(:keymap evil-window-map :wk "Evil Window")
 
  ;; "v" '
 
- ";" '(:ignore t :which-key "config")
+ ";" '(:ignore t :which-key "Config")
  ";g" 'global-display-line-numbers-mode
  ";l" 'display-line-numbers-mode
  ";v" 'dh/switch-light-dark-mode
 
  ;; find files
- "e" 'find-file                         ; buscar en el mismo directorio
- "E" 'dh/jet-pack                       ; buscar en todo el proyecto
+ "e" '(find-file   :wk "File in Directory")                      ; buscar en el mismo directorio
+ "E" '(dh/jet-pack :wk "File in Proyect")                       ; buscar en todo el proyecto
 
  "u" 'vundo
 
@@ -89,7 +89,7 @@
  ;; "t" 'treemacs ; "tree"
  ;; "t" 'dirvish-side ; "tree"
  ;; "t"   '(tab-prefix-map     :wk "tabs")
- "t"   '(project-dired     :wk "files")
+ "t" '(project-dired     :wk "File Tree")
 
  ;; general
  ;; TODO: buscar una mejor forma de organizar esto
@@ -97,37 +97,37 @@
  ;; "x" 'execute-extended-command
 
  ;; consult-complex-command
- "B" 'consult-buffer  ;'switch-to-buffer
- "b" 'consult-project-buffer
+ "B" '(consult-buffer             :wk "All Buffers")  ;'switch-to-buffer
+ "b" '(consult-project-buffer     :wk "Project Buffers")
  "g" 'magit
- "y" 'yas-insert-snippet
+ "y" '(yas-insert-snippet         :wk "Snippets")
 
- "j" 'evil-collection-consult-jump-list
+ "j" '(evil-collection-consult-jump-list :wk "Jump List")
 
  "d" 'dired
 
  ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
- "2" '((lambda () (interactive) (call-interactively 'evil-owl-execute-macro)) :which-key "execute macro")
+ "2" '((lambda () (interactive) (call-interactively 'evil-owl-execute-macro)) :wk "Execute Macro")
  ;; "?" #'evil-show-marks ; "marks"
 
  ;; eshell
- "." '(dh/create-new-eshell-buffer  :which-key "new eshell")
- "," '(dh/select-eshell             :which-key "select eshell")
- "/" '(project-eshell               :which-key "project eshell")
- "-" '(project-eshell               :which-key "project eshell")
+ "." '(dh/create-new-eshell-buffer  :which-key "New Eshell")
+ "," '(dh/select-eshell             :which-key "Select Eshell")
+ "/" '(project-eshell               :which-key "Project Eshell")
+ "-" '(project-eshell               :which-key "Project Eshell")
 
  ;; TODO: arreglar esto
  ;; "j" 'prev-user-buffer-ring
  ;; "k" 'next-user-buffer-ring
 
  ;; emacs
- "'" '(:ignore t :which-key "system")
- "'rs" 'reload-emacs-config             ; "reload init"
- "'e"  'open-emacs-config               ; "edit init"
- "'s"  'proced
+ "'" '(:ignore t :which-key "System")
+ "'r" 'reload-emacs-config             ; "reload init"
+ "'e" 'open-emacs-config               ; "edit init"
+ "'s" 'proced
 
- "'p" '(:ignore t :which-key "profiler")
+ "'p" '(:ignore t :which-key "Profiler")
  "'ps" 'profiler-start
  "'pS" 'profiler-stop
  "'pr" 'profiler-report
