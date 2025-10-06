@@ -42,6 +42,7 @@
   ;; (add-to-list 'eglot-server-programs `(web-vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
   (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(web-js-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(vue-mode . ("vue-semantic-server")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
   (add-to-list 'eglot-server-programs '(arduino-mode . ("arduino-language-server")))
   (add-to-list 'eglot-server-programs '(javascript-mode . ("javascript-typescript-langserver")))

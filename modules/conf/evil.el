@@ -26,6 +26,21 @@
    ;; "C-_" 'comment-dwim ; cambiar esto desactiva undo-tree
    ;; "C-/" 'comment-dwim
    )
+  (:states '(normal) :keymaps 'minibuffer-mode-map
+   "esc"    #'abort-minibuffers
+   )
+  (:states '(normal motion)
+           :keymaps
+           '(
+             minibuffer-mode-map
+             minibuffer-local-map
+             minibuffer-local-ns-map
+             minibuffer-local-completion-map
+             minibuffer-local-must-match-map
+             minibuffer-local-isearch-map
+             )
+   "esc"    #'abort-minibuffers
+   )
   :general
   (
    :states '(insert visual)
@@ -105,13 +120,19 @@
   ;; (advice-remove #'save-buffer #'evil-force-normal-state)
 
  ;;; esc quits
+  ;; (define-key minibuffer-mode-map [escape] 'abort-minibuffers)
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
-  (define-key minibuffer-local-map [escape] 'keyboard-escape-quit)
-  (define-key minibuffer-local-ns-map [escape] 'keyboard-escape-quit)
-  (define-key minibuffer-local-completion-map [escape] 'keyboard-escape-quit )
-  (define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit )
-  (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
+  ;; (define-key minibuffer-local-map [escape] 'keyboard-escape-quit)
+  ;; (define-key minibuffer-local-ns-map [escape] 'keyboard-escape-quit)
+  ;; (define-key minibuffer-local-completion-map [escape] 'keyboard-escape-quit )
+  ;; (define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit )
+  ;; (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
+  ;; (define-key minibuffer-local-map [escape] 'abort-minibuffers)
+  ;; (define-key minibuffer-local-ns-map [escape] 'abort-minibuffers)
+  ;; (define-key minibuffer-local-completion-map [escape] 'abort-minibuffers )
+  ;; (define-key minibuffer-local-must-match-map [escape] 'abort-minibuffers )
+  ;; (define-key minibuffer-local-isearch-map [escape] 'abort-minibuffers )
   )
 
 (use-package evil-terminal-cursor-changer
