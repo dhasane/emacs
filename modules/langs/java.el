@@ -97,13 +97,12 @@
      ))
 
   (setq lsp-file-watch-ignored
-        (list lsp-file-watch-ignored
-              '(".idea" ".ensime_cache" ".eunit" "node_modules"
-                ".git" ".hg" ".fslckout" "_FOSSIL_"
-                ".bzr" "_darcs" ".tox" ".svn" ".stack-work"
-                "build")
-
-              ))
+        (seq-uniq
+         (append lsp-file-watch-ignored
+                 '(".idea" ".ensime_cache" ".eunit" "node_modules"
+                   ".git" ".hg" ".fslckout" "_FOSSIL_"
+                   ".bzr" "_darcs" ".tox" ".svn" ".stack-work"
+                   "build"))))
   ;; (lsp-file-watch-ignored
   ;;  ')
   )

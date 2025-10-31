@@ -16,6 +16,9 @@
 
 (require 'cl-lib)
 
+(defvar cl/find-file-hook-table (make-hash-table :test 'equal)
+  "Internal storage mapping extensions to their find-file hook functions.")
+
 (defun cl/expand-name (file)
   "Expands FILE in relation to emacs dir."
   (expand-file-name file user-emacs-directory))
@@ -71,29 +74,39 @@ Elements contained in these lists represent full paths to files to load."
 (defun cl/add-hook-for-extension (ext)
   ""
   ;; (message (concat "added hook for " ext))
-  (add-hook 'find-file-hook #'(lambda () (cl/add-check-extension ext))))
+  (let ((hook (or (gethash ext cl/find-file-hook-table)
+                  (let ((fn (lambda () (cl/add-check-extension ext))))
+                    (puthash ext fn cl/find-file-hook-table)
+                    fn))))
+    (add-hook 'find-file-hook hook)))
 
 (defun cl/remove-hook-for-extension (ext)
   ""
   ;; (message (concat "removed hook for " ext))
   ;; TODO: maybe change this to an advice
   ;; first file that loads an extension doesnt load the desired config, since mode appears to work only afterwards
-  (remove-hook 'find-file-hook #'(lambda () (cl/add-check-extension ext))))
+  (let ((hook (gethash ext cl/find-file-hook-table)))
+    (when hook
+      (remove-hook 'find-file-hook hook)
+      (remhash ext cl/find-file-hook-table))))
 
 (defun cl/load-extension-files (ext)
   "Load files for extension EXT.  Usefull for force loading EXT."
   (cl/remove-hook-for-extension ext)
   (message "loading config for %s" ext)
 
-  (cl/load
-   (flatten-tree
-    (mapcar (lambda (elem)
-              (mapcar
-               #'(lambda (to-load-file)
-                   (let ((filepath (format "%s/%s" (car elem) to-load-file)))
-                     (cl/file filepath)))
-               (flatten-tree (cdr elem))))
-            (cl/remove-var-and-return ext)))))
+  (let ((files-to-load
+         (flatten-tree
+          (mapcar (lambda (elem)
+                    (mapcar
+                     #'(lambda (to-load-file)
+                         (let ((filepath (format "%s/%s" (car elem) to-load-file)))
+                           (cl/file filepath)))
+                     (flatten-tree (cdr elem))))
+                  (cl/remove-var-and-return ext))))))
+    (dolist (file files-to-load)
+      (message "lazy-load[%s]: %s" ext file))
+    (apply #'cl/load files-to-load))
 
 (defun cl/force-load-ext ()
   (interactive)
@@ -117,7 +130,10 @@ Elements contained in these lists represent full paths to files to load."
 
 (defun cl/remove-var (ext)
   "Remove list related to EXT."
-  (delete (assoc ext config-loader-lazy) config-loader-lazy))
+  (setq config-loader-lazy
+        (cl-remove-if (lambda (item)
+                        (equal (car item) ext))
+                      config-loader-lazy)))
 
 (defun cl/remove-var-and-return (ext)
   ""

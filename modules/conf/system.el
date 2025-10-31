@@ -96,7 +96,7 @@
    '(all-the-icons file-time file-size collapse subtree-state vc-state git-msg))
   (delete-by-moving-to-trash t)
 
-  (dirvish-peek-mode t)
+  (dirvish-peek-mode nil)
   (dirvish-side-auto-close t)
 
   ;; uno de estos me estaba dando problemas

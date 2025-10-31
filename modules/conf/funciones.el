@@ -126,7 +126,7 @@
 (defun dh/return-first-existing-file (posible-files)
   (let ((first (car posible-files))
         (rest (cdr posible-files)))
-    (if (f-exists-p first)
+    (if (file-exists-p first)
         first
       (if rest (dh/return-first-existing-file rest)))))
 
@@ -134,7 +134,7 @@
 (defun dh/set-by-first-existing-file (var posible-files)
   (let ((first (car posible-files))
         (rest (cdr posible-files)))
-    (if (f-exists-p first)
+    (if (file-exists-p first)
         (set var first)
       (if rest (dh/set-by-first-existing-file var rest)))))
 

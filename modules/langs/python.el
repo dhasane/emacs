@@ -131,14 +131,17 @@
      "--maxfail=5"))    ;; exit in 5 continuous failures in a run
   :config
   (which-key-declare-prefixes-for-mode 'python-mode "SPC pt" "Testing")
-  (evil-leader/set-key-for-mode 'python-mode
-    "ptp" 'python-pytest-popup
-    "ptt" 'python-pytest
-    "ptf" 'python-pytest-file
-    "ptF" 'python-pytest-file-dwim
-    "ptm" 'python-pytest-function
-    "ptM" 'python-pytest-function-dwim
-    "ptl" 'python-pytest-last-failed)
+  (general-define-key
+   :states '(normal visual)
+   :keymaps 'python-mode-map
+   :prefix "SPC"
+   "ptp" 'python-pytest-popup
+   "ptt" 'python-pytest
+   "ptf" 'python-pytest-file
+   "ptF" 'python-pytest-file-dwim
+   "ptm" 'python-pytest-function
+   "ptM" 'python-pytest-function-dwim
+   "ptl" 'python-pytest-last-failed)
   )
 
 ;;; python.el ends here

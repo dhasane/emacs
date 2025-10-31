@@ -5,8 +5,6 @@
 
 ;;; code:
 
-(setq file-name-handler-alist nil)
-
 (eval-when-compile (require 'use-package))
 
 (eval-and-compile

@@ -97,7 +97,7 @@
 
 ;; scrolling
 
-(setq pixel-scroll-precision-mode t)
+(pixel-scroll-precision-mode 1)
 
 ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq pixel-scroll-precision-large-scroll-height 40.0)

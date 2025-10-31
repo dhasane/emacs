@@ -51,18 +51,21 @@ Se tienen varios parametros opcionales:
 * PRE y POS representan las cadenas para incluir antes y despues del
 nombre del proyecto. Solo se muestran en caso de estar dentro de un
 proyecto.
-* ELSE es la funcion a ejecutar en caso de estar local y fuera de un proyecto.
+* ELSE es la funcion a ejecutar (o cadena a retornar) en caso de estar local y fuera de un proyecto.
 * SHOW-EXTERNAL es si se quiere mostrar el simbolo '' en caso de estar
 conectado a una maquina externa.
 "
     (interactive)
-    (if (file-remote-p default-directory)
-        (if show-external (concat pre "" pos) "")
-      (if (projectile-project-p)
-          (concat pre (projectile-project-name) pos)
-        (if else
-            #'else
-          ""))))
+    (cond
+     ((file-remote-p default-directory)
+      (if show-external (concat pre "" pos) ""))
+     ((projectile-project-p)
+      (concat pre (projectile-project-name) pos))
+     ((functionp else)
+      (funcall else))
+     ((null else) "")
+     ((stringp else) else)
+     (t (format "%s" else))))
   )
 
 ;; (use-package code-compass

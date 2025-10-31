@@ -20,7 +20,9 @@
             (list (buffer-name eshbuf) eshbuf)
             )
           (seq-filter (lambda (buf) ;; filtra por buffers con eshel
-                        (string-match-p "*eshell*" (buffer-name buf)))
+                        (let ((name (buffer-name buf)))
+                          (or (string-prefix-p "*eshell" name)
+                              (string-suffix-p "eshell*" name))))
                       (buffer-list))
           )
          )
