@@ -111,8 +111,8 @@
       "* TODO %?\n%u\n" :clock-in t :clock-resume t)
      ("c" "Check" entry (file org-default-notes-file)
       "* TODO check %?\n%u\n%a\n" :clock-in t :clock-resume t)
-     ("m" "Meeting" entry (file org-default-notes-file)
-      "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
+     ("m" "Meeting" entry (file org-meeting-notes-file)
+      "* MEETING: %? :MEETING:\n%t" :clock-in t :clock-resume t)
      ;; ("d" "Diary" entry (file+datetree "~/org/diary.org")
      ;;  "* %?\n%U\n" :clock-in t :clock-resume t)
      ("i" "Idea" entry (file org-default-notes-file)
@@ -122,6 +122,7 @@
      )
    )
   :config
+  (setq org-meeting-notes-file (concat org-directory "/meetings.org"))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -258,8 +259,9 @@
    "xi" '(org-insert-structure-template :wk "structure template")
    )
   (dahas-agenda-map
-   "c" '(org-capture :wk "capture")
-   "a" '(org-agenda  :wk "agenda")
+   "c" '(org-capture             :which-key "capture")
+   "a" '(org-agenda              :which-key "agenda")
+   "g" '(org-capture-goto-target :which-key "go to")
    )
   )
 
