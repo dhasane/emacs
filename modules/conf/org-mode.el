@@ -31,7 +31,9 @@
                               right-margin-width 2)
                         ;; (set-window-buffer nil (current-buffer))
                         )))
-        (org-mode . org-indent-mode))
+        (org-mode . org-indent-mode)
+        ;; (org-capture-mode . #'delete-other-windows)
+        )
   :custom-face
   (org-ellipsis ((t (:foreground "red"))))
   (org-block ((t (:inherit fixed-pitch))))
@@ -108,15 +110,15 @@
    )
   (org-capture-templates
    '(("t" "Todo" entry (file org-default-notes-file)
-      "* TODO %?\n%u\n" :clock-in t :clock-resume t)
-     ("c" "Check" entry (file org-default-notes-file)
-      "* TODO check %?\n%u\n%a\n" :clock-in t :clock-resume t)
+      "* TODO %? \t:TODO:\n%u\n" :clock-in nil :clock-keep nil :clock-resume nil)
+     ;; ("c" "Check" entry (file org-default-notes-file)
+     ;;  "* TODO check %?\n%u\n%a\n" :clock-in t :clock-resume t)
      ("m" "Meeting" entry (file org-meeting-notes-file)
       "* MEETING: %? :MEETING:\n%t" :clock-in t :clock-resume t)
      ;; ("d" "Diary" entry (file+datetree "~/org/diary.org")
      ;;  "* %?\n%U\n" :clock-in t :clock-resume t)
      ("i" "Idea" entry (file org-default-notes-file)
-      "* %? :IDEA: \n%t" :clock-in t :clock-resume t)
+      "* %? \t :IDEA: \n%t")
      ;; ("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
      ;;  "** NEXT %? \nDEADLINE: %t")
      )
@@ -124,20 +126,22 @@
   :config
   (setq org-meeting-notes-file (concat org-directory "/meetings.org"))
 
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (shell . t)
-     (ruby . t)
-     (rust . nil)
-     (python . t)
-     (sql . t)
-     ;; (psql . t)
-     ;; (javascript . t)
-     ;; (typescript . t)
-     (sed . t)
-     (awk . t)
-     (clojure . t)))
+  (add-hook 'org-capture-mode-hook 'delete-other-windows)
+
+  ;; (org-babel-do-load-languages
+  ;;  'org-babel-load-languages
+  ;;  '((emacs-lisp . t)
+  ;;    (shell . t)
+  ;;    (ruby . t)
+  ;;    (rust . nil)
+  ;;    (python . t)
+  ;;    (sql . t)
+  ;;    ;; (psql . t)
+  ;;    ;; (javascript . t)
+  ;;    ;; (typescript . t)
+  ;;    (sed . t)
+  ;;    (awk . t)
+  ;;    (clojure . t)))
 
   (defun my/fix-inline-images ()
     (when org-inline-image-overlays
@@ -170,66 +174,66 @@
   ;; (org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
   ;; (org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))
 
-  (with-eval-after-load 'ox-latex
-    ;; Set up org-mode export stuff
-    (unless (boundp 'org-latex-classes)
-      (setq org-latex-classes nil))
-    (add-to-list 'org-latex-classes
-                 '("apa6"
-                   "\\documentclass{apa6}"
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-    ;; (add-to-list 'org-latex-classes
-    ;;              '("report"
-    ;;                "\\documentclass{report}"
-    ;;                ("\\chapter{%s}" . "\\chapter*{%s}")
-    ;;                ("\\section{%s}" . "\\section*{%s}")
-    ;;                ("\\subsection{%s}" . "\\subsection*{%s}")
-    ;;                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-
-    (add-to-list 'org-latex-classes
-                 '("elsevier"
-                   "\\documentclass[11pt]{elsarticle}"
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-                 )
-
-    (add-to-list 'org-latex-classes
-                 '("memoria"
-                   "\\documentclass[11pt, titlepage]{report}
-\\usepackage[a4paper, total={6in, 8in}]{geometry}
-"
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-                 )
-
-    (add-to-list 'org-latex-packages-alist '("" "listings"))
-    (setq org-latex-listings-options '(("breaklines" "true")))
-
-    (setq org-latex-listings t)
-    (setq org-export-preserve-breaks nil)
-    ;; (setq org-latex-listings 'minted)
-
-    (setq org-latex-pdf-process
-          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((R . t)
-       (latex . t)))
-
-    )
+  ;;  (with-eval-after-load 'ox-latex
+  ;;    ;; Set up org-mode export stuff
+  ;;    (unless (boundp 'org-latex-classes)
+  ;;      (setq org-latex-classes nil))
+  ;;    (add-to-list 'org-latex-classes
+  ;;                 '("apa6"
+  ;;                   "\\documentclass{apa6}"
+  ;;                   ("\\section{%s}" . "\\section*{%s}")
+  ;;                   ("\\subsection{%s}" . "\\subsection*{%s}")
+  ;;                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+  ;;                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+  ;;                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;;    ;; (add-to-list 'org-latex-classes
+  ;;    ;;              '("report"
+  ;;    ;;                "\\documentclass{report}"
+  ;;    ;;                ("\\chapter{%s}" . "\\chapter*{%s}")
+  ;;    ;;                ("\\section{%s}" . "\\section*{%s}")
+  ;;    ;;                ("\\subsection{%s}" . "\\subsection*{%s}")
+  ;;    ;;                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+  ;;
+  ;;;;     (add-to-list 'org-latex-classes
+  ;;;;                  '("elsevier"
+  ;;;;                    "\\documentclass[11pt]{elsarticle}"
+  ;;;;                    ("\\section{%s}" . "\\section*{%s}")
+  ;;;;                    ("\\subsection{%s}" . "\\subsection*{%s}")
+  ;;;;                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+  ;;;;                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
+  ;;;;                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+  ;;;;                  )
+  ;;;;
+  ;;;;     (add-to-list 'org-latex-classes
+  ;;;;                  '("memoria"
+  ;;;;                    "\\documentclass[11pt, titlepage]{report}
+  ;;;; \\usepackage[a4paper, total={6in, 8in}]{geometry}
+  ;;;; "
+  ;;;;                    ("\\section{%s}" . "\\section*{%s}")
+  ;;;;                    ("\\subsection{%s}" . "\\subsection*{%s}")
+  ;;;;                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+  ;;;;                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
+  ;;;;                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+  ;;;;                  )
+  ;;
+  ;;    (add-to-list 'org-latex-packages-alist '("" "listings"))
+  ;;    (setq org-latex-listings-options '(("breaklines" "true")))
+  ;;
+  ;;    (setq org-latex-listings t)
+  ;;    (setq org-export-preserve-breaks nil)
+  ;;    ;; (setq org-latex-listings 'minted)
+  ;;
+  ;;    (setq org-latex-pdf-process
+  ;;          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  ;;            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  ;;            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  ;;
+  ;;    (org-babel-do-load-languages
+  ;;     'org-babel-load-languages
+  ;;     '((R . t)
+  ;;       (latex . t)))
+  ;;
+  ;;    )
 
 
   ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
@@ -237,19 +241,6 @@
   ;; (setq org-latex-pdf-process
   ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-  ;; (defhydra+ hydra-org ()
-  ;;   ("g" org-agenda          "agenda"    :column "planning")
-  ;;   ("tl" org-todo-list       "todo list" :column "planning")
-
-  ;;   ("ea" org-export-dispatch "export action"    :column "action")
-
-  ;;   ("ti" org-insert-structure-template "structure template" :column "action")
-
-  ;;   ;; ("l s" org-store-link         "store link")
-  ;;   ;; ("l i" org-insert-link        "insert link")
-  ;;   ;; ("m"   org-roam-graph         "map")
-  ;;   ;; ("k"   kill-org-buffers                   "kill" )
-  ;;   )
   :general
   (dahas-org-map
    "e"  '(:ignore t :which-key "export")
@@ -257,11 +248,16 @@
 
    "x"  '(:ignore t :which-key "extra")
    "xi" '(org-insert-structure-template :wk "structure template")
+
+   "l"  '(:ignore t :which-key "links")
+   "li" '(org-insert-link :wk "insert link")
+   "ls" '(org-store-link :wk "store link")
    )
   (dahas-agenda-map
    "c" '(org-capture             :which-key "capture")
    "a" '(org-agenda              :which-key "agenda")
    "g" '(org-capture-goto-target :which-key "go to")
+   "t" '(org-todo-list           :which-key "todo list")
    )
   )
 

@@ -74,6 +74,8 @@
    "o"  '(org-roam-buffer-toggle :wk "roam buffer")
    "n" '(org-id-get-create :wk "create node")
    "s"  '(org-roam-db-sync :wk "sync db")
+
+   ;; "m"  '(org-roam-graph :wk "map") ;; replaced by org-roam-ui
    )
   )
 

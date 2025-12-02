@@ -54,5 +54,7 @@
   )
 
 (use-package jinx
+  :hook ((org-mode . jinx-mode)
+         (git-commit-mode . jinx-mode))
   :custom
   (jinx-languages "en_US es_CO"))
