@@ -20,38 +20,45 @@
 
 (use-package eshell
   :ensure nil
-  :hook ((eshell-output-filter-functions . #'eshell-truncate-buffer))
+  :preface
+  (defun dh/eshell-set-visual-commands ()
+    "Mark TUI programs as visual so eshell delegates to a term buffer."
+    (dolist (cmd '("ssh" "htop" "tail" "top" "less" "vim" "irb"))
+      (add-to-list 'eshell-visual-commands cmd)))
+
+  (defun dh/eshell-rename-buffer-setup ()
+    "Make rename hook buffer-local for eshell."
+    (add-hook 'eshell-directory-change-hook #'dh/eshell-buffer-name nil t))
+
+  (defun dh/eshell-keys ()
+    "Keybindings for eshell buffers."
+    (general-define-key
+     :keymaps 'eshell-mode-map
+     :states '(insert)
+     "TAB" 'completion-at-point)
+    (with-eval-after-load "evil"
+      (general-define-key
+       :states '(insert normal)
+       :keymaps 'eshell-mode-map
+       "C-l" 'evil-window-right
+       "C-h" 'evil-window-left
+       "C-k" 'evil-window-up
+       "C-j" 'evil-window-down)))
+
+  (defun dh/eshell-truncate-locally ()
+    "Enable `eshell-truncate-buffer' in the current eshell buffer only."
+    (add-hook 'eshell-output-filter-functions #'eshell-truncate-buffer nil t))
+
+  :hook ((eshell-mode . dh/eshell-set-visual-commands)
+         (eshell-mode . dh/eshell-keys)
+         (eshell-mode . dh/eshell-truncate-locally)
+         (eshell-mode . dh/eshell-rename-buffer-setup))
   :custom
   (eshell-aliases-file (cl/expand-name "eshell/alias")) ;; TODO: tal vez podria ser mejor definir los alias a traves de elisp en vez de usando este archivo
   (eshell-destroy-buffer-when-process-dies t)
   (eshell-banner-message "")
   (eshell-buffer-maximum-lines 1000)
   (setenv "TERM" "dumb")
-  :init
-  ;; (setq eshell-visual-subcommands
-  ;;       '(
-  ;;         ("sudo" "pacman")
-  ;;         ("sudo" "apt")
-  ;;         ))
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (mapc (lambda (vc)
-                      (push 'eshell-visual-commands vc))
-                    '(
-                      "ssh"
-                      "htop"
-                      "tail"
-                      "top"
-                      "less"
-                      "vim"
-                      "irb"
-                      )
-                    )
-              )
-            )
-  ;; (push 'display-buffer-alist
-  ;;                '("sudo". ((display-buffer-pop-up-window) .
-  ;;                            ((inhibit-same-window . t)))))
   :config
 
   ;; (advice-add 'eshell-interrupt-process :before #'end-of-buffer)
@@ -69,43 +76,6 @@
   ;;                     ivy-display-functions-alist)))
 
   ;; (add-hook 'eshell-mode-hook #'setup-eshell-ivy-completion)
-
-  (add-hook 'eshell-directory-change-hook
-            (lambda ()
-              (rename-buffer (dh/eshell-buffer-name))
-              )
-            )
-  ;; (add-hook 'eshell-after-prompt-hook
-  ;;           (lambda ()
-  ;;             (rename-buffer (dh/eshell-buffer-name))
-  ;;             ))
-
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (general-define-key
-                :keymaps 'eshell-mode-map
-                :states '(insert)
-                "TAB" 'completion-at-point
-								;; "C-d" '(lambda () (throw 'eshell-terminal t))
-								;; "C-d" 'eshell/exit
-               )
-              )
-            )
-
-  (with-eval-after-load "evil"
-    (add-hook 'eshell-mode-hook
-              (lambda ()
-                (general-define-key
-                 :states '(insert normal)
-                 :keymaps 'eshell-mode-map
-                 "C-l" 'evil-window-right
-                 "C-h" 'evil-window-left
-                 "C-k" 'evil-window-up
-                 "C-j" 'evil-window-down
-                 )
-                )
-              )
-    )
 
   (defun with-face (str &rest face-plist)
     (propertize str 'face face-plist))

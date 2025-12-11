@@ -56,39 +56,21 @@
   "Conseguir el nombre de una terminal.
 Se tiene en cuenta la carpeta actual, el proyecto y la cantidad de
 terminales en esta ubicacion."
-  (let* (
-         (buffer-base "eshell")
-         (project-name (get-project-name-except-if-remote
-                              :pre "["
-                              :pos "]"))
-         (process-name (format "<%s>"
-                               (if (get-buffer-process (current-buffer))
-                                   (get-buffer-process (current-buffer))
-                                 
-                                 (file-name-nondirectory
-                                  (directory-file-name
-                                   (file-name-directory default-directory)))
-
-                                 )))
-         (nombre-base (concat "*" buffer-base project-name process-name))
-         (num-buffers (dh/count-buffers-by-name nombre-base))
-         (extra (if (= 0 num-buffers) "" (format " %s" num-buffers)))
-         (final-name (concat nombre-base extra "*"))
-        )
-    final-name))
-
-(defun dh/count-buffers-by-name (nombre-base)
-  ""
-  (length
-   (seq-filter
-    (lambda (buf)
-      (string-prefix-p nombre-base (buffer-name buf)))
-    (buffer-list))))
+  (let* ((project-name (get-project-name-except-if-remote
+                        :pre "["
+                        :pos "]"
+                        :else ""))
+         (dir-name (if default-directory
+                       (file-name-nondirectory
+                        (directory-file-name default-directory))
+                     "eshell"))
+         (base (format "*eshell%s<%s>*" project-name dir-name)))
+    (generate-new-buffer-name base)))
 
 (defun dh/create-new-eshell-buffer ()
   (interactive)
   (eshell 99)
-  (rename-buffer (dh/eshell-buffer-name))
+  (rename-buffer (dh/eshell-buffer-name) t)
   )
 
 (add-hook 'eshell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
