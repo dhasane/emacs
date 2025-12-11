@@ -25,19 +25,18 @@
 (use-package js
   :ensure nil
   :demand t
-  ;; :mode ("\\.js\\'")
-  ;; :hook (js-mode . js-web-mode-init-hook)
+  :mode (("\\.js\\'"  . js-mode)
+         ("\\.mjs\\'" . js-mode)
+         ("\\.cjs\\'" . js-mode))
+  :hook ((js-mode js-ts-mode) . js-web-mode-init-hook)
   :custom
   (js-indent-level 2)
-  (tab-width 2)
 
   (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
   (flycheck-auto-change-delay           1.5)
 
   (whitespace-line-column               120)   ;; max line length
   (whitespace-style                     '(face lines-tail trailing))
-  :config
-  (add-hook 'js-mode-hook 'js-web-mode-init-hook)
   )
 
 (use-package prettier-js
@@ -129,14 +128,12 @@
   )
 
 ;; Add NodeJS error format
-(setq compilation-error-regexp-alist-alist
-      (cons '(node "^[  ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
-                         1 ;; file
-                         2 ;; line
-                         3 ;; column
-                         )
-            compilation-error-regexp-alist-alist))
-(setq compilation-error-regexp-alist
-      (cons 'node compilation-error-regexp-alist))
+(add-to-list 'compilation-error-regexp-alist-alist
+             '(node "^[[:space:]]+at \\(?:.* (\\)?\\([^():\n]+\\):\\([0-9]+\\):\\([0-9]+\\))?$"
+                    1 ;; file
+                    2 ;; line
+                    3 ;; column
+                    ))
+(add-to-list 'compilation-error-regexp-alist 'node)
 
 ;;; javascript.el ends here

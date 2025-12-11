@@ -10,7 +10,9 @@
   :after (project)
   :hook
   ((js-mode
+    js-ts-mode
     tsx-mode
+    tsx-ts-mode
     typescript-mode
     typescript-ts-mode
     javascript-mode
@@ -18,7 +20,8 @@
     web-vue-mode
     python-mode
     python-ts-mode
-    )
+    rust-mode
+    rust-ts-mode)
    . eglot-ensure)
   :general
   (dahas-lsp-map
@@ -37,16 +40,21 @@
   (eglot-sync-connect 0)
   (eglot-extend-to-xref t)
   :config
-  ;; (add-to-list 'eglot-server-programs '(web-vue-mode "vue-language-server"))
-  ;; (add-to-list 'eglot-server-programs '(web-vue-mode . ("npm" "vue-language-server" "--stdio")))
-  ;; (add-to-list 'eglot-server-programs `(web-vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
-  (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(web-js-mode . ("typescript-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(vue-mode . ("vue-semantic-server")))
-  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
-  (add-to-list 'eglot-server-programs '(arduino-mode . ("arduino-language-server")))
-  (add-to-list 'eglot-server-programs '(javascript-mode . ("javascript-typescript-langserver")))
-  (add-to-list 'eglot-server-programs '((rust-ts-mode rust-mode) . ("rustup" "run" "stable" "rust-analyzer")))
+  ;; Prefer a single, modern TSServer backend for JS/TS/TSX.
+  (add-to-list 'eglot-server-programs
+               '((js-mode js-ts-mode tsx-mode tsx-ts-mode
+                  typescript-mode typescript-ts-mode web-js-mode)
+                 . ("typescript-language-server" "--stdio")))
+
+  ;; Ensure tree-sitter modes share the same backends.
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode) . ("pylsp")))
+  (add-to-list 'eglot-server-programs
+               '((rust-ts-mode rust-mode) . ("rustup" "run" "stable" "rust-analyzer")))
+  (add-to-list 'eglot-server-programs
+               '((vue-mode web-vue-mode) . ("vue-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '(arduino-mode . ("arduino-language-server")))
 
   (fset #'jsonrpc--log-event #'ignore)
 
