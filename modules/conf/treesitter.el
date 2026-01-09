@@ -55,6 +55,7 @@
   (global-treesit-auto-mode))
 
 (use-package combobulate
+  :disabled t
   :ensure (combobulate :type git :host github :repo "mickeynp/combobulate")
   :preface
   ;; You can customize Combobulate's key prefix here.

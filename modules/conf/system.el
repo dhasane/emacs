@@ -88,7 +88,25 @@
   :config
   ;; (dirvish-peek-mode) ; Preview files in minibuffer
   (dirvish-side-follow-mode) ; similar to `treemacs-follow-mode'
+  (defun dh/dirvish--find-file-temporarily-no-treesit (name)
+    "Open file NAME temporarily for preview without tree-sitter remap."
+    (let ((major-mode-remap-alist nil))
+      (if (fboundp 'treesit-auto--set-major-remap)
+          (cl-letf (((symbol-function 'treesit-auto--set-major-remap) #'ignore))
+            (dirvish--find-file-temporarily name))
+        (dirvish--find-file-temporarily name))))
 
+  (dirvish-define-preview fallback-no-treesit (file ext)
+    "Fallback preview dispatcher for FILE without tree-sitter."
+    (let* ((attrs (ignore-errors (file-attributes file)))
+           (size (file-attribute-size attrs)))
+      (cond ((not attrs)
+             `(info . ,(format "Can not get attributes of [ %s ]." file)))
+            ((not size)
+             `(info . ,(format "Can not get file size of [ %s ]." file)))
+            ((> size (or large-file-warning-threshold 10000000))
+             `(info . ,(format "File [ %s ] is too big for literal preview." file)))
+            (t (dh/dirvish--find-file-temporarily-no-treesit file)))))
   :custom
   (dirvish-mode-line-format
    '(:left (sort symlink) :right (omit yank index)))
@@ -96,13 +114,17 @@
    '(all-the-icons file-time file-size collapse subtree-state vc-state git-msg))
   (delete-by-moving-to-trash t)
 
-  (dirvish-peek-mode nil)
+  (dirvish-peek-mode t)
   (dirvish-side-auto-close t)
 
   ;; uno de estos me estaba dando problemas
   ;; (setq dirvish-preview-dispatchers (remove 'epub dirvish-preview-dispatchers))
   ;; (setq dirvish-preview-dispatchers (remove 'image dirvish-preview-dispatchers))
-  (dirvish-preview-dispatchers '())
+  (dirvish-preview-dispatchers
+   (if (eq system-type 'darwin)
+       '(fallback-no-treesit)
+     '())
+   )
 
   ;; (setq dirvish-preview-dispatchers (remove 'image dirvish-preview-dispatchers))
 

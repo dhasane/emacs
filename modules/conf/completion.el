@@ -111,6 +111,8 @@
     ("i" consult-imenu      "imenu")
     ("r" consult-ripgrep    "ripgrep")
     )
+  :config
+  (add-to-list 'consult-preview-variables '(treesit-auto-langs nil))
   )
 
 (use-package consult-flycheck

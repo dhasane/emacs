@@ -113,6 +113,8 @@
 (defun my-find-file-check-make-large-file-read-only-hook ()
   "If a file is over a given size, make the buffer read only."
   (when (> (buffer-size) (* 1024 1024))
+    (when (boundp 'treesit-font-lock-level)
+      (setq-local treesit-font-lock-level 1))
     (setq buffer-read-only t)
     (buffer-disable-undo)
     (fundamental-mode)
