@@ -24,6 +24,7 @@
 (add-hook 'c-mode-common-hook 'c-mode-init-hook)
 
 (use-package ccls
+  :disabled t
   :mode (
          ("\\.h\\'"   . c-mode)
          ("\\.cpp\\'" . c++-mode)

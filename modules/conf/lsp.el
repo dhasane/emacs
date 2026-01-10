@@ -242,4 +242,16 @@
   )
 ;; TODO: mirar como funciona lo de dap-mode
 
+(use-package sideline-lsp
+  :hook (lsp-mode . sideline-mode)
+  :custom
+  (sideline-lsp-code-actions-prefix "")
+  :custom-face
+  (sideline-lsp-code-action
+   ((((background light)) :foreground "DarkOrange")
+    (t :foreground "red"))
+   )
+  )
+
+
 ;;; lsp.el ends here

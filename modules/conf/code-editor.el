@@ -71,17 +71,6 @@
   :custom
   (sideline-flymake-display-mode 'line))
 
-(use-package sideline-lsp
-  :hook (lsp-mode . sideline-mode)
-  :custom
-  (sideline-lsp-code-actions-prefix "")
-  :custom-face
-  (sideline-lsp-code-action
-   ((((background light)) :foreground "DarkOrange")
-    (t :foreground "red"))
-   )
-  )
-
 (use-package eldoc
   :ensure nil
   :custom
