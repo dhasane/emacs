@@ -50,8 +50,8 @@
   (org-verbatim ((t (:inherit (shadow fixed-pitch)))))
   :custom
   ;; ubicacion
-  (org-agenda-files '("~/org/capture.org"))
   (org-default-notes-file (concat org-directory "/capture.org"))
+  (org-agenda-files '(org-default-notes-file))
 
   ;; imagenes
   (org-redisplay-inline-images t)
@@ -124,6 +124,11 @@
      )
    )
   :config
+  (let ((capture-file (expand-file-name org-default-notes-file)))
+    (unless (file-exists-p capture-file)
+      (make-directory (file-name-directory capture-file) t)
+      (write-region "" nil capture-file)))
+
   (setq org-meeting-notes-file (concat org-directory "/meetings.org"))
 
   (add-hook 'org-capture-mode-hook 'delete-other-windows)
