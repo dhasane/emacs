@@ -23,18 +23,18 @@
   "Buffers that should have their mode hooks re-run after lazy config loads.")
 
 (defun cl/expand-name (file)
-  "Expands FILE in relation to emacs dir."
+  "Expand FILE relative to `user-emacs-directory`."
   (expand-file-name file user-emacs-directory))
 
 (defun remove-nth (n list)
-  "Remove the nth element of a list."
+  "Remove the Nth element from LIST."
   (if (> n (length list))
       list
     (append (cl-subseq list 0 n)
             (cl-subseq list (1+ n)))))
 
 (defun cl/build-ignore-list (dir-name ignore lazy alt)
-  "Build ignore list with DIR-NAME prefixing."
+  "Build ignore list for DIR-NAME using IGNORE, LAZY, and ALT."
   (let* ((dir (cl/expand-name (concat dir-name "/")))
          (lazy-to-ignore (if lazy (cl/lazy-load dir-name lazy)))
          (alt-to-ignore (flatten-tree
@@ -45,43 +45,38 @@
     (list dir (mapcar #'(lambda (x) (concat dir x)) all-to-ignore))))
 
 (defun cl/dir-files (dir)
-  "Return all non-dot files in DIR, without extensions."
+  "Return all non-dot files in DIR without extensions."
   (mapcar #'file-name-sans-extension
           (directory-files dir t "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)")))
 
 (cl-defun cl/dir (dir-name &key alt ignore lazy)
-  "Get all filenames in DIR-NAME. Ignores files listed in ignore."
+  "Return config file basenames for DIR-NAME using IGNORE, ALT, and LAZY."
 
   (let* ((data (cl/build-ignore-list dir-name ignore lazy alt))
          (dir (car data))
          (ignore-exp (cadr data)))
-    ;; (cl/comp-dir dir compile)
     (seq-uniq ;; if a file has been compiled, it will appear 2 times
      (cl-remove-if (lambda (r) (member r ignore-exp))
                    (cl/dir-files dir))))
   )
 
 (defun cl/file (filename)
-  "Gets FILENAME and inserts it into a list."
+  "Return a list containing FILENAME expanded under `user-emacs-directory`."
   (let ((file (cl/expand-name filename)))
-    ;; (cl/comp-file file compile)
     (list file)))
 
 (defun cl/load (&rest filelist)
-  "Load FILELIST, it may be a list, or a list of lists.
-Elements contained in these lists represent full paths to files to load."
+  "Load FILELIST, a list (or list of lists) of full file paths."
   (let ((files (flatten-tree filelist)))
     (dolist (f files)
       (condition-case err
-          (progn
-            (load f)
-            (add-to-list 'cl/loaded-config-files f))
+	  (cl/load-file f)
         (error (message "Error loading %s: \"%s\"" f
                         (error-message-string err))
                nil)))))
 
 (defun cl/show-loaded-config-files ()
-  "Show config files loaded via `cl/load`."
+  "Display config files loaded via `cl/load`."
   (interactive)
   (if cl/loaded-config-files
       (with-help-window "*Loaded Config Files*"
@@ -93,7 +88,7 @@ Elements contained in these lists represent full paths to files to load."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun cl/lazy-load (dir-name lazy)
-  ""
+  "Register lazy config files in DIR-NAME based on LAZY entries."
   (flatten-tree
    (mapcar (lambda (elem)
             (let ((exts (flatten-tree (car elem)))
@@ -104,11 +99,8 @@ Elements contained in these lists represent full paths to files to load."
               to-load))
           lazy)))
 
-(defun cl/normalize-extension (ext)
-  "Normalize extension EXT by removing leading dot."
-  (if (string-prefix-p "." ext) (substring ext 1) ext))
-
 (defun cl/load-lazy-file (extension)
+  "Load lazy config files for EXTENSION on first visit."
   (when (and (stringp buffer-file-name)
 	     (string-match (concat "\\." (regexp-quote extension) "\\'")
 			   buffer-file-name)
@@ -121,16 +113,13 @@ Elements contained in these lists represent full paths to files to load."
     (let ((to-load (gethash extension cl/lazy-extension-files)))
       (remhash extension cl/lazy-extension-files)
       (dolist (lazy-file (reverse to-load))
-        (load lazy-file)
-	(add-to-list 'cl/loaded-config-files lazy-file)
-	(if (featurep 'elpaca)
-	    (elpaca-wait))
+        (cl/load-file lazy-file)
+	(cl/load-packages-from-package-manager)
 	)))
   )
 
 (defun cl/lazy-load-file-once (ext config-file)
-  "Load CONFIG-FILE when a file with extension EXT is first visited.
-Subsequent visits for EXT do not reload CONFIG-FILE."
+  "Load CONFIG-FILE the first time a file with extension EXT is visited."
   (let* ((extension (cl/normalize-extension ext))
          (file (expand-file-name config-file user-emacs-directory))
          (existing (gethash extension cl/lazy-file-hook-table)))
@@ -152,7 +141,7 @@ Subsequent visits for EXT do not reload CONFIG-FILE."
 (advice-add 'set-auto-mode :before #'cl/run-pre-file-load-hook)
 
 (defun cl/refresh-mode-hooks-after-lazy-load ()
-  "Re-run current major mode hook once if lazy loading just happened."
+  "Re-run the major mode hook after lazy loading for the current buffer."
   (message "calling refresh: %s" cl/lazy-mode-hook-refresh-buffers)
   (when (memq (current-buffer) cl/lazy-mode-hook-refresh-buffers)
     (message "Reloading after lazy")
@@ -167,6 +156,27 @@ Subsequent visits for EXT do not reload CONFIG-FILE."
 (add-hook 'find-file-hook #'cl/refresh-mode-hooks-after-lazy-load)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                   helper                                   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun cl/load-packages-from-package-manager ()
+  "Trigger package manager processing after loading a config file."
+  (if (featurep 'elpaca)
+      (dh/elpaca-wait-maybe))
+  )
+
+(defun cl/load-file (file)
+  "Byte-compile and load FILE, then record it in `cl/loaded-config-files`."
+  (byte-compile file)
+  (load file)
+  (add-to-list 'cl/loaded-config-files file)
+  )
+
+(defun cl/normalize-extension (ext)
+  "Normalize extension EXT by removing any leading dot."
+  (if (string-prefix-p "." ext) (substring ext 1) ext))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                         ;        compile / maybe remove       ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -175,8 +185,8 @@ Subsequent visits for EXT do not reload CONFIG-FILE."
 ;; https://stackoverflow.com/questions/20952894/what-emacs-lisp-function-is-to-require-as-autoload-is-to-load
 
 (defun cl/comp-dir (dir-name compile)
-  "Compile files in list COMPILE in directory DIR-NAME.
-Every compiled file not found in COMPILE is deleted."
+  "Compile files listed in COMPILE within DIR-NAME.
+Remove compiled files not present in COMPILE."
   (mapc #'(lambda (x) (cl/clean-compile (file-name-sans-extension x)))
         (cl-remove-if (lambda (r) (member (file-name-base r) compile))
                       (directory-files dir-name t ".elc$")))
@@ -188,7 +198,7 @@ Every compiled file not found in COMPILE is deleted."
   )
 
 (defun cl/comp-file (file compile)
-  "Compile FILE if COMPILE is true."
+  "Compile FILE when COMPILE is non-nil."
   (if compile
       (cl/compile-file file)
     (cl/clean-compile file))
@@ -204,7 +214,7 @@ Every compiled file not found in COMPILE is deleted."
           ))))
 
 (defun cl/compile-file (filename)
-  "Compilar FILENAME solo si aun no existe."
+  "Compile FILENAME if the compiled file is missing or stale."
   (print (format ";;; %s" filename))
   (let ((file (concat filename ".el"))
         (compfile (concat filename ".elc")))
