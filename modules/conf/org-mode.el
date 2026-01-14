@@ -13,27 +13,41 @@
   (org-mode-map
    "C-c c" #'(lambda ()
                (interactive)
-               (org-insert-structure-template "src")
-               )
-   )
+               (org-insert-structure-template "src")))
   (org-mode-map
    :states '(normal)
-   "RET" 'org-open-at-point
+   "RET" 'org-open-at-point)
+  (dahas-org-map
+   "e"  '(:ignore t :which-key "export")
+   "ea" '(org-export-dispatch :wk "export action")
+
+   "x"  '(:ignore t :which-key "extra")
+   "xi" '(org-insert-structure-template :wk "structure template")
+
+   "l"  '(:ignore t :which-key "links")
+   "li" '(org-insert-link :wk "insert link")
+   "ls" '(org-store-link :wk "store link"))
+  (dahas-agenda-map
+   "c" '(org-capture             :which-key "capture")
+   "a" '(org-agenda              :which-key "agenda")
+   "g" '(org-capture-goto-target :which-key "go to")
+   "t" '(org-todo-list           :which-key "todo list"))
+  :preface
+  (defun dh/org-mode-local-settings ()
+    (setq-local line-spacing 0)
+    (setq-local left-margin-width 2)
+    (setq-local right-margin-width 2)
+    ;; (set-window-buffer nil (current-buffer))
+    )
+  (defvar org-meeting-notes-file nil
+    "Path to the org meeting notes file.")
+  (defvar org-directory nil
+    "Path to the org directory.")
+  :hook
+  ((org-mode . dh/org-mode-local-settings)
+   (org-mode . org-indent-mode)
+   ;; (org-capture-mode . #'delete-other-windows)
    )
-  :hook(
-        (org-mode . (lambda ()
-                      (progn
-                        (make-local-variable 'line-spacing)
-                        (make-local-variable 'left-margin-width)
-                        (make-local-variable 'right-margin-width)
-                        (setq line-spacing 0
-                              left-margin-width 2
-                              right-margin-width 2)
-                        ;; (set-window-buffer nil (current-buffer))
-                        )))
-        (org-mode . org-indent-mode)
-        ;; (org-capture-mode . #'delete-other-windows)
-        )
   :custom-face
   (org-ellipsis ((t (:foreground "red"))))
   (org-block ((t (:inherit fixed-pitch))))
@@ -50,19 +64,10 @@
   (org-verbatim ((t (:inherit (shadow fixed-pitch)))))
   :custom
   ;; ubicacion
+  (org-directory "~/org")
   (org-default-notes-file (concat org-directory "/capture.org"))
-  (org-agenda-files '(org-default-notes-file))
-
-  ;; imagenes
-  (org-redisplay-inline-images t)
-  (org-startup-with-inline-images "inlineimages")
-
-  ;; code blocks
-  (org-src-fontify-natively t)
-  (org-src-tab-acts-natively t)
-  (org-src-preserve-indentation t)
-  (org-confirm-babel-evaluate nil)
-  (org-edit-src-content-indentation 0)
+  (org-meeting-notes-file (concat org-directory "/meetings.org"))
+  (org-agenda-files (list org-default-notes-file org-meeting-notes-file))
 
   ;; organizacion
   (org-startup-indented t)
@@ -85,11 +90,24 @@
   (org-fontify-done-headline t)
   (org-fontify-quote-and-verse-blocks t)
 
+  ;; imagenes
+  (org-redisplay-inline-images t)
+  (org-startup-with-inline-images "inlineimages")
+
+  ;; code blocks
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-src-preserve-indentation t)
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0)
+
+  ;; misc
   (org-startup-truncated nil)
   (org-log-done t)
 
   (org-special-ctrl-a/e nil)
 
+  ;; agenda/todo/capture
   (org-cite-csl-styles-dir "~/Zotero/styles")
   (org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "WAIT(a)" "BLOCK(b)" "DONE(d)")))
   (org-agenda-custom-commands
@@ -110,26 +128,32 @@
    )
   (org-capture-templates
    '(("t" "Todo" entry (file org-default-notes-file)
-      "* TODO %? \t:TODO:\n%u\n" :clock-in nil :clock-keep nil :clock-resume nil)
+      "* TODO %? \t:TODO:\n%u\n"
+      :clock-in nil
+      :clock-keep nil
+      :clock-resume nil)
      ;; ("c" "Check" entry (file org-default-notes-file)
-     ;;  "* TODO check %?\n%u\n%a\n" :clock-in t :clock-resume t)
+     ;;  "* TODO check %?\n%u\n%a\n"
+     ;;  :clock-in t
+     ;;  :clock-resume t)
      ("m" "Meeting" entry (file org-meeting-notes-file)
-      "* MEETING: %? :MEETING:\n%t" :clock-in t :clock-resume t)
+      "* MEETING: %? :MEETING:\n%t"
+      :clock-in t
+      :clock-resume t)
      ;; ("d" "Diary" entry (file+datetree "~/org/diary.org")
-     ;;  "* %?\n%U\n" :clock-in t :clock-resume t)
+     ;;  "* %?\n%U\n"
+     ;;  :clock-in t
+     ;;  :clock-resume t)
      ("i" "Idea" entry (file org-default-notes-file)
       "* %? \t :IDEA: \n%t")
      ;; ("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
      ;;  "** NEXT %? \nDEADLINE: %t")
-     )
-   )
+     ))
   :config
   (let ((capture-file (expand-file-name org-default-notes-file)))
     (unless (file-exists-p capture-file)
       (make-directory (file-name-directory capture-file) t)
       (write-region "" nil capture-file)))
-
-  (setq org-meeting-notes-file (concat org-directory "/meetings.org"))
 
   (add-hook 'org-capture-mode-hook 'delete-other-windows)
 
@@ -148,11 +172,11 @@
   ;;    (awk . t)
   ;;    (clojure . t)))
 
-  (defun my/fix-inline-images ()
+  (defun dh/fix-inline-images ()
     (when org-inline-image-overlays
       (org-redisplay-inline-images)))
 
-  (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
+  (add-hook 'org-babel-after-execute-hook 'dh/fix-inline-images)
   (setq-default org-image-actual-width 620)
 
   (org-display-inline-images t t)
@@ -246,24 +270,6 @@
   ;; (setq org-latex-pdf-process
   ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
-  :general
-  (dahas-org-map
-   "e"  '(:ignore t :which-key "export")
-   "ea" '(org-export-dispatch :wk "export action")
-
-   "x"  '(:ignore t :which-key "extra")
-   "xi" '(org-insert-structure-template :wk "structure template")
-
-   "l"  '(:ignore t :which-key "links")
-   "li" '(org-insert-link :wk "insert link")
-   "ls" '(org-store-link :wk "store link")
-   )
-  (dahas-agenda-map
-   "c" '(org-capture             :which-key "capture")
-   "a" '(org-agenda              :which-key "agenda")
-   "g" '(org-capture-goto-target :which-key "go to")
-   "t" '(org-todo-list           :which-key "todo list")
-   )
   )
 
 ;; Define a transient state for quick navigation
