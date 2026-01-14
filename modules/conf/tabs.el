@@ -113,6 +113,7 @@
             ;; :box (:line-width 1 :color ,background-color :style nil)
             :background ,background-color
             :foreground ,active-color
+            :box (:line-width (1 . -1) :color ,active-color)
             ))))
 
        ;; Active tab appearance
@@ -120,16 +121,16 @@
          ((t (
               :inherit default
               :background ,active-color
+              ;; :box (:line-width (1 . -1) :color ,background-color)
+	      :box (:line-width (1 . -1) :color ,active-color)
               ))))
        )
 
       ;; Set the tab bar separator
       (setq-default tab-bar-separator
                     (propertize
-                     ;; " "
                      "\u200B"
-                     'face `(:background ,active-color)
-                     'display '(space :width (2)))
+                     'face `(:background ,active-color))
                     )
       )
     )
