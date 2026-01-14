@@ -142,7 +142,7 @@
 
 (defun cl/refresh-mode-hooks-after-lazy-load ()
   "Re-run the major mode hook after lazy loading for the current buffer."
-  (message "calling refresh: %s" cl/lazy-mode-hook-refresh-buffers)
+  ;; (message "calling refresh: %s" cl/lazy-mode-hook-refresh-buffers)
   (when (memq (current-buffer) cl/lazy-mode-hook-refresh-buffers)
     (message "Reloading after lazy")
     (setq cl/lazy-mode-hook-refresh-buffers

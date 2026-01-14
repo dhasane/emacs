@@ -88,25 +88,42 @@
   :config
   ;; (dirvish-peek-mode) ; Preview files in minibuffer
   (dirvish-side-follow-mode) ; similar to `treemacs-follow-mode'
-  (defun dh/dirvish--find-file-temporarily-no-treesit (name)
-    "Open file NAME temporarily for preview without tree-sitter remap."
+  (defun dh/dirvish--preview-buffer-name (file)
+    "Return a distinctive preview buffer name for FILE."
+    (format "*dirvish-preview-%s*"
+            (file-name-nondirectory (directory-file-name file))))
+  (defun dh/dirvish--rename-preview-buffer ()
+    "Rename Dirvish preview buffers to include their files."
+    (when (and (stringp buffer-file-name)
+               (not (file-directory-p buffer-file-name)))
+      (rename-buffer (dh/dirvish--preview-buffer-name buffer-file-name) t)))
+  (defun dh/dirvish--preview-file-no-treesit (dv file size)
+    "Preview FILE in DV without tree-sitter remaps."
     (let ((major-mode-remap-alist nil))
       (if (fboundp 'treesit-auto--set-major-remap)
           (cl-letf (((symbol-function 'treesit-auto--set-major-remap) #'ignore))
-            (dirvish--find-file-temporarily name))
-        (dirvish--find-file-temporarily name))))
+            (dirvish--preview-file-maybe-truncate dv file size))
+        (dirvish--preview-file-maybe-truncate dv file size))))
+  (defun dh/dirvish--preview-directory-buffer (dir)
+    "Return a new directory preview buffer for DIR."
+    (let ((dired-use-cached-buffer nil)
+          (find-file-hook nil))
+      (dired-noselect dir)))
 
-  (dirvish-define-preview fallback-no-treesit (file ext)
+  (dirvish-define-preview fallback-no-treesit (file ext preview-window dv)
     "Fallback preview dispatcher for FILE without tree-sitter."
-    (let* ((attrs (ignore-errors (file-attributes file)))
-           (size (file-attribute-size attrs)))
-      (cond ((not attrs)
-             `(info . ,(format "Can not get attributes of [ %s ]." file)))
-            ((not size)
-             `(info . ,(format "Can not get file size of [ %s ]." file)))
-            ((> size (or large-file-warning-threshold 10000000))
-             `(info . ,(format "File [ %s ] is too big for literal preview." file)))
-            (t (dh/dirvish--find-file-temporarily-no-treesit file)))))
+    (if (file-directory-p file)
+        `(buffer . ,(dh/dirvish--preview-directory-buffer file))
+      (let* ((attrs (ignore-errors (file-attributes file)))
+             (size (file-attribute-size attrs)))
+        (cond ((not attrs)
+               `(info . ,(format "Can not get attributes of [ %s ]." file)))
+              ((not size)
+               `(info . ,(format "Can not get file size of [ %s ]." file)))
+              ((> size (or large-file-warning-threshold 10000000))
+               `(info . ,(format "File [ %s ] is too big for literal preview." file)))
+              (t (dh/dirvish--preview-file-no-treesit dv file size))))))
+  (add-hook 'dirvish-preview-setup-hook #'dh/dirvish--rename-preview-buffer)
   :custom
   (dirvish-mode-line-format
    '(:left (sort symlink) :right (omit yank index)))
