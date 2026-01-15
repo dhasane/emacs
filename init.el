@@ -59,6 +59,6 @@
          (cl/dir "modules/extra"
                  :ignore '("email" "epub" "games" "telegram" "org-papers" "pdf")
                  )
-         (cl/file "keybinds"))
+         (cl/file "modules/keybinds"))
 
 ;;; init.el ends here

@@ -1,8 +1,8 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
+;;; email.el --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
-;;; code:
+;;; Code:
 
 ;; esto es algo que me gustaria probar eventualmente
 
@@ -93,3 +93,5 @@
 ;;             (if (zerop mail-count)
 ;;                 " "
 ;;               (format " [%d] " mail-count)))))
+
+;;; email.el ends here

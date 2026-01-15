@@ -73,6 +73,7 @@
       )
 
 (use-package dashboard
+  :disabled t
   :demand t
   :defines
   (

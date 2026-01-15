@@ -1,4 +1,10 @@
 
+;;; pdf.el --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; Code:
+
 (use-package pdf-tools
   :mode ("\\.pdf\\'" . pdf-tools)
   :config
@@ -69,3 +75,5 @@
   (org-noter-notes-search-path '("~/org/noter"))
   (org-noter-always-create-frame 0)
   )
+
+;;; pdf.el ends here

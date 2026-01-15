@@ -170,6 +170,7 @@
   (byte-compile file)
   (load file)
   (add-to-list 'cl/loaded-config-files file)
+  (cl/load-packages-from-package-manager)
   )
 
 (defun cl/normalize-extension (ext)

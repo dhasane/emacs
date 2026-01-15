@@ -54,6 +54,8 @@
   )
 
 (use-package jinx
+  :if (or (executable-find "enchant-2")
+          (executable-find "enchant"))
   :hook ((org-mode . jinx-mode)
          (git-commit-mode . jinx-mode))
   :custom

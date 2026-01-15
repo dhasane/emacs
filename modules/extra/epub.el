@@ -1,4 +1,10 @@
 
+;;; epub.el --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; Code:
+
 (use-package nov
   ;; :mode ("\\.epub\\'" . nov-mode)
   :mode "\\.epub\\'"
@@ -14,3 +20,4 @@
     )
   )
 
+;;; epub.el ends here

@@ -1,9 +1,9 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
+;;; org-papers.el --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; configuracion de org mode
 
-;;; code:
+;;; Code:
 
 (use-package citar
   :custom
