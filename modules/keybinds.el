@@ -72,6 +72,8 @@
  ; "c"   '(dahas-comp-map          :wk "compilation")
  "w"   '(:keymap evil-window-map :wk "Evil Window")
 
+ "r"   '(dh/elfeed-update-and-open :wk "Read feed")
+
  ;; "v" '
 
  ";" '(:ignore t :which-key "Config")
