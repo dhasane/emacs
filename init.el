@@ -40,7 +40,7 @@
                          (( "js" "jsx" )           "javascript" "web")
                          (( "kt" "kts" )           "kotlin")
                          (( "tex" )                "latex")
-                         (( "lisp" )          "lisp")
+                         (( "lisp" )               "lisp")
                          (( "lua" )                "lua")
                          (( "md" "markdown" )      "markdown")
                          (( "nix" )                "nix")

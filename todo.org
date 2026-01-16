@@ -1,3 +1,6 @@
 
-arreglar lazy en config-loader
-evil-goggles no cambia los faces
+* evil-goggles no cambia los faces
+
+* arreglar organización de tabs
+me gustaría por proyecto
+ver si se pueden esconder las de los demás proyectos

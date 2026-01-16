@@ -1,0 +1,13 @@
+* Feeds                                                              :elfeed:
+** [[https://feeds.eff.org/howtofixtheinternet][How to Fix the Internet]]
+** News                                                               :news:
+*** [[https://www.lasillavacia.com/feed/][La Silla Vacía]]
+*** [[https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml][NYT > World > Americas]]
+*** [[https://rss.nytimes.com/services/xml/rss/nyt/World.xml][NYT > World News]]
+*** [[https://www.bellingcat.com/feed/][bellingcat]]
+** Security                                                       :security:
+*** [[https://www.dbdigest.com/feeds/posts/default][Data Breaches Digest]]
+*** [[https://www.eff.org/rss/updates.xml][Deeplinks]]
+*** [[http://feeds.feedburner.com/TheHackersNews][The Hacker News]]
+*** [[https://rss.beehiiv.com/feeds/lSfumbrEGk.xml][Vulnerable U]]
+*** [[https://www.darkreading.com/rss.xml][darkreading]]

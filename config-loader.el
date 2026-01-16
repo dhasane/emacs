@@ -162,7 +162,7 @@
 (defun cl/load-packages-from-package-manager ()
   "Trigger package manager processing after loading a config file."
   (if (featurep 'elpaca)
-      (dh/elpaca-wait-maybe))
+      (elpaca-wait))
   )
 
 (defun cl/load-file (file)

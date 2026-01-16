@@ -24,7 +24,9 @@
   :after elfeed
   :demand t
   :custom
-  (rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
+  (rmh-elfeed-org-files
+   (mapcar #'(lambda (x) (expand-file-name x user-emacs-directory))
+	   (list "settings/elfeed.org")))
   :config
   (elfeed-org)
   )
