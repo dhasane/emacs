@@ -6,9 +6,7 @@
 ;;; code:
 
 (use-package keychain-environment
-  ;; :hook (tramp-mode . keychain-refresh-environment)
-  :config
-  (add-hook 'tramp-mode-hook 'keychain-refresh-environment)
+  :hook (tramp-mode . keychain-refresh-environment)
   )
 
 (use-package pcomplete
@@ -406,6 +404,7 @@
   )
 
 (use-package vterm
+  :commands (vterm)
   :general
   (
    :states '(normal insert)

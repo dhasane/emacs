@@ -65,6 +65,7 @@
 
 (use-package eldoc
   :ensure nil
+  :demand t
   :custom
   (eldoc-idle-delay 0.2)
   (eldoc-echo-area-use-multiline-p nil)
@@ -148,6 +149,7 @@
   )
 
 (use-package nhexl-mode
+  :commands (nhexl-mode)
   :custom
   (nhexl-display-unprintables t)
   (nhexl-line-width t)

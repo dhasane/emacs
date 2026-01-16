@@ -60,12 +60,14 @@
 
 (use-package proced
   :ensure nil
+  :commands (proced)
   :custom
   (proced-auto-update-flag t)
   )
 
 (use-package dired
   :ensure nil
+  :commands (dired dired-jump)
   :init
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
@@ -204,6 +206,7 @@
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
+  :commands (exec-path-from-shell-initialize)
   ;; :if (or
   ;;      (memq window-system '(mac ns))
   ;;      (daemonp)
@@ -222,6 +225,7 @@
   :init
   (direnv-mode))
 
-(use-package logview)
+(use-package logview
+  :mode ("\\.log\\'" . logview-mode))
 
 ;;; system end here

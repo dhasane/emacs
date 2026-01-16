@@ -23,6 +23,7 @@
   )
 
 (use-package treesit
+  :demand t
   :ensure nil
   :custom
   (treesit-font-lock-level 4)

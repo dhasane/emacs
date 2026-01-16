@@ -4,7 +4,9 @@
 
 ;;; code:
 
-(use-package dockerfile-mode)
+(use-package dockerfile-mode
+  :mode (("Dockerfile\\'" . dockerfile-mode)
+         ("\\.dockerfile\\'" . dockerfile-mode)))
 
 (use-package docker
   :demand t
@@ -58,6 +60,7 @@
   )
 
 (use-package kubernetes-evil
-  :after kubernetes)
+  :after kubernetes
+  :hook (kubernetes-overview-mode . kubernetes-evil-mode))
 
 ;;; container.el ends here

@@ -20,8 +20,8 @@
 
   (corfu-preselect 'prompt)
 
-  (corfu-min-width 80)
-  (corfu-max-width corfu-min-width)
+  ;; (corfu-min-width 80)
+  ;; (corfu-max-width corfu-min-width)
 
   (corfu-popupinfo-delay 0.5)
 
@@ -39,7 +39,7 @@
   (tab-always-indent 'complete)
   :general
   (
-   :keymap '(prog-mode)
+   :keymaps 'prog-mode-map
    :states '(insert)
    "TAB" 'basic-tab-indent-or-complete
    )
@@ -64,30 +64,24 @@
     (evil-make-intercept-map corfu-map 'insert)
     )
 
-  (defun dh/complete-and-save ()
-    "Completar la recomendacion y guardar"
-    (interactive)
-    (corfu-complete)
-    (save-buffer)
-    )
-
   ;; completar siempre que no sea espacio
   (defun basic-check-expansion ()
     "True en caso de no tener whitespace previo la cursor"
     (save-excursion
-      (backward-char 1)
-      (not (looking-at "[\n \t]"))
-      )
-    )
+      (if (bobp)
+          nil
+        (backward-char 1)
+        (not (looking-at "[\n \t]")))))
 
   (defun basic-tab-indent-or-complete ()
     "Agrega un tab, en caso de no tener texto previo, en caso de tenerlo, completa."
     (interactive)
-    (corfu-next)
-    (if (basic-check-expansion)
-        (completion-at-point)
-      (tab-to-tab-stop) ;; agregar tabs
-      )
+    (if (and (fboundp 'corfu--popup-visible-p)
+             (corfu--popup-visible-p))
+        (corfu-next)
+      (if (basic-check-expansion)
+          (completion-at-point)
+        (tab-to-tab-stop))) ;; agregar tabs
     )
   :init
   ;; (global-corfu-mode)

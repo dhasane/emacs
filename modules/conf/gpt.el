@@ -1,5 +1,6 @@
 
 (use-package gptel
+  :commands (gptel)
   :custom
   (gptel-model "mistral-7b-openorca.Q4_0.gguf") ;Pick your default model
 

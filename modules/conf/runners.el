@@ -77,9 +77,11 @@
      (gethash "scripts" pkg))
     ))
 
-(use-package load-env-vars)
+(use-package load-env-vars
+  :commands (load-env-vars))
 
 (use-package compile-multi
+  :commands (compile-multi)
   :custom
   (compile-multi-default-directory #'projectile-project-root)
 

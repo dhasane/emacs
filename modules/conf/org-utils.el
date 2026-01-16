@@ -21,6 +21,7 @@
   ;;        ;;                         nil
   ;;        ;;                         t)))
   ;;        )
+  :hook (org-mode . org-appear-mode)
   :custom
   (org-appear-autolinks t)
   (org-appear-trigger 'always)
@@ -46,8 +47,8 @@
   )
 
 (use-package babel
-  ;; :hook (org-mode . babel-mode)
-  )
+  :after org
+  :commands (babel-mode))
 
 (use-package evil-org
   :delight

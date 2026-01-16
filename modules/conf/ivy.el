@@ -162,4 +162,5 @@
 
 
 (use-package ivy-yasnippet
-  )
+  :after (ivy yasnippet)
+  :commands (ivy-yasnippet))

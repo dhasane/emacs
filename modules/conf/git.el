@@ -73,7 +73,10 @@
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom)
   )
 
-(use-package git-modes)
+(use-package git-modes
+  :mode (("/\\.gitignore\\'" . gitignore-mode)
+         ("/\\.gitattributes\\'" . gitattributes-mode)
+         ("/\\.gitconfig\\'" . gitconfig-mode)))
 
 (use-package magit-todos
   :disabled t
@@ -81,6 +84,9 @@
   (magit-todos-mode)
   )
 
-(use-package forge)
+(use-package forge
+  :after magit
+  ; :hook (magit-status-mode . forge-mode)
+  )
 
 ;;; git.el ends here

@@ -6,8 +6,8 @@
 ;;; code:
 
 (use-package project
-  :ensure nil
-  )
+  :demand t
+  :ensure nil)
 
 (use-package projectile
   :delight '(:eval (format "[%s]" (projectile-project-name)))
@@ -79,6 +79,7 @@ conectado a una maquina externa.
 ;;   :load-path "~/.emacs.d/elisp/code-compass/" )
 
 (use-package gud
+  :demand t
   :ensure nil
   :custom
   (gdb-many-windows t) ;; use gdb-many-windows by default
@@ -98,9 +99,11 @@ conectado a una maquina externa.
   (setq skeletor-project-directory "~/dev")
   )
 
-(use-package wgrep)
+(use-package wgrep
+  :commands (wgrep-change-to-wgrep-mode))
 
 (use-package rg
+  :commands (rg rg-menu)
   :config
   (rg-enable-menu))
 
