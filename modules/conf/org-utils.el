@@ -1,7 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; org-utils.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Paquetes adicionales para org
+;;; Org mode extras and utilities
 
 ;;; code:
 
@@ -174,5 +173,14 @@ With optional JUST-MARGINS, just set the margins."
 ;;   ("J" org-shiftdown)
 ;;   ("K" org-shiftup)
 ;;   ("t" org-todo))
+
+(use-package polymode
+  :disabled
+  :mode ("\\.md\\'" "\\.org\\'" )
+  :config
+  ;; (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+  ;; (setq polymode-prefix-key (kbd "C-c n"))
+  ;; (define-hostmode poly-python-hostmode :mode 'python-mode)
+  )
 
 ;;; org-utils.el ends here

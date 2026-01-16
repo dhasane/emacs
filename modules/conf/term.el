@@ -1,6 +1,7 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; term.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Eshell and terminal integrations
+
 ;;; Configuracion para eshel y term
 
 ;;; code:

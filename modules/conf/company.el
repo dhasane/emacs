@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; company.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Company completion settings and keybindings
 
 ;;; code:
 

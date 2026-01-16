@@ -1,3 +1,6 @@
+;;; term-config.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Terminal and shell display settings
 
 ;; ejemplos:
 ;; (defun test-main ()
@@ -113,3 +116,5 @@ por todo el proyecto.
         (rename-buffer nombre))))
 
   )
+
+;;; term-config.el ends here

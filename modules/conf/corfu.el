@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; corfu.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Corfu completion UI configuration
 
 ;;; code:
 

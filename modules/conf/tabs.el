@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; tabs.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Tab-bar and tab management
 
 ;;; code:
 
@@ -362,3 +362,5 @@ hook in order to keep tabs grouped at all times."
 ;;     ("9" eyebrowse-switch-to-window-config-9)
 ;;     )
 ;;   )
+
+;;; tabs.el ends here

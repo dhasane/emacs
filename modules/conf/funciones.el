@@ -1,3 +1,6 @@
+;;; funciones.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; User-defined helper functions
 
 ;; functions -----------------------------------------------
 ;;; Code:
@@ -145,3 +148,5 @@
           (unsaved (format "%s/%s" unsaved-path config-filename)))
       ;; (message (format "loading from: saved:%s unsaved:%s" saved unsaved))
       (dh/set-by-first-existing-file var (list unsaved saved)))))
+
+;;; funciones.el ends here

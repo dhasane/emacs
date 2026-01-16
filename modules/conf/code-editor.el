@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; code-editor.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Editing UX, structure, and code display settings
 
 ;;; Code:
 

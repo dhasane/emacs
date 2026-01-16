@@ -1,6 +1,6 @@
-;;; package --- Summary -*- lexical-binding: t; -*-
-
+;;; basic.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Core Emacs defaults and performance settings
 
 ;;; code:
 

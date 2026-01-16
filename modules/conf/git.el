@@ -1,6 +1,7 @@
-;;; package --- Summary -*- lexical-binding: t; -*-
-
+;;; git.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Git tooling and integrations
+
 ;;; Configuracion para la integracion entre Emacs y git
 
 ;;; code:

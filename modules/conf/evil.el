@@ -1,7 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; evil.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
-;;; Todo lo relacionado a vim
+;;; Evil mode and related extensions
 
 ;;; code:
 

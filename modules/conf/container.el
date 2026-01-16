@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; container.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Docker and Kubernetes integration
 
 ;;; code:
 

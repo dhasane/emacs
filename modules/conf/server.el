@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; server.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Emacs server configuration
 
 ;;; code:
 

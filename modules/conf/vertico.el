@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; vertico.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Vertico completion UI configuration
 
 ;;; code:
 

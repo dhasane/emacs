@@ -1,4 +1,6 @@
-;; -*- lexical-binding: t; -*-
+;;; text.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Text editing utilities and spell checking
 
 (use-package ispell
   :disabled t
@@ -60,3 +62,5 @@
          (git-commit-mode . jinx-mode))
   :custom
   (jinx-languages "en_US es_CO"))
+
+;;; text.el ends here

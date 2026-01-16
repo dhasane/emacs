@@ -1,6 +1,7 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; project.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Project and projectile tooling
+
 ;;; Configuracion general para paquetes usados en varios proyectos
 
 ;;; code:

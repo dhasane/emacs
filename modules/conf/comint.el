@@ -1,6 +1,7 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; comint.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Comint and REPL integration tweaks
+
 ;;; Configuracion para comint
 
 ;;; code:

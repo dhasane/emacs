@@ -1,3 +1,8 @@
+;;; gpt.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; GPT client (gptel) configuration
+
+;;; Code:
 
 (use-package gptel
   :commands (gptel)
@@ -15,3 +20,5 @@
   (gptel--debug nil)
   (gptel-default-session "*GPT*")
   )
+
+;;; gpt.el ends here

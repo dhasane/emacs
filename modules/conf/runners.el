@@ -1,7 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; runners.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
-;;; Configuracion para paquetes que sirven para correr herramientas externas
+;;; Compilation and task runner tools
 
 ;;; code:
 

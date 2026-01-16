@@ -1,7 +1,10 @@
+;;; hydras.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Hydra transient menus
 
+;;; Code:
 
 ;; hydras --------------------------------------------------
-;;; Code:
 
 ;; colores
 ;; |----------+-----------+-----------------------+-----------------|
@@ -23,3 +26,5 @@
   ("-" text-scale-decrease "out")
   ("0" (text-scale-adjust 0) "reset")
   ("q" nil "quit" :color blue))
+
+;;; hydras.el ends here

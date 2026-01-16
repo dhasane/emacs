@@ -1,6 +1,7 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; eglot.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Eglot LSP client setup
+
 ;; Configuracion de eglot para conexion con lsp
 
 ;;; code:

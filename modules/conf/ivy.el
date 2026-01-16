@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; ivy.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Ivy/Counsel completion configuration
 
 ;;; code:
 
@@ -164,3 +164,5 @@
 (use-package ivy-yasnippet
   :after (ivy yasnippet)
   :commands (ivy-yasnippet))
+
+;;; ivy.el ends here

@@ -1,4 +1,6 @@
-;; -*- lexical-binding: t; -*-
+;;; whitespace.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Whitespace management
 
 ;;; Code:
 
@@ -28,15 +30,4 @@
          )
   )
 
-(use-package flymake
-  :demand t
-  :ensure nil
-  :custom
-  (flymake-no-changes-timeout 1)
-  (flymake-mode-line-format
-	;; the default mode line lighter takes up an unnecessary amount of
-	;; space, so make it shorter
-	'(" " flymake-mode-line-exception flymake-mode-line-counters))
-  )
-
-;;; general-editor end here
+;;; whitespace.el ends here

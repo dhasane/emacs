@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; mode-line.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Mode line appearance and status components
 
 ;;; code:
 

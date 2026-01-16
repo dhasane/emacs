@@ -1,4 +1,6 @@
-;; -*- lexical-binding: t; -*-
+;;; treesitter.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Tree-sitter and treesit integration
 
 ;;; Code:
 

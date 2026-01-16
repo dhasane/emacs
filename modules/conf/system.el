@@ -1,5 +1,6 @@
-;; -*- lexical-binding: t; -*-
-;;; Code:
+;;; system.el --- Summary  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; System integration and OS-specific settings
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -228,4 +229,4 @@
 (use-package logview
   :mode ("\\.log\\'" . logview-mode))
 
-;;; system end here
+;;; system.el ends here

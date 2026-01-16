@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; undo.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Undo system configuration
 
 ;;; code:
 

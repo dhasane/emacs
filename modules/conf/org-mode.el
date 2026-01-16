@@ -1,6 +1,7 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; org-mode.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Org mode core configuration
+
 ;;; configuracion de org mode
 
 ;;; code:

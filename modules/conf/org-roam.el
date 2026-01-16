@@ -1,6 +1,7 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; org-roam.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Org-roam knowledge base configuration
+
 ;;; configuracion de org roam
 
 ;;; code:

@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; decoration.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; UI appearance, themes, and visual aids
 
 ;;; code:
 

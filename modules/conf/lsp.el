@@ -1,6 +1,6 @@
-;;; package --- Summary  -*- lexical-binding: t; -*-
-
+;;; lsp.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; LSP-mode configuration
 
 ;;; code:
 

@@ -1,9 +1,8 @@
-;;; package --- Summary -*- lexical-binding: t; -*-
-
+;;; minibuffer.el --- Summary  -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Minibuffer behavior and keybindings
 
 ;;; code:
-
 
 (setq enable-recursive-minibuffers t)
 
