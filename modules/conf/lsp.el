@@ -44,8 +44,6 @@
   ;;        ;; (lsp-mode . #'lsp-lens-mode)
   ;;        )
   :custom
-  (indent-tabs-mode nil)
-
   (lsp-keymap-prefix "C-c l")
 
   (lsp-enable-on-type-formatting nil)

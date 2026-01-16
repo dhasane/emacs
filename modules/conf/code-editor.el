@@ -1,33 +1,24 @@
-;; -*- lexical-binding: t; -*-
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
 
 ;;; Code:
 
 (use-package emacs :ensure nil
   :demand t
+  :ensure nil
   :custom
   (enable-recursive-minibuffers nil)
   :mode
-  ("\\.env.test$" . conf-mode)
-  ("\\.env.local$" . conf-mode)
-  ("\\.env.example$" . conf-mode)
-  ("\\.env.sample$" . conf-mode)
-  ("\\.env$" . conf-mode))
-
-(use-package prog
-  :demand t
-  :ensure nil
-  :straight (:type built-in)
-  :init
-  (setq-default c-basic-offset 4
-                tab-width 4
-                indent-tabs-mode nil)
-  :config
-  (setq-local indent-tabs-mode nil)
+  ("\\.env(.*)?$" . conf-mode)
   :custom
-  (indent-tabs-mode nil)
+  (indent-tabs-mode nil) ; use spaces only if nil
+  (tab-width 4)
+  (c-basic-offset 4)
   )
 
 (use-package breadcrumb
+  :demand t
   :custom
   (breadcrumb-idle-time 100)
   :init
@@ -35,6 +26,7 @@
   )
 
 (use-package sideline
+  :demand t
   :hook ((flycheck-mode . sideline-mode)   ; for `sideline-flycheck`
          (flymake-mode  . sideline-mode))  ; for `sideline-flymake`
   :custom
@@ -50,7 +42,7 @@
   (sideline-delay 0.2)
 
   (sideline-backends-left '(sideline-flycheck))
-  (sideline-backends-right '((sideline-lsp      . up)
+  (sideline-backends-right '(;; (sideline-lsp      . up)
                              (sideline-flycheck . down)
                              (sideline-flymake . down)
                              ))
@@ -76,8 +68,6 @@
   :custom
   (eldoc-idle-delay 0.2)
   (eldoc-echo-area-use-multiline-p nil)
-  :config
-  (remove-hook 'eldoc-display-functions 'eldoc-display-in-echo-area)
   )
 
 (use-package eldoc-box
@@ -86,7 +76,7 @@
   :general
   (
    ;; :keymap '(prog-mode override)
-   :keymap 'eglot-mode
+   :keymap 'prog-mode-map
    :states 'normal
    "K"   #'eldoc-box-help-at-point ; eldoc-box-eglot-help-at-point
    "M-K" #'eldoc-doc-buffer
@@ -96,12 +86,16 @@
 	;;     "J" 'rex/eldoc-box-scroll-down
   ;;     )
   :config
+  (when (display-graphic-p)
+    (remove-hook 'eldoc-display-functions 'eldoc-display-in-echo-area))
+
   (defun rex/eldoc-box-scroll-up ()
     "Scroll up in `eldoc-box--frame'"
     (interactive)
     (with-current-buffer eldoc-box--buffer
       (with-selected-frame eldoc-box--frame
         (scroll-down 3))))
+
   (defun rex/eldoc-box-scroll-down ()
     "Scroll down in `eldoc-box--frame'"
     (interactive)
@@ -112,8 +106,8 @@
 
 (use-package origami
   :demand t
-  :config
-  (global-origami-mode)
+  :hook
+  (prog-mode . origami-mode)
   )
 
 (use-package rainbow-delimiters
@@ -129,7 +123,7 @@
          (yaml-mode . hl-line-mode))
   ;; :config
   ;; (global-hl-line-mode +1)
-)
+  )
 
 (use-package highlight-indent-guides
   :defer 1
@@ -163,11 +157,14 @@
   )
 
 (use-package smart-tabs-mode
+  :disabled t
+  :hook
+  (c-mode-common . smart-tabs-mode)
   :config
-  (progn (smart-tabs-insinuate 'c 'c++)))
+  (smart-tabs-insinuate 'c 'c++))
 
-(use-package realgud)
-(use-package realgud-ipdb)
-(use-package realgud-pry)
+;; (use-package realgud)
+;; (use-package realgud-ipdb)
+;; (use-package realgud-pry)
 
 ;;; code-editor.el ends here

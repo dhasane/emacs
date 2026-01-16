@@ -70,10 +70,14 @@
   (let ((files (flatten-tree filelist)))
     (dolist (f files)
       (condition-case err
-	  (cl/load-file f)
+	  (progn
+	    ;; (cl/compile-file f)
+	    (cl/load-file f)
+	    )
         (error (message "Error loading %s: \"%s\"" f
                         (error-message-string err))
-               nil)))))
+               nil))))
+  (cl/load-packages-from-package-manager))
 
 (defun cl/show-loaded-config-files ()
   "Display config files loaded via `cl/load`."
@@ -170,7 +174,6 @@
   (byte-compile file)
   (load file)
   (add-to-list 'cl/loaded-config-files file)
-  (cl/load-packages-from-package-manager)
   )
 
 (defun cl/normalize-extension (ext)

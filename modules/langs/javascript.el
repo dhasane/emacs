@@ -8,7 +8,6 @@
   (setq js-indent-level 2)
   (setq-local c-basic-offset 2)
   (setq-local tab-width 2)
-  (setq-local indent-tabs-mode nil)
   )
 
 ;; (define-derived-mode web-js-mode web-mode "JS"
@@ -71,7 +70,6 @@
   ;; :hook ((js-mode . js2-minor-mode))
   :custom
   (tern-mode t)
-  (indent-tabs-mode nil)
   :config
   ;; (push 'company-tern company-backends)
   )

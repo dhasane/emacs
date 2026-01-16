@@ -11,7 +11,6 @@
   :custom
   (typescript-indent-level       2)
   (typescript-expr-indent-offset 2)
-  (indent-tabs-mode nil)
   )
 
 ;;; typescript.el ends here
