@@ -10,7 +10,8 @@
   :ensure nil
   :after (project)
   :hook
-  ((js-mode
+  ((
+    js-mode
     js-ts-mode
     tsx-mode
     tsx-ts-mode
@@ -22,7 +23,10 @@
     python-mode
     python-ts-mode
     rust-mode
-    rust-ts-mode)
+    rust-ts-mode
+    go-mode
+    go-ts-mode
+    )
    . eglot-ensure)
   :general
   (dahas-lsp-map

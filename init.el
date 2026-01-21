@@ -54,7 +54,9 @@
                          (( "vue" )                "vue")
                          (( "html" "css" )         "web")
                          (( "xml" )                "xml")
-                         (( "yml" "yaml" )         "yaml"))
+                         (( "yml" "yaml" )         "yaml")
+                         (( "go" "mod" )           "go")
+                         )
                  )
          (cl/dir "modules/extra"
                  :ignore '("email" "epub" "games" "telegram" "org-papers" "pdf")
