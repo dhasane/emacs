@@ -29,17 +29,23 @@
    "esc"    #'abort-minibuffers
    )
   (:states '(normal motion)
-           :keymaps
-           '(
-             minibuffer-mode-map
-             minibuffer-local-map
-             minibuffer-local-ns-map
-             minibuffer-local-completion-map
-             minibuffer-local-must-match-map
-             minibuffer-local-isearch-map
-             )
+     :keymaps
+     '(
+       minibuffer-mode-map
+       minibuffer-local-map
+       minibuffer-local-ns-map
+       minibuffer-local-completion-map
+       minibuffer-local-must-match-map
+       minibuffer-local-isearch-map
+       )
    "esc"    #'abort-minibuffers
    )
+  (:states '(normal)
+     :keymaps 'evil-ex-search-keymap
+     [escape] #'abort-recursive-edit
+     (kbd "ESC") #'abort-recursive-edit
+     (kbd "<escape>") #'abort-recursive-edit
+     )
   :general
   (
    :states '(insert visual)
@@ -109,29 +115,8 @@
       )
     )
 
-  ;; (defun normal-if-in-insert (a)
-  ;;   (if (eq evil-state 'insert)
-  ;;       (evil-force-normal-state)))
-
   ;; siempre antes de guardar ir a estado normal
   (advice-add #'save-buffer :before #'evil-force-normal-state)
-  ;; (advice-add #'save-buffer :before #'normal-if-in-insert)
-  ;; (advice-remove #'save-buffer #'evil-force-normal-state)
-
- ;;; esc quits
-  ;; (define-key minibuffer-mode-map [escape] 'abort-minibuffers)
-  (define-key evil-normal-state-map [escape] 'keyboard-quit)
-  (define-key evil-visual-state-map [escape] 'keyboard-quit)
-  ;; (define-key minibuffer-local-map [escape] 'keyboard-escape-quit)
-  ;; (define-key minibuffer-local-ns-map [escape] 'keyboard-escape-quit)
-  ;; (define-key minibuffer-local-completion-map [escape] 'keyboard-escape-quit )
-  ;; (define-key minibuffer-local-must-match-map [escape] 'keyboard-escape-quit )
-  ;; (define-key minibuffer-local-isearch-map [escape] 'keyboard-escape-quit )
-  ;; (define-key minibuffer-local-map [escape] 'abort-minibuffers)
-  ;; (define-key minibuffer-local-ns-map [escape] 'abort-minibuffers)
-  ;; (define-key minibuffer-local-completion-map [escape] 'abort-minibuffers )
-  ;; (define-key minibuffer-local-must-match-map [escape] 'abort-minibuffers )
-  ;; (define-key minibuffer-local-isearch-map [escape] 'abort-minibuffers )
   )
 
 (use-package evil-terminal-cursor-changer
