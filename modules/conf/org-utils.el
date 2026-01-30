@@ -9,32 +9,22 @@
 ;;   )
 
 (use-package org-appear
-  ;; :hook ((org-mode . org-appear)
-  ;;        ;; (org-mode . (lambda ()
-  ;;        ;;               (add-hook 'evil-insert-state-entry-hook
-  ;;        ;;                         #'org-appear-manual-start
-  ;;        ;;                         nil
-  ;;        ;;                         t)
-  ;;        ;;               (add-hook 'evil-insert-state-exit-hook
-  ;;        ;;                         #'org-appear-manual-stop
-  ;;        ;;                         nil
-  ;;        ;;                         t)))
-  ;;        )
-  :hook (org-mode . org-appear-mode)
+  :hook ((org-mode . (lambda ()
+                       (add-hook 'evil-insert-state-entry-hook
+                                 (lambda ()
+                                   (org-appear-mode 1)
+                                   (org-appear-manual-start))
+                                 nil
+                                 t)
+                       (add-hook 'evil-insert-state-exit-hook
+                                 (lambda ()
+                                   (org-appear-manual-stop)
+                                   (org-appear-mode -1))
+                                 nil
+                                 t))))
   :custom
   (org-appear-autolinks t)
-  (org-appear-trigger 'always)
-  ;; (org-appear-trigger 'manual)
-  ;; :config
-  ;; (add-hook 'org-mode-hook (lambda ()
-  ;;                            (add-hook 'evil-insert-state-entry-hook
-  ;;                                      #'org-appear-manual-start
-  ;;                                      nil
-  ;;                                      t)
-  ;;                            (add-hook 'evil-insert-state-exit-hook
-  ;;                                      #'org-appear-manual-stop
-  ;;                                      nil
-  ;;                                      t)))
+  (org-appear-trigger 'manual)
   )
 
 (use-package poly-org
