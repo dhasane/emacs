@@ -108,7 +108,8 @@
     "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
     (interactive)
     (if (one-window-p)
-        (close-tab-configuration)
+        (when (fboundp 'close-tab-configuration)
+          (close-tab-configuration))
                                         ; (message "hay un split")
       (evil-quit)
                                         ; (message "hay varios splits")
@@ -243,8 +244,9 @@
   ;;   (message "%s" dd)
   ;;   )
 
-  (evil-define-key 'normal pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
-  (evil-define-key 'normal pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page)
+  (with-eval-after-load 'pdf-view
+    (evil-define-key 'normal pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
+    (evil-define-key 'normal pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page))
 
   (evil-collection-init)
 
