@@ -25,6 +25,11 @@
    ;; "C-_" 'comment-dwim ; cambiar esto desactiva undo-tree
    ;; "C-/" 'comment-dwim
    )
+  (
+   :states '(insert normal motion override)
+   :keymaps 'override
+   "C-q"   'close-except-last-window
+   )
   (:states '(normal) :keymaps 'minibuffer-mode-map
    "esc"    #'abort-minibuffers
    )
@@ -107,6 +112,7 @@
   (defun close-except-last-window ()
     "Close all windows without removing them from buffer, except if only one is remaining, in which case the eyebrowse-config is closed."
     (interactive)
+    (evil-force-normal-state)
     (if (one-window-p)
         (when (fboundp 'close-tab-configuration)
           (close-tab-configuration))
@@ -118,6 +124,8 @@
 
   ;; siempre antes de guardar ir a estado normal
   (advice-add #'save-buffer :before #'evil-force-normal-state)
+  ;; force normal state on window configuration changes
+  (add-hook 'window-configuration-change-hook #'evil-force-normal-state)
   )
 
 (use-package evil-terminal-cursor-changer
