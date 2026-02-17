@@ -72,17 +72,18 @@
 
   (tab-bar-tab-name-truncated-max 1)
   (tab-bar-show 1)
-  (tab-bar-format
-   '(
-     tab-bar-format-tabs
-     ;; tab-bar-format-history
-     ;; tab-bar-format-tabs-groups
-     tab-bar-separator
-     tab-bar-format-add-tab
-     tab-bar-format-align-right
-     ))
+  ;; (tab-bar-format
+  ;;  '(
+  ;;    tab-bar-format-tabs
+  ;;    ;; tab-bar-format-history
+  ;;    ;; tab-bar-format-tabs-groups
+  ;;    tab-bar-separator
+  ;;    tab-bar-format-add-tab
+  ;;    tab-bar-format-align-right
+  ;;    ))
 
-  (tab-bar-tab-name-function 'dh/set-tabs-name)
+  ;; (tab-bar-tab-name-function 'dh/set-tabs-name)
+
   ;; (tab-bar-tab-name-function 'tab-bar-tab-name-current)
   ;; (tab-bar-tab-name-function 'set-name-if-in-project)
 
@@ -168,12 +169,14 @@ nombre del tab."
     ("c" tab-bar-new-tab-to         "create"        :column "manage")
     ("d" tab-bar-duplicate-tab      "duplicate"     :column "manage")
     ("q" tab-bar-close-tab          "close"         :column "manage")
+
     ("l" tab-bar-switch-to-next-tab "left"          :column "move")
     ("h" tab-bar-switch-to-prev-tab "right"         :column "move")
     ("s" tab-switch                 "switcher"      :column "move")
 
-    ("L" tab-bar-move-tab           "move left"     :column "organize")
-    ("H" tab-bar-move-tab-backward  "move right"    :column "organize")
+    ("L" dh/tab-bar-move-tab-right  "move left"     :column "organize")
+    ("H" dh/tab-bar-move-tab-left   "move right"    :column "organize")
+    ("m" tab-group                  "to group"      :column "manage")
     ;; ("-" split-window-vertically    "vertical"      :column "split")
     ;; ("+" split-window-horizontally  "horizontal"    :column "split")
 
@@ -190,25 +193,23 @@ nombre del tab."
     )
   )
 
-;; (use-package tab-bar-groups
-;;   :disabled t
-;;   :demand t
-;;   :hook (tab-bar-groups-tab-post-change-group-functions . #'tab-bar-groups-regroup-tabs)
-;;   :config
-;;   (add-hook 'tab-bar-groups-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
-;;   (add-hook 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
-;;   (add-hook 'tab-bar-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
-;;   ;; (add-to-list 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
-;;   (add-hook 'find-file-hook #'tab-bar-groups-regroup-tabs)
-;;   )
+(use-package tab-bar-groups
+  ;; :disabled t
+  :demand t
+  :hook (tab-bar-groups-tab-post-change-group-functions . #'tab-bar-groups-regroup-tabs)
+  :config
+  (add-hook 'tab-bar-groups-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
+  (add-hook 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
+  (add-hook 'tab-bar-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
+  ;; (add-to-list 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
+  (add-hook 'find-file-hook #'tab-bar-groups-regroup-tabs)
+  )
 
 
 (use-package project-tab-groups
-  :disabled t
-  :after tab-bar
+  ;; :disabled t
   :demand t
-  :config
-  (project-tab-groups-mode 1)
+  :after tab-bar
   :custom
   (tab-bar-tab-name-function 'tab-bar-tab-name-current)
 
@@ -231,12 +232,14 @@ nombre del tab."
   (tab-bar-tab-group-inactive
    ((t (:inherit tab-bar-tab-inactive
                  :underline nil
-                 :background "#504945"
+                 :background "black"
+                 :foreground "#a89984"
                  :box (:line-width 1 :style nil)
                                         ; :strike-through t
                  ;; :inverse-video t
                  ))))
   :config
+  (project-tab-groups-mode 1)
 
   (defun tab-bar-groups-current-tab ()
     "Retrieve original data about the current tab."
@@ -245,6 +248,37 @@ nombre del tab."
   (defun tab-bar-groups-tab-group-name (&optional tab)
     "The group name of the given TAB (or the current tab)."
     (alist-get 'group (or tab (tab-bar-groups-current-tab))))
+
+  (defun dh/tab-bar--move-tab-within-group (direction &optional count)
+    "Move current tab DIRECTION within its current group.
+DIRECTION is 1 for right and -1 for left.
+COUNT is the number of steps to move."
+    (let ((steps (max 1 (abs (or count 1)))))
+      (catch 'stop
+        (dotimes (_ steps)
+          (let* ((tabs (funcall tab-bar-tabs-function))
+                 (from-index (or (tab-bar--current-tab-index tabs) 0))
+                 (to-index (+ from-index direction)))
+            (cond
+             ((or (< to-index 0) (>= to-index (length tabs)))
+              (message "Tab is already at the edge")
+              (throw 'stop nil))
+             ((equal (tab-bar-groups-tab-group-name (nth from-index tabs))
+                     (tab-bar-groups-tab-group-name (nth to-index tabs)))
+              (tab-bar-move-tab-to (1+ to-index) (1+ from-index)))
+             (t
+              (message "Blocked crossing groups; use tab-group to move between groups")
+              (throw 'stop nil))))))))
+
+  (defun dh/tab-bar-move-tab-right (&optional arg)
+    "Move current tab right within its group."
+    (interactive "p")
+    (dh/tab-bar--move-tab-within-group 1 arg))
+
+  (defun dh/tab-bar-move-tab-left (&optional arg)
+    "Move current tab left within its group."
+    (interactive "p")
+    (dh/tab-bar--move-tab-within-group -1 arg))
 
 
   ;; (defun tab-bar-groups-parse-groups ()
@@ -279,49 +313,40 @@ nombre del tab."
   ;;     result
   ;;     ))
 
-  (message "::
-%s
-::" (tab-bar-groups-parse-groups))
+;;   (defun tab-bar-groups-parse-groups ()
+;;     (interactive)
+;;     (let* ((tabs (frame-parameter (selected-frame) 'tabs))
+;;            (result '()))
+;;       (dolist (tab tabs)
+;;         (let* ((group-name (tab-bar-groups-tab-group-name tab))
+;;                ;; Non-project tabs get unique groups so they remain separate.
+;;                (group (if group-name (intern group-name) (gensym "ungrouped-")))
+;;                (existing (assq group result)))
+;;           (if existing
+;;               (nconc (cdr existing) (list tab))
+;;             (push (cons group (list tab)) result))
+;;
+;;           )
+;;         )
+;;       ;; (pp result)
+;;       result
+;;       ))
+;;
+;;   (defun tab-bar-groups-regroup-tabs (&rest _)
+;;     "Re-order tabs so that all tabs of each group are next to each other.
+;;
+;; Accepts, but ignores any arguments so it can be used as-is in the
+;; `tab-bar-groups-tab-post-change-group-functions' abnormal
+;; hook in order to keep tabs grouped at all times."
+;;     (interactive)
+;;     (let* ((tabs (apply #'append (seq-map #'cdr (tab-bar-groups-parse-groups)))))
+;;       (dotimes (index (length tabs))
+;;         (let ((tab (elt tabs index)))
+;;           (tab-bar-move-tab-to (1+ index) (1+ (tab-bar--tab-index tab)))))))
 
-
-  (defun tab-bar-groups-parse-groups ()
-    (interactive)
-    (let* ((tabs (frame-parameter (selected-frame) 'tabs))
-           (result '()))
-      (dolist (tab tabs)
-        (let* ((group-name (tab-bar-groups-tab-group-name tab))
-               ;; (group-name (if group-name-or-nil group-name-or-nil ">"))
-               (group (and group-name (intern group-name)))
-               (new-named-group-p (and group (null (assq group result))))
-               (in-nil-group-p (and (consp (car result)) (null (caar result))))
-               (new-nil-group-p (not (or group in-nil-group-p))))
-
-          (if (or new-named-group-p new-nil-group-p)
-              (push (cons group (list tab)) result)
-            (nconc (alist-get group result) (list tab)))
-
-          (message ">>\t%s:\t%s:\t%s:\t%s:" group-name new-named-group-p in-nil-group-p new-nil-group-p)
-          )
-        )
-      ;; (pp result)
-      result
-      ))
-
-  (tab-bar-groups-parse-groups)
-
-  (seq-map #'car (tab-bar-groups-parse-groups))
-
-  (defun tab-bar-groups-regroup-tabs (&rest _)
-    "Re-order tabs so that all tabs of each group are next to each other.
-
-Accepts, but ignores any arguments so it can be used as-is in the
-`tab-bar-groups-tab-post-change-group-functions' abnormal
-hook in order to keep tabs grouped at all times."
-    (interactive)
-    (let* ((tabs (apply #'append (seq-map #'cdr (tab-bar-groups-parse-groups)))))
-      (dotimes (index (length tabs))
-        (let ((tab (elt tabs index)))
-          (tab-bar-move-tab-to (1+ index) (1+ (tab-bar--tab-index tab)))))))
+  (add-hook 'tab-bar-tab-post-open-functions #'tab-bar-groups-regroup-tabs)
+  (add-hook 'tab-bar-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
+  (add-hook 'find-file-hook #'tab-bar-groups-regroup-tabs)
   )
 
 
