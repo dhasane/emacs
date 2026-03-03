@@ -41,6 +41,7 @@
   :demand t
   :custom
   (undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'"))
+  (undo-fu-session-file-limit 800)
   :config
   (global-undo-fu-session-mode)
   )
