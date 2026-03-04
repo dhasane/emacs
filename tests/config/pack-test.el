@@ -1,0 +1,35 @@
+;;; pack-test.el --- Tests for modules/pack.el -*- lexical-binding: t; -*-
+
+(require 'test-helper)
+(load-file (dh/config-test-path "modules/pack.el"))
+
+(ert-deftest pack-elpaca-placeholder-defines-keywords-and-aliases ()
+  (defvar use-package-keywords nil)
+  (let ()
+    (setq use-package-keywords nil)
+    (define-use-package-elpaca-placeholder)
+    (should (member :elpaca use-package-keywords))
+    (should (member :pack use-package-keywords))
+    (should (eq (symbol-function 'use-package-normalize/:elpaca) #'ignore))
+    (should (eq (symbol-function 'use-package-handler/:elpaca) #'ignore))
+    (should (eq (symbol-function 'use-package-normalize/:pack)
+                'use-package-normalize/:straight))
+    (should (eq (symbol-function 'use-package-handler/:pack)
+                'use-package-handler/:straight))))
+
+(ert-deftest pack-straight-placeholder-defines-keywords-and-aliases ()
+  (defvar use-package-keywords nil)
+  (let ()
+    (setq use-package-keywords nil)
+    (define-use-package-straight-placeholder)
+    (should (member :straight use-package-keywords))
+    (should (member :pack use-package-keywords))
+    (should (eq (symbol-function 'use-package-normalize/:straight) #'ignore))
+    (should (eq (symbol-function 'use-package-handler/:straight) #'ignore))
+    (should (eq (symbol-function 'use-package-normalize/:pack)
+                'use-package-normalize/:elpaca))
+    (should (eq (symbol-function 'use-package-handler/:pack)
+                'use-package-handler/:elpaca))))
+
+(provide 'pack-test)
+;;; pack-test.el ends here

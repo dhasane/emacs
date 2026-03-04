@@ -64,6 +64,21 @@
 (defun byte-compile-this-file+ ()
   (byte-compile-file (buffer-file-name)))
 
+(defun dh/run-config-tests ()
+  "Run config ERT tests for this Emacs setup."
+  (interactive)
+  (let* ((default-directory (or (locate-dominating-file user-emacs-directory ".git")
+                                user-emacs-directory))
+         (command "./scripts/run-config-tests.sh"))
+    (compile command)))
+
+(defun dh/profile-open-current-buffer-file ()
+  "Profile opening the current buffer file."
+  (interactive)
+  (if buffer-file-name
+      (dh/profile-open-file buffer-file-name)
+    (user-error "Current buffer is not visiting a file")))
+
 ;; TODO: arreglar esto
 (defun parse-package_json-scripts ()
   (interactive)
@@ -87,8 +102,15 @@
   (compile-multi-config
    `(
      (t ; siempre
-      ("general:pwd" . "pwd")
-      )
+       ;; ("general:pwd" . "pwd")
+
+       ;; performance
+       ("emacs:config-tests" . ,#'dh/run-config-tests)
+       ("emacs:file-open-latency-report" . ,#'dh/file-open-latency-report)
+       ("emacs:file-open-latency-report-detailed" . ,#'dh/file-open-latency-report-detailed)
+       ("emacs-perf:file-open-latency-clear" . ,#'dh/file-open-latency-clear)
+       ("emacs-perf:profile-open-current-file" . ,#'dh/profile-open-current-buffer-file)
+       )
 
      (emacs-lisp-mode
       ("emacs:bytecompile" . ,#'byte-compile-this-file+))

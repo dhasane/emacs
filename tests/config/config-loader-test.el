@@ -1,0 +1,63 @@
+;;; config-loader-test.el --- Tests for config-loader -*- lexical-binding: t; -*-
+
+(require 'test-helper)
+(load-file (dh/config-test-path "config-loader.el"))
+
+(ert-deftest config-loader-normalize-extension-removes-leading-dot ()
+  (should (equal "py" (cl/normalize-extension ".py")))
+  (should (equal "go" (cl/normalize-extension "go"))))
+
+(ert-deftest config-loader-lazy-load-file-once-registers-single-hook ()
+  (dh/with-test-state
+   (let ((user-emacs-directory dh/config-test-root))
+     (cl/lazy-load-file-once ".py" "modules/conf/basic.el")
+     (cl/lazy-load-file-once "py" "modules/conf/basic.el")
+     (let ((hook (gethash "py" cl/lazy-file-hook-table))
+           (files (gethash "py" cl/lazy-extension-files)))
+       (should (functionp hook))
+       (should (= 1 (length files)))
+       (should (equal (car files)
+                      (dh/config-test-path "modules/conf/basic.el")))
+       (should (memq hook pre-file-load-hook))))))
+
+(ert-deftest config-loader-load-lazy-file-loads-once-and-cleans-up ()
+  (dh/with-test-state
+   (let* ((buffer-file-name "/tmp/file.py")
+           (loaded nil)
+           (wait-calls 0)
+           (ext "py")
+           (hook (lambda () t)))
+      (puthash ext hook cl/lazy-file-hook-table)
+      (add-hook 'pre-file-load-hook hook)
+      (puthash ext (list "/tmp/a.el") cl/lazy-extension-files)
+      (cl-letf (((symbol-function 'cl/load-file)
+                 (lambda (file) (push file loaded)))
+                ((symbol-function 'cl/load-packages-from-package-manager)
+                 (lambda () (setq wait-calls (1+ wait-calls)))))
+        (setq cl/wait-for-packages-on-lazy-load nil)
+        (cl/load-lazy-file ext))
+      (should (equal loaded '("/tmp/a.el")))
+      (should (= 0 wait-calls))
+      (should (gethash ext cl/lazy-loaded-extensions))
+      (should-not (gethash ext cl/lazy-file-hook-table))
+      (should-not (gethash ext cl/lazy-extension-files))
+      (should-not (memq hook pre-file-load-hook)))))
+
+(ert-deftest config-loader-load-lazy-file-can-wait-for-packages ()
+  (dh/with-test-state
+   (let* ((buffer-file-name "/tmp/file.py")
+          (wait-calls 0)
+          (ext "py")
+          (hook (lambda () t)))
+     (puthash ext hook cl/lazy-file-hook-table)
+     (add-hook 'pre-file-load-hook hook)
+     (puthash ext (list "/tmp/a.el") cl/lazy-extension-files)
+     (cl-letf (((symbol-function 'cl/load-file) #'ignore)
+               ((symbol-function 'cl/load-packages-from-package-manager)
+                (lambda () (setq wait-calls (1+ wait-calls)))))
+       (setq cl/wait-for-packages-on-lazy-load t)
+       (cl/load-lazy-file ext))
+     (should (= 1 wait-calls)))))
+
+(provide 'config-loader-test)
+;;; config-loader-test.el ends here
