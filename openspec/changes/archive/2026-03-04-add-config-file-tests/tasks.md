@@ -19,5 +19,5 @@
 ## 4. Validation and Rollout
 
 - [x] 4.1 Run full config ERT suite locally and fix flaky/state-dependent tests
-- [ ] 4.2 Run CI with config ERT enabled and confirm stable pass/fail behavior
+- [x] 4.2 Run CI with config ERT enabled and confirm stable pass/fail behavior
 - [x] 4.3 Plan incremental expansion from phase-one modules to full config coverage
