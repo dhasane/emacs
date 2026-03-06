@@ -52,6 +52,16 @@
 
 (setq elpaca-queue-limit 10)
 
+(defun cl/elpaca-open-log-on-queue (&rest _)
+  "Pop the Elpaca log buffer when there is queued work."
+  (when (and (fboundp 'elpaca--queued)
+             (elpaca--queued)
+             (not (get-buffer-window "*elpaca-log*" t)))
+    (require 'elpaca-log)
+    (elpaca-log)))
+
+(advice-add 'elpaca-process-queues :before #'cl/elpaca-open-log-on-queue)
+
 (with-eval-after-load 'evil
   (with-eval-after-load 'elpaca-ui   (evil-make-intercept-map elpaca-ui-mode-map))
   (with-eval-after-load 'elpaca-info (evil-make-intercept-map elpaca-info-mode-map)))

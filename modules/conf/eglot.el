@@ -38,7 +38,7 @@
    )
   :custom
   (eglot-events-buffer-size 0)
-  (eglot-autoshutdown t)
+  (eglot-autoshutdown nil)
   (eglot-send-changes-idle-time 0.5)
   (flymake-no-changes-timeout 0.5)
   (eglot-confirm-server-initiated-edits nil)
@@ -49,7 +49,15 @@
   (add-to-list 'eglot-server-programs
                '((js-mode js-ts-mode tsx-mode tsx-ts-mode
                   typescript-mode typescript-ts-mode web-js-mode)
-                 . ("typescript-language-server" "--stdio")))
+                 . (
+                    "rass"
+                    "--" "typescript-language-server" "--stdio"
+                    "--" "eslint-lsp" "--stdio"
+                    ;; "--"
+                    ;; "tailwindcss-language-server" "--stdio"
+
+                    ;; "typescript-language-server" "--stdio"
+                    )))
 
   ;; Ensure tree-sitter modes share the same backends.
   (add-to-list 'eglot-server-programs

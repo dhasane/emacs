@@ -1,3 +1,8 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; code:
 
 (use-package go-mode
   :custom
@@ -7,3 +12,5 @@
 (use-package go-ts-mode
   :disabled t
   :mode "\\.go\\'")
+
+;;; go.el ends here

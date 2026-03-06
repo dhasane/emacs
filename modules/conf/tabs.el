@@ -211,6 +211,8 @@ nombre del tab."
   :demand t
   :after tab-bar
   :custom
+  ;; Keep tab width tied to the displayed tab name.
+  (tab-bar-auto-width nil)
   (tab-bar-tab-name-function 'tab-bar-tab-name-current)
 
   ;; Switch tab-bar-format-tabs to tab-bar-format-tabs-groups

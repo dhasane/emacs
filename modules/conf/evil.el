@@ -124,8 +124,12 @@
 
   ;; siempre antes de guardar ir a estado normal
   (advice-add #'save-buffer :before #'evil-force-normal-state)
+
+  (defun dh/normal-mode-if-not-minibuffer ()
+    (when (not (minibufferp))
+      (evil-force-normal-state)))
   ;; force normal state on window configuration changes
-  (add-hook 'window-configuration-change-hook #'evil-force-normal-state)
+;;   (add-hook 'window-configuration-change-hook #'dh/normal-mode-if-not-minibuffer)
   )
 
 (use-package evil-terminal-cursor-changer

@@ -55,7 +55,30 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
-  (global-treesit-auto-mode))
+  (defconst dh/treesit-major-mode-remaps
+    '((python-mode python-ts-mode python)
+      (go-mode go-ts-mode go)
+      (rust-mode rust-ts-mode rust)
+      (js-mode js-ts-mode javascript)
+      (typescript-mode typescript-ts-mode typescript)
+      (css-mode css-ts-mode css)
+      (json-mode json-ts-mode json)
+      (yaml-mode yaml-ts-mode yaml)
+      (bash-mode bash-ts-mode bash))
+    "Mode remaps to tree-sitter variants when grammars exist.")
+
+  (defun dh/treesit-apply-major-mode-remaps ()
+    "Apply stable tree-sitter remaps once, avoiding per-file remap rebuilds."
+    (when (treesit-available-p)
+      (dolist (pair dh/treesit-major-mode-remaps)
+        (let ((from (nth 0 pair))
+              (to (nth 1 pair))
+              (lang-sym (nth 2 pair)))
+          (when (and (fboundp to)
+                     (treesit-language-available-p lang-sym))
+            (add-to-list 'major-mode-remap-alist (cons from to)))))))
+
+  (dh/treesit-apply-major-mode-remaps))
 
 (use-package combobulate
   :disabled t
