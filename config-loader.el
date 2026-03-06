@@ -7,6 +7,15 @@
 
 (require 'cl-lib)
 
+(defgroup config-loader nil
+  "Config loader utilities."
+  :group 'convenience)
+
+(defcustom cl/native-compile-on-load nil
+  "When non-nil, native-compile config files loaded via `cl/load-file`."
+  :type 'boolean
+  :group 'config-loader)
+
 (defvar cl/find-file-hook-table (make-hash-table :test 'equal)
   "Internal storage mapping extensions to their find-file hook functions.")
 (defvar cl/lazy-file-hook-table (make-hash-table :test 'equal)
@@ -21,6 +30,13 @@
   "Hook run before Emacs selects a major mode for a file buffer.")
 (defvar cl/lazy-mode-hook-refresh-buffers nil
   "Buffers that should have their mode hooks re-run after lazy config loads.")
+
+(defcustom cl/wait-for-packages-on-lazy-load nil
+  "When non-nil, wait for package manager queues during lazy file loading.
+
+Keeping this nil avoids blocking file-open on first lazy load for an extension."
+  :type 'boolean
+  :group 'config-loader)
 
 (defun cl/expand-name (file)
   "Expand FILE relative to `user-emacs-directory`."
@@ -169,10 +185,24 @@
       (elpaca-wait))
   )
 
+(defun cl/native-compile-file (file)
+  "Native-compile FILE when `cl/native-compile-on-load' is enabled."
+  (when (and cl/native-compile-on-load (fboundp 'native-compile))
+    (let ((source (cond
+                   ((file-exists-p file) file)
+                   ((file-exists-p (concat file ".el")) (concat file ".el"))
+                   (t file))))
+      (condition-case err
+          (native-compile source)
+        (error (message "Native compile failed for %s: %s"
+                        source
+                        (error-message-string err)))))))
+
 (defun cl/load-file (file)
   "Byte-compile and load FILE, then record it in `cl/loaded-config-files`."
   (byte-compile file)
   (load file)
+  ;; (cl/native-compile-file file)
   (add-to-list 'cl/loaded-config-files file)
   )
 
