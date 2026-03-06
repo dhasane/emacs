@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; System integration and OS-specific settings
 
+;;; Code:
+
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
@@ -107,16 +109,10 @@
           (cl-letf (((symbol-function 'treesit-auto--set-major-remap) #'ignore))
             (dirvish--preview-file-maybe-truncate dv file size))
         (dirvish--preview-file-maybe-truncate dv file size))))
-  (defun dh/dirvish--preview-directory-buffer (dir)
-    "Return a new directory preview buffer for DIR."
-    (let ((dired-use-cached-buffer nil)
-          (find-file-hook nil))
-      (dired-noselect dir)))
 
   (dirvish-define-preview fallback-no-treesit (file ext preview-window dv)
     "Fallback preview dispatcher for FILE without tree-sitter."
-    (if (file-directory-p file)
-        `(buffer . ,(dh/dirvish--preview-directory-buffer file))
+    (unless (file-directory-p file)
       (let* ((attrs (ignore-errors (file-attributes file)))
              (size (file-attribute-size attrs)))
         (cond ((not attrs)
@@ -128,11 +124,13 @@
               (t (dh/dirvish--preview-file-no-treesit dv file size))))))
   (add-hook 'dirvish-preview-setup-hook #'dh/dirvish--rename-preview-buffer)
   :custom
+  (dirvish-override-dired-mode nil)
   (dirvish-mode-line-format
    '(:left (sort symlink) :right (omit yank index)))
   (dirvish-attributes
    '(all-the-icons file-time file-size collapse subtree-state vc-state git-msg))
   (delete-by-moving-to-trash t)
+  (dirvish-redisplay-debounce 0.1)
 
   (dirvish-peek-mode t)
   (dirvish-side-auto-close t)
@@ -142,7 +140,7 @@
   ;; (setq dirvish-preview-dispatchers (remove 'image dirvish-preview-dispatchers))
   (dirvish-preview-dispatchers
    (if (eq system-type 'darwin)
-       '(fallback-no-treesit)
+       '(dired fallback-no-treesit)
      '())
    )
 
