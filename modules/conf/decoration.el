@@ -313,4 +313,46 @@
   ;; (set-face-foreground 'highlight-indent-guides-character-face "red")
 
   )
+
+(use-package indent-bars
+  :disabled t
+  :custom
+  ;; (indent-bars-no-descend-lists 'skip) ; prevent extra bars in nested lists + skip intermediate bars
+  ;; (indent-bars-treesit-ignore-blank-lines-types nil) ;'("module"))
+
+  ;; (indent-bars-color '(highlight :face-bg t :blend 0.15))
+  ;; (indent-bars-pattern ".")
+  ;; (indent-bars-width-frac 0.1)
+  ;; (indent-bars-pad-frac 0.1)
+  ;; (indent-bars-zigzag nil)
+  ;; (indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)) ; blend=1: blend with BG only
+  ;; (indent-bars-highlight-current-depth '(:blend 0.5)) ; pump up the BG blend on current
+  ;; (indent-bars-display-on-blank-lines t)
+
+  ;; (indent-bars-color '(highlight :face-bg t :blend 0.8))
+  ;; (indent-bars-pattern ".")
+  ;; (indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 0.8))
+  ;; (indent-bars-highlight-current-depth '(:blend 1.0 :width 0.4 :pad 0.1 :pattern "!.!.!." :zigzag 0.1))
+  ;; (indent-bars-pad-frac 0.3)
+  ;; (indent-bars-ts-highlight-current-depth '(no-inherit)) ; equivalent to nil
+  ;; (indent-bars-ts-color-by-depth '(no-inherit))
+  ;; (indent-bars-ts-color '(inherit fringe :face-bg t :blend 0.2))
+
+  ;; Add other languages as needed; check the wiki
+  ;;  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+  ;;      if_statement with_statement while_statement)))
+  ;; Note: wrap likely not be needed if no-descend-list is enough
+  ;;(indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
+  ;;				      list list_comprehension
+  ;;				      dictionary dictionary_comprehension
+  ;;				      parenthesized_expression subscript)))
+
+  (indent-bars-treesit-support t)
+  (indent-bars-no-descend-lists 'skip)
+  (indent-bars-starting-column 0)
+  (indent-bars-display-on-blank-lines t)
+  (indent-bars-highlight-selection-method 'context)
+
+  :hook ((prog-mode yaml-mode) . indent-bars-mode))
+
 ;;; decoration.el ends here
