@@ -125,7 +125,7 @@
   ;; siempre antes de guardar ir a estado normal
   (advice-add #'save-buffer :before #'evil-force-normal-state)
   ;; force normal state on window configuration changes
-  (add-hook 'window-configuration-change-hook #'evil-force-normal-state)
+  ;; (add-hook 'window-configuration-change-hook #'evil-force-normal-state)
   )
 
 (use-package evil-terminal-cursor-changer
