@@ -59,6 +59,7 @@
   :if (or (executable-find "enchant-2")
           (executable-find "enchant"))
   :hook ((org-mode . jinx-mode)
+         (fountain-mode . jinx-mode)
          (git-commit-mode . jinx-mode))
   :custom
   (jinx-languages "en_US es_CO"))

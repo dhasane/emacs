@@ -63,9 +63,9 @@
    ;; "z"   '(switch-zettelkasten :wk "switch zettelkasten")
    ;; "a"   '(org-roam-capture :wk "capture")
 
-   "d" '(:ignore t :which-key "daily")
-   "dd" '(org-roam-dailies-capture-today :wk "daily capture")
-   "dt" '(org-roam-dailies-goto-today :wk "show today's capture")
+   ;; "d" '(:ignore t :which-key "daily")
+   ;; "dd" '(org-roam-dailies-capture-today :wk "daily capture")
+   ;; "dt" '(org-roam-dailies-goto-today :wk "show today's capture")
    ;; ("ds" org-roam-dailies-goto-date      ;;   "show all captures"    :column "daily")
 
    "t" '(:ignore t :which-key "tag")

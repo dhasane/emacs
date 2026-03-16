@@ -141,10 +141,10 @@
       "* MEETING: %? :MEETING:\n%t"
       :clock-in t
       :clock-resume t)
-     ;; ("d" "Diary" entry (file+datetree "~/org/diary.org")
-     ;;  "* %?\n%U\n"
-     ;;  :clock-in t
-     ;;  :clock-resume t)
+     ("d" "Diary" entry (file+datetree "~/org/diary.org")
+      "* Today\n%?"
+      :clock-in nil
+      :clock-resume nil)
      ("i" "Idea" entry (file org-default-notes-file)
       "* %? \t :IDEA: \n%t")
      ;; ("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
