@@ -142,7 +142,7 @@
       :clock-in t
       :clock-resume t)
      ("d" "Diary" entry (file+datetree "~/org/diary.org")
-      "* Today\n%?"
+      "* %<%l %p>\n%?"
       :clock-in nil
       :clock-resume nil)
      ("i" "Idea" entry (file org-default-notes-file)
