@@ -21,4 +21,7 @@
   (gptel-default-session "*GPT*")
   )
 
+(use-package agent-shell
+  :commands (agent-shell agent-shell-kiro-start-agent))
+
 ;;; gpt.el ends here
