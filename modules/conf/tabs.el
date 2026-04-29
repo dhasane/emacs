@@ -174,8 +174,8 @@ nombre del tab."
     ("h" tab-bar-switch-to-prev-tab "right"         :column "move")
     ("s" tab-switch                 "switcher"      :column "move")
 
-    ("L" dh/tab-bar-move-tab-right  "move left"     :column "organize")
-    ("H" dh/tab-bar-move-tab-left   "move right"    :column "organize")
+    ("L" dh/tab-bar-move-tab-right  "move right"    :column "organize")
+    ("H" dh/tab-bar-move-tab-left   "move left"     :column "organize")
     ("m" tab-group                  "to group"      :column "manage")
     ;; ("-" split-window-vertically    "vertical"      :column "split")
     ;; ("+" split-window-horizontally  "horizontal"    :column "split")
@@ -348,44 +348,5 @@ COUNT is the number of steps to move."
   (add-hook 'tab-bar-tab-post-change-group-functions #'tab-bar-groups-regroup-tabs)
   (add-hook 'find-file-hook #'tab-bar-groups-regroup-tabs)
   )
-
-
-;; (use-package eyebrowse
-;;   :if (version< emacs-version "27.0" )
-;;   :after evil
-;;   :bind
-;;   (
-;;    :map
-;;    evil-normal-state-map
-;;    ("TAB t" . 'eyebrowse-create-window-config )
-;;    ("g t" . eyebrowse-next-window-config )
-;;    ("g b" . eyebrowse-prev-window-config )
-;;    )
-;;   :config
-;;   (eyebrowse-mode t)
-;;   (defun close-tab-configuration ()
-;;     (interactive)
-;;     (eyebrowse-close-window-config)
-;;     )
-;;   (defhydra+ hydra-tabs ()
-;;     "Tab management"
-;;     ("c" eyebrowse-create-window-config "create" )
-;;     ("$" eyebrowse-rename-window-config "rename" )
-;;     ("q" eyebrowse-close-window-config "quit" )
-;;     ("l" eyebrowse-next-window-config "left"); :color red)
-;;     ("h" eyebrowse-prev-window-config "right"); :color red)
-;;     ("-" split-window-vertically "vertical" )
-;;     ("+" split-window-horizontally "horizontal")
-;;     ("1" eyebrowse-switch-to-window-config-1)
-;;     ("2" eyebrowse-switch-to-window-config-2)
-;;     ("3" eyebrowse-switch-to-window-config-3)
-;;     ("4" eyebrowse-switch-to-window-config-4)
-;;     ("5" eyebrowse-switch-to-window-config-5)
-;;     ("6" eyebrowse-switch-to-window-config-6)
-;;     ("7" eyebrowse-switch-to-window-config-7)
-;;     ("8" eyebrowse-switch-to-window-config-8)
-;;     ("9" eyebrowse-switch-to-window-config-9)
-;;     )
-;;   )
 
 ;;; tabs.el ends here

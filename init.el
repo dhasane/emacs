@@ -13,7 +13,6 @@
 
 ;;; code:
 
-(setq lexical-binding t)
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (write-region "" nil custom-file))

@@ -213,7 +213,7 @@
 
 (use-package display-line-numbers
   :ensure nil
-  :hook ((prog-mode . #'display-line-numbers))
+  :hook ((prog-mode . display-line-numbers-mode))
   :custom
   ; (display-line-numbers-type 'relative)
   (display-line-numbers-type t)

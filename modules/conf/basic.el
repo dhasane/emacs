@@ -25,15 +25,13 @@
 (set-default-coding-systems 'utf-8)
 
 (setq backward-delete-char-untabify-method 'hungry)
-(setq large-file-warning-threshold nil) ;; Don’t warn me about opening large files
+(setq large-file-warning-threshold (* 100 1024 1024)) ;; Warn for files over 100MB
 (setq select-enable-clipboard t) ;; Enable copy/past-ing from clipboard
 (setq system-uses-terminfo nil) ;; Fix weird color escape sequences
 (prefer-coding-system 'utf-8) ;; Prefer UTF-8 encoding
-(fset 'yes-or-no-p 'y-or-n-p) ;; Answer with y and n instead of yes and no
-(setq confirm-kill-emacs 'yes-or-no-p) ;; Ask for confirmation before closing emacs
+(setq use-short-answers t) ;; Answer with y and n instead of yes and no
+(setq confirm-kill-emacs 'y-or-n-p) ;; Ask for confirmation before closing emacs
 (global-auto-revert-mode 1) ;; modificar el bufer, si este ha cambiado
-
-(setq lexical-binding t)
 
 (setq save-interprogram-paste-before-kill t
       mouse-yank-at-point t

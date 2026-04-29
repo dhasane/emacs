@@ -38,17 +38,6 @@
   ;; (add-hook 'after-init-hook #'global-flycheck-mode)
   )
 
-(use-package flymake
-  :demand t
-  :ensure nil
-  :custom
-  (flymake-no-changes-timeout 1)
-  (flymake-mode-line-format
-	;; the default mode line lighter takes up an unnecessary amount of
-	;; space, so make it shorter
-	'(" " flymake-mode-line-exception flymake-mode-line-counters))
-  )
-
 (use-package flycheck-eglot
   :demand t
   :after (flycheck eglot)

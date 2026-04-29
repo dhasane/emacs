@@ -153,7 +153,6 @@
 (use-package evil-surround
   :after evil
   :defer 1
-  :after (evil)
   :config
   (global-evil-surround-mode 1))
 

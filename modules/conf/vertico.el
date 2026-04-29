@@ -31,8 +31,7 @@
   (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
 
-  (completion-styles '(substring orderless basic))
-  ;; (completion-styles '(basic substring partial-completion flex))
+  ;; completion-styles set in orderless config
 
   ;; modify completion-at-point
   (completion-in-region-function 'consult-completion-in-region)

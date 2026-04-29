@@ -170,8 +170,7 @@
   )
 
 (defun cl/load-file (file)
-  "Byte-compile and load FILE, then record it in `cl/loaded-config-files`."
-  (byte-compile file)
+  "Load FILE and record it in `cl/loaded-config-files`."
   (load file)
   (add-to-list 'cl/loaded-config-files file)
   )
