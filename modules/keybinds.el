@@ -108,6 +108,8 @@
 
  "d" 'dired
 
+ [return] '(agent-shell-sidebar-toggle :wk "Agent Sidebar")
+
  ;; evito poner shift para @
  ;; "q" (lambda () (evil-execute-macro 1 (evil-get-register ?q t))) ; ; ; "execute macro"
  "2" '((lambda () (interactive) (call-interactively 'evil-owl-execute-macro)) :wk "Execute Macro")

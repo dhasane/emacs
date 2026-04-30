@@ -24,4 +24,19 @@
 (use-package agent-shell
   :commands (agent-shell agent-shell-kiro-start-agent))
 
-;;; gpt.el ends here
+(use-package agent-shell-sidebar
+  :after agent-shell
+  :vc (:url "https://github.com/cmacrae/agent-shell-sidebar")
+  :custom
+  (agent-shell-sidebar-width "25%")
+  (agent-shell-sidebar-minimum-width 80)
+  (agent-shell-sidebar-maximum-width "50%")
+  (agent-shell-sidebar-position 'right)
+  (agent-shell-sidebar-locked t)
+  (agent-shell-sidebar-default-config
+   (agent-shell-kiro-make-config))
+  :bind
+  (("C-c a s" . agent-shell-sidebar-toggle)
+   ("C-c a f" . agent-shell-sidebar-toggle-focus)))
+
+;;; llm.el ends here
