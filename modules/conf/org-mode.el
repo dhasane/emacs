@@ -32,7 +32,8 @@
    "c" '(org-capture             :which-key "capture")
    "a" '(org-agenda              :which-key "agenda")
    "g" '(org-capture-goto-target :which-key "go to")
-   "t" '(org-todo-list           :which-key "todo list"))
+   "t" '(org-todo-list           :which-key "todo list")
+   "p" '(dh/org-todo-popup      :which-key "todo popup"))
   :preface
   (defun dh/org-mode-local-settings ()
     (setq-local line-spacing 0)
