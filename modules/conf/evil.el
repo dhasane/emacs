@@ -82,15 +82,6 @@
   (evil-indent-convert-tabs t)
 
   (evil-undo-system 'undo-fu)
-
-  ;; (evil-ex-complete-emacs-commands nil)
-  ;; (evil-shift-round nil)
-  ;; (evil-want-C-u-scroll t)
-
-  ;; para redefinir comandos evil-ex
-  ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
-
-  ;; minibuffer
   (evil-want-minibuffer t)
 
   :config
@@ -116,16 +107,10 @@
     (if (one-window-p)
         (when (fboundp 'close-tab-configuration)
           (close-tab-configuration))
-                                        ; (message "hay un split")
-      (evil-quit)
-                                        ; (message "hay varios splits")
-      )
-    )
+      (evil-quit)))
 
   ;; siempre antes de guardar ir a estado normal
   (advice-add #'save-buffer :before #'evil-force-normal-state)
-  ;; force normal state on window configuration changes
-  ;; (add-hook 'window-configuration-change-hook #'evil-force-normal-state)
   )
 
 (use-package evil-terminal-cursor-changer
@@ -139,11 +124,6 @@
   (evil-insert-state-cursor 'bar)  ; ⎸
   (evil-emacs-state-cursor  'hbar) ; _
 
-  ;; (setq evil-default-cursor (quote (t "#750000"))
-  ;;       evil-visual-state-cursor '("#880000" box)
-  ;;       evil-normal-state-cursor '("#750000" box)
-  ;;       evil-insert-state-cursor '("#e2e222" bar)
-  ;;       )
   )
 
 (use-package evil-nerd-commenter
@@ -172,9 +152,7 @@
   (evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
   (evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
   (evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
-  ;; (evil-goggles-yank-face ((t (:inherit diff-changed))))
   (evil-goggles-yank-face ((t (:inherit 'evil-goggles-record-macro-face))))
-  ;; (evil-goggles-yank-face ((t (:inherit 'isearch-fail))))
   )
 
 (use-package evil-owl
@@ -246,51 +224,11 @@
       )
     )
 
-  ;; (dolist (dd evil-collection-mode-list)
-  ;;   ;; (message "%s" evil-collection-mode-list)
-  ;;   (message "%s" dd)
-  ;;   )
-
   (with-eval-after-load 'pdf-view
     (evil-define-key 'normal pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
     (evil-define-key 'normal pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page))
 
   (evil-collection-init)
-
-
-  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "k") 'previous-complete-history-element)
-  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'next-complete-history-element)
-  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "k") 'previous-history-element)
-  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "j") 'next-history-element)
-
-  ;; (add-hook 'minibuffer-setup-hook 'evil-collection-minibuffer-insert)
-  ;; ;; Because of the above minibuffer-setup-hook, some evil-ex bindings need be reset.
-  ;; (evil-collection-define-key 'normal 'evil-ex-completion-map (kbd "<escape>") 'abort-recursive-edit)
-  ;; (general-define-key
-  ;;  :state '(evil-collection-magit-state normal)
-  ;;  :mode 'magit-mode-map
-  ;;  "?" 'evil-search-backward
-  ;;  "C-l" 'evil-window-right
-  ;;  "C-h" 'evil-window-left
-  ;;  "C-k" 'evil-window-up
-  ;;  "C-j" 'evil-window-down
-  ;;  "M-j" 'magit-section-forward-sibling
-  ;;  "M-k" 'magit-section-backward-sibling)
-
-  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
-  ;;   "?" 'evil-search-backward)
-  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
-  ;;   "C-l" 'evil-window-right)
-  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
-  ;;   "C-h" 'evil-window-left)
-  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
-  ;;   "C-k" 'evil-window-up)
-  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
-  ;;   "C-j" 'evil-window-down)
-  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
-  ;;   "M-j" 'magit-section-forward-sibling)
-  ;; (evil-define-key evil-collection-magit-mode-map magit-mode-map
-  ;;   "M-k" 'magit-section-backward-sibling)
   )
 
 ;;; evil.el ends here

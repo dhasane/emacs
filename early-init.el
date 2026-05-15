@@ -31,13 +31,6 @@
                             (height . 50)
                             (fullscreen . maximized)))
 
-;; (cond
-;;  ((string-equal system-type "gnu/linux")
-;;   ;; llenar toda la pantalla
-;;   (add-to-list 'default-frame-alist '(fullscreen . maximized))
-;;   )
-;;  )
-
 (scroll-bar-mode -1) ; Turn off native OS scroll bars
 (tool-bar-mode   -1) ; Turn off tool bar
 (menu-bar-mode   -1) ; Turn off menu bars            ; TODO: me gustaria activarlo para org
@@ -52,49 +45,25 @@
 
 (setq package-enable-at-startup nil)
 
-;; (cond
-;;  ((string-equal system-type "gnu/linux")
-;;   ;; (when (member "DejaVu Sans Mono" (font-family-list))
-;;   ;;   (set-frame-font "DejaVu Sans Mono 12" t t))
-;;   (when (member "Symbola" (font-family-list))
-;;     (set-fontset-font t 'unicode "Symbola" nil 'prepend))
-;;   ;; specify font for chinese characters using default chinese font on linux
-;;   ;; (when (member "WenQuanYi Micro Hei" (font-family-list))
-;;   ;;   (set-fontset-font t '(#x4e00 . #x9fff) "WenQuanYi Micro Hei" ))
-;;   )
-;;
-;;  ;; specify font for all unicode characters
-;;  (when (member "Apple Color Emoji" (font-family-list))
-;;    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
-;;
-;;  )
-
 ;; fonts ------
 (let ((font (cond
              ((string-equal system-type "gnu/linux")
               (when (member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono"))
 
-             ((string-equal system-type "darwin") ; Mac
+             ((string-equal system-type "darwin")
               (when (member "Menlo" (font-family-list)) "Menlo"))
 
-             ((string-equal system-type "windows-nt") ; Windows
-              ;; esto fue necesario para que siquiera sirviera en windows
-              (setq inhibit-compacting-font-caches t)))
-             ))
+             ((string-equal system-type "windows-nt")
+              (setq inhibit-compacting-font-caches t)
+              (when (member "Consolas" (font-family-list)) "Consolas")))))
 
-  ;; set a default font
-  (set-face-attribute
-   'default nil
-   :family font
-   :height 130
-   :weight 'normal
-   :width 'normal
-   ))
-
-;; (when (fboundp 'startup-redirect-eln-cache)
-;;   (startup-redirect-eln-cache
-;;    (convert-standard-filename
-;; 	  (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+  (when font
+    (set-face-attribute
+     'default nil
+     :family font
+     :height 130
+     :weight 'normal
+     :width 'normal)))
 
 (push '(foreground-color . :never) frameset-filter-alist)
 (push '(background-color . :never) frameset-filter-alist)
