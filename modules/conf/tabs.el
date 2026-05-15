@@ -388,13 +388,18 @@ Default is 1 hour (3600 seconds)."
   :group 'tab-bar)
 
 (defun dh/tab-idle--record-usage (&rest _)
-  "Stamp current time directly on the active tab's alist."
-  (let ((tab (assq 'current-tab (funcall tab-bar-tabs-function))))
+  "Stamp current time on the current tab."
+  (let ((now (float-time))
+        (tab (assq 'current-tab (funcall tab-bar-tabs-function))))
     (when tab
       (let ((entry (assq 'dh/last-used tab)))
         (if entry
-            (setcdr entry (float-time))
-          (nconc tab (list (cons 'dh/last-used (float-time)))))))))
+            (setcdr entry now)
+          (nconc tab (list (cons 'dh/last-used now))))))))
+
+(defun dh/tab-idle--record-pre-select (&rest _)
+  "Stamp the tab being left before switching."
+  (dh/tab-idle--record-usage))
 
 (defun dh/tab-idle--close-old-tabs ()
   "Close tabs idle longer than `dh/tab-idle-timeout'."
@@ -426,6 +431,7 @@ Default is 1 hour (3600 seconds)."
     (dolist (tab (funcall tab-bar-tabs-function))
       (unless (assq 'dh/last-used tab)
         (nconc tab (list (cons 'dh/last-used now))))))
+  (add-hook 'tab-bar-tab-pre-select-functions #'dh/tab-idle--record-pre-select)
   (add-hook 'tab-bar-tab-post-select-functions #'dh/tab-idle--record-usage)
   (add-hook 'window-buffer-change-functions #'dh/tab-idle--record-usage)
   (setq dh/tab-idle-timer
@@ -449,6 +455,50 @@ Default is 1 hour (3600 seconds)."
                   (if current "*" " ") name hours mins)))
       (funcall tab-bar-tabs-function)
       "\n"))))
+
+(defun dh/tab-idle--restore-project-tab (orig-fun &rest args)
+  "If a closed tab matches the project being switched to, restore it instead."
+  (let* ((dir (car args))
+         (project-name (file-name-nondirectory (directory-file-name dir)))
+         (prefix (format "[%s]" project-name))
+         ;; Check open tabs first
+         (tabs (funcall tab-bar-tabs-function))
+         (open-idx (seq-position tabs prefix
+                                 (lambda (tab pfx)
+                                   (string-prefix-p pfx (or (alist-get 'name tab) ""))))))
+    (cond
+     ;; Jump to existing open tab
+     (open-idx
+      (tab-bar-select-tab (1+ open-idx)))
+     ;; Restore from closed tabs
+     ((seq-find (lambda (entry)
+                  (string-prefix-p prefix
+                                   (or (alist-get 'name (alist-get 'tab entry)) "")))
+                tab-bar-closed-tabs)
+      (let ((match (seq-find (lambda (entry)
+                               (string-prefix-p prefix
+                                                (or (alist-get 'name (alist-get 'tab entry)) "")))
+                             tab-bar-closed-tabs)))
+        (setq tab-bar-closed-tabs
+              (cons match (delq match tab-bar-closed-tabs)))
+        (tab-bar-undo-close-tab)
+        ;; Replace dead buffers in restored tab windows
+        (let ((fallback (or (find-buffer-visiting dir)
+                            (dired-noselect dir))))
+          (walk-windows
+           (lambda (w)
+             (unless (buffer-live-p (window-buffer w))
+               (let* ((name (buffer-name (window-buffer w)))
+                      (file (and name (expand-file-name name dir))))
+                 (set-window-buffer
+                  w (if (and file (file-exists-p file))
+                        (find-file-noselect file)
+                      fallback)))))
+           nil (selected-frame)))))
+     ;; No match, fall through
+     (t (apply orig-fun args)))))
+
+(advice-add 'project-switch-project :around #'dh/tab-idle--restore-project-tab)
 
 (dh/tab-idle-mode-enable)
 
