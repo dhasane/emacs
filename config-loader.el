@@ -21,12 +21,14 @@
   "Hook run before Emacs selects a major mode for a file buffer.")
 (defvar cl/lazy-mode-hook-refresh-buffers nil
   "Buffers that should have their mode hooks re-run after lazy config loads.")
+(defvar cl/wait-for-packages-on-lazy-load t
+  "When non-nil, call `cl/load-packages-from-package-manager' after lazy loads.")
 
 (defun cl/expand-name (file)
   "Expand FILE relative to `user-emacs-directory`."
   (expand-file-name file user-emacs-directory))
 
-(defun remove-nth (n list)
+(defun cl/remove-nth (n list)
   "Remove the Nth element from LIST."
   (if (> n (length list))
       list
@@ -38,7 +40,7 @@
   (let* ((dir (cl/expand-name (concat dir-name "/")))
          (lazy-to-ignore (if lazy (cl/lazy-load dir-name lazy)))
          (alt-to-ignore (flatten-tree
-                         (mapcar #'(lambda (x) (remove-nth (car x) (cdr x)))
+                         (mapcar #'(lambda (x) (cl/remove-nth (car x) (cdr x)))
                                  alt)))
          (all-to-ignore (flatten-tree (list ignore lazy-to-ignore alt-to-ignore))))
     (message "ignored: %s" all-to-ignore)
@@ -70,10 +72,7 @@
   (let ((files (flatten-tree filelist)))
     (dolist (f files)
       (condition-case err
-	  (progn
-	    ;; (cl/compile-file f)
-	    (cl/load-file f)
-	    )
+	  (cl/load-file f)
         (error (message "Error loading %s: \"%s\"" f
                         (error-message-string err))
                nil))))
@@ -118,9 +117,8 @@
       (remhash extension cl/lazy-extension-files)
       (dolist (lazy-file (reverse to-load))
         (cl/load-file lazy-file)
-	(cl/load-packages-from-package-manager)
-	)))
-  )
+	(when cl/wait-for-packages-on-lazy-load
+	  (cl/load-packages-from-package-manager))))))
 
 (defun cl/lazy-load-file-once (ext config-file)
   "Load CONFIG-FILE the first time a file with extension EXT is visited."
@@ -146,14 +144,13 @@
 
 (defun cl/refresh-mode-hooks-after-lazy-load ()
   "Re-run the major mode hook after lazy loading for the current buffer."
-  ;; (message "calling refresh: %s" cl/lazy-mode-hook-refresh-buffers)
   (when (memq (current-buffer) cl/lazy-mode-hook-refresh-buffers)
     (message "Reloading after lazy")
     (setq cl/lazy-mode-hook-refresh-buffers
           (delq (current-buffer) cl/lazy-mode-hook-refresh-buffers))
     (let* ((mode (assoc-default buffer-file-name auto-mode-alist #'string-match-p))
            (hook (intern (concat mode "-hook"))))
-      (print (format "Loading: %s" hook))
+      (message "Loading: %s" hook)
       (when (boundp hook)
         (run-hooks hook)))))
 
@@ -165,9 +162,8 @@
 
 (defun cl/load-packages-from-package-manager ()
   "Trigger package manager processing after loading a config file."
-  (if (featurep 'elpaca)
-      (elpaca-wait))
-  )
+  (when (featurep 'elpaca)
+    (elpaca-wait)))
 
 (defun cl/load-file (file)
   "Load FILE and record it in `cl/loaded-config-files`."
@@ -210,24 +206,19 @@ Remove compiled files not present in COMPILE."
 (defun cl/clean-compile (filename)
   "Remove compiled version of FILENAME."
   (let ((file (concat filename ".elc")))
-    (if (file-exists-p file)
-        (progn
-          (print (format "deleting: %s" file))
-          (delete-file file)
-          ))))
+    (when (file-exists-p file)
+      (message "deleting: %s" file)
+      (delete-file file))))
 
 (defun cl/compile-file (filename)
   "Compile FILENAME if the compiled file is missing or stale."
-  (print (format ";;; %s" filename))
+  (message ";;; %s" filename)
   (let ((file (concat filename ".el"))
         (compfile (concat filename ".elc")))
-    (if (or (not (file-exists-p compfile))
-            (file-newer-than-file-p file compfile))
-        (progn
-          (message (concat "compiling: " file))
-          (byte-compile-file file))
-      ;; (message "all is gud")
-      )))
+    (when (or (not (file-exists-p compfile))
+              (file-newer-than-file-p file compfile))
+      (message "compiling: %s" file)
+      (byte-compile-file file))))
 
 
 (provide 'config-loader)
