@@ -18,7 +18,7 @@
   (org-mode-map
    :states '(normal)
    "RET" 'org-open-at-point)
-  (dahas-org-map
+  (dh/org-map
    "e"  '(:ignore t :which-key "export")
    "ea" '(org-export-dispatch :wk "export action")
 
@@ -28,7 +28,7 @@
    "l"  '(:ignore t :which-key "links")
    "li" '(org-insert-link :wk "insert link")
    "ls" '(org-store-link :wk "store link"))
-  (dahas-agenda-map
+  (dh/agenda-map
    "c" '(org-capture             :which-key "capture")
    "a" '(org-agenda              :which-key "agenda")
    "g" '(org-capture-goto-target :which-key "go to")

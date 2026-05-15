@@ -87,7 +87,7 @@
   :custom
   (org-download-image-dir "~/org/imagenes")
   :general
-  (dahas-org-map
+  (dh/org-map
    "p"  '(:ignore t :which-key "paste")
    "pi" '(org-download-clipboard :wk "paste image")
    "pt" '(org-toggle-inline-images :wk "toggle inline image")

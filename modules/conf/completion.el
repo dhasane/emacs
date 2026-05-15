@@ -83,7 +83,7 @@
 (use-package consult-flycheck
   :after (consult)
   :general
-  (dahas-lsp-map
+  (dh/lsp-map
    "e" 'consult-flycheck
    )
   ;; :init

@@ -84,7 +84,7 @@
   ;; (propertize "]──[" 'face `(:foreground "green"))
   ;; (propertize "└─" 'face `(:foreground "green"))
 
-  (defun dahas/eshell-prompt ()
+  (defun dh/eshell-prompt ()
     (let (
           (header-bg "#453060")
           (grin "#b8bb26") ;; minibuffer-prompt
@@ -124,7 +124,7 @@
        " "
        )))
 
-  (setq eshell-prompt-function 'dahas/eshell-prompt
+  (setq eshell-prompt-function 'dh/eshell-prompt
         eshell-highlight-prompt t)
 
   ;; (mapcar (lambda (val)
@@ -335,7 +335,7 @@
     (unless (file-remote-p default-directory) ad-do-it))
   )
 
-(defun eval-connection (usr hst)
+(defun dh/eval-connection (usr hst)
   (with-temp-buffer
     (let* ((user usr) (host hst)
            (init 0) (step 50)

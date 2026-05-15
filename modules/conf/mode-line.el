@@ -69,7 +69,7 @@
   )
 
 ;; https://emacs.stackexchange.com/questions/5529/how-to-right-align-some-items-in-the-modeline/37270#37270
-(defun simple-mode-line-render (left right)
+(defun dh/simple-mode-line-render (left right)
   "Return a string of `window-width' length.
 Containing LEFT, and RIGHT aligned respectively."
   (let ((available-width
@@ -81,7 +81,7 @@ Containing LEFT, and RIGHT aligned respectively."
             right)))
 
 ;; status line information
-(defun dahas-modeline ()
+(defun dh/modeline ()
   (setq-default mode-line-format
                 (list
                  mode-line-misc-info ; for eyebrowse
@@ -129,7 +129,7 @@ Containing LEFT, and RIGHT aligned respectively."
                 )
   )
 
-;; (defun dahas-modeline ()
+;; (defun dh/modeline ()
 ;;   (setq-default mode-line-format
 ;;                 (list
 ;;                  mode-line-misc-info ; for eyebrowse
@@ -183,7 +183,7 @@ Containing LEFT, and RIGHT aligned respectively."
 ;;   )
 
 
-;; (dahas-modeline)
+;; (dh/modeline)
 
 ;; (setq-default
 ;;  mode-line-format
@@ -203,7 +203,7 @@ Containing LEFT, and RIGHT aligned respectively."
 ;;              get-project-name-except-if-remote
 ;;             ))))))
 
-(defun jordon-fancy-mode-line-render (left center right &optional lpad rpad)
+(defun dh/fancy-mode-line-render (left center right &optional lpad rpad)
   "Return a string the width of the current window with
 LEFT, CENTER, and RIGHT spaced out accordingly, LPAD and RPAD,
 can be used to add a number of spaces to the front and back of the string."

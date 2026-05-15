@@ -12,30 +12,30 @@
   "Search functions"
   )
 
-(defvar-keymap dahas-lsp-map :full t)
-(fset 'dahas-lsp-map dahas-lsp-map)
+(defvar-keymap dh/lsp-map :full t)
+(fset 'dh/lsp-map dh/lsp-map)
 
 (general-define-key
- :keymaps 'dahas-lsp-map
+ :keymaps 'dh/lsp-map
  "f"  '(:ignore t :which-key "find")
  "fd" '(xref-find-definitions  :which-key "definitions")
  "fr" '(xref-find-references   :which-key "references")
  )
 
-(defvar dahas-org-map (let ((map (make-sparse-keymap))) map))
-(fset 'dahas-org-map dahas-org-map)
+(defvar dh/org-map (let ((map (make-sparse-keymap))) map))
+(fset 'dh/org-map dh/org-map)
 
-(defvar dahas-agenda-map (let ((map (make-sparse-keymap))) map))
-(fset 'dahas-agenda-map dahas-agenda-map)
+(defvar dh/agenda-map (let ((map (make-sparse-keymap))) map))
+(fset 'dh/agenda-map dh/agenda-map)
 
-(defvar dahas-comp-map (let ((map (make-sparse-keymap))) map))
-(fset 'dahas-comp-map dahas-comp-map)
+(defvar dh/comp-map (let ((map (make-sparse-keymap))) map))
+(fset 'dh/comp-map dh/comp-map)
 
 ;; (defhydra hydra-org (:color blue)
 ;;   "Org"
 ;;   )
 
-(defvar dahas-manage-map (let ((map (make-sparse-keymap))) map))
-(fset 'dahas-manage-map dahas-manage-map)
+(defvar dh/manage-map (let ((map (make-sparse-keymap))) map))
+(fset 'dh/manage-map dh/manage-map)
 
 ;;; startup-keybinds.el ends here

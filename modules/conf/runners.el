@@ -23,7 +23,7 @@
   ;;           ;; (setq-local compilation-read-command nil)
   ;;           (call-interactively 'compile))
   ;;  )
-  (dahas-comp-map
+  (dh/comp-map
    ;; "s" '(deets/side-window-toggle :wk "side window")
    "c" '((lambda ()
             (interactive)
@@ -61,7 +61,7 @@
   ;; (global-set-key (read-kbd-macro "C-x w") 'deets/side-window-toggle)
   )
 
-(defun byte-compile-this-file+ ()
+(defun dh/byte-compile-this-file ()
   (byte-compile-file (buffer-file-name)))
 
 (defun dh/run-config-tests ()
@@ -113,7 +113,7 @@
        )
 
      (emacs-lisp-mode
-      ("emacs:bytecompile" . ,#'byte-compile-this-file+))
+      ("emacs:bytecompile" . ,#'dh/byte-compile-this-file))
 
      (rust-ts-mode
       ("rust:debug" . "cargo run")
@@ -166,33 +166,33 @@
 
 (use-package prodigy
   :general
-  (dahas-manage-map
+  (dh/manage-map
    "p" '(prodigy :wk "prodigy"))
 
   :config
   (prodigy-define-status :id 'working :face 'prodigy-yellow-face)
-  (defvar my-prodigy-service-counts nil "Map of status ID to number of Prodigy processes with that status")
+  (defvar dh/prodigy-service-counts nil "Map of status ID to number of Prodigy processes with that status")
   (advice-add
    'prodigy-set-status
    :before
    (lambda (service new-status)
      (let* ((old-status (plist-get service :status))
-            (old-status-count (or 0 (alist-get old-status my-prodigy-service-counts)))
-            (new-status-count (or 0 (alist-get new-status my-prodigy-service-counts))))
+            (old-status-count (or 0 (alist-get old-status dh/prodigy-service-counts)))
+            (new-status-count (or 0 (alist-get new-status dh/prodigy-service-counts))))
        (when old-status
-         (setf (alist-get old-status my-prodigy-service-counts) (max 0 (- old-status-count 1))))
-       (setf (alist-get new-status my-prodigy-service-counts) (+ 1 new-status-count))
+         (setf (alist-get old-status dh/prodigy-service-counts) (max 0 (- old-status-count 1))))
+       (setf (alist-get new-status dh/prodigy-service-counts) (+ 1 new-status-count))
        (force-mode-line-update t))))
 
-  (defun my-prodigy-working-count ()
+  (defun dh/prodigy-working-count ()
     "Number of services with the 'working' status."
-    (let ((count (alist-get 'working my-prodigy-service-counts 0)))
+    (let ((count (alist-get 'working dh/prodigy-service-counts 0)))
       (when (> count 0)
         (format "W:%d" count))))
 
-  (defun my-prodigy-failed-count ()
+  (defun dh/prodigy-failed-count ()
     "Number of services with the 'failed' status."
-    (let ((count (alist-get 'failed my-prodigy-service-counts 0)))
+    (let ((count (alist-get 'failed dh/prodigy-service-counts 0)))
       (if (> count 0)
           (format "F:%d" count)
         "")))

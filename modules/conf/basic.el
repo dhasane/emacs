@@ -108,7 +108,7 @@
 
 (savehist-mode 1)
 
-(defun my-find-file-check-make-large-file-read-only-hook ()
+(defun dh/large-file-read-only-hook ()
   "If a file is over a given size, make the buffer read only."
   (when (> (buffer-size) (* 1024 1024))
     (when (boundp 'treesit-font-lock-level)
@@ -116,12 +116,9 @@
     (setq buffer-read-only t)
     (buffer-disable-undo)
     (fundamental-mode)
-    ;; (linum-mode -1)
-    (font-lock-mode -1)
-    )
-  )
+    (font-lock-mode -1)))
 
-(add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
+(add-hook 'find-file-hook 'dh/large-file-read-only-hook)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (setq debug-on-error nil)

@@ -1,6 +1,6 @@
 
 
-(defun define-use-package-elpaca-placeholder()
+(defun dh/define-use-package-elpaca-placeholder()
   (message "added placeholder for elpaca")
 
   (setq use-package-keywords (append use-package-keywords '(:elpaca :pack)))
@@ -12,7 +12,7 @@
   (defalias 'use-package-handler/:pack 'use-package-handler/:straight)
   )
 
-(defun define-use-package-straight-placeholder()
+(defun dh/define-use-package-straight-placeholder()
   (message "added placeholder for straight")
 
   (setq use-package-keywords (append use-package-keywords '(:straight :pack)))
@@ -24,8 +24,8 @@
   (defalias 'use-package-handler/:pack 'use-package-handler/:elpaca)
   )
 
-(if (featurep 'straight)
-    (define-use-package-elpaca-placeholder))
+(when (featurep 'straight)
+  (dh/define-use-package-elpaca-placeholder))
 
-(if (featurep 'elpaca)
-    (define-use-package-straight-placeholder))
+(when (featurep 'elpaca)
+  (dh/define-use-package-straight-placeholder))

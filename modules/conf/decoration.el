@@ -27,12 +27,12 @@
   (run-hooks 'before-load-theme-hook))
 
 
-(defun disable-all-themes ()
+(defun dh/disable-all-themes ()
   "disable all active themes."
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(add-hook 'before-load-theme-hook 'disable-all-themes)
+(add-hook 'before-load-theme-hook 'dh/disable-all-themes)
 
 (use-package adaptive-wrap
   :hook ((prog-mode . adaptive-wrap-prefix-mode))

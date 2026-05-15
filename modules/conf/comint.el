@@ -6,7 +6,7 @@
 
 ;;; code:
 
-(defun comint-jump-to-input-ring ()
+(defun dh/comint-jump-to-input-ring ()
   "Jump to the buffer containing the input history."
   (interactive)
   (progn
@@ -31,7 +31,7 @@
 
 (add-hook 'comint-mode-hook
           (lambda ()
-            (local-set-key (kbd "C-<f7>") 'comint-jump-to-input-ring)
+            (local-set-key (kbd "C-<f7>") 'dh/comint-jump-to-input-ring)
             ))
 
 ;; proced (top)
@@ -40,7 +40,7 @@
 ;;
 ;; (add-hook 'proced-mode-hook 'proced-settings)
 
-(defun shell-command-on-buffer ()
+(defun dh/shell-command-on-buffer ()
   "Asks for a command and execute it in inferior shell with current buffer as input."
   (interactive)
   (shell-command-on-region

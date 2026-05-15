@@ -57,7 +57,7 @@
   ;;   ;; ("m" org-roam-graph     "map" :column "ui")
   ;;   )
   :general
-  (dahas-org-map
+  (dh/org-map
    "f"   '(org-roam-node-find :wk "find")
    "i"   '(org-roam-node-insert :wk "insert")
    ;; "z"   '(switch-zettelkasten :wk "switch zettelkasten")
@@ -100,7 +100,7 @@
   ;;   ("m"   org-roam-ui-mode  "map" :column "ui")
   ;;   )
   :general
-  (dahas-org-map
+  (dh/org-map
    "m" '(org-roam-ui-mode :wk "map")
    )
   )

@@ -8,14 +8,14 @@
   (with-temp-buffer
     (insert (make-string (+ (* 1024 1024) 1) ?a))
     (let ((buffer-read-only nil))
-      (my-find-file-check-make-large-file-read-only-hook)
+      (dh/large-file-read-only-hook)
       (should buffer-read-only))))
 
 (ert-deftest basic-large-file-hook-keeps-small-buffers-editable ()
   (with-temp-buffer
     (insert "small")
     (let ((buffer-read-only nil))
-      (my-find-file-check-make-large-file-read-only-hook)
+      (dh/large-file-read-only-hook)
       (should-not buffer-read-only))))
 
 (ert-deftest basic-file-open-record-sample-respects-max-size ()

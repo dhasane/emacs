@@ -11,14 +11,14 @@
 
 (setq max-mini-window-height 0.5)
 
-(defun switch-to-minibuffer ()
+(defun dh/switch-to-minibuffer ()
   "Switch to minibuffer window."
   (interactive)
   (if (active-minibuffer-window)
       (select-window (active-minibuffer-window))
     (error "Minibuffer is not active")))
 
-(global-set-key "\C-co" 'switch-to-minibuffer) ;; Bind to `C-c o'
+(global-set-key "\C-co" 'dh/switch-to-minibuffer) ;; Bind to `C-c o'
 
 (define-key minibuffer-local-map (kbd "<S-up>" )
   'previous-history-element)

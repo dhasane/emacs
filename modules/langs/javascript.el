@@ -4,7 +4,7 @@
 
 ;;; code:
 
-(defun js-web-mode-init-hook ()
+(defun dh/js-web-mode-init-hook ()
   (setq js-indent-level 2)
   (setq-local c-basic-offset 2)
   (setq-local tab-width 2)
@@ -27,7 +27,7 @@
   :mode (("\\.js\\'"  . js-mode)
          ("\\.mjs\\'" . js-mode)
          ("\\.cjs\\'" . js-mode))
-  :hook ((js-mode js-ts-mode) . js-web-mode-init-hook)
+  :hook ((js-mode js-ts-mode) . dh/js-web-mode-init-hook)
   :custom
   (js-indent-level 2)
 

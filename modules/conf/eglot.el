@@ -29,7 +29,7 @@
     )
    . eglot-ensure)
   :general
-  (dahas-lsp-map
+  (dh/lsp-map
    "r" 'eglot-rename ;; "rename"                             :column "actions")                     ; "rename"
    "f"  '(:ignore t :which-key "find")
    ;; "fd" '(eglot-find-typeDefinition  :which-key "definitions")

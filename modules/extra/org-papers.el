@@ -20,7 +20,7 @@
   ;;   ("ep" org-latex-export-to-pdf "export pdf" :column "papers")
   ;;   )
   :general
-  (dahas-org-map
+  (dh/org-map
    "ci" '(citar-insert-citation :wk "insert citation")
    "ep" '(org-latex-export-to-pdf :wk "export pdf")))
 

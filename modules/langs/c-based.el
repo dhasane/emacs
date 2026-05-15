@@ -4,7 +4,7 @@
 
 ;;; code:
 
-(defun c-mode-init-hook ()
+(defun dh/c-mode-init-hook ()
   ;; my customizations for all of c-mode, c++-mode, objc-mode, java-mode
   (c-set-offset 'substatement-open 0)
   ;; other customizations can go here
@@ -20,7 +20,7 @@
   ;; (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
   )
 
-(add-hook 'c-mode-common-hook 'c-mode-init-hook)
+(add-hook 'c-mode-common-hook 'dh/c-mode-init-hook)
 
 (use-package ccls
   :disabled t

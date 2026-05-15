@@ -207,7 +207,7 @@
   :after (consult lsp-mode)
   :requires lsp-mode
   :general
-  (dahas-lsp-map
+  (dh/lsp-map
    "s" 'consult-lsp-file-symbols
    "d" 'consult-lsp-diagnostics
    )

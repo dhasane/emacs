@@ -80,12 +80,12 @@ terminales en esta ubicacion."
 (add-hook 'shell-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
 (add-hook 'term-mode-hook (lambda () (set (make-local-variable 'scroll-margin) 0)))
 
-(defun eshell-new()
+(defun dh/eshell-new()
   "Open a new instance of eshell."
   (interactive)
   (eshell 'N))
 
-(defun display-ansi-colors ()
+(defun dh/display-ansi-colors ()
   (interactive)
   (format-decode-buffer 'ansi-colors))
 

@@ -27,7 +27,7 @@
      (:name "Ports" :width 10 :template "{{ json .Ports }}" :sort nil :format nil))
    )
   :general
-  (dahas-manage-map
+  (dh/manage-map
    "d" '(docker :wk "docker"))
   :init
   ;; (defhydra+ hydra-manage ()
@@ -55,7 +55,7 @@
   ;;(defhydra+ hydra-manage ()
   ;;  ("k" kubernetes-overview "kubernetes" :column "containers"))
   :general
-  (dahas-manage-map
+  (dh/manage-map
    "k" '(kubernetes-overview :wk "kubernetes"))
   )
 
