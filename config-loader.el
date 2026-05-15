@@ -21,8 +21,8 @@
   "Hook run before Emacs selects a major mode for a file buffer.")
 (defvar cl/lazy-mode-hook-refresh-buffers nil
   "Buffers that should have their mode hooks re-run after lazy config loads.")
-(defvar cl/wait-for-packages-on-lazy-load t
-  "When non-nil, call `cl/load-packages-from-package-manager' after lazy loads.")
+(defvar cl/enable-lazy-loading t
+  "When nil, all lang config files load eagerly at startup instead of on first visit.")
 
 (defun cl/expand-name (file)
   "Expand FILE relative to `user-emacs-directory`."
@@ -91,16 +91,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun cl/lazy-load (dir-name lazy)
-  "Register lazy config files in DIR-NAME based on LAZY entries."
-  (flatten-tree
-   (mapcar (lambda (elem)
-            (let ((exts (flatten-tree (car elem)))
-                  (to-load (flatten-tree (cdr elem))))
-              (dolist (ext exts)
-                (dolist (file to-load)
-                  (cl/lazy-load-file-once ext (concat dir-name "/" file))))
-              to-load))
-          lazy)))
+  "Register lazy config files in DIR-NAME based on LAZY entries.
+When `cl/enable-lazy-loading' is nil, return nil so all files load eagerly."
+  (when cl/enable-lazy-loading
+    (flatten-tree
+     (mapcar (lambda (elem)
+              (let ((exts (flatten-tree (car elem)))
+                    (to-load (flatten-tree (cdr elem))))
+                (dolist (ext exts)
+                  (dolist (file to-load)
+                    (cl/lazy-load-file-once ext (concat dir-name "/" file))))
+                to-load))
+            lazy))))
 
 (defun cl/load-lazy-file (extension)
   "Load lazy config files for EXTENSION on first visit."
@@ -116,9 +118,9 @@
     (let ((to-load (gethash extension cl/lazy-extension-files)))
       (remhash extension cl/lazy-extension-files)
       (dolist (lazy-file (reverse to-load))
-        (cl/load-file lazy-file)
-	(when cl/wait-for-packages-on-lazy-load
-	  (cl/load-packages-from-package-manager))))))
+        (cl/load-file lazy-file)))
+
+    (cl/load-packages-from-package-manager)))
 
 (defun cl/lazy-load-file-once (ext config-file)
   "Load CONFIG-FILE the first time a file with extension EXT is visited."
