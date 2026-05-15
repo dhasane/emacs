@@ -80,13 +80,48 @@
       (profiler-report)
       (message "profiled open: %.3fs %s" (- (float-time) start) file))))
 
+(defvar dh/file-open--hook-timings nil
+  "Temporary storage for per-hook timings during a file open.")
+(defvar dh/file-open--instrumenting nil
+  "Non-nil when hooks are already instrumented (prevents recursive wrapping).")
+
 (defun dh/file-open-latency--advice (orig filename &rest args)
-  "Measure latency for ORIG file open with FILENAME and ARGS."
-  (let ((start (float-time)))
-    (prog1
-        (apply orig filename args)
-      (when (stringp filename)
-        (dh/file-open--record-sample filename (- (float-time) start))))))
+  "Measure latency for ORIG file open with FILENAME and ARGS, capturing internal timing."
+  (if dh/file-open--instrumenting
+      (apply orig filename args)
+    (let ((dh/file-open--instrumenting t)
+          (dh/file-open--hook-timings nil)
+          (start (float-time))
+          (targets '(after-find-file
+                     vc-refresh-state
+                     hack-local-variables
+                     set-auto-mode
+                     normal-mode
+                     global-font-lock-mode-check-buffers)))
+      (let ((originals (mapcar (lambda (fn)
+                                 (cons fn (when (fboundp fn) (symbol-function fn))))
+                               targets)))
+        (unwind-protect
+            (progn
+              (dolist (pair originals)
+                (when (cdr pair)
+                  (let ((name (symbol-name (car pair)))
+                        (real (cdr pair)))
+                    (fset (car pair)
+                          (lambda (&rest a)
+                            (let ((t0 (float-time))
+                                  (res (apply real a)))
+                              (push (cons name (- (float-time) t0))
+                                    dh/file-open--hook-timings)
+                              res))))))
+              (prog1 (apply orig filename args)
+                (when (stringp filename)
+                  (dh/file-open--record-sample
+                   filename (- (float-time) start)
+                   (reverse dh/file-open--hook-timings)))))
+          (dolist (pair originals)
+            (when (cdr pair)
+              (fset (car pair) (cdr pair)))))))))
 
 (advice-add 'find-file-noselect :around #'dh/file-open-latency--advice)
 

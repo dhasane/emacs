@@ -55,7 +55,14 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
-  (global-treesit-auto-mode))
+  (global-treesit-auto-mode)
+  ;; Cache the remap alist — treesit-auto rebuilds it on every file open
+  (defvar dh/treesit-auto--remap-cache nil)
+  (defun treesit-auto--set-major-remap (&rest _)
+    "Locally set `major-mode-remap-alist' with cached recipes."
+    (unless dh/treesit-auto--remap-cache
+      (setq dh/treesit-auto--remap-cache (treesit-auto--build-major-mode-remap-alist)))
+    (setq-local major-mode-remap-alist dh/treesit-auto--remap-cache)))
 
 (use-package combobulate
   :disabled t
