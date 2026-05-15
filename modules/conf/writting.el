@@ -38,9 +38,8 @@ With optional JUST-MARGINS, just set the margins."
             (mapcar #'(lambda (sym)
                         (cons sym (buffer-local-value sym (current-buffer))))
                     darkroom--saved-variables))
-      (if darkroom-disable-mode-line
-          (setq mode-line-format nil)
-          )
+      (when darkroom-disable-mode-line
+        (setq mode-line-format nil))
       (setq header-line-format nil
             fringes-outside-margins darkroom-fringes-outside-margins)
       (text-scale-increase darkroom-text-scale-increase))

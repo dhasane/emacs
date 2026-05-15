@@ -75,21 +75,20 @@
 (defun dh/profile-open-current-buffer-file ()
   "Profile opening the current buffer file."
   (interactive)
-  (if buffer-file-name
-      (dh/profile-open-file buffer-file-name)
-    (user-error "Current buffer is not visiting a file")))
+  (unless buffer-file-name
+    (user-error "Current buffer is not visiting a file"))
+  (dh/profile-open-file buffer-file-name))
 
-;; TODO: arreglar esto
 (defun parse-package_json-scripts ()
+  "Parse scripts from a package.json buffer and return an alist."
   (interactive)
-  (let ((pkg (json-parse-string (buffer-substring-no-properties (point-min) (point-max)))))
-    (mapcar
+  (let ((pkg (json-parse-string (buffer-substring-no-properties (point-min) (point-max))))
+        (result nil))
+    (maphash
      (lambda (key value)
-       (message "%s %s" key value)
-       ((concat "npm:" key) . value)
-       )
+       (push (cons (concat "npm:" key) value) result))
      (gethash "scripts" pkg))
-    ))
+    result))
 
 (use-package load-env-vars
   :commands (load-env-vars))

@@ -371,9 +371,9 @@ COUNT is the number of steps to move."
 
 ;;; --- Auto-close idle tabs ---
 
-(defcustom dh/tab-idle-timeout (* 60 60)
+(defcustom dh/tab-idle-timeout (* 30 60)
   "Seconds of inactivity before a tab is automatically closed.
-Default is 1 hour (3600 seconds)."
+Default is half an hour (1800 seconds)."
   :type 'integer
   :group 'tab-bar)
 

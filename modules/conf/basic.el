@@ -8,12 +8,9 @@
 (setq desktop-restore-eager nil)
 
 (setq-default bidi-paragraph-direction 'left-to-right)
-(if (version<= "27.1" emacs-version)
-    (progn
-      (setq bidi-inhibit-bpa t)
-      (global-so-long-mode 1)
-      )
-  )
+(when (version<= "27.1" emacs-version)
+  (setq bidi-inhibit-bpa t)
+  (global-so-long-mode 1))
 
 (xterm-mouse-mode 1)
 

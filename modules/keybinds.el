@@ -3,8 +3,8 @@
 ;;; Commentary:
 ;;; code:
 
-(if (featurep 'elpaca)
-    (elpaca-wait))
+(when (featurep 'elpaca)
+  (elpaca-wait))
 
 (defun dh/comment-or-uncomment-line-or-region ()
   "Comments or uncomments the current line or region."
@@ -37,9 +37,7 @@
   (interactive)
   (if (projectile-project-p)
       (call-interactively 'project-find-file)
-    (call-interactively 'find-file)
-    )
-  )
+    (call-interactively 'find-file)))
 
 (general-define-key
  :states '(normal)

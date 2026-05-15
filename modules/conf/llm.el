@@ -28,7 +28,7 @@
   :after agent-shell
   :vc (:url "https://github.com/cmacrae/agent-shell-sidebar")
   :custom
-  (agent-shell-sidebar-width "25%")
+  (agent-shell-sidebar-width "35%")
   (agent-shell-sidebar-minimum-width 80)
   (agent-shell-sidebar-maximum-width "50%")
   (agent-shell-sidebar-position 'right)

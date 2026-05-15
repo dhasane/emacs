@@ -87,7 +87,7 @@
 
 (use-package transient)
 
-(if (featurep 'elpaca)
-    (elpaca-wait))
+(when (featurep 'elpaca)
+  (elpaca-wait))
 
 ;;; startup.el ends here
