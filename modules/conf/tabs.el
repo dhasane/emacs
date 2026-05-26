@@ -382,8 +382,8 @@ Default is half an hour (1800 seconds)."
   :type 'integer
   :group 'tab-bar)
 
-(defcustom dh/tab-idle-minimum-tabs 1
-  "Minimum number of tabs to keep open (never close the last tab)."
+(defcustom dh/tab-idle-minimum-tabs 5
+  "Minimum number of tabs to keep open. Auto-close only triggers above this count."
   :type 'integer
   :group 'tab-bar)
 
@@ -404,24 +404,25 @@ Default is half an hour (1800 seconds)."
 (defun dh/tab-idle--close-old-tabs ()
   "Close tabs idle longer than `dh/tab-idle-timeout'."
   (let* ((tabs (funcall tab-bar-tabs-function))
+         (tab-count (length tabs))
+         (max-closeable (max 0 (- tab-count dh/tab-idle-minimum-tabs)))
          (now (float-time))
-         (indices-to-close '()))
-    (dotimes (i (length tabs))
-      (let* ((tab (nth i tabs))
-             (is-current (eq (car tab) 'current-tab))
-             (last-used-entry (assq 'dh/last-used tab))
-             (last-used (if last-used-entry (cdr last-used-entry) 0)))
-        (when (and (not is-current)
-                   (> (- now last-used) dh/tab-idle-timeout))
-          (push (1+ i) indices-to-close))))
-    ;; Ensure minimum tabs remain
-    (when (< (- (length tabs) (length indices-to-close)) dh/tab-idle-minimum-tabs)
-      (setq indices-to-close
-            (seq-take indices-to-close
-                      (- (length tabs) dh/tab-idle-minimum-tabs))))
-    ;; Close from highest index first to avoid shifting
-    (dolist (idx (sort indices-to-close #'>))
-      (tab-bar-close-tab idx))))
+         (candidates '()))
+    (when (> max-closeable 0)
+      ;; Collect idle candidates with their idle time
+      (dotimes (i tab-count)
+        (let* ((tab (nth i tabs))
+               (is-current (eq (car tab) 'current-tab))
+               (last-used (or (cdr (assq 'dh/last-used tab)) now)))
+          (when (and (not is-current)
+                     (> (- now last-used) dh/tab-idle-timeout))
+            (push (cons (1+ i) (- now last-used)) candidates))))
+      ;; Sort by most idle first, then take only what we're allowed to close
+      (setq candidates (seq-take (sort candidates (lambda (a b) (> (cdr a) (cdr b))))
+                                 max-closeable))
+      ;; Close from highest index first to avoid shifting
+      (dolist (idx (sort (mapcar #'car candidates) #'>))
+        (tab-bar-close-tab idx)))))
 
 (defvar dh/tab-idle-timer nil)
 
@@ -501,5 +502,45 @@ Default is half an hour (1800 seconds)."
 (advice-add 'project-switch-project :around #'dh/tab-idle--restore-project-tab)
 
 (dh/tab-idle-mode-enable)
+
+;;; --- Persist closed tabs ---
+
+(defcustom dh/tab-closed-history-file
+  (expand-file-name "tab-closed-history.el" user-emacs-directory)
+  "File to persist recently closed tabs."
+  :type 'file
+  :group 'tab-bar)
+
+(defcustom dh/tab-closed-history-max 10
+  "Maximum number of closed tabs to persist."
+  :type 'integer
+  :group 'tab-bar)
+
+(defun dh/tab-closed-history-save ()
+  "Save the last N closed tabs to disk.
+Strips unreadable objects (frames, markers, buffers, window-configurations)."
+  (let* ((to-save (seq-take tab-bar-closed-tabs dh/tab-closed-history-max))
+         (clean (mapcar (lambda (entry)
+                          (list (cons 'index (alist-get 'index entry))
+                                (cons 'tab (alist-get 'tab entry))))
+                        to-save)))
+    (with-temp-file dh/tab-closed-history-file
+      (prin1 clean (current-buffer)))))
+
+(defun dh/tab-closed-history-restore ()
+  "Restore closed tabs from disk, re-attaching the current frame."
+  (when (file-exists-p dh/tab-closed-history-file)
+    (condition-case nil
+        (with-temp-buffer
+          (insert-file-contents dh/tab-closed-history-file)
+          (let ((entries (read (current-buffer))))
+            (setq tab-bar-closed-tabs
+                  (mapcar (lambda (entry)
+                            (cons (cons 'frame (selected-frame)) entry))
+                          entries))))
+      (error (setq tab-bar-closed-tabs nil)))))
+
+(add-hook 'kill-emacs-hook #'dh/tab-closed-history-save)
+(add-hook 'after-init-hook #'dh/tab-closed-history-restore)
 
 ;;; tabs.el ends here
