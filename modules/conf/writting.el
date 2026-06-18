@@ -20,6 +20,8 @@
   :mode ("\\.fountain\\'" . fountain-mode)
   :hook (fountain-mode . dh/fountain-setup)
   :config
+;;; --- Variables ---
+
   (defvar dh/fountain-body-width 63
     "Text width for fountain-mode, matching standard screenplay format.")
 
@@ -29,73 +31,72 @@
   (defvar-local dh/fountain-separator-overlays nil
     "List of overlays used for === separators.")
 
-  (defun dh/fountain-clear-page-overlays ()
-    "Remove all page break overlays."
-    (mapc #'delete-overlay dh/fountain-page-overlays)
-    (setq dh/fountain-page-overlays nil))
+  (defvar-local dh/fountain--last-line nil
+    "Last cursor line, used to avoid redundant separator visibility updates.")
 
-  (defun dh/fountain-clear-separator-overlays ()
-    "Remove all separator overlays."
-    (mapc #'delete-overlay dh/fountain-separator-overlays)
-    (setq dh/fountain-separator-overlays nil))
+  (defvar-local dh/fountain--separator-timer nil
+    "Idle timer for debounced separator rebuilds.")
+
+  (defvar-local dh/fountain--cached-line-string nil
+    "Cached separator line string, rebuilt on window resize.")
+
+;;; --- Helpers ---
+
+  (defun dh/fountain--rebuild-line-string ()
+    "Recompute and cache the separator line string to span the text area."
+    (let ((width (if-let ((win (get-buffer-window)))
+                    (window-body-width win)
+                  dh/fountain-body-width)))
+      (setq dh/fountain--cached-line-string
+            (propertize (make-string width ?─)
+                        'face '(:foreground "gray40")))))
+
+  (defun dh/fountain--make-line-string ()
+    "Return the cached separator line string."
+    (or dh/fountain--cached-line-string
+        (dh/fountain--rebuild-line-string)))
+
+  (defun dh/fountain--line-is-separator-p ()
+    "Return non-nil if current line is a === separator."
+    (save-excursion
+      (beginning-of-line)
+      (looking-at "^===+$")))
+
+  (defun dh/fountain--clear-overlays (ov-list-sym)
+    "Delete all overlays in buffer-local list OV-LIST-SYM and reset it."
+    (mapc #'delete-overlay (symbol-value ov-list-sym))
+    (set ov-list-sym nil))
+
+;;; --- Page breaks ---
+
+  (defun dh/fountain--place-page-break-overlay (line-string)
+    "Place a page-break overlay at point using LINE-STRING, unless on a separator."
+    (unless (dh/fountain--line-is-separator-p)
+      (let ((lbp (line-beginning-position)))
+        (if (= lbp (point-min))
+            (let ((ov (make-overlay lbp lbp)))
+              (overlay-put ov 'before-string line-string)
+              (push ov dh/fountain-page-overlays))
+          ;; Attach after previous line's newline to avoid current line's line-prefix
+          (let ((ov (make-overlay (1- lbp) (1- lbp))))
+            (overlay-put ov 'after-string line-string)
+            (push ov dh/fountain-page-overlays))))))
 
   (defun dh/fountain-show-page-breaks ()
     "Display visual lines at fountain-mode page boundaries."
-    (dh/fountain-clear-page-overlays)
+    (dh/fountain--clear-overlays 'dh/fountain-page-overlays)
     (save-excursion
       (save-restriction
         (widen)
         (goto-char (point-min))
-        (let* ((line-chars (make-string (+ dh/fountain-body-width 19) ?─)) ;; magico 19
-               (line-string (propertize (concat line-chars "\n")
-                                       'face '(:foreground "gray40" :height 0.8)
+        (let* ((line-string (propertize (concat (dh/fountain--make-line-string) "\n")
                                        'line-height t))
                (next-pos (next-single-property-change (point) 'fountain-pagination)))
           (while next-pos
             (goto-char next-pos)
             (unless (eobp)
-              ;; Check if this line has a === separator
-              (let ((has-separator (save-excursion
-                                    (beginning-of-line)
-                                    (looking-at "^===+$"))))
-                (unless has-separator
-                  (let ((ov (make-overlay (line-beginning-position)
-                                         (line-beginning-position))))
-                    (overlay-put ov 'before-string line-string)
-                    (push ov dh/fountain-page-overlays)))))
+              (dh/fountain--place-page-break-overlay line-string))
             (setq next-pos (next-single-property-change (point) 'fountain-pagination)))))))
-
-  (defun dh/fountain-show-separators ()
-    "Display visual lines for === separators and hide the actual separator text."
-    (dh/fountain-clear-separator-overlays)
-    (save-excursion
-      (save-restriction
-        (widen)
-        (goto-char (point-min))
-        (let* ((line-chars (make-string (+ dh/fountain-body-width 19) ?─))
-               (line-display (propertize line-chars
-                                        'face '(:foreground "gray40" :height 0.8))))
-          (while (re-search-forward "^===+$" nil t)
-            (let* ((line-start (line-beginning-position))
-                   (line-end (line-end-position))
-                   (ov (make-overlay line-start line-end)))
-              (overlay-put ov 'display line-display)
-              (overlay-put ov 'dh/fountain-separator t)
-              (push ov dh/fountain-separator-overlays)))))))
-
-  (defun dh/fountain-update-separator-visibility ()
-    "Update separator visibility based on cursor position."
-    (let ((current-line (line-number-at-pos))
-          (line-chars (make-string (+ dh/fountain-body-width 19) ?─)))
-      (dolist (ov dh/fountain-separator-overlays)
-        (let ((ov-line (line-number-at-pos (overlay-start ov))))
-          (if (= current-line ov-line)
-              ;; Cursor on separator line - show separator
-              (overlay-put ov 'display nil)
-            ;; Cursor not on separator line - show visual line
-            (overlay-put ov 'display
-                        (propertize line-chars
-                                   'face '(:foreground "gray40" :height 0.8))))))))
 
   (defun dh/fountain-update-page-breaks ()
     "Update pagination and refresh visual page breaks."
@@ -103,32 +104,87 @@
       (fountain-pagination-update)
       (dh/fountain-show-page-breaks)))
 
+;;; --- Separators (===) ---
+
+  (defun dh/fountain-show-separators ()
+    "Replace === lines with visual horizontal rules."
+    (dh/fountain--clear-overlays 'dh/fountain-separator-overlays)
+    (save-excursion
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
+        (let ((line-display (dh/fountain--make-line-string)))
+          (while (re-search-forward "^===+$" nil t)
+            (let ((ov (make-overlay (line-beginning-position) (line-end-position))))
+              (overlay-put ov 'evaporate t)
+              (overlay-put ov 'priority 100)
+              (overlay-put ov 'invisible 'dh/fountain-sep)
+              (overlay-put ov 'before-string line-display)
+              (overlay-put ov 'dh/fountain-separator t)
+              (push ov dh/fountain-separator-overlays)))))))
+
+  (defun dh/fountain-update-separator-visibility ()
+    "Reveal raw === when cursor is on a separator, hide it otherwise."
+    (when (derived-mode-p 'fountain-mode)
+      (let ((current-line (line-number-at-pos)))
+        (unless (eq current-line dh/fountain--last-line)
+          (setq dh/fountain--last-line current-line)
+          (let ((line-display (dh/fountain--make-line-string)))
+            (dolist (ov dh/fountain-separator-overlays)
+              (when (overlay-buffer ov)
+                (if (= current-line (line-number-at-pos (overlay-start ov)))
+                    (progn
+                      (overlay-put ov 'invisible nil)
+                      (overlay-put ov 'before-string nil))
+                  (overlay-put ov 'invisible 'dh/fountain-sep)
+                  (overlay-put ov 'before-string line-display)))))))))
+
   (defun dh/fountain-update-separators ()
-    "Update separator overlays."
+    "Rebuild separator overlays and update visibility."
     (when (derived-mode-p 'fountain-mode)
       (dh/fountain-show-separators)
       (dh/fountain-update-separator-visibility)))
 
+  (defun dh/fountain--on-window-change ()
+    "Rebuild cached line string and refresh overlays on window resize."
+    (when (derived-mode-p 'fountain-mode)
+      (dh/fountain--rebuild-line-string)
+      (dh/fountain-update-separators)))
+
+  (defun dh/fountain--schedule-separator-update (&rest _)
+    "Debounced separator rebuild triggered by buffer changes."
+    (when dh/fountain--separator-timer
+      (cancel-timer dh/fountain--separator-timer))
+    (setq dh/fountain--separator-timer
+          (run-with-idle-timer 0.3 nil
+                               (lambda ()
+                                 (when (derived-mode-p 'fountain-mode)
+                                   (dh/fountain-update-separators))))))
+
+;;; --- Setup ---
+
   (defun dh/fountain-setup ()
-    "Configure olivetti for fountain-mode."
+    "Configure fountain-mode with olivetti, page breaks, and visual separators."
     (olivetti-mode 1)
     (setq-local olivetti-body-width dh/fountain-body-width)
     (setq-local olivetti-minimum-body-width dh/fountain-body-width)
-    ;; Set background for outer margins to inherit from hl-line
     (face-remap-add-relative 'fringe :background
                              (face-attribute 'hl-line :background nil t))
-    ;; Initialize pagination and show page breaks
-    (dh/fountain-update-page-breaks)
-    ;; Initialize separator overlays
-    (dh/fountain-update-separators)
-    ;; Update page breaks after changes
+    (add-to-invisibility-spec 'dh/fountain-sep)
     (add-hook 'after-save-hook #'dh/fountain-update-page-breaks nil t)
-    ;; Update separators after changes
     (add-hook 'after-save-hook #'dh/fountain-update-separators nil t)
-    (add-hook 'after-change-functions
-              (lambda (&rest _) (dh/fountain-update-separators)) nil t)
-    ;; Update separator visibility on cursor movement
-    (add-hook 'post-command-hook #'dh/fountain-update-separator-visibility nil t))
+    (add-hook 'after-change-functions #'dh/fountain--schedule-separator-update nil t)
+    (add-hook 'post-command-hook #'dh/fountain-update-separator-visibility nil t)
+    (add-hook 'window-configuration-change-hook #'dh/fountain--on-window-change nil t)
+    ;; Defer initial build so olivetti finishes setting margins first
+    (let ((buf (current-buffer)))
+      (run-with-idle-timer 0 nil
+                           (lambda ()
+                             (when (buffer-live-p buf)
+                               (with-current-buffer buf
+                                 (dh/fountain--rebuild-line-string)
+                                 (dh/fountain-update-page-breaks)
+                                 (dh/fountain-update-separators)))))))
   )
 
 (use-package darkroom
