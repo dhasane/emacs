@@ -4,9 +4,8 @@
 
 ;;; code:
 
-(use-package csharp-mode)
-
 (use-package omnisharp
+  :disabled t
   :hook (
          (csharp-mode . dh/.net-shut-up)
          (csharp-mode . omnisharp-mode)

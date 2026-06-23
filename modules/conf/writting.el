@@ -13,9 +13,6 @@
   ;; (olivetti-fringe ((t (:background "#504945" :foreground "#fdf4c2"))))
   )
 
-(use-package page-break-lines
-  :hook (fountain-mode . page-break-lines-mode))
-
 (use-package fountain-mode
   :mode ("\\.fountain\\'" . fountain-mode)
   :hook (fountain-mode . dh/fountain-setup)
