@@ -89,7 +89,7 @@
 
  [return] '(agent-shell-sidebar-toggle :wk "Agent Sidebar")
 
- "2" '((lambda () (interactive) (call-interactively 'evil-owl-execute-macro)) :wk "Execute Macro")
+ "2" '((lambda () (interactive) (call-interactively 'evil-execute-macro)) :wk "Execute Macro")
 
  "." '(dh/create-new-eshell-buffer  :which-key "New Eshell")
  "," '(dh/select-eshell             :which-key "Select Eshell")

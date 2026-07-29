@@ -156,6 +156,7 @@
   )
 
 (use-package evil-owl
+  :disabled t
   :after evil
   :custom
   (evil-owl-max-string-length 500)
@@ -170,7 +171,7 @@
 
 (use-package evil-collection
   :after evil
-  :delight
+  :diminish
   :demand t
   :custom
   (warning-suppress-types '((evil-collection)))

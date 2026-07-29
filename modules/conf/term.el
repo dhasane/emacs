@@ -377,14 +377,6 @@
   :config
   )
 
-(use-package eshell-z
-  :hook (
-         (eshell-mode .
-                   (lambda ()
-                     (require 'eshell-z)))
-         )
-  )
-
 (use-package eshell-syntax-highlighting
   :after esh-mode
   :demand t ;; Install if not already installed.

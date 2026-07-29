@@ -43,8 +43,6 @@
   :ensure t
   :hook (python-mode . flymake-ruff-load))
 
-(use-package virtualenvwrapper)
-
 (use-package lsp-pyright
   :disabled t
   :config
@@ -73,11 +71,6 @@
   :hook (python-mode . (lambda ()
                          (require 'lsp-python-ms)
                          (lsp-deferred))))  ; or lsp-deferred
-
-(use-package yapfify
-  :if (executable-find "yapf")
-  :hook (python-mode . yapf-mode)
-  )
 
 (use-package pyvenv
   ;; :init

@@ -27,8 +27,7 @@
 
 (use-package sideline
   :demand t
-  :hook ((flycheck-mode . sideline-mode)   ; for `sideline-flycheck`
-         (flymake-mode  . sideline-mode))  ; for `sideline-flymake`
+  :hook (flymake-mode  . sideline-mode)   ; for `sideline-flymake`
   :custom
   (sideline-backends-left-skip-current-line t)    ; don't display on current line (left)
   (sideline-backends-right-skip-current-line t)   ; don't display on current line (right)
@@ -41,23 +40,13 @@
 
   (sideline-delay 0.2)
 
-  (sideline-backends-left '(sideline-flycheck))
+  (sideline-backends-left nil)
   (sideline-backends-right '(;; (sideline-lsp      . up)
-                             (sideline-flycheck . down)
                              (sideline-flymake . down)
                              ))
   :config
   (add-hook 'ts-fold-on-fold-hook #'sideline-render-this)
   )
-
-(use-package sideline-flycheck
-  :hook
-  (flycheck-mode . sideline-mode)
-  (flycheck-mode . sideline-flycheck-setup)
-  :custom
-  (sideline-flycheck-display-mode 'line)
-  (sideline-flycheck-max-lines 1)
-  (sideline-backends-right '(sideline-flycheck)))
 
 (use-package sideline-flymake
   :custom
@@ -105,11 +94,9 @@
         (scroll-up 3))))
   )
 
-(use-package origami
-  :demand t
-  :hook
-  (prog-mode . origami-mode)
-  )
+(use-package hideshow
+  :ensure nil
+  :hook (prog-mode . hs-minor-mode))
 
 (use-package nhexl-mode
   :commands (nhexl-mode)

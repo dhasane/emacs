@@ -21,29 +21,6 @@
               (add-to-list 'completion-at-point-functions #'cape-elisp-block t)))
   )
 
-(use-package flycheck
-  :demand t
-  :init (global-flycheck-mode)
-  :custom
-  (flycheck-check-syntax-automatically
-   '(
-	 ;; save
-	 idle-change
-	 idle-buffer-switch
-	 mode-enabled
-	 ))
-  (flycheck-idle-change-delay 2)
-  (flycheck-idle-buffer-switch-delay 2)
-  ;; :config
-  ;; (add-hook 'after-init-hook #'global-flycheck-mode)
-  )
-
-(use-package flycheck-eglot
-  :demand t
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
-
 (use-package yasnippet
   :defer t
   :defines (yas-reload-all)
@@ -57,7 +34,7 @@
   )
 
 (use-package yasnippet-snippets
-  :delight
+  :diminish
   :demand t
   :after yasnippet
   :defines
@@ -76,20 +53,12 @@
     ("i" consult-imenu      "imenu")
     ("r" consult-ripgrep    "ripgrep")
     )
-  :config
-  (add-to-list 'consult-preview-variables '(treesit-auto-langs nil))
-  )
-
-(use-package consult-flycheck
-  :after (consult)
   :general
   (dh/lsp-map
-   "e" 'consult-flycheck
+   "e" 'consult-flymake
    )
-  ;; :init
-  ;; (defhydra+ hydra-lsp ()
-  ;;   ("e" consult-flycheck         "errors" :column "errors")        ; "errores"
-  ;;   )
+  :config
+  (add-to-list 'consult-preview-variables '(treesit-auto-langs nil))
   )
 
 (use-package orderless

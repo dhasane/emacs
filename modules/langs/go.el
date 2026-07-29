@@ -1,3 +1,4 @@
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 (use-package go-mode
   :custom

@@ -40,7 +40,7 @@
   :commands (babel-mode))
 
 (use-package evil-org
-  :delight
+  :diminish
   :after (org evil)
   :general
   (
@@ -77,9 +77,11 @@
             )
           )
 
-(use-package org-bullets
-  ;; :commands org-bullets-mode
-  :hook (org-mode . org-bullets-mode))
+(use-package org-modern
+  :hook (org-mode . org-modern-mode)
+  :custom
+  (org-modern-star '("◉" "○" "◈" "◇" "▸"))
+  (org-modern-hide-stars nil))
 
 (use-package org-download
   :hook

@@ -9,7 +9,7 @@
 
 (use-package undo-tree
   :disabled t
-  :delight
+  :diminish
   :defer 5
   :demand t
   :commands (undo-tree-undo undo-tree-redo)

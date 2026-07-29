@@ -1,4 +1,4 @@
-
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 (defun dh/define-use-package-elpaca-placeholder()
   (message "added placeholder for elpaca")

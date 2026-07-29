@@ -31,9 +31,6 @@
   :custom
   (js-indent-level 2)
 
-  (flycheck-check-syntax-automatically  '(save idle-change mode-enabled))
-  (flycheck-auto-change-delay           1.5)
-
   (whitespace-line-column               120)   ;; max line length
   (whitespace-style                     '(face lines-tail trailing))
   )

@@ -40,14 +40,12 @@
   :config (auto-compile-on-load-mode))
 
 (use-package gcmh
-  :delight
+  :diminish
   :init
   (gcmh-mode 1)
   :custom
   (gcmh-verbose nil)
   )
-
-(use-package delight)
 
 (use-package no-littering
   :demand
@@ -61,7 +59,7 @@
   )
 
 (use-package which-key
-  :delight
+  :diminish
   :demand t
   :defer .1
   :custom

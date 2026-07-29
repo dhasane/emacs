@@ -55,7 +55,7 @@
   )
 
 (use-package git-gutter
-  :delight
+  :diminish
   :demand t
   :custom
   (git-gutter:window-width 1)

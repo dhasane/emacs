@@ -21,7 +21,7 @@
 ;; eliminar espacios al final de una linea
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (use-package ws-butler
-  :delight
+  :diminish
   :demand t
   :defer .1
   :hook (

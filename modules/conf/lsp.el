@@ -199,9 +199,6 @@
     )
   )
 
-(use-package lsp-origami
-  :hook (lsp-mode . lsp-origami-mode))
-
 (use-package consult-lsp
   :disabled
   :after (consult lsp-mode)

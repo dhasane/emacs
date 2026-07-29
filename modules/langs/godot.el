@@ -1,4 +1,4 @@
-
+;;; package --- Summary  -*- lexical-binding: t; -*-
 
 (use-package gdscript-mode
   ;; :straight (gdscript-mode

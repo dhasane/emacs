@@ -105,6 +105,4 @@
   ;;  ')
   )
 
-(use-package gradle-mode)
-
 ;;; java.el ends here

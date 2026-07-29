@@ -4,15 +4,6 @@
 
 ;;; code:
 
-(use-package sqlup-mode
-  :hook
-  (
-   (sql-mode . sqlup-mode)
-   (sql-interactive-mode . sqlup-mode)
-   )
-
-  )
-
 ;; sql
 ;; (setq sql-postgres-login-params
 ;;       '((user :default "postgres")

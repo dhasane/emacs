@@ -200,7 +200,7 @@
 
 (use-package rainbow-mode
   :defer 1
-  :delight
+  :diminish
   :demand t
   :hook (org-mode
          emacs-lisp-mode
@@ -278,7 +278,7 @@
 ;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
 
 (use-package rainbow-delimiters
-  :delight
+  :diminish
   :hook (prog-mode . rainbow-delimiters-mode)
   :demand t
   )
@@ -294,7 +294,7 @@
 
 (use-package highlight-indent-guides
   :defer 1
-  :delight
+  :diminish
   :hook ((prog-mode . highlight-indent-guides-mode)
          (yaml-mode . highlight-indent-guides-mode))
   :custom

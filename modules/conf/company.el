@@ -8,7 +8,7 @@
   :disabled t
   :demand t
   :defer nil
-  :delight
+  :diminish
   :general
   (
    :keymap '(prog-mode override)

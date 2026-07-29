@@ -39,23 +39,27 @@
 
 (use-package telephone-line
   :demand t
+  :after doom-themes
   :config
   (telephone-line-evil-config)
+
+  (defun dh/telephone-line-set-faces ()
+    (set-face-attribute 'telephone-line-evil-insert nil :foreground "#3e4249" :background "#73b3e7")
+    (set-face-attribute 'telephone-line-evil-normal nil :foreground "#3e4249" :background "#a1bf78")
+    (set-face-attribute 'telephone-line-evil-visual nil :foreground "#3e4249" :background "#e77171")
+    (set-face-attribute 'telephone-line-evil-motion nil :foreground "#3e4249" :background "#501099")
+    (set-face-attribute 'telephone-line-evil-operator nil :foreground "white" :background "red")
+    )
+
+  (dh/telephone-line-set-faces)
+  (add-hook 'after-load-theme-hook #'dh/telephone-line-set-faces)
+
   :custom
   (telephone-line-primary-left-separator 'telephone-line-tan-left)
   (telephone-line-secondary-left-separator 'telephone-line-abs-hollow-left)
 
   (telephone-line-primary-right-separator 'telephone-line-tan-right)
   (telephone-line-secondary-right-separator 'telephone-line-tan-right)
-  :custom-face
-  (telephone-line-evil-insert ((t (:foreground "#3e4249" :background "#73b3e7"))))
-  (telephone-line-evil-normal ((t (:foreground "#3e4249" :background "#a1bf78"))))
-  (telephone-line-evil-visual ((t (:foreground "#3e4249" :background "#e77171"))))
-  (telephone-line-evil-motion ((t (:foreground "#3e4249" :background "#501099"))))
-
-  (telephone-line-evil-operator ((t (:foreground "white" :background "red" :inherit mode-line-inactive))))
-
-  (telephone-line-evil-inactive ((t (:foreground "#3e4249" :background "#006fa0" :inherit mode-line-inactive))))
 )
 
 (use-package awesome-tray

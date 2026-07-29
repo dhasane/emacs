@@ -5,7 +5,7 @@
 ;;; code:
 
 (use-package ivy
-  :delight
+  :diminish
   :diminish
   :defer 0
   ;; :diminish (ivy-mode . "")

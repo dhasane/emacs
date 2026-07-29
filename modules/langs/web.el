@@ -27,14 +27,6 @@
   (web-mode-css-indent-offset 2)
 
   :config
-  (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers
-                        '(javascript-jshint json-jsonlist)))
-
-  ;; configure jsx-tide checker to run after your default jsx checker
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
-
   ;; adjust indents for web-mode to 2 spaces
   (defun web-mode-init-hook ()
     "Hooks for Web mode.  Adjust indent."
@@ -55,6 +47,9 @@
 
 (use-package restclient)
 
-(use-package sass-mode)
+(define-derived-mode web-vue-mode web-mode "Vue"
+  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-vue-mode))
 
 ;;; web.el ends here

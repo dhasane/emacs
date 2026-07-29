@@ -11,7 +11,7 @@
   :ensure nil)
 
 (use-package projectile
-  :delight '(:eval (format "[%s]" (projectile-project-name)))
+  :diminish
   :demand t
   :defer 1
   :bind
@@ -85,19 +85,6 @@ conectado a una maquina externa.
   :custom
   (gdb-many-windows t) ;; use gdb-many-windows by default
   (gdb-show-main t)    ;; Non-nil means display source file containing the main routine at startup
-  )
-
-(use-package skeletor
-  :after (projectile)
-  :demand t
-  :bind
-  (
-   :map
-   projectile-mode-map
-   ("M-p n" . 'skeletor-create-project)
-   )
-  :config
-  (setq skeletor-project-directory "~/dev")
   )
 
 (use-package wgrep
