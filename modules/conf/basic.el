@@ -98,7 +98,7 @@
 
 (setq native-comp-async-report-warnings-errors nil)
 (setq native-compile-prune-cache t)
-(setq native-comp-deferred-compilation t)
+(setq native-comp-jit-compilation t)
 
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 

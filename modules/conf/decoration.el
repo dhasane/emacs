@@ -18,13 +18,8 @@
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
 
-(defadvice load-theme (after run-after-load-theme-hook activate)
-  "Run `after-load-theme-hook'."
-  (run-hooks 'after-load-theme-hook))
-
-(defadvice load-theme (before disable-themes-first activate)
-  "Run `before-load-theme-hook'."
-  (run-hooks 'before-load-theme-hook))
+(advice-add 'load-theme :after (lambda (&rest _) (run-hooks 'after-load-theme-hook)))
+(advice-add 'load-theme :before (lambda (&rest _) (run-hooks 'before-load-theme-hook)))
 
 
 (defun dh/disable-all-themes ()
