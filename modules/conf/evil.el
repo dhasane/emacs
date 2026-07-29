@@ -11,8 +11,6 @@
    :states '(normal motion override)
    :keymaps 'override
    "C-S-k" 'evil-lookup
-   "j"     'evil-next-visual-line
-   "k"     'evil-previous-visual-line
    "C-s"   'evil-write
    "C-l"   'evil-window-right
    "C-h"   'evil-window-left
@@ -83,12 +81,20 @@
 
   (evil-undo-system 'undo-fu)
   (evil-want-minibuffer t)
+  (evil-echo-state nil)
 
   :config
   ;; para redefinir comandos evil-ex
   ;; (evil-ex-define-cmd "q" 'kill-this-buffer)
 
   (evil-mode 1)
+
+  (evil-set-initial-state 'minibuffer-mode 'insert)
+  (evil-set-initial-state 'minibuffer-inactive-mode 'emacs)
+
+  (evil-define-key '(normal motion) 'global
+    "j" #'evil-next-visual-line
+    "k" #'evil-previous-visual-line)
 
   (let ((after-fn (lambda (&rest _) (recenter nil))))
     (advice-add 'evil-goto-line :after after-fn)
@@ -175,7 +181,8 @@
   :demand t
   :custom
   (warning-suppress-types '((evil-collection)))
-  (evil-collection-setup-minibuffer t)
+  (evil-collection-setup-minibuffer nil)
+  (evil-collection-repl-submit-state 'insert)
   ;; (evil-collection-unimpaired-mode -1)
   :general
   (

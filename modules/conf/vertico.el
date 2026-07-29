@@ -9,11 +9,13 @@
   (vertico-mode)
   :general
   (:keymaps 'vertico-map
-   "<escape>"       #'minibuffer-keyboard-quit ; Close minibuffer
    "<tab>"          #'vertico-insert  ; Insert selected candidate into text area
    "C-<return>"     #'vertico-exit
    "C-K" #'vertico-next-group
    "C-J" #'vertico-previous-group
+   )
+  (:states '(normal) :keymaps 'vertico-map
+   "<escape>"       #'abort-minibuffers
    )
   (:states '(normal insert motion emacs) :keymaps 'vertico-map
    "C-j"      #'vertico-next
