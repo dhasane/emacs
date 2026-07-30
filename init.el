@@ -25,10 +25,7 @@
          (cl/file "modules/startup-keybinds")
          (cl/file "modules/pack")
          (cl/dir "modules/conf"
-                 :alt '((1 . ("company" "corfu"))
-                        (0 . ("completion" "ivy"))
-                        (1 . ("lsp" "eglot"))
-                        )
+                 :alt '((1 . ("lsp" "eglot")))
                  :ignore '("container")
                  )
          (cl/dir "modules/langs"
