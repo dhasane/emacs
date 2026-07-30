@@ -34,12 +34,8 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
-(use-package auto-compile
-  :disabled t
-  :defer nil
-  :config (auto-compile-on-load-mode))
-
 (use-package gcmh
+  :if (< emacs-major-version 31)
   :diminish
   :init
   (gcmh-mode 1)
@@ -59,6 +55,7 @@
   )
 
 (use-package which-key
+  :ensure nil
   :diminish
   :demand t
   :defer .1

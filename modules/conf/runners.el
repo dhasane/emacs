@@ -96,7 +96,9 @@
 (use-package compile-multi
   :commands (compile-multi)
   :custom
-  (compile-multi-default-directory #'projectile-project-root)
+  (compile-multi-default-directory (lambda () (if-let ((proj (project-current nil)))
+                                                (project-root proj)
+                                              default-directory)))
 
   (compile-multi-config
    `(

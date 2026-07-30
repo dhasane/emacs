@@ -34,12 +34,6 @@
             (local-set-key (kbd "C-<f7>") 'dh/comint-jump-to-input-ring)
             ))
 
-;; proced (top)
-;; (defun proced-settings ()
-;;   (proced-toggle-auto-update))
-;;
-;; (add-hook 'proced-mode-hook 'proced-settings)
-
 (defun dh/shell-command-on-buffer ()
   "Asks for a command and execute it in inferior shell with current buffer as input."
   (interactive)

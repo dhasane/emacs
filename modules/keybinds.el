@@ -35,7 +35,7 @@
 (defun dh/jet-pack ()
   "Saltar a cualquier parte del proyecto."
   (interactive)
-  (if (projectile-project-p)
+  (if (project-current nil)
       (call-interactively 'project-find-file)
     (call-interactively 'find-file)))
 

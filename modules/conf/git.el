@@ -21,21 +21,6 @@
    "M-k" 'magit-section-backward-sibling
    "C-p" 'magit-process-buffer
    )
-  ;; :hook (evil-collection-setup-hook
-  ;;        .
-  ;;        (lambda()
-  ;;          (general-define-key
-  ;;           :state '(evil-collection-magit-state normal)
-  ;;           :mode 'magit-mode-map
-  ;;           "?" 'evil-search-backward
-  ;;           "C-l" 'evil-window-right
-  ;;           "C-h" 'evil-window-left
-  ;;           "C-k" 'evil-window-up
-  ;;           "C-j" 'evil-window-down
-  ;;           "M-j" 'magit-section-forward-sibling
-  ;;           "M-k" 'magit-section-backward-sibling)
-
-  ;;          ))
   :custom
   (magit-display-buffer-function
    ;; #'magit-display-buffer-fullframe-status-v1
@@ -54,25 +39,18 @@
   ;; (magit-display-buffer-function 'switch-to-buffer)
   )
 
-(use-package git-gutter
-  :diminish
+(use-package diff-hl
   :demand t
+  :hook ((magit-pre-refresh  . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh)
+         (dired-mode         . diff-hl-dired-mode))
   :custom
-  (git-gutter:window-width 1)
+  (diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-type)
   :config
-  (git-gutter)
-  (global-git-gutter-mode +1)
-  )
-
-(use-package git-gutter-fringe
-  :if (display-graphic-p)
-  :demand t
-  :after (git-gutter)
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom)
-  )
+  (global-diff-hl-mode)
+  (fringe-mode '(4 . 4))
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode)))
 
 (use-package git-modes
   :mode (("/\\.gitignore\\'" . gitignore-mode)
