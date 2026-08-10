@@ -8,7 +8,6 @@
 
 (use-package org
   :demand t
-  ;; :straight (:type built-in)
   :ensure nil
   :general
   (org-mode-map
@@ -38,18 +37,12 @@
   (defun dh/org-mode-local-settings ()
     (setq-local line-spacing 0)
     (setq-local left-margin-width 2)
-    (setq-local right-margin-width 2)
-    ;; (set-window-buffer nil (current-buffer))
-    )
+    (setq-local right-margin-width 2))
   (defvar org-meeting-notes-file nil
     "Path to the org meeting notes file.")
-  (defvar org-directory nil
-    "Path to the org directory.")
   :hook
   ((org-mode . dh/org-mode-local-settings)
-   (org-mode . org-indent-mode)
-   ;; (org-capture-mode . #'delete-other-windows)
-   )
+   (org-mode . org-indent-mode))
   :custom-face
   (org-ellipsis ((t (:foreground "red"))))
   (org-block ((t (:inherit fixed-pitch))))
@@ -59,7 +52,6 @@
   (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   (org-link ((t (:foreground "royal blue" :underline t))))
   (org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-  ;; (org-property-value ((t (:inherit fixed-pitch))) t)
   (org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
   (org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
   (org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
@@ -94,7 +86,7 @@
 
   ;; imagenes
   (org-redisplay-inline-images t)
-  (org-startup-with-inline-images "inlineimages")
+  (org-startup-with-inline-images t)
 
   ;; code blocks
   (org-src-fontify-natively t)
@@ -129,17 +121,13 @@
      )
    )
   (org-capture-templates
-   '(("t" "Todo" entry (file org-default-notes-file)
+   `(("t" "Todo" entry (file org-default-notes-file)
       "* TODO %? \t:TODO:\n%u\n"
       :clock-in nil
       :clock-keep nil
       :clock-resume nil)
-     ;; ("c" "Check" entry (file org-default-notes-file)
-     ;;  "* TODO check %?\n%u\n%a\n"
-     ;;  :clock-in t
-     ;;  :clock-resume t)
      ("m" "Meeting" entry (file org-meeting-notes-file)
-      "* MEETING: %? :MEETING:\n%t"
+      "* MEETING: %^{Meeting name} :MEETING:\n%t\n%?"
       :clock-in t
       :clock-resume t)
      ("d" "Diary" entry (file+datetree "~/org/diary.org")
@@ -148,9 +136,22 @@
       :clock-resume nil)
      ("i" "Idea" entry (file org-default-notes-file)
       "* %? \t :IDEA: \n%t")
-     ;; ("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
-     ;;  "** NEXT %? \nDEADLINE: %t")
-     ))
+     ("r" "Improv Reflection" entry (file "~/org/improv.org")
+      ,(concat
+        "* %^{Class/Show/Session name} — %t :IMPROV:\n"
+        "** Brain Dump\n"
+        "/Immediate thoughts, feelings, or concerns — no filters./\n" "%?\n"
+        "** Strengths\n"
+        "/What went right: successes, connections, ease, fun./\n" "\n"
+        "*** Moment you had fun or enjoyed (internally)\n" "\n"
+        "*** Gift from a scene partner that made improv easier\n" "\n"
+        "*** Choices you were proud of (and why!)\n" "\n"
+        "** Reframing challenges\n"
+        "/What was challenging? What should you work on next?/\n" "\n"
+        "** The Improv Plan\n"
+        "*** What did you learn? (about improv, or yourself)\n" "\n"
+        "*** Goal for the next session\n" "\n"
+        "/Be specific — e.g. cadence of voice, strong physical choice, big swing./\n"))))
   :config
   (let ((capture-file (expand-file-name org-default-notes-file)))
     (unless (file-exists-p capture-file)
@@ -159,21 +160,6 @@
 
   (add-hook 'org-capture-mode-hook 'delete-other-windows)
 
-  ;; (org-babel-do-load-languages
-  ;;  'org-babel-load-languages
-  ;;  '((emacs-lisp . t)
-  ;;    (shell . t)
-  ;;    (ruby . t)
-  ;;    (rust . nil)
-  ;;    (python . t)
-  ;;    (sql . t)
-  ;;    ;; (psql . t)
-  ;;    ;; (javascript . t)
-  ;;    ;; (typescript . t)
-  ;;    (sed . t)
-  ;;    (awk . t)
-  ;;    (clojure . t)))
-
   (defun dh/fix-inline-images ()
     (when org-inline-image-overlays
       (org-redisplay-inline-images)))
@@ -181,124 +167,6 @@
   (add-hook 'org-babel-after-execute-hook 'dh/fix-inline-images)
   (setq-default org-image-actual-width 620)
 
-  (org-display-inline-images t t)
-  ;; (setq org-agenda-include-diary t)
-
-  ;; (org-display-inline-images t)
-
-  ;; (add-to-list 'org-structure-template-alist
-             ;; '("s" "#+NAME: ?\n#+BEGIN_SRC \n\n#+END_SRC"))
-
-  ;; (font-lock-add-keywords
-  ;;  'org-mode
-  ;;  '(("^ +\\([-*]\\) "
-  ;;     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-  ;; :custom-face
-  ;; (org-level-8 ((t (,@headline ,@variable-tuple))))
-  ;; (org-level-7 ((t (,@headline ,@variable-tuple))))
-  ;; (org-level-6 ((t (,@headline ,@variable-tuple))))
-  ;; (org-level-5 ((t (,@headline ,@variable-tuple))))
-  ;; (org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-  ;; (org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-  ;; (org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-  ;; (org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-  ;; (org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))
-
-  ;;  (with-eval-after-load 'ox-latex
-  ;;    ;; Set up org-mode export stuff
-  ;;    (unless (boundp 'org-latex-classes)
-  ;;      (setq org-latex-classes nil))
-  ;;    (add-to-list 'org-latex-classes
-  ;;                 '("apa6"
-  ;;                   "\\documentclass{apa6}"
-  ;;                   ("\\section{%s}" . "\\section*{%s}")
-  ;;                   ("\\subsection{%s}" . "\\subsection*{%s}")
-  ;;                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-  ;;                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-  ;;                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  ;;    ;; (add-to-list 'org-latex-classes
-  ;;    ;;              '("report"
-  ;;    ;;                "\\documentclass{report}"
-  ;;    ;;                ("\\chapter{%s}" . "\\chapter*{%s}")
-  ;;    ;;                ("\\section{%s}" . "\\section*{%s}")
-  ;;    ;;                ("\\subsection{%s}" . "\\subsection*{%s}")
-  ;;    ;;                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-  ;;
-  ;;;;     (add-to-list 'org-latex-classes
-  ;;;;                  '("elsevier"
-  ;;;;                    "\\documentclass[11pt]{elsarticle}"
-  ;;;;                    ("\\section{%s}" . "\\section*{%s}")
-  ;;;;                    ("\\subsection{%s}" . "\\subsection*{%s}")
-  ;;;;                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-  ;;;;                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-  ;;;;                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-  ;;;;                  )
-  ;;;;
-  ;;;;     (add-to-list 'org-latex-classes
-  ;;;;                  '("memoria"
-  ;;;;                    "\\documentclass[11pt, titlepage]{report}
-  ;;;; \\usepackage[a4paper, total={6in, 8in}]{geometry}
-  ;;;; "
-  ;;;;                    ("\\section{%s}" . "\\section*{%s}")
-  ;;;;                    ("\\subsection{%s}" . "\\subsection*{%s}")
-  ;;;;                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-  ;;;;                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-  ;;;;                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-  ;;;;                  )
-  ;;
-  ;;    (add-to-list 'org-latex-packages-alist '("" "listings"))
-  ;;    (setq org-latex-listings-options '(("breaklines" "true")))
-  ;;
-  ;;    (setq org-latex-listings t)
-  ;;    (setq org-export-preserve-breaks nil)
-  ;;    ;; (setq org-latex-listings 'minted)
-  ;;
-  ;;    (setq org-latex-pdf-process
-  ;;          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-  ;;            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-  ;;            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  ;;
-  ;;    (org-babel-do-load-languages
-  ;;     'org-babel-load-languages
-  ;;     '((R . t)
-  ;;       (latex . t)))
-  ;;
-  ;;    )
-
-
-  ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
-
-  ;; (setq org-latex-pdf-process
-  ;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
-
-  )
-
-;; Define a transient state for quick navigation
-;; (defhydra hydra-org-state ()
-;;   ;; basic navigation
-;;   ("i" org-cycle)
-;;   ("I" org-shifttab)
-;;   ("h" org-up-element)
-;;   ("l" org-down-element)
-;;   ("j" org-forward-element)
-;;   ("k" org-backward-element)
-;;   ;; navigating links
-;;   ("n" org-next-link)
-;;   ("p" org-previous-link)
-;;   ("o" org-open-at-point)
-;;   ;; navigation blocks
-;;   ("N" org-next-block)
-;;   ("P" org-previous-block)
-;;   ;; updates
-;;   ("." org-ctrl-c-ctrl-c)
-;;   ("*" org-ctrl-c-star)
-;;   ("-" org-ctrl-c-minus)
-;;   ;; change todo state
-;;   ("H" org-shiftleft)
-;;   ("L" org-shiftright)
-;;   ("J" org-shiftdown)
-;;   ("K" org-shiftup)
-;;   ("t" org-todo))
+  (org-display-inline-images t t))
 
 ;;; org-mode.el ends here

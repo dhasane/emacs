@@ -58,7 +58,7 @@
                          )
                  )
          (cl/dir "modules/extra"
-                 :ignore '("email" "epub" "games" "telegram" "org-papers" "pdf")
+                 :ignore '("email" "games" "telegram" "org-papers")
                  )
          (cl/file "modules/keybinds"))
 

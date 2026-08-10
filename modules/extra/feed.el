@@ -7,17 +7,16 @@
 (use-package elfeed
   :demand t
   :commands (elfeed)
+  :hook (elfeed-show-mode . olivetti-mode)
   :custom
   (elfeed-search-filter "@6-months-ago +unread")
   :config
   (defun dh/elfeed-update-and-open ()
-    "Reload elfeed-org tags and refresh elfeed feeds."
+    "Reload elfeed-org tags, open the search buffer, and refresh all feeds."
     (interactive)
-    (when (fboundp 'elfeed-org)
-      (elfeed-org))
-    (elfeed-update)
+    (elfeed-org)
     (elfeed)
-    )
+    (elfeed-update))
   )
 
 (use-package elfeed-org

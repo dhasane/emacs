@@ -78,6 +78,7 @@
           )
 
 (use-package org-modern
+  :disabled t
   :hook (org-mode . org-modern-mode)
   :custom
   (org-modern-star '("◉" "○" "◈" "◇" "▸"))
