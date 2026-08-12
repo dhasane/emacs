@@ -1,13 +1,44 @@
 * Feeds                                                              :elfeed:
-** [[https://feeds.eff.org/howtofixtheinternet][How to Fix the Internet]]
 ** News                                                               :news:
 *** [[https://www.lasillavacia.com/feed/][La Silla Vacía]]
-*** [[https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml][NYT > World > Americas]]
-*** [[https://rss.nytimes.com/services/xml/rss/nyt/World.xml][NYT > World News]]
 *** [[https://www.bellingcat.com/feed/][bellingcat]]
+** Improv                                                           :improv:
+*** [[https://willhines.substack.com/feed][Improv Nonsense]] — Will Hines
+*** [[https://rachelvannes.substack.com/feed][Your Brain on Improv]] — Rachel Van Nes
+*** [[https://jimmycarrane.com/feed/][Jimmy Carrane]] — Veteran Chicago improviser; podcast and essays on improv craft
+*** [[https://letstalkimprov.substack.com/feed][Let's Talk Improv]] — Newsletter on improv pedagogy, group dynamics, and practice
+*** [[https://goodimprov.substack.com/feed][Good Improv]] — Tips and techniques for becoming a better scene partner
+*** [[https://deepimprov.substack.com/feed][Deep Improv]] — Reflections on improv philosophy and creative process
+*** [[https://improveverywhere.com/feed/][Improv Everywhere]] — NYC collective staging surprise performances in public spaces
+*** [[https://www.hooplaimpro.com/feed][Hoopla Improv]] — UK's top improv school; exercises, tips, and community resources
+*** [[https://www.theimprofessor.com/blog-feed.xml][The Improfessor]] — Academic perspective on improv theory and Keith Johnstone's work
 ** Security                                                       :security:
-*** [[https://www.dbdigest.com/feeds/posts/default][Data Breaches Digest]]
-*** [[https://www.eff.org/rss/updates.xml][Deeplinks]]
-*** [[http://feeds.feedburner.com/TheHackersNews][The Hacker News]]
-*** [[https://rss.beehiiv.com/feeds/lSfumbrEGk.xml][Vulnerable U]]
-*** [[https://www.darkreading.com/rss.xml][darkreading]]
+*** Vulnerabilities & Advisories                              :vulnerabilities:
+**** [[https://www.nist.gov/news-events/news/rss.xml][NIST News]] — Framework updates, guidelines, and federal cybersecurity policy
+**** [[https://www.cisa.gov/cybersecurity-advisories/all.xml][CISA Alerts]] — US government advisories on actively exploited vulnerabilities
+**** [[https://www.us-cert.gov/ncas/current-activity.xml][US-CERT]] — Real-time alerts on current security incidents and threats
+**** [[https://www.exploit-db.com/rss.xml][Exploit-DB]] — Public archive of exploits and PoCs for disclosed CVEs
+**** [[https://www.dbdigest.com/feeds/posts/default][Data Breaches Digest]] — Tracks major data breach disclosures worldwide
+**** [[https://rss.beehiiv.com/feeds/lSfumbrEGk.xml][Vulnerable U]] — Weekly newsletter with curated vulnerability news for practitioners
+*** News & Analysis                                                  :news:
+**** [[http://feeds.feedburner.com/TheHackersNews][The Hacker News]] — High-volume daily cybersecurity news and attack coverage
+**** [[https://www.darkreading.com/rss.xml][Dark Reading]] — Enterprise security news, analysis, and opinion pieces
+**** [[https://krebsonsecurity.com/feed/][Krebs on Security]] — Investigative journalism on cybercrime and breaches
+**** [[https://www.bleepingcomputer.com/feed/][BleepingComputer]] — Breaking news on malware, ransomware, and tech security
+**** [[https://www.securityweek.com/feed/][SecurityWeek]] — Industry news covering threats, vulnerabilities, and compliance
+**** [[https://news.sophos.com/en-us/feed][Sophos News]] — Threat research and malware analysis from Sophos labs
+**** [[https://grahamcluley.com/feed/][Graham Cluley]] — Independent commentary on security news and privacy issues
+**** [[https://www.schneier.com/feed/atom/][Schneier on Security]] — Cryptography, policy, and security design thinking
+**** [[https://www.eff.org/rss/updates.xml][Deeplinks]] — Digital rights, surveillance, and privacy policy from the EFF
+**** [[https://feeds.eff.org/howtofixtheinternet][How to Fix the Internet]] — EFF podcast on tech policy, privacy, and digital freedom
+*** Research & Technical                                          :research:
+**** [[https://googleprojectzero.blogspot.com/feeds/posts/default][Google Project Zero]] — Zero-day research and deep vulnerability analysis
+**** [[https://blog.talosintelligence.com/rss/][Talos Intelligence]] — Cisco's threat intelligence on malware and APT campaigns
+**** [[https://www.microsoft.com/en-us/security/blog/feed/][Microsoft Security Blog]] — Microsoft threat research, patches, and incident reports
+**** [[https://blog.qualys.com/feed][Qualys Blog]] — Vulnerability management research and cloud security insights
+**** [[https://blog.rapid7.com/rss/][Rapid7 Blog]] — Penetration testing research, Metasploit updates, and threat analysis
+**** [[https://www.sentinelone.com/blog/feed/][SentinelOne]] — EDR-focused threat research and malware reverse engineering
+**** [[https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v][Google Threat Intelligence]] — Mandiant/Google frontline IR and APT tracking
+*** Standards                                                    :standards:
+**** [[https://owasp.org/feed.xml][OWASP Blog]] — Web application security standards, top-10 updates, and tooling
+**** [[https://isc.sans.edu/rssfeed.xml][SANS Internet Storm Center]] — Daily threat diaries and global attack trend monitoring
