@@ -90,6 +90,27 @@
         (string> day-a day-b))))
   (setq elfeed-search-sort-function #'dh/elfeed-score-sort-by-day)
 
+  ;; Add score column to the search buffer
+  (defun dh/elfeed-search-print-entry (entry)
+    "Print ENTRY with a score column."
+    (let ((score (or (elfeed-meta entry elfeed-score-scoring-meta-keyword) 0)))
+      (pcase-let ((`(,date . ,date-width) (elfeed-search--column-date entry))
+                  (`(,title . ,title-width) (elfeed-search--column-title entry))
+                  (feed (elfeed-search--column-feed entry))
+                  (tags (elfeed-search--column-tags entry))
+                  (score-str (format "%4d" score)))
+        (insert date
+                " "
+                (propertize score-str 'face 'elfeed-search-date-face)
+                " "
+                (propertize " " 'display `(space :align-to ,(+ 6 date-width)))
+                title
+                (if feed
+                    (propertize " " 'display
+                                `(space :align-to ,(+ 7 date-width title-width)))
+                  "")
+                (or feed "") (or tags "")))))
+  (setq elfeed-search-print-entry-function #'dh/elfeed-search-print-entry)
   )
 
 ;;; feed.el ends here
