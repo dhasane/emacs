@@ -15,7 +15,6 @@
   ;; (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
   (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
   (corfu-quit-no-match t)        ;; Automatically quit if there is no match
-  (corfu-echo-documentation 0) ;; Do not show documentation in the echo area
   (corfu-auto nil)
 
   (corfu-preselect 'prompt)
@@ -56,6 +55,8 @@
          "SPC" #'corfu-insert-separator
    )
   :hook ((prog-mode . corfu-mode)
+         (agent-shell-mode . corfu-mode)
+         (agent-shell-viewport-edit-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode)
          )
@@ -90,19 +91,6 @@
 (use-package corfu-candidate-overlay
   :disabled t
   :after corfu
-  :general
-  (
-   :keymaps 'corfu-map
-         "TAB"     'corfu-next
-         [tab]     'corfu-next
-         "S-TAB"   'corfu-previous
-         [backtab] 'corfu-previous
-
-         [escape]  'corfu-quit
-         "C-s"     'corfu-quit
-
-         "SPC" #'corfu-insert-separator
-   )
   :custom
   (corfu-candidate-overlay-mode +1)
   :config

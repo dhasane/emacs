@@ -38,8 +38,6 @@
     (setq-local line-spacing 0)
     (setq-local left-margin-width 2)
     (setq-local right-margin-width 2))
-  (defvar org-meeting-notes-file nil
-    "Path to the org meeting notes file.")
   :hook
   ((org-mode . dh/org-mode-local-settings)
    (org-mode . org-indent-mode))
@@ -59,9 +57,9 @@
   :custom
   ;; ubicacion
   (org-directory "~/org")
-  (org-default-notes-file (concat org-directory "/capture.org"))
-  (org-meeting-notes-file (concat org-directory "/meetings.org"))
-  (org-agenda-files (list org-default-notes-file org-meeting-notes-file))
+  (org-default-notes-file (expand-file-name "capture.org" org-directory))
+  (org-agenda-files (list (expand-file-name "capture.org" org-directory)
+                          (expand-file-name "meetings.org" org-directory)))
 
   ;; organizacion
   (org-startup-indented t)
@@ -126,17 +124,17 @@
       :clock-in nil
       :clock-keep nil
       :clock-resume nil)
-     ("m" "Meeting" entry (file org-meeting-notes-file)
+     ("m" "Meeting" entry (file ,(expand-file-name "meetings.org" org-directory))
       "* MEETING: %^{Meeting name} :MEETING:\n%t\n%?"
       :clock-in t
       :clock-resume t)
-     ("d" "Diary" entry (file+datetree "~/org/diary.org")
+     ("d" "Diary" entry (file+datetree ,(expand-file-name "diary.org" org-directory))
       "* %<%l %p>\n%?"
       :clock-in nil
       :clock-resume nil)
      ("i" "Idea" entry (file org-default-notes-file)
       "* %? \t :IDEA: \n%t")
-     ("r" "Improv Reflection" entry (file "~/org/improv.org")
+     ("r" "Improv Reflection" entry (file ,(expand-file-name "improv.org" org-directory))
       ,(concat
         "* %^{Class/Show/Session name} — %t :IMPROV:\n"
         "** Brain Dump\n"

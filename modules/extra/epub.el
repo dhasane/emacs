@@ -1,4 +1,3 @@
-
 ;;; epub.el --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:

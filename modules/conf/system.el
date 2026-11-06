@@ -176,7 +176,7 @@
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
-  :commands (exec-path-from-shell-initialize)
+  :demand t
   :config
   (exec-path-from-shell-initialize))
 

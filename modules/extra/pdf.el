@@ -1,4 +1,3 @@
-
 ;;; pdf.el --- Summary  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
